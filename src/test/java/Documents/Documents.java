@@ -102,12 +102,12 @@ public class Documents extends MethodsForDocuments {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         ordering.deletingProductsFromTheCart();
-//        navigationToCatalogTab();
-//        ordering.changeTheQuantityOfRandomProduct();
-//        ordering.checkingThatThePriceOfTheAddedProductHasBeenCalculated();
-//        navigationToCart();
-//        makingOrder.navigationToMakingOrderFromCart();
-//        makingOrder.trySelectCompany();
+        navigationToCatalogTab();
+        ordering.changeTheQuantityOfRandomProduct();
+        ordering.checkingThatThePriceOfTheAddedProductHasBeenCalculated();
+        navigationToCart();
+        makingOrder.navigationToMakingOrderFromCart();
+        makingOrder.trySelectCompany();
 
 
 //        //act
