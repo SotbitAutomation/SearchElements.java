@@ -57,10 +57,6 @@ public class BaseActions extends CustomizingForYourself {
         explicitWaiting();
     }
 
-
-
-    public By exitButtonInb2bCabinetLocator = By.xpath("//*[contains(@href, 'logout')]");
-
     public boolean areThereAnyOffers = true;
     By registerButtonLocator = By.xpath("//*[text()='Регистрация']");
     public By registrationTabLocator = By.xpath("//*[text()='Создать учетную запись']");

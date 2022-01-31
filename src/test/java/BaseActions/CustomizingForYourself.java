@@ -4,10 +4,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -34,6 +31,8 @@ public class CustomizingForYourself {
 
     public static WebDriver driver;
     public static WebDriverWait wait;
+    public By exitButtonInb2bCabinetLocator = By.xpath("//*[contains(@href, 'logout')]");
+
 
     @BeforeClass
     public static void setUp() {
@@ -50,15 +49,15 @@ public class CustomizingForYourself {
     public static void tearDown() throws IOException {
         var nameScreen = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         FileUtils.copyFile(nameScreen, new File(System.getProperty("user.dir") + "\\screen\\screenshot.png"));
-        //driver.quit();
+        driver.quit();
     }
 
     @After
     public void exitFromB2BToAuthorizationTab() {
-//        try {
-//            driver.findElement(exitButtonInb2bCabinetLocator).click();
-//        } catch (Exception e) {
-//            System.out.println("я не нашел кнопку выйти");
-//        }
+        try {
+            driver.findElement(exitButtonInb2bCabinetLocator).click();
+        } catch (Exception e) {
+            System.out.println("я не нашел кнопку выйти");
+        }
     }
 }
