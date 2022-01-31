@@ -49,15 +49,15 @@ public class CustomizingForYourself {
     public static void tearDown() throws IOException {
         var nameScreen = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         FileUtils.copyFile(nameScreen, new File(System.getProperty("user.dir") + "\\screen\\screenshot.png"));
-        driver.quit();
+        //driver.quit();
     }
 
     @After
     public void exitFromB2BToAuthorizationTab() {
-        try {
-            driver.findElement(exitButtonInb2bCabinetLocator).click();
-        } catch (Exception e) {
-            System.out.println("я не нашел кнопку выйти");
-        }
+//        try {
+//            driver.findElement(exitButtonInb2bCabinetLocator).click();
+//        } catch (Exception e) {
+//            System.out.println("я не нашел кнопку выйти");
+//        }
     }
 }
