@@ -1,5 +1,5 @@
 package BaseActions;
-//test new commit token
+//123131
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -173,6 +173,19 @@ public class BaseActions extends CustomizingForYourself {
         Assert.assertEquals("Пароль не отображается", adminPassword,
                 driver.findElement(passwordInputInAuthorizationTanLocator).getAttribute("value"));
 
+//        driver.findElement(loginInputLocator).sendKeys("e.osmolovskya@sotbit.ru");
+//        Assert.assertEquals("Емаил не отображается"
+//                , "e.osmolovskya@sotbit.ru", driver.findElement(loginInputLocator).getAttribute("value"));
+//        driver.findElement(passwordInputInAuthorizationTanLocator).sendKeys("25nNnhpC6UzUuen");
+//        Assert.assertEquals("Пароль не отображается", "25nNnhpC6UzUuen",
+//                driver.findElement(passwordInputInAuthorizationTanLocator).getAttribute("value"));
+
+//                driver.findElement(loginInputLocator).sendKeys("keeper");
+//        Assert.assertEquals("Емаил не отображается"
+//                , "keeper", driver.findElement(loginInputLocator).getAttribute("value"));
+//        driver.findElement(passwordInputInAuthorizationTanLocator).sendKeys("TK2iNeOL%H%*lBWE");
+//        Assert.assertEquals("Пароль не отображается", "TK2iNeOL%H%*lBWE",
+//                driver.findElement(passwordInputInAuthorizationTanLocator).getAttribute("value"));
 
 
     }
