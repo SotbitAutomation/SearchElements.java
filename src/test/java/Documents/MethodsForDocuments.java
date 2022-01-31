@@ -1,6 +1,8 @@
 package Documents;
 
 import BaseActions.BaseActions;
+import Catalog.MethodsForCatalog;
+import MakingOrders.MethodsForMakingOrders;
 import RegistrationAndAuthorization.RegistrationB2B;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
@@ -14,6 +16,9 @@ import java.util.Set;
 
 public class MethodsForDocuments extends BaseActions {
     RegistrationB2B registr = new RegistrationB2B();
+    MethodsForCatalog ordering = new MethodsForCatalog();
+    MethodsForMakingOrders  makingOrder = new MethodsForMakingOrders();
+
     //JavascriptExecutor jse = (JavascriptExecutor)driver;
 
     public void openDocumentsTabInAdminPanel(){

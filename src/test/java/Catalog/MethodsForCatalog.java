@@ -299,7 +299,7 @@ public class MethodsForCatalog extends BaseActions {
                 driver.navigate().refresh();
                 explicitWaiting();
 
-                if (driver.findElements(By.xpath("//*[@class='card-title']//*[contains(@href, 'blank')]")).size() > 0){
+                if (!driver.findElement(By.cssSelector(".index_cart-empty")).isDisplayed()){
                     flag = false;
                     while (flag == false && count < 5){
                         count++;

@@ -94,4 +94,34 @@ public class Documents extends MethodsForDocuments {
         downloadDocument();
         navigationToDetailInformationOfOrganizationFromDocument();
     }
+    @Test //5. Отображение документа привязонного к заказу
+    public void displayingTheDocumentLinkedToTheOrder() {
+        //arrange
+        deletingExcelFilesFromDownloads();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        ordering.deletingProductsFromTheCart();
+//        navigationToCatalogTab();
+//        ordering.changeTheQuantityOfRandomProduct();
+//        ordering.checkingThatThePriceOfTheAddedProductHasBeenCalculated();
+//        navigationToCart();
+//        makingOrder.navigationToMakingOrderFromCart();
+//        makingOrder.trySelectCompany();
+
+
+//        //act
+//        navigationToAuthorizationTab();
+//        fillingFieldsOnTheLogInTabLikeAdmin();
+//        logInToB2B();
+//        addingDocumentWithOrganizationToJustCreatedUser();
+//        exitFromB2B();
+//        navigationToAuthorizationTab();
+//        registr.fillingFieldsOnTheLogInTab();
+//        logInToB2B();
+//        navigationToActsOfDocuments();
+//        checkingThatDocumentIsDisplayed();
+//        downloadDocument();
+//        navigationToDetailInformationOfOrganizationFromDocument();
+    }
 }
