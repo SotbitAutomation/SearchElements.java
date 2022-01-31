@@ -7,8 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Task2" />
-        <module name="b2bProject" />
         <module name="Task" />
+        <module name="SearchElements" />
+        <module name="b2bProject" />
+        <module name="FixComputer" />
         <module name="testsRegistrationAndAuthorization" />
         <module name="task" />
         <module name="testsOrganizations" />
@@ -17,7 +19,6 @@
         <module name="testsRegistrationAndAuthorizationWithСonfirmation" />
         <module name="Welcome" />
         <module name="testsHomePage" />
-        <module name="SearchElements" />
       </profile>
     </annotationProcessing>
   </component>
