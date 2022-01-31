@@ -238,6 +238,22 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
                 ("((//*[@id='PRODUCT_LIST_table']//*[@class='main-grid-row main-grid-row-body'])[1]//*[@class='main-grid-cell main-grid-cell-left'])[" + count + "]")).getText())
                 == tempDouble);
     }
+    public void navigationToOrdersPageInAdminPart (){
+        driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/" , "") + "bitrix/admin/sale_order.php?lang=ru");
+    }
+    public void addingSecondPaymentForOrder (){
+        driver.findElement(By.xpath("//*[@title='Посмотреть подробную информацию о заказе']")).click();
+        driver.findElement(By.xpath("//*[@value='Добавить оплату']")).click();
+        driver.findElement(By.xpath("//select[contains(@name, 'PAYMENT')]")).click();
+        driver.findElement(By.xpath("(//select[contains(@name, 'PAYMENT')] /option)[2]")).click();
+        driver.findElement(By.xpath("//*[contains(@id, 'PAYMENT_SUM')]")).sendKeys("666");
+        driver.findElement(buttonSaveLocator).click();
+    }
+    public void checkingThatThereAreTwoPaymentsThere(){
+        driver.findElement(By.xpath("//*[@class='blank_detail-menu'] //*[text()='Оплаты']")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), '666')]")));
+        Assert.assertTrue(driver.findElement(By.xpath("//span[contains(text(), '666')]")).isDisplayed());
+    }
 
 
 }

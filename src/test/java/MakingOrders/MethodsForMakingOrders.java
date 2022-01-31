@@ -182,6 +182,9 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
     }
     public void checkingThatTheSelectedPaymentMethodIsDisplayed(){
         Assert.assertTrue(paymentWay.equals(driver.findElement(By.cssSelector(".index_checkout-radios_title")).getText()));
+        takeNumberOfOrder();
+    }
+    public void takeNumberOfOrder(){
         numberOfOrder =replacingSomeSymbols(driver.findElement(By.xpath("//*[contains(@class, 'validation-valid-labe')] /b"))
                 .getText());
     }

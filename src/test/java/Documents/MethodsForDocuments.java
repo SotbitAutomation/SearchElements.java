@@ -3,6 +3,7 @@ package Documents;
 import BaseActions.BaseActions;
 import Catalog.MethodsForCatalog;
 import MakingOrders.MethodsForMakingOrders;
+import MyOrdersHistory.MethodsForMyOrders;
 import RegistrationAndAuthorization.RegistrationB2B;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
@@ -18,6 +19,8 @@ public class MethodsForDocuments extends BaseActions {
     RegistrationB2B registr = new RegistrationB2B();
     MethodsForCatalog ordering = new MethodsForCatalog();
     MethodsForMakingOrders  makingOrder = new MethodsForMakingOrders();
+    MethodsForMyOrders historyOrder = new MethodsForMyOrders();
+    By buttonForSaveDocumentForUserLocator = By.cssSelector(".adm-btn-save");
 
     //JavascriptExecutor jse = (JavascriptExecutor)driver;
 
@@ -28,31 +31,41 @@ public class MethodsForDocuments extends BaseActions {
     }
     public void addingExistingDocumentWithOrganizationToJustCreatedUser(){
         navigationToDocumentWhichWillBeAdded();
-        fillingOrganizationField();
+        fillingOrganizationField(registr.theSameInnManual);
         goToPageForChoiceUser();
-        choiceUserFromJustOpenedPage();
-        driver.findElement(By.cssSelector(".adm-btn-save")).click();
+        choiceUserFromJustOpenedPage(registr.theSameEmail);
+        driver.findElement(buttonForSaveDocumentForUserLocator).click();
     }
     public void addingExistingDocumentToJustCreatedUser(){
         navigationToDocumentWhichWillBeAdded();
         goToPageForChoiceUser();
-        choiceUserFromJustOpenedPage();
-        driver.findElement(By.cssSelector(".adm-btn-save")).click();
+        choiceUserFromJustOpenedPage(registr.theSameEmail);
+        driver.findElement(buttonForSaveDocumentForUserLocator).click();
     }
-    public void addingDocumentWithOrganizationToJustCreatedUser(){
+    public void addingDocumentWithOrganizationToJustCreatedUser(String INNOrganization, String emailUserForDoc){
         navigationToDocumentWhichWillBeAdded();
-        fillingOrganizationField();
-        goToPageForChoiceUser();
-        choiceUserFromJustOpenedPage();
         uploadingExcelCatalog();
-        driver.findElement(By.cssSelector(".adm-btn-save")).click();
+        fillingOrganizationField(INNOrganization);
+        goToPageForChoiceUser();
+        choiceUserFromJustOpenedPage(emailUserForDoc);
+    }
+
+    public void addingDocumentForUserWithNumberOfOrder(String emailUserForDoc, String numberOfOrder){
+        navigationToDocumentWhichWillBeAdded();
+        driver.findElement(By.xpath("//*[contains(text(), 'Заказ')] /following::*[1] //input")).clear();
+        driver.findElement(By.xpath("//*[contains(text(), 'Заказ')] /following::*[1] //input")).sendKeys(numberOfOrder);
+        explicitWaiting();
+        uploadingExcelCatalog();
+        goToPageForChoiceUser();
+        choiceUserFromJustOpenedPage(emailUserForDoc);
+        driver.findElement(buttonForSaveDocumentForUserLocator).click();
     }
     public void addingDocumentToJustCreatedUser(){
         navigationToDocumentWhichWillBeAdded();
         goToPageForChoiceUser();
-        choiceUserFromJustOpenedPage();
+        choiceUserFromJustOpenedPage(registr.theSameEmail);
         uploadingExcelCatalog();
-        driver.findElement(By.cssSelector(".adm-btn-save")).click();
+        driver.findElement(buttonForSaveDocumentForUserLocator).click();
     }
     public void uploadingExcelCatalog (){
         //jse.executeScript("window.scrollBy(0,250)", "");
@@ -63,7 +76,8 @@ public class MethodsForDocuments extends BaseActions {
         String filePath = System.getProperty("user.dir")  + "\\resources\\blank.xlsx";
         driver.findElement(fileInput).sendKeys(filePath);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@id,'file')][text()='blank.xlsx']")));
-        driver.findElement(By.cssSelector("#save")).click();
+        explicitWaiting();
+        driver.findElement(buttonForSaveDocumentForUserLocator).click();
         driver.findElement(By.xpath("//*[text()='Акт по заказу №2']")).click();
 
         try{
@@ -72,6 +86,7 @@ public class MethodsForDocuments extends BaseActions {
             System.out.println("Нету названия, док не загрузился с первого раза");
             driver.findElement(fileInput).sendKeys(filePath);
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@id,'file')][text()='blank.xlsx']")));
+            explicitWaiting();
         }
     }
     public void navigationToDocumentWhichWillBeAdded(){
@@ -81,9 +96,9 @@ public class MethodsForDocuments extends BaseActions {
         driver.findElement(By.xpath("//*[@id='menucontainer']//*[text()='Акты']")).click();
         driver.findElement(By.xpath("//*[text()='Акт по заказу №2']")).click();
     }
-    public void fillingOrganizationField(){
+    public void fillingOrganizationField(String INNOrganization){
         driver.findElement(By.xpath("//*[contains(text(), 'Организация')] /following::*[1] //input")).clear();
-        driver.findElement(By.xpath("//*[contains(text(), 'Организация')] /following::*[1] //input")).sendKeys(registr.theSameInnManual);
+        driver.findElement(By.xpath("//*[contains(text(), 'Организация')] /following::*[1] //input")).sendKeys(INNOrganization);
     }
     public void goToPageForChoiceUser(){
         //driver.findElement(By.xpath("//*[contains(@id, 'SELECTPROP')]")).click();
@@ -97,7 +112,7 @@ public class MethodsForDocuments extends BaseActions {
 //            driver.findElement(By.cssSelector(".tablebodybutton")).click();
 //        }
     }
-    public void choiceUserFromJustOpenedPage(){
+    public void choiceUserFromJustOpenedPage(String emailUserForDoc){
         Set<String> handles = driver.getWindowHandles();
         Iterator<String> itr = handles.iterator();
         String parentWindow = itr.next();
@@ -105,11 +120,10 @@ public class MethodsForDocuments extends BaseActions {
         driver.switchTo().window(newWindow);
         driver.findElement(By.xpath("//*[text()='На странице:'] /following::*[1]")).click();
         driver.findElement(By.xpath("//*[text()='все']")).click();
-        System.out.println(theSameEmail);
-        driver.findElement(By.xpath("(//*[text()='" + registr.theSameEmail +  "'])[1]")).click();
+        System.out.println("Емаил пользователя для которого настраиваю документ  " + emailUserForDoc);
+        driver.findElement(By.xpath("(//*[text()='" + emailUserForDoc +  "'])[1]")).click();
         driver.switchTo().window(parentWindow);
     }
-
 
     public void navigationToActsOfDocuments(){
         driver.findElement(By.xpath("//*[text()='Акты']")).click();
@@ -121,6 +135,9 @@ public class MethodsForDocuments extends BaseActions {
     }
     public void downloadDocument(){
         driver.findElement(By.xpath("//*[text()='Акт по заказу №2']")).click();
+        checkingThatDocumentHasBeenDownloaded();
+    }
+    public void checkingThatDocumentHasBeenDownloaded(){
         explicitWaiting();
         File dir = new File("C:\\Users\\SotBit\\Downloads");
         File[] files = dir.listFiles();
@@ -164,6 +181,22 @@ public class MethodsForDocuments extends BaseActions {
             f.delete();
         }
     }
+    public void makingAnOrderAndStoringNumberOfOrderForBindingADocument(){
+        makingOrder.navigationToMakingOrderFromCart();
+        makingOrder.trySelectCompany();
+        makingOrder.makingOrder();
+        makingOrder.takeNumberOfOrder();
+    }
 
+    public void checkingThatLastOrderHaveDocument(){
+        historyOrder.openingLastOrder();
+        historyOrder.navigationToDocumentsTabInOrderPage();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='Акт по заказу №2']")));
+        Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Акт по заказу №2']")).isDisplayed());
+    }
+    public void navigationToTheLastOrderFromDocumentsPage(){
+        driver.findElement(By.xpath("//*[contains(@href, 'order/detail')]")).click();
+        Assert.assertTrue(driver.findElement(By.cssSelector(".blank_detail")).isDisplayed());
+    }
 
 }

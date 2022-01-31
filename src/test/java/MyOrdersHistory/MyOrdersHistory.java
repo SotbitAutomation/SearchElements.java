@@ -243,6 +243,33 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         enteringWordForSearch();
         checkingThatOnlyOneProductIsDisplayed();
     }
+    @Test //10 Добавление второй оплаты за заказ проверка ее отображения на детальной странице
+    public void addingSecondPaymentForAnOrderCheckingItsDisplayOnTheDetailPage() {
+        //arrange
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToCatalogTab();
+        changeTheQuantityOfRandomProduct();
+        explicitWaiting();
+        navigationToCart();
+        navigationToMakingOrderFromCart();
+        trySelectCompany();
+        makingOrder();
+        exitFromB2B();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToOrdersPageInAdminPart();
+        addingSecondPaymentForOrder();
+        exitFromB2B();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToMyOrdersPage();
+        openingLastOrder();
+        checkingThatThereAreTwoPaymentsThere();
+    }
 
 
 

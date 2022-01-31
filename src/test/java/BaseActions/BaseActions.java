@@ -133,6 +133,7 @@ public class BaseActions extends CustomizingForYourself {
 
     public By buttonMakeOrderInTheCartLocator = By.xpath("//button[contains(text(), 'Оформить заказ')]");
     public By buttonToSaveTheComponentSettingsForTheCatalog = By.cssSelector("#bx-comp-params-save-button");
+    public By buttonSaveLocator = By.xpath("//*[@name='save']");
     public By buttonOfHomeLocator = By.xpath("//*[contains(@class, 'card-sidebar-mobile')] //*[contains(text(), 'Главная')]");
     public By buttonForMakeOrderLocatorOnTheCheckoutPage = By.cssSelector("#ORDER_CONFIRM_BUTTON");
 

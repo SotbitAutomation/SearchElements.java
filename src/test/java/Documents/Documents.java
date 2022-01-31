@@ -34,7 +34,7 @@ public class Documents extends MethodsForDocuments {
         registr.registrationIPWithManualEntryINN();
         registr.tryConfirmRegistration();
         //confirmRegistrationOfOrganizationJustCreatedUser();
-        exitFromB2B();
+        //exitFromB2B();
         //act
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
@@ -57,7 +57,7 @@ public class Documents extends MethodsForDocuments {
         registr.registrationIPWithManualEntryINN();
         registr.tryConfirmRegistration();
         //confirmRegistrationOfOrganizationJustCreatedUser();
-        exitFromB2B();
+        //exitFromB2B();
         //act
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
@@ -79,12 +79,14 @@ public class Documents extends MethodsForDocuments {
         registr.registrationIPWithManualEntryINN();
         registr.tryConfirmRegistration();
         //confirmRegistrationOfOrganizationJustCreatedUser();
-        exitFromB2B();
+        //exitFromB2B();
         //act
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
-        addingDocumentWithOrganizationToJustCreatedUser();
+        System.out.println(registr.theSameEmail);
+        addingDocumentWithOrganizationToJustCreatedUser(registr.theSameInnManual, registr.theSameEmail);
+        driver.findElement(buttonForSaveDocumentForUserLocator).click();
         exitFromB2B();
         navigationToAuthorizationTab();
         registr.fillingFieldsOnTheLogInTab();
@@ -106,22 +108,43 @@ public class Documents extends MethodsForDocuments {
         ordering.changeTheQuantityOfRandomProduct();
         ordering.checkingThatThePriceOfTheAddedProductHasBeenCalculated();
         navigationToCart();
-        makingOrder.navigationToMakingOrderFromCart();
-        makingOrder.trySelectCompany();
-
-
-//        //act
-//        navigationToAuthorizationTab();
-//        fillingFieldsOnTheLogInTabLikeAdmin();
-//        logInToB2B();
-//        addingDocumentWithOrganizationToJustCreatedUser();
-//        exitFromB2B();
-//        navigationToAuthorizationTab();
-//        registr.fillingFieldsOnTheLogInTab();
-//        logInToB2B();
-//        navigationToActsOfDocuments();
-//        checkingThatDocumentIsDisplayed();
-//        downloadDocument();
-//        navigationToDetailInformationOfOrganizationFromDocument();
+        makingAnOrderAndStoringNumberOfOrderForBindingADocument();
+        exitFromB2B();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        addingDocumentForUserWithNumberOfOrder(emailUser, makingOrder.numberOfOrder);
+        exitFromB2B();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToMyOrdersPage();
+        checkingThatLastOrderHaveDocument();
+        downloadDocument();
+    }
+    @Test //6. Переход на детальную страницу заказа из раздела "Документы" с помощью привязанного к заказу документа
+    public void goToTheDetailedOrderPageFromTheDocumentsSectionUsingTheDocumentLinkedToTheOrder() {
+        //arrange
+        deletingExcelFilesFromDownloads();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        ordering.deletingProductsFromTheCart();
+        navigationToCatalogTab();
+        ordering.changeTheQuantityOfRandomProduct();
+        ordering.checkingThatThePriceOfTheAddedProductHasBeenCalculated();
+        navigationToCart();
+        makingAnOrderAndStoringNumberOfOrderForBindingADocument();
+        exitFromB2B();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        addingDocumentForUserWithNumberOfOrder(emailUser, makingOrder.numberOfOrder);
+        exitFromB2B();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToActsOfDocuments();
+        navigationToTheLastOrderFromDocumentsPage();
     }
 }
