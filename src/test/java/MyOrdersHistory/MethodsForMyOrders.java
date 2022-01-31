@@ -253,6 +253,7 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
         driver.findElement(By.xpath("//*[@class='blank_detail-menu'] //*[text()='Оплаты']")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), '666')]")));
         Assert.assertTrue(driver.findElement(By.xpath("//span[contains(text(), '666')]")).isDisplayed());
+        Assert.assertTrue(driver.findElements(By.xpath("//*[@id='PAY_SYSTEMS_LIST_table']//*[@class='main-grid-row main-grid-row-body']")).size() == 2);
     }
 
 
