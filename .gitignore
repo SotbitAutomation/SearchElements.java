@@ -1,2 +1,9 @@
 /src/test/java/BaseActions/CustomizingForYourself.java
 /target/test-classes/BaseActions/CustomizingForYourself.class
+/arrayWithLocatorsForIP
+/arrayWithLocatorsForLegalPerson
+/arrayWithLocatorsForPerson
+/doNeedToConfirmRegistrationOrganization
+/doNeedToConfirmRegistrationUser
+/fileNameForUsersEmailsAndPasswords
+/fileNameForVersionOfWorkingWithOrganization
