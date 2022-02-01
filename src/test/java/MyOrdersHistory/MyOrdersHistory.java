@@ -242,7 +242,7 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         openingLastOrder();
         enteringWordForSearch();
         checkingThatOnlyOneProductIsDisplayed();
-    }//jj
+    }
     @Test //10 Добавление второй оплаты за заказ проверка ее отображения на детальной странице
     public void addingSecondPaymentForAnOrderCheckingItsDisplayOnTheDetailPage() {
         //arrange
