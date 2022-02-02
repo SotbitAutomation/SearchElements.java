@@ -1,6 +1,7 @@
 package TechnicalSupport;
 
 import BaseActions.BaseActions;
+import MyOrdersHistory.MethodsForMyOrders;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -8,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.io.File;
 
 public class MethodsForTechnicalSupport extends BaseActions {
+    MethodsForMyOrders orderHistory = new MethodsForMyOrders();
     int randomNumberOfCategory;
     int randomNumberOfCriticalityOfTreatment;
     int randomNumberOfEvaluationOfResponse;
@@ -19,16 +21,21 @@ public class MethodsForTechnicalSupport extends BaseActions {
         driver.findElement(By.cssSelector(".btn_create-appeal")).click();
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@class,'page-title')]/*[text()='Новое обращение']")).isDisplayed());
     }
-    public void fillingFieldsRandomValues(){
+    public void fillingTheHeadForTechnicalSupport(){
         driver.findElement(By.cssSelector("#TITLE")).sendKeys(heading);
         headingForCheck = heading;
-        System.out.println(headingForCheck);
+        System.out.println("Введенный заголовок - " +headingForCheck);
+    }
+    public void fillingFieldsRandomValuesForTechnicalSupport(){
         driver.findElement(By.xpath("//*[contains(@id,'CATEGORY')][contains(@id,'select')]")).click();
         randomNumberOfCategory = 1 + (int) (Math.random()
                 * driver.findElements(By.xpath("//*[contains(@id, 'CATEGORY_ID-results')] /*")).size());
-        driver.findElement(By.xpath("(//*[contains(@id, 'CATEGORY_ID-results')] /*)[" + randomNumberOfCategory + "]")).click();
+        try {
+            driver.findElement(By.xpath("(//*[contains(@id, 'CATEGORY_ID-results')] /*)[" + randomNumberOfCategory + "]")).click();
+        }catch (Exception e){
+            System.out.println("Категория вопроса уже выбрана");
+        }
         driver.findElement(By.cssSelector("#MESSAGE")).sendKeys(randomMessage);
-
         driver.findElement(By.xpath("//*[contains(@id, 'CRITICALITY')][contains(@id, 'select')]")).click();
         randomNumberOfCriticalityOfTreatment = 1 + (int) (Math.random()
                 * driver.findElements(By.xpath("//*[contains(@id, 'CRITICALITY_ID-results')] /*")).size());
@@ -39,7 +46,9 @@ public class MethodsForTechnicalSupport extends BaseActions {
         driver.findElement(By.xpath("(//*[contains(@class, 'results__option')][contains(@id,'results')] /*)[" + randomNumberOfEvaluationOfResponse + "]")).click();
     }
     public void sendingAppeal(){
-        driver.findElement(By.xpath("//*[@name='save']")).click();
+        driver.findElement(buttonSaveLocator).click();
+    }
+    public void checkingThatAppealIsDisplayedForTheUser(){
         Assert.assertTrue(driver.findElement(By.xpath("//*[text()='" + heading + "']")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@class,'page-title')]/*[text()='Список обращений']")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.cssSelector(".support-list__title")).isDisplayed());
@@ -117,6 +126,25 @@ public class MethodsForTechnicalSupport extends BaseActions {
         driver.findElement(By.xpath("(//*[@class='main-grid-row-action-button'])[1]")).click();
         driver.findElement(By.xpath("//*[@class='menu-popup-item-text']")).click();
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(),'ОТВЕТ НА Описание что не работает:')]")).isDisplayed());
+    }
+    public void checkingThatTheLastAppealIsDisplayedOnTheTechnicalSupportPage(){
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@class='main-grid-row main-grid-row-body'] //*[contains(text(), '" + tempValue + "')]")).isDisplayed());
+    }
+    public void checkingThatLastAppealIsDisplayedOnTheDetailOrderPageInSupportTab(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='main-grid-row main-grid-row-body'])[1] /*[1]")));
+        orderHistory.openingLastOrder();
+        orderHistory.openSupportServiceTabInOrderPage();
+        checkingDisplayingAppealByMessage();
+    }
+    public void checkingDisplayingAppealByMessage(){
+        Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), '" + randomMessage.substring(randomMessage.length() - 10) + "')]")).isDisplayed());
+    }
+    public void rememberingLastOrder(){
+        tempValue = driver.findElement(By.xpath("//*[@class='main-grid-row main-grid-row-body'] //*[contains(@class, 'main-grid-cell-left')]")).getText();
+    }
+    public void openingLastAppealOnTheTechnicalSupportPage(){
+        driver.findElement(By.xpath("//*[contains(@class, 'action-button')]")).click();
+        driver.findElement(By.xpath("//*[@class='menu-popup-item-text']")).click();
     }
 
 

@@ -19,6 +19,7 @@ public class MethodsForCatalog extends BaseActions {
     public double randomNumberUpToMAxQuantityThisProducts = 0;
     public double basePriceRandomProduct = 0;
     public double sumOfPricesOfTheAddedProducts = 0;
+    public double sumOfPricesOfTheAddedProductsWithTheCostOfDelivery = 0;
     public double priceForNewlyAddedProducts = 0;
     public double pricesForAllProductsInTheFooter = 0;
     public double pricesForAllProductsInTheCartPAge = 0;
@@ -275,7 +276,6 @@ public class MethodsForCatalog extends BaseActions {
         System.out.println("Сумма добавленных товаров отображаемая в футере каталога = " + Double.valueOf(tempString));
         pricesForAllProductsInTheFooter =  Double.valueOf(tempString);
         explicitWaiting();
-
 
         System.out.println("1 " + sumOfPricesOfTheAddedProducts);
         System.out.println("2 " + pricesForAllProductsInTheFooter);
@@ -876,7 +876,7 @@ public class MethodsForCatalog extends BaseActions {
     }
     public void navigationToComponentOfUserOrders(){
         driver.findElement(By.xpath("//*[contains(@id, 'components')] //*[@class='bx-panel-small-single-button-arrow']")).click();
-        driver.findElement(By.xpath("//*[text()='Заказы пользователя']")).click();
+        driver.findElement(By.xpath("//*[contains(@title, 'company.order')]")).click();
         driver.findElement(By.xpath("//*[@title='Развернуть']")).click();
     }
     public void navigationToComponentOfCatalogSetting(){
@@ -908,9 +908,15 @@ public class MethodsForCatalog extends BaseActions {
         System.out.println("Выбранное кол-во заказов на странице - " + randomNumberPage);
         driver.findElement(By.xpath("//*[@name='ORDERS_PER_PAGE']")).clear();
         driver.findElement(By.xpath("//*[@name='ORDERS_PER_PAGE']")).sendKeys(String.valueOf(randomNumberPage));
-        driver.findElement(By.xpath("//*[contains(@id, 'save-button')]")).click();
+        driver.findElement(buttonSaveLocator).click();
         explicitWaiting();
     }
+    public void selectTheNumberOfDisplayedOrdersOnThePageIsEquallyThirty(){
+        driver.findElement(By.xpath("//*[@name='ORDERS_PER_PAGE']")).clear();
+        driver.findElement(By.xpath("//*[@name='ORDERS_PER_PAGE']")).sendKeys("30");
+        driver.findElement(buttonSaveLocator).click();
+    }
+
     public void selectRandomSectionToDownloadToTheCatalog(){
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".catalog__actions-toggler")));
         explicitWaiting();

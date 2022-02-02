@@ -57,18 +57,27 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
 //        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='Акт по заказу №2']")));
 //        Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Акт по заказу №2']")).isDisplayed());
     }
-    public void navigationToPaymentsTabInOrderPage() {
+    public void openPaymentTabInOrderPage(){
         driver.findElement(By.xpath("//*[@class='blank_detail-menu'] //*[text()='Оплаты']")).click();
+    }
+    public void navigationToPaymentsTabInOrderPage() {
+        openPaymentTabInOrderPage();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='" + paymentWay + "']")));
         Assert.assertTrue(driver.findElement(By.xpath("//*[text()='" + paymentWay + "']")).isDisplayed());
     }
-    public void navigationToDeliveryTabInOrderPage() {
+    public void openDeliveryTabInOrderPage(){
         driver.findElement(By.xpath("//*[@class='blank_detail-menu'] //*[text()='Отгрузки']")).click();
+    }
+    public void navigationToDeliveryTabInOrderPage() {
+        openDeliveryTabInOrderPage();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='" + nameDeliveryWay + "']")));
         Assert.assertTrue(driver.findElement(By.xpath("//*[text()='" + nameDeliveryWay + "']")).isDisplayed());
     }
-    public void navigationToSupportServiceTabInOrderPage() {
+    public void openSupportServiceTabInOrderPage(){
         driver.findElement(By.xpath("//*[@class='blank_detail-menu'] //*[text()='Служба поддержки']")).click();
+    }
+    public void navigationToSupportServiceTabInOrderPage() {
+        openSupportServiceTabInOrderPage();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='supportForm']")));
         Assert.assertTrue(driver.findElement(By.xpath("//*[@id='supportForm']")).isDisplayed());
     }
@@ -76,6 +85,7 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
         driver.findElement(By.xpath("//*[@type='button'][contains(@class, 'b2b_detail_order__second__tab__btn')]")).click();
         driver.findElement(By.xpath("//*[@class='dropdown-item'][text()='Отменить']")).click();
         Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Вы уверены, что хотите отменить']")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Вы уверены, что хотите отменить'] /following::*[1]")).getText().contains("заказ №"));
         driver.findElement(By.xpath("//*[@name='REASON_CANCELED']")).sendKeys("Причина отказа = TEST!!!!! \n +9haE%uSKgqEde?%zRD<X*.y<xUzj@QHD^a>QR3.S6Ez!B9, ");
         driver.findElement(By.xpath("//*[@value='Отменить заказ']")).click();
         Assert.assertTrue(driver.findElement(By.xpath("(//*[@class='main-grid-row main-grid-row-body'])[1] //*[text()='Отменён']")).isDisplayed());
@@ -241,20 +251,32 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
     public void navigationToOrdersPageInAdminPart (){
         driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/" , "") + "bitrix/admin/sale_order.php?lang=ru");
     }
-    public void addingSecondPaymentForOrder (){
+    public void openLastOrder(){
         driver.findElement(By.xpath("//*[@title='Посмотреть подробную информацию о заказе']")).click();
+    }
+    public void addingSecondPaymentForOrder (){
         driver.findElement(By.xpath("//*[@value='Добавить оплату']")).click();
         driver.findElement(By.xpath("//select[contains(@name, 'PAYMENT')]")).click();
         driver.findElement(By.xpath("(//select[contains(@name, 'PAYMENT')] /option)[2]")).click();
         driver.findElement(By.xpath("//*[contains(@id, 'PAYMENT_SUM')]")).sendKeys("666");
         driver.findElement(buttonSaveLocator).click();
     }
-    public void checkingThatThereAreTwoPaymentsThere(){
-        driver.findElement(By.xpath("//*[@class='blank_detail-menu'] //*[text()='Оплаты']")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), '666')]")));
-        Assert.assertTrue(driver.findElement(By.xpath("//span[contains(text(), '666')]")).isDisplayed());
-        Assert.assertTrue(driver.findElements(By.xpath("//*[@id='PAY_SYSTEMS_LIST_table']//*[@class='main-grid-row main-grid-row-body']")).size() == 2);
+    public void addingSecondDeliveryForOrder(){
+        driver.findElement(By.xpath("//*[@value='Добавить отгрузку']")).click();
+        driver.findElement(By.xpath("//*[contains(@id, 'PRICE_DELIVERY')][contains(@class, 'input-price')]")).clear();
+        driver.findElement(By.xpath("//*[contains(@id, 'PRICE_DELIVERY')][contains(@class, 'input-price')]")).sendKeys("666");
+        driver.findElement(buttonSaveLocator).click();
     }
-
-
+    public void checkingThatThereAreTwoPaymentsThere(){
+        openPaymentTabInOrderPage();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='PAY_SYSTEMS_LIST_table'] //span[contains(text(), '666')]")));
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@id='PAY_SYSTEMS_LIST_table'] //span[contains(text(), '666')]")).isDisplayed());
+        Assert.assertTrue(driver.findElements(By.xpath("//*[@id='PAY_SYSTEMS_LIST_table'] //*[@class='main-grid-row main-grid-row-body']")).size() == 2);
+    }
+    public void checkingThatThereAreTwoDelivery(){
+        openDeliveryTabInOrderPage();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='SHIPMENT_LIST_table'] //span[contains(text(), '666')]")));
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@id='SHIPMENT_LIST_table'] //span[contains(text(), '666')]")).isDisplayed());
+        Assert.assertTrue(driver.findElements(By.xpath("//*[@id='SHIPMENT_LIST_table'] //*[@class='main-grid-row main-grid-row-body']")).size() == 2);
+    }
 }

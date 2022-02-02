@@ -127,16 +127,14 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
                 if (tempInt >30) break;
             }
         }
-        sumOfPricesOfTheAddedProducts = sumOfPricesOfTheAddedProducts
+        sumOfPricesOfTheAddedProductsWithTheCostOfDelivery = sumOfPricesOfTheAddedProducts
                     + Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("//h4[text()='Заказ']/ following::td[" + tempInt +"]")).getText()));
         explicitWaiting();
         Assert.assertTrue(Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("//*[@class='index_checkout-total_title'] //*[@class='index_checkout-promocode-total_amount']"))
                 .getText()))
-                == sumOfPricesOfTheAddedProducts);
+                == sumOfPricesOfTheAddedProductsWithTheCostOfDelivery);
         explicitWaiting();
-            sumOfPricesOfTheAddedProducts = sumOfPricesOfTheAddedProducts
-                    - Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("//h4[text()='Заказ']/ following::td[" + tempInt +"]")).getText()));
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!" + sumOfPricesOfTheAddedProducts);
+        System.out.println("Сумма добавленных товаров (без доставки) - " + sumOfPricesOfTheAddedProducts);
     }
     public void choicePickupAsADeliveryWay(){
         driver.findElement(By.xpath("//*[contains(text(), 'Самовывоз')]")).click();
@@ -205,7 +203,11 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
             iNNNumberCompanyWhichMadeOrder = driver.findElement(By.xpath("//*[contains(text(), 'ИНН')]/following::*[1]/input")).getAttribute("value");
         }
     }
+    public void rememberingINNOfOrganizationOnThePageOfMakingOrder(){
+        iNNNumberCompanyWhichMadeOrder = driver.findElement(By.xpath("//*[contains(text(), 'ИНН')]/following::*[1]/input")).getAttribute("value");
+    }
     public void ifThereAreLessThanThreeOrganizationsThenCreateThreeOrganizations (){
+        navigationToOrganizationTab();
         if (driver.findElements(By.cssSelector(".main-grid-row ")).size() <= 3){
             MethodsForAddingOrganizationsWithExtendedVersion org = new MethodsForAddingOrganizationsWithExtendedVersion();
             determineWhetherVersionsOfWorkingWithOrganization();
@@ -318,7 +320,6 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
 
         Assert.assertTrue(Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[@class='index_checkout-promocode-total_amount'])[1]")).getText())) ==
                 sumOfPricesOfTheAddedProducts);
-
     }
 
 

@@ -239,7 +239,7 @@ public class BaseActions extends CustomizingForYourself {
         try {
             Assert.assertTrue(driver.findElement(By.cssSelector(".swiper-wrapper")).isDisplayed());
         }catch (Exception e){
-            navigationToTheDesktop();
+            navigationToMeanPageByUrl();
             Assert.assertTrue(driver.findElement(By.cssSelector(".swiper-wrapper")).isDisplayed());
         }
     }
@@ -330,9 +330,8 @@ public class BaseActions extends CustomizingForYourself {
         Assert.assertTrue(driver.findElement(By.cssSelector(".order_wrapper")).isDisplayed());
     }
     public void navigationToTechnicalSupport(){
-        WebElement element = driver.findElement(By.cssSelector(".icon-clippy"));
-        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
-        element.click();
+        scrollToTheElement("//*[@class='icon-clippy']");
+        driver.findElement(By.xpath("//*[@class='icon-clippy']")).click();
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@class,'page-title')]/*[text()='Список обращений']")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.cssSelector(".support-list__title")).isDisplayed());
     }

@@ -10,7 +10,6 @@ public class MakingOrders extends MethodsForMakingOrders{
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
-        navigationToOrganizationTab();
         ifThereAreLessThanThreeOrganizationsThenCreateThreeOrganizations();
         deletingProductsFromTheCart();
         navigationToCatalogTab();
@@ -30,6 +29,7 @@ public class MakingOrders extends MethodsForMakingOrders{
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
+        ifThereAreLessThanThreeOrganizationsThenCreateThreeOrganizations();
         deletingProductsFromTheCart();
         navigationToCatalogTab();
         changeTheQuantityOfRandomProduct();
@@ -50,6 +50,7 @@ public class MakingOrders extends MethodsForMakingOrders{
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
+        ifThereAreLessThanThreeOrganizationsThenCreateThreeOrganizations();
         deletingProductsFromTheCart();
         navigationToCatalogTab();
         changeTheQuantityOfRandomProduct();
@@ -71,6 +72,7 @@ public class MakingOrders extends MethodsForMakingOrders{
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
+        ifThereAreLessThanThreeOrganizationsThenCreateThreeOrganizations();
         deletingProductsFromTheCart();
         navigationToCatalogTab();
         changingPageInCatalog();
@@ -97,6 +99,7 @@ public class MakingOrders extends MethodsForMakingOrders{
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
+        ifThereAreLessThanThreeOrganizationsThenCreateThreeOrganizations();
         deletingProductsFromTheCart();
         navigationToCatalogTab();
         uploadingExcelCatalog("blank.xlsx");
@@ -119,6 +122,7 @@ public class MakingOrders extends MethodsForMakingOrders{
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
+        ifThereAreLessThanThreeOrganizationsThenCreateThreeOrganizations();
         deletingProductsFromTheCart();
         navigationToCatalogTab();
         changeTheQuantityOfRandomProduct();
@@ -141,6 +145,7 @@ public class MakingOrders extends MethodsForMakingOrders{
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
+        ifThereAreLessThanThreeOrganizationsThenCreateThreeOrganizations();
         deletingProductsFromTheCart();
         navigationToCatalogTab();
         changingPageInCatalog();
@@ -167,7 +172,6 @@ public class MakingOrders extends MethodsForMakingOrders{
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
-        navigationToOrganizationTab();
         ifThereAreLessThanThreeOrganizationsThenCreateThreeOrganizations();
         deletingProductsFromTheCart();
         navigationToCatalogTab();
@@ -187,6 +191,7 @@ public class MakingOrders extends MethodsForMakingOrders{
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
+        ifThereAreLessThanThreeOrganizationsThenCreateThreeOrganizations();
         deletingProductsFromTheCart();
         navigationToCatalogTab();
         changeTheQuantityOfRandomProduct();

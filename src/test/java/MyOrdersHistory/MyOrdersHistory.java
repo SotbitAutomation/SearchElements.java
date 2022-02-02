@@ -16,7 +16,7 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
         navigationToCart();
         navigationToMakingOrderFromCart();
-        changingCompanyInTheCartForExtendedVersion();
+        trySelectCompany();
         checkingPriceOfProductsOnTheMakingOrderPage();
         choiceRandomDeliveryWay();
         checkingPriceOfProductsOnTheMakingOrderPage();
@@ -39,7 +39,8 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
         navigationToCart();
         navigationToMakingOrderFromCart();
-        changingCompanyInTheCartForExtendedVersion();
+        trySelectCompany();
+        rememberingINNOfOrganizationOnThePageOfMakingOrder();
         checkingPriceOfProductsOnTheMakingOrderPage();
         choiceRandomDeliveryWay();
         checkingPriceOfProductsOnTheMakingOrderPage();
@@ -66,7 +67,8 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
         navigationToCart();
         navigationToMakingOrderFromCart();
-        changingCompanyInTheCartForExtendedVersion();
+        trySelectCompany();
+        rememberingINNOfOrganizationOnThePageOfMakingOrder();
         checkingPriceOfProductsOnTheMakingOrderPage();
         choiceRandomDeliveryWay();
         checkingPriceOfProductsOnTheMakingOrderPage();
@@ -98,7 +100,7 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
         navigationToCart();
         navigationToMakingOrderFromCart();
-        changingCompanyInTheCartForExtendedVersion();
+        trySelectCompany();
         checkingPriceOfProductsOnTheMakingOrderPage();
         choiceRandomDeliveryWay();
         checkingPriceOfProductsOnTheMakingOrderPage();
@@ -123,7 +125,7 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
         navigationToCart();
         navigationToMakingOrderFromCart();
-        changingCompanyInTheCartForExtendedVersion();
+        trySelectCompany();
         checkingPriceOfProductsOnTheMakingOrderPage();
         choiceRandomDeliveryWay();
         checkingPriceOfProductsOnTheMakingOrderPage();
@@ -156,7 +158,7 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
         navigationToCart();
         navigationToMakingOrderFromCart();
-        changingCompanyInTheCartForExtendedVersion();
+        trySelectCompany();
         checkingPriceOfProductsOnTheMakingOrderPage();
         choiceRandomDeliveryWay();
         checkingPriceOfProductsOnTheMakingOrderPage();
@@ -197,6 +199,12 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         navigationToMyOrdersPage();
         creatingOrdersUntilTheSecondPageOfOrdersIsVisible();
         checkingThatPagesAreSwitching();
+        exitFromB2B();
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToMyOrdersPage();
+        navigationToComponentOfUserOrders();
+        selectTheNumberOfDisplayedOrdersOnThePageIsEquallyThirty();
     }
 
     @Test //8 Проверка корректности состава товаров на детальной странице оформленного заказа
@@ -243,7 +251,7 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         enteringWordForSearch();
         checkingThatOnlyOneProductIsDisplayed();
     }
-    @Test //10 Добавление второй оплаты за заказ проверка ее отображения на детальной странице
+    @Test //10 Добавление второй оплаты за заказ проверка ее отображения на детальной странице заказа
     public void addingSecondPaymentForAnOrderCheckingItsDisplayOnTheDetailPage() {
         //arrange
         navigationToAuthorizationTab();
@@ -261,6 +269,7 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToOrdersPageInAdminPart();
+        openLastOrder();
         addingSecondPaymentForOrder();
         exitFromB2B();
         navigationToAuthorizationTab();
@@ -270,6 +279,34 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         openingLastOrder();
         checkingThatThereAreTwoPaymentsThere();
     }
+    @Test //11 Добавление второй отгрузки заказа, проверка ее отображения на детальной странице заказа
+    public void addingSecondShipmentOfTheOrderCheckingItsDisplayOnTheDetailedOrderPage() {
+        //arrange
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToCatalogTab();
+        changeTheQuantityOfRandomProduct();
+        explicitWaiting();
+        navigationToCart();
+        navigationToMakingOrderFromCart();
+        trySelectCompany();
+        makingOrder();
+        exitFromB2B();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToOrdersPageInAdminPart();
+        openLastOrder();
+        addingSecondDeliveryForOrder();
+        exitFromB2B();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToMyOrdersPage();
+        openingLastOrder();
+        checkingThatThereAreTwoDelivery();
+    }
 
 
 
@@ -277,11 +314,11 @@ public class MyOrdersHistory extends MethodsForMyOrders {
 
 
 
-//
+
 //    @Test
 //    public void circle() {
 //        for (int i = 0; i < 10; i++) {
-//            settingUpTheNumberOfOrdersOnThePageThenCheckingPagination();
+//            informationOrderEqualsTheOneSpecifiedWhenMadeOrder();
 //
 //
 //
