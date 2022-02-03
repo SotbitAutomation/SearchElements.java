@@ -17,7 +17,7 @@ public class MethodsForTechnicalSupport extends BaseActions {
     String heading = "Заголовок= " + randomString(20);
     String headingForCheck;
 
-    public void openingPageOfCreateAppeal(){
+    public void openingPageOfCreateRequest(){
         driver.findElement(By.cssSelector(".btn_create-appeal")).click();
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@class,'page-title')]/*[text()='Новое обращение']")).isDisplayed());
     }
@@ -45,10 +45,10 @@ public class MethodsForTechnicalSupport extends BaseActions {
                 * driver.findElements(By.xpath("//*[contains(@class, 'results__option')][contains(@id,'results')] /*")).size());
         driver.findElement(By.xpath("(//*[contains(@class, 'results__option')][contains(@id,'results')] /*)[" + randomNumberOfEvaluationOfResponse + "]")).click();
     }
-    public void sendingAppeal(){
+    public void sendingRequest(){
         driver.findElement(buttonSaveLocator).click();
     }
-    public void checkingThatAppealIsDisplayedForTheUser(){
+    public void checkingThatRequestIsDisplayedForTheUser(){
         Assert.assertTrue(driver.findElement(By.xpath("//*[text()='" + heading + "']")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@class,'page-title')]/*[text()='Список обращений']")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.cssSelector(".support-list__title")).isDisplayed());
@@ -65,14 +65,14 @@ public class MethodsForTechnicalSupport extends BaseActions {
             driver.findElement(By.xpath("//*[@class='adm-submenu-item-name-link-text'][text()='Обращения']")).click();
         }
     }
-    public void checkingThatAppealIsDisplayed(){
+    public void checkingThatRequestIsDisplayed(){
         //driver.findElement(By.xpath("//*[@class='adm-select']/*[@selected='selected']")).click();
         driver.findElement(By.xpath("//*[@class='adm-select']/*[@value='500']")).click();
         explicitWaiting();
         Assert.assertTrue(driver.findElement(By.xpath("//*[text()='" + headingForCheck + "']")).isDisplayed());
     }
 
-    public void sortingAppealsById(){
+    public void sortingRequestsById(){
         scrollUp();
         try {
             driver.findElement(By.xpath("//*[@class='adm-list-table-cell-inner'][text()='ID']")).click();
@@ -84,7 +84,7 @@ public class MethodsForTechnicalSupport extends BaseActions {
             driver.findElement(By.xpath("//*[@class='adm-list-table-cell-inner'][text()='ID']")).click();
         }
     }
-    public void openingLastAppealInAdminPart(){
+    public void openingLastRequestInAdminPart(){
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//*[@class='adm-list-table-cell'])[1]"), headingForCheck));
         driver.findElement(By.xpath("(//*[@class='adm-list-table-popup'][@title='Действия'])[1]")).click();
         driver.findElement(By.xpath("//*[@class='bx-core-popup-menu-item-text'][text()='Изменить']")).click();
@@ -98,20 +98,20 @@ public class MethodsForTechnicalSupport extends BaseActions {
         File[] files = dir.listFiles();
         Assert.assertTrue(files[1].getName().equals("palms.jpg"));
     }
-    public void answeringToAppeal(){
+    public void answeringToRequest(){
         driver.findElement(By.xpath("//*[@value='ответ']")).click();
         driver.findElement(By.cssSelector("#MESSAGE")).sendKeys("ОТВЕТ НА " + randomMessage);
     }
-    public void sendingAnsweringToAppeal(){
+    public void sendingAnsweringToRequest(){
         driver.findElement(By.xpath("//*[@value='Сохранить']")).click();
     }
-    public void sortingUserAppeals(){
+    public void sortingUserRequests(){
         driver.findElement(By.xpath("//*[@class='main-grid-head-title'][text()='Индикатор']")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='main-grid-control-sort main-grid-control-sort-asc']")));
         driver.findElement(By.xpath("//*[@class='main-grid-head-title'][text()='Индикатор']")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='main-grid-control-sort main-grid-control-sort-desc']")));
     }
-    public void checkingThatTheResponseToTheLastAppealIsDisplayed(){
+    public void checkingThatTheResponseToTheLastRequestIsDisplayed(){
         flag = false;
         while (flag == false){
             try{
@@ -121,30 +121,78 @@ public class MethodsForTechnicalSupport extends BaseActions {
                 driver.findElement(By.xpath("//*[contains(@class, 'pagination-next')]")).click();
             }
         }
-        sortingUserAppeals();
+        sortingUserRequests();
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("((//*[@class='main-grid-row main-grid-row-body'])[1])/*[4]"), headingForCheck));
         driver.findElement(By.xpath("(//*[@class='main-grid-row-action-button'])[1]")).click();
         driver.findElement(By.xpath("//*[@class='menu-popup-item-text']")).click();
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(),'ОТВЕТ НА Описание что не работает:')]")).isDisplayed());
     }
-    public void checkingThatTheLastAppealIsDisplayedOnTheTechnicalSupportPage(){
+    public void checkingThatTheLastRequestIsDisplayedOnTheTechnicalSupportPage(){
         Assert.assertTrue(driver.findElement(By.xpath("//*[@class='main-grid-row main-grid-row-body'] //*[contains(text(), '" + tempValue + "')]")).isDisplayed());
     }
-    public void checkingThatLastAppealIsDisplayedOnTheDetailOrderPageInSupportTab(){
+    public void checkingThatLastRequestIsDisplayedOnTheDetailOrderPageInSupportTab(){
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='main-grid-row main-grid-row-body'])[1] /*[1]")));
         orderHistory.openingLastOrder();
         orderHistory.openSupportServiceTabInOrderPage();
-        checkingDisplayingAppealByMessage();
+        checkingDisplayingRequestByMessage();
     }
-    public void checkingDisplayingAppealByMessage(){
+    public void checkingDisplayingRequestByMessage(){
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), '" + randomMessage.substring(randomMessage.length() - 10) + "')]")).isDisplayed());
+    }
+    public void checkingThatURLContainsIDOfRequest(){
+        Assert.assertTrue(driver.getCurrentUrl().contains(tempValue));
     }
     public void rememberingLastOrder(){
         tempValue = driver.findElement(By.xpath("//*[@class='main-grid-row main-grid-row-body'] //*[contains(@class, 'main-grid-cell-left')]")).getText();
     }
-    public void openingLastAppealOnTheTechnicalSupportPage(){
+    public void openingLastRequestOnTheTechnicalSupportPage(){
         driver.findElement(By.xpath("//*[contains(@class, 'action-button')]")).click();
         driver.findElement(By.xpath("//*[@class='menu-popup-item-text']")).click();
+    }
+    public void searchForNumberOfTheColumnResponsibleForTheID(){
+        for (int i = 1; i < 5 ; i++) {
+            if (driver.findElement(By.xpath("(//*[@class='main-grid-head-title'])[" + i +"]")).getText().equals("ID")){
+                count = i;
+                break;
+            }
+        }
+        tempValue = driver.findElement(By.xpath("((//*[@class='main-grid-row main-grid-row-body'])[1] //*[@class='main-grid-cell main-grid-cell-left'])[" + count + "]")).getText();
+
+    }
+    public void memorizingNumberOfLastRequest(){
+        System.out.println();
+        searchForNumberOfTheColumnResponsibleForTheID();
+        System.out.println("Номер последнего обращения в ТП первого пользователя - " + tempValue);
+        System.out.println();
+    }
+    public void checkThatTheSecondUserDoesNotHaveTheFirstRequest (){
+        System.out.println("Все номера обращений в ТП второго пользователя :");
+        for (int i = 1; i <= driver.findElements(By.xpath("//*[@class='main-grid-row main-grid-row-body']")).size() ; i++) {
+            System.out.println(driver.findElement(By.xpath("((//*[@class='main-grid-row main-grid-row-body'])[" + i + "] //*[@class='main-grid-cell main-grid-cell-left'])[" + count + "]"))
+                    .getText());
+            Assert.assertFalse(driver.findElement(By.xpath("((//*[@class='main-grid-row main-grid-row-body'])[" + i + "] //*[@class='main-grid-cell main-grid-cell-left'])[" + count + "]"))
+                    .getText().equals(tempValue));
+        }
+    }
+    public void checkingThatTheEnteringMessagesFieldIsRequired (){
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@id='MESSAGE'][@required]")).isDisplayed());
+    }
+
+    public void checkingThatAnErrorMessageIsDisplayedIfTheHeaderIsEmpty(){
+        driver.findElement(By.xpath("//*[@id='MESSAGE'][@required]")).sendKeys(randomMessage);
+        sendingRequest();
+        Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@class, 'errortext')][contains(text(), 'Заголовок')]")).isDisplayed());
+    }
+    public void checkingThatAnErrorMessageIsDisplayedIfTheTheDownloadedFileIsTooLarge(){
+        driver.findElement(By.xpath("//*[@id='MESSAGE'][@required]")).sendKeys(randomMessage);
+        fillingTheHeadForTechnicalSupport();
+        downloadingALargeFile();
+        sendingRequest();
+        Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@class, 'errortext')][contains(text(), 'Возможно, превышен максимально допустимый размер файла')]")).isDisplayed());
+    }
+    public void fillingInOnlyRequiredFields (){
+        driver.findElement(By.xpath("//*[@id='MESSAGE'][@required]")).sendKeys(randomMessage);
+        fillingTheHeadForTechnicalSupport();
     }
 
 

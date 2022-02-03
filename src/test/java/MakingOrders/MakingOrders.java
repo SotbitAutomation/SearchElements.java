@@ -95,7 +95,7 @@ public class MakingOrders extends MethodsForMakingOrders{
     @Test //5. Оформление заказа c выбором рандомного способа доставки и способа оплаты после добавления товаров из Excel
     public void madeOrderWithRandomDeliveryWayAndPaymentMethodAfterAddingProductsToCartFromExcelCatalog() {
         //arrange
-        deletingExcelFilesFromDownloads();
+        deletingExcelAndJpgFilesFromDownloads();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();

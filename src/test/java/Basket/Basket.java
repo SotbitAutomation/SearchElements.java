@@ -67,7 +67,7 @@ public class Basket extends MethodsForCatalog {
     @Test //4.  Загрузка товаров из Excel в корзине
     public void uploadCatalogInExcelInTheCart() {
         //arrange
-        deletingExcelFilesFromDownloads();
+        deletingExcelAndJpgFilesFromDownloads();
         navigationToAuthorizationTab();
         //act
         fillingFieldsOnTheLogInTabLikeUser();

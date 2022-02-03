@@ -25,7 +25,9 @@ public class MethodsForDocuments extends BaseActions {
     //JavascriptExecutor jse = (JavascriptExecutor)driver;
 
     public void openDocumentsTabInAdminPanel(){
-            driver.findElement(By.xpath(
+        navigationToAdminPartFromMeanPage();
+        driver.findElement(By.xpath("//*[@class='adm-main-menu'] //*[contains(text(), 'Контент')]")).click();
+        driver.findElement(By.xpath(
                     "//*[contains(@class,'adm-submenu-title-content')][contains(text(),'Контент')] /following::*[1] //*[contains(text(),'Документы')] /.. //*[@class='adm-submenu-item-link-icon iblock_menu_icon_types']"))
                     .click();
     }
@@ -44,7 +46,7 @@ public class MethodsForDocuments extends BaseActions {
     }
     public void addingDocumentWithOrganizationToJustCreatedUser(String INNOrganization, String emailUserForDoc){
         navigationToDocumentWhichWillBeAdded();
-        uploadingExcelCatalog();
+        uploadingExcelCatalog("Акт по заказу №2");
         fillingOrganizationField(INNOrganization);
         goToPageForChoiceUser();
         choiceUserFromJustOpenedPage(emailUserForDoc);
@@ -55,7 +57,7 @@ public class MethodsForDocuments extends BaseActions {
         driver.findElement(By.xpath("//*[contains(text(), 'Заказ')] /following::*[1] //input")).clear();
         driver.findElement(By.xpath("//*[contains(text(), 'Заказ')] /following::*[1] //input")).sendKeys(numberOfOrder);
         explicitWaiting();
-        uploadingExcelCatalog();
+        uploadingExcelCatalog("Акт по заказу №2");
         goToPageForChoiceUser();
         choiceUserFromJustOpenedPage(emailUserForDoc);
         driver.findElement(buttonForSaveDocumentForUserLocator).click();
@@ -64,10 +66,10 @@ public class MethodsForDocuments extends BaseActions {
         navigationToDocumentWhichWillBeAdded();
         goToPageForChoiceUser();
         choiceUserFromJustOpenedPage(registr.theSameEmail);
-        uploadingExcelCatalog();
+        uploadingExcelCatalog("Акт по заказу №2");
         driver.findElement(buttonForSaveDocumentForUserLocator).click();
     }
-    public void uploadingExcelCatalog (){
+    public void uploadingExcelCatalog (String nameDocument){
         //jse.executeScript("window.scrollBy(0,250)", "");
         try {
             driver.findElement(By.cssSelector(".adm-btn-del")).click();
@@ -78,7 +80,7 @@ public class MethodsForDocuments extends BaseActions {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@id,'file')][text()='blank.xlsx']")));
         explicitWaiting();
         driver.findElement(buttonForSaveDocumentForUserLocator).click();
-        driver.findElement(By.xpath("//*[text()='Акт по заказу №2']")).click();
+        driver.findElement(By.xpath("//*[text()='"+ nameDocument + "']")).click();
 
         try{
             driver.findElement(By.cssSelector(".container-doc-title")).getText();
@@ -90,8 +92,6 @@ public class MethodsForDocuments extends BaseActions {
         }
     }
     public void navigationToDocumentWhichWillBeAdded(){
-        navigationToAdminPartFromMeanPage();
-        driver.findElement(By.xpath("//*[@class='adm-main-menu'] //*[contains(text(), 'Контент')]")).click();
         openDocumentsTabInAdminPanel();
         driver.findElement(By.xpath("//*[@id='menucontainer']//*[text()='Акты']")).click();
         driver.findElement(By.xpath("//*[text()='Акт по заказу №2']")).click();
@@ -120,6 +120,7 @@ public class MethodsForDocuments extends BaseActions {
         driver.switchTo().window(newWindow);
         driver.findElement(By.xpath("//*[text()='На странице:'] /following::*[1]")).click();
         driver.findElement(By.xpath("//*[text()='все']")).click();
+        explicitWaiting();
         System.out.println("Емаил пользователя для которого настраиваю документ  " + emailUserForDoc);
         driver.findElement(By.xpath("(//*[text()='" + emailUserForDoc +  "'])[1]")).click();
         driver.switchTo().window(parentWindow);
@@ -135,6 +136,7 @@ public class MethodsForDocuments extends BaseActions {
     }
     public void downloadDocument(){
         driver.findElement(By.xpath("//*[text()='Акт по заказу №2']")).click();
+        explicitWaiting();
         checkingThatDocumentHasBeenDownloaded();
     }
     public void checkingThatDocumentHasBeenDownloaded(){
@@ -173,7 +175,7 @@ public class MethodsForDocuments extends BaseActions {
         Assert.assertEquals("Одобрена", driver.findElement(By.xpath("(//*[@class='main-grid-row main-grid-row-body'])[1] /*[7]")).getText());
     }
 
-    public  void deletingExcelFilesFromDownloads(){
+    public  void deletingExcelAndJpgFilesFromDownloads(){
         File dir = new File("C:\\Users\\SotBit\\Downloads");
         String [] str = {"xlsx"};
         Collection<File> files = FileUtils.listFiles(dir,str,true);
@@ -197,6 +199,37 @@ public class MethodsForDocuments extends BaseActions {
     public void navigationToTheLastOrderFromDocumentsPage(){
         driver.findElement(By.xpath("//*[contains(@href, 'order/detail')]")).click();
         Assert.assertTrue(driver.findElement(By.cssSelector(".blank_detail")).isDisplayed());
+    }
+    public void searchSequenceNumberOfActs (){
+        for (int i = 1; i < 5; i++) {
+            if (driver.findElement(By.xpath("//*[@title='Forms']/preceding::*[text()='Документы'] /following::a[" + i + "]")).getAttribute("title").equals("Акты")){
+                count=i;
+                break;
+            }
+        }
+    }
+    public void openActSettings(){
+        driver.findElement(By.xpath("//*[@class='adm-info-message'] /*[contains(@href, 'document')]")).click();
+        driver.findElement(By.xpath("//*[@class='main-grid-row main-grid-row-body']//*[text()='Акты']")).click();
+    }
+    public void changeTheSequenceNumberForTheActsSectionToTheOpposite (){
+        if (count == 1){
+            driver.findElement(By.xpath("//*[@name='SORT']")).clear();
+            driver.findElement(By.xpath("//*[@name='SORT']")).sendKeys("999");
+            driver.findElement(buttonForSaveDocumentForUserLocator).click();
+        }else {
+            driver.findElement(By.xpath("//*[@name='SORT']")).clear();
+            driver.findElement(By.xpath("//*[@name='SORT']")).sendKeys("10");
+            driver.findElement(buttonForSaveDocumentForUserLocator).click();
+        }
+    }
+    public void checkingThatTheSequenceNumberOfTheActsHasChanged(){
+        for (int i = 1; i < 5; i++) {
+            if (driver.findElement(By.xpath("//*[@title='Forms']/preceding::*[text()='Документы'] /following::a[" + i + "]")).getAttribute("title").equals("Акты")){
+                Assert.assertFalse(count == i);
+                break;
+            }
+        }
     }
 
 }

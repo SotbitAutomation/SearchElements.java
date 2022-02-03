@@ -302,7 +302,7 @@ public class Catalog extends MethodsForCatalog {
     @Test //19.  Выгрузка каталога в Excel
     public void downloadCatalogToExcel() {
         //arrange
-        deletingExcelFilesFromDownloads();
+        deletingExcelAndJpgFilesFromDownloads();
         navigationToAuthorizationTab();
         //act
         fillingFieldsOnTheLogInTabLikeUser();
@@ -315,7 +315,7 @@ public class Catalog extends MethodsForCatalog {
     @Test //20.  Загрузка товаров из Excel
     public void uploadCatalogInExcel() {
         //arrange
-        deletingExcelFilesFromDownloads();
+        deletingExcelAndJpgFilesFromDownloads();
         navigationToAuthorizationTab();
         //act
         fillingFieldsOnTheLogInTabLikeUser();
@@ -330,7 +330,7 @@ public class Catalog extends MethodsForCatalog {
     @Test //21.  Загрузка товаров из Excel без выбора количества товаров
     public void uploadCatalogInExcelWithoutSelectingProducts() {
         //arrange
-        deletingExcelFilesFromDownloads();
+        deletingExcelAndJpgFilesFromDownloads();
         navigationToAuthorizationTab();
         //act
         fillingFieldsOnTheLogInTabLikeUser();
@@ -528,7 +528,7 @@ public class Catalog extends MethodsForCatalog {
     @Test //33. Проверка работы "Модели работы" выгрузки каталога
     public void checkExcelUploadSettings() {
         //arrange
-        deletingExcelFilesFromDownloads();
+        deletingExcelAndJpgFilesFromDownloads();
         navigationToAuthorizationTab();
         //act
         fillingFieldsOnTheLogInTabLikeAdmin();
@@ -544,7 +544,7 @@ public class Catalog extends MethodsForCatalog {
     @Test //34.  Проверка корректности добавления в корзину после загрузки из EXCEL всего каталога
     public void addingAnItemToTheCartAfterDownloadingItFromExcel() {
         //arrange
-        deletingExcelFilesFromDownloads();
+        deletingExcelAndJpgFilesFromDownloads();
         navigationToAuthorizationTab();
         //act
         fillingFieldsOnTheLogInTabLikeUser();

@@ -6,13 +6,11 @@ import org.junit.Test;
 
 public class Documents extends MethodsForDocuments {
     @Test //1. Добавление существующего документа пользователю
-    public void AddExistingDocumentToUser() {
+    public void addExistingDocumentToUser() {
         //arrange
-        deletingExcelFilesFromDownloads();
+        deletingExcelAndJpgFilesFromDownloads();
         registr.registrationIPWithManualEntryINN();
         registr.tryConfirmRegistration();
-        //confirmRegistrationOfOrganizationJustCreatedUser();
-        exitFromB2B();
         //act
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
@@ -28,13 +26,11 @@ public class Documents extends MethodsForDocuments {
     }
 
     @Test //2. Добавление существующего  документа пользователю c привязкой организации
-    public void AddExistingDocumentWithOrganizationToUser() {
+    public void addExistingDocumentWithOrganizationToUser() {
         //arrange
-        deletingExcelFilesFromDownloads();
+        deletingExcelAndJpgFilesFromDownloads();
         registr.registrationIPWithManualEntryINN();
         registr.tryConfirmRegistration();
-        //confirmRegistrationOfOrganizationJustCreatedUser();
-        //exitFromB2B();
         //act
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
@@ -51,13 +47,11 @@ public class Documents extends MethodsForDocuments {
     }
 
     @Test //3. Добавление документа пользователю
-    public void AddDocumentToUser() {
+    public void addDocumentToUser() {
         //arrange
-        deletingExcelFilesFromDownloads();
+        deletingExcelAndJpgFilesFromDownloads();
         registr.registrationIPWithManualEntryINN();
         registr.tryConfirmRegistration();
-        //confirmRegistrationOfOrganizationJustCreatedUser();
-        //exitFromB2B();
         //act
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
@@ -73,13 +67,11 @@ public class Documents extends MethodsForDocuments {
     }
 
     @Test //4. Добавление документа пользователю c привязкой организации
-    public void AddDocumentWithOrganizationToUser() {
+    public void addDocumentWithOrganizationToUser() {
         //arrange
-        deletingExcelFilesFromDownloads();
+        deletingExcelAndJpgFilesFromDownloads();
         registr.registrationIPWithManualEntryINN();
         registr.tryConfirmRegistration();
-        //confirmRegistrationOfOrganizationJustCreatedUser();
-        //exitFromB2B();
         //act
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
@@ -99,7 +91,7 @@ public class Documents extends MethodsForDocuments {
     @Test //5. Отображение документа привязонного к заказу
     public void displayingTheDocumentLinkedToTheOrder() {
         //arrange
-        deletingExcelFilesFromDownloads();
+        deletingExcelAndJpgFilesFromDownloads();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
@@ -125,7 +117,7 @@ public class Documents extends MethodsForDocuments {
     @Test //6. Переход на детальную страницу заказа из раздела "Документы" с помощью привязанного к заказу документа
     public void goToTheDetailedOrderPageFromTheDocumentsSectionUsingTheDocumentLinkedToTheOrder() {
         //arrange
-        deletingExcelFilesFromDownloads();
+        deletingExcelAndJpgFilesFromDownloads();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
@@ -146,5 +138,19 @@ public class Documents extends MethodsForDocuments {
         logInToB2B();
         navigationToActsOfDocuments();
         navigationToTheLastOrderFromDocumentsPage();
+    }
+    @Test //7. Смена порядка вывода инфоблоков раздела "Документы"
+    public void changingTheOrderOutputOfInformationBlocksInTheDocumentsSection() {
+        //arrange
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        searchSequenceNumberOfActs();
+        openDocumentsTabInAdminPanel();
+        openActSettings();
+        changeTheSequenceNumberForTheActsSectionToTheOpposite();
+        navigationToMeanPageByUrl();
+        resetCache();
+        checkingThatTheSequenceNumberOfTheActsHasChanged();
     }
 }

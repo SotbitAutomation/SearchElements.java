@@ -10,12 +10,12 @@ public class TechnicalSupport extends MethodsForTechnicalSupport {
         //act
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
-        navigationToTechnicalSupport();
-        openingPageOfCreateAppeal();
+        navigationToTechnicalSupportTab();
+        openingPageOfCreateRequest();
         fillingTheHeadForTechnicalSupport();
         fillingFieldsRandomValuesForTechnicalSupport();
-        sendingAppeal();
-        checkingThatAppealIsDisplayedForTheUser();
+        sendingRequest();
+        checkingThatRequestIsDisplayedForTheUser();
     }
     @Test //2. Отправка обращения в службу поддержки с загрузкой файла
     public void contactingTheSupportServiceWithAddedFile() {
@@ -24,16 +24,16 @@ public class TechnicalSupport extends MethodsForTechnicalSupport {
         //act
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
-        navigationToTechnicalSupport();
-        openingPageOfCreateAppeal();
-        fileUpload();
+        navigationToTechnicalSupportTab();
+        openingPageOfCreateRequest();
+        fileDownload();
         fillingTheHeadForTechnicalSupport();
         fillingFieldsRandomValuesForTechnicalSupport();
-        sendingAppeal();
-        checkingThatAppealIsDisplayedForTheUser();
+        sendingRequest();
+        checkingThatRequestIsDisplayedForTheUser();
     }
     @Test //3. Проверка что отправленное обращение отображается в админ части
-    public void checkingAppealAtAdmin() {
+    public void checkingRequestAtAdmin() {
         //arrange
         contactingTheSupportService();
         exitFromB2B();
@@ -43,12 +43,12 @@ public class TechnicalSupport extends MethodsForTechnicalSupport {
         logInToB2B();
         navigationToAdminPart();
         navigationToSupportRequests();
-        checkingThatAppealIsDisplayed();
+        checkingThatRequestIsDisplayed();
     }
     @Test //4. Проверка что отправленное обращение c файлом отображается в админ части
-    public void checkingAppealWithFileAtAdmin() {
+    public void checkingRequestWithFileAtAdmin() {
         //arrange
-        deletingExcelFilesFromDownloads();
+        deletingExcelAndJpgFilesFromDownloads();
         contactingTheSupportServiceWithAddedFile();
         exitFromB2B();
         navigationToAuthorizationTab();
@@ -57,29 +57,30 @@ public class TechnicalSupport extends MethodsForTechnicalSupport {
         logInToB2B();
         navigationToAdminPart();
         navigationToSupportRequests();
-        checkingThatAppealIsDisplayed();
-        sortingAppealsById();
-        openingLastAppealInAdminPart();
+        checkingThatRequestIsDisplayed();
+        sortingRequestsById();
+        openingLastRequestInAdminPart();
         downloadFile();
         checkingThatFileIsDownload();
+        deletingExcelAndJpgFilesFromDownloads();
     }
     @Test //5. Ответ на обращения клиента из админ части
-    public void answerToAppealFromAdmin() {
+    public void answerToRequestFromAdmin() {
         //arrange
-        checkingAppealAtAdmin();
-        sortingAppealsById();
-        openingLastAppealInAdminPart();
+        checkingRequestAtAdmin();
+        sortingRequestsById();
+        openingLastRequestInAdminPart();
         //act
         scrollDown();
-        answeringToAppeal();
-        sendingAnsweringToAppeal();
+        answeringToRequest();
+        sendingAnsweringToRequest();
         exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
-        navigationToTechnicalSupport();
-        sortingUserAppeals();
-        checkingThatTheResponseToTheLastAppealIsDisplayed();
+        navigationToTechnicalSupportTab();
+        sortingUserRequests();
+        checkingThatTheResponseToTheLastRequestIsDisplayed();
     }
     @Test //6. Отправка сообщения в службу поддержки из детальной страницы оформленного заказа
     public void sendingMessageToTheSupportServiceFromTheDetailedPageOfTheCompletedOrder() {
@@ -93,14 +94,77 @@ public class TechnicalSupport extends MethodsForTechnicalSupport {
         orderHistory.openingLastOrder();
         orderHistory.openSupportServiceTabInOrderPage();
         fillingFieldsRandomValuesForTechnicalSupport();
-        sendingAppeal();
-        checkingThatLastAppealIsDisplayedOnTheDetailOrderPageInSupportTab();
+        sendingRequest();
+        checkingThatLastRequestIsDisplayedOnTheDetailOrderPageInSupportTab();
         navigationToMeanPageByUrl();
-        navigationToTechnicalSupport();
-        checkingThatTheLastAppealIsDisplayedOnTheTechnicalSupportPage();
-        openingLastAppealOnTheTechnicalSupportPage();
-        checkingDisplayingAppealByMessage();
+        navigationToTechnicalSupportTab();
+        checkingThatTheLastRequestIsDisplayedOnTheTechnicalSupportPage();
+        openingLastRequestOnTheTechnicalSupportPage();
+        checkingDisplayingRequestByMessage();
     }
-
+    @Test //7. Обращения пользователя в ТП выводятся только у пользователя отправившего эти обращения
+    public void theUserSRequestsToTheTPAreDisplayedOnlyFromTheUserWhoSentTheseRequests() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToTechnicalSupportTab();
+        openingPageOfCreateRequest();
+        fillingTheHeadForTechnicalSupport();
+        fillingFieldsRandomValuesForTechnicalSupport();
+        sendingRequest();
+        checkingThatRequestIsDisplayedForTheUser();
+        memorizingNumberOfLastRequest();
+        exitFromB2B();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeEmployee();
+        logInToB2B();
+        navigationToTechnicalSupportTab();
+        openingPageOfCreateRequest();
+        fillingTheHeadForTechnicalSupport();
+        fillingFieldsRandomValuesForTechnicalSupport();
+        sendingRequest();
+        checkingThatRequestIsDisplayedForTheUser();
+        checkThatTheSecondUserDoesNotHaveTheFirstRequest();
+    }
+    @Test //8. Переход к детальной странице обращения
+    public void goToTheDetailedPageOfTheRequest () {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToTechnicalSupportTab();
+        openingPageOfCreateRequest();
+        fillingTheHeadForTechnicalSupport();
+        fillingFieldsRandomValuesForTechnicalSupport();
+        sendingRequest();
+        checkingThatRequestIsDisplayedForTheUser();
+        searchForNumberOfTheColumnResponsibleForTheID();
+        doubleClick("((//*[@class='main-grid-row main-grid-row-body'])[1] //*[@class='main-grid-cell main-grid-cell-left'])[" + count + "]");
+        checkingDisplayingRequestByMessage();
+        checkingThatURLContainsIDOfRequest();
+        navigationToTechnicalSupportTab();
+        openingLastRequestOnTheTechnicalSupportPage();
+        checkingDisplayingRequestByMessage();
+        checkingThatURLContainsIDOfRequest();
+    }
+    @Test //9. Вывод сообщений об ошибке при отправке обращения без заполнения обязытельных полей
+    public void displayingErrorMessagesWhenSendingARequestWithoutFillingTheRequiredFields() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToTechnicalSupportTab();
+        openingPageOfCreateRequest();
+        checkingThatTheEnteringMessagesFieldIsRequired();
+        checkingThatAnErrorMessageIsDisplayedIfTheHeaderIsEmpty();
+        checkingThatAnErrorMessageIsDisplayedIfTheTheDownloadedFileIsTooLarge();
+        fillingInOnlyRequiredFields();
+        sendingRequest();
+        checkingThatRequestIsDisplayedForTheUser();
+    }
 }
 

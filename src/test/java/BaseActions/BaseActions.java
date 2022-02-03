@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -148,6 +149,11 @@ public class BaseActions extends CustomizingForYourself {
             driver.navigate().to(b2bUrl);
             Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
         }
+    }
+    public void doubleClick(String xpath){
+        Action doubleClick = actions.doubleClick(driver.findElement(By.xpath(xpath))).build();
+        doubleClick.perform();
+        waitingMilliSecond();
     }
 
     public void navigationToRegistrationTab() {
@@ -329,13 +335,12 @@ public class BaseActions extends CustomizingForYourself {
         driver.findElement(By.xpath("//*[@title='Мои заказы']")).click();
         Assert.assertTrue(driver.findElement(By.cssSelector(".order_wrapper")).isDisplayed());
     }
-    public void navigationToTechnicalSupport(){
+    public void navigationToTechnicalSupportTab(){
         scrollToTheElement("//*[@class='icon-clippy']");
         driver.findElement(By.xpath("//*[@class='icon-clippy']")).click();
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@class,'page-title')]/*[text()='Список обращений']")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.cssSelector(".support-list__title")).isDisplayed());
     }
-
 
     public void explicitWaiting() {
         try {
@@ -363,9 +368,14 @@ public class BaseActions extends CustomizingForYourself {
         explicitWaiting();
     }
 
-    public void fileUpload(){
+    public void fileDownload(){
         By fileInput = By.cssSelector("input[type=file]");
         String filePath = System.getProperty("user.dir")  + "\\resources\\palms.jpg";
+        driver.findElement(fileInput).sendKeys(filePath);
+    }
+    public void downloadingALargeFile(){
+        By fileInput = By.cssSelector("input[type=file]");
+        String filePath = System.getProperty("user.dir")  + "\\resources\\largeFile.jpg";
         driver.findElement(fileInput).sendKeys(filePath);
     }
 
@@ -445,7 +455,7 @@ public class BaseActions extends CustomizingForYourself {
         }
     }
 
-    public  void deletingExcelFilesFromDownloads(){
+    public  void deletingExcelAndJpgFilesFromDownloads(){
         String [] str = {"xlsx"};
         Collection<File> files = FileUtils.listFiles(dir,str,true);
         for(File f:files){

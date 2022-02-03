@@ -317,7 +317,6 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
     public void choiceLegalPersonForCreatingLocators (){
         driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])["+ radioButtonForLegalPerson + "]")).click();
     }
-
     public void checkRequiredFields(){
         driver.findElement(By.xpath("//*[@placeholder='Введите e-mail'][not(ancestor-or-self::*[@style = 'display: none;'])]")).clear();
         Assert.assertTrue("Поле емаил не обязательно", driver.findElement(By.cssSelector

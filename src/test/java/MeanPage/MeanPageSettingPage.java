@@ -84,7 +84,7 @@ public class MeanPageSettingPage extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToTheSetting();
-        fileUpload();
+        fileDownload();
         savePersonalData();
         navigationToTheDesktop();
         checkingThatPhotoIsDisplayed();
