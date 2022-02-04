@@ -292,7 +292,10 @@ public class MethodsForCatalog extends BaseActions {
 
     public void deletingProductsFromTheCart(){
         navigationToCart();
-            if (driver.findElements(By.xpath("//*[@class='basket__product-name ']")).size() > 0){
+        driver.findElement(checkboxThatHighlightsAllProductsInTheCartLocator).click();
+        driver.findElement(buttonForDeletingProductsInCartLocator).click();
+        driver.navigate().refresh();
+        if (driver.findElements(By.xpath("//*[@class='basket__product-name ']")).size() > 0){
                 driver.findElement(checkboxThatHighlightsAllProductsInTheCartLocator).click();
                 driver.findElement(buttonForDeletingProductsInCartLocator).click();
                 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@data-entity='basket-item-restore-button']")));
