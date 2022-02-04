@@ -131,6 +131,7 @@ public class Documents extends MethodsForDocuments {
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
+        resetCache();
         addingDocumentForUserWithNumberOfOrder(emailUser, makingOrder.numberOfOrder);
         exitFromB2B();
         navigationToAuthorizationTab();

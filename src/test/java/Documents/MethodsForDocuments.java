@@ -124,9 +124,35 @@ public class MethodsForDocuments extends BaseActions {
         driver.findElement(By.xpath("//*[text()='все']")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[text()='" + emailUserForDoc +  "'])[1]")));
         explicitWaiting();explicitWaiting();
+        //scrollToTheElement("(//*[text()='" + emailUserForDoc +  "'])[1]");
         System.out.println("Емаил пользователя для которого настраиваю документ  " + emailUserForDoc);
-        driver.findElement(By.xpath("(//*[text()='" + emailUserForDoc +  "'])[1]")).click();
+        try {
+            driver.findElement(By.xpath("(//*[text()='" + emailUserForDoc +  "'])[1]")).click();
+        }catch (Exception e){
+            driver.quit();
+        }
+        explicitWaiting();
         driver.switchTo().window(parentWindow);
+        explicitWaiting();
+        System.out.println(driver.findElement(By.xpath("//*[@class='tablebodybutton']/following::*[1]")).getText());
+        //Если пользователь не выбрался то заходит в if
+        if (!driver.findElement(By.xpath("//*[@class='tablebodybutton']/following::*[1]")).getText().contains(emailUserForDoc)){
+            driver.findElement(By.cssSelector(".tablebodybutton")).click();
+            handles = driver.getWindowHandles();
+            itr = handles.iterator();
+            parentWindow = itr.next();
+            newWindow = itr.next();
+            driver.switchTo().window(newWindow);
+            driver.findElement(By.xpath("//*[text()='На странице:'] /following::*[1]")).click();
+            driver.findElement(By.xpath("//*[text()='все']")).click();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[text()='" + emailUserForDoc +  "'])[1]")));
+            explicitWaiting();explicitWaiting();
+            System.out.println("Повторно добавляю пользователя" + emailUserForDoc);
+            driver.findElement(By.xpath("(//*[text()='" + emailUserForDoc +  "'])[1]")).click();
+            driver.switchTo().window(parentWindow);
+            explicitWaiting();
+        }
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@class='tablebodybutton']/following::*[1]")).getText().contains(emailUserForDoc));
     }
 
     public void navigationToActsOfDocuments(){
