@@ -114,44 +114,36 @@ public class MethodsForDocuments extends BaseActions {
 //            driver.findElement(By.cssSelector(".tablebodybutton")).click();
 //        }
     }
-    public void choiceUserFromJustOpenedPage(String emailUserForDoc){
+    public void choiceUserFromJustOpenedPage(String emailUserForDoc) {
         Set<String> handles = driver.getWindowHandles();
         Iterator<String> itr = handles.iterator();
         String parentWindow = itr.next();
         String newWindow = itr.next();
         driver.switchTo().window(newWindow);
-        driver.findElement(By.xpath("//*[text()='На странице:'] /following::*[1]")).click();
-        driver.findElement(By.xpath("//*[text()='все']")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[text()='" + emailUserForDoc +  "'])[1]")));
-        explicitWaiting();explicitWaiting();
+        if (driver.findElements(By.xpath("(//*[text()='" + emailUserForDoc +  "'])[1]")).size() == 0){
+            driver.findElement(By.xpath("//*[text()='На странице:'] /following::*[1]")).click();
+            driver.findElement(By.xpath("//*[text()='все']")).click();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[text()='" + emailUserForDoc +  "'])[1]")));
+        }
+
         //scrollToTheElement("(//*[text()='" + emailUserForDoc +  "'])[1]");
         System.out.println("Емаил пользователя для которого настраиваю документ  " + emailUserForDoc);
         try {
             driver.findElement(By.xpath("(//*[text()='" + emailUserForDoc +  "'])[1]")).click();
         }catch (Exception e){
-            driver.quit();
+            System.out.println("Тупая ошибка, не смог выбрать пользователя (хз почему)");
+            driver.switchTo().window(parentWindow);
+            explicitWaiting();
+            try {
+                exitFromB2BToAuthorizationTab();
+            }catch (Exception e1) {
+                System.out.println("Я не смог сделать скриншот");
+            }
         }
         explicitWaiting();
         driver.switchTo().window(parentWindow);
         explicitWaiting();
         System.out.println(driver.findElement(By.xpath("//*[@class='tablebodybutton']/following::*[1]")).getText());
-        //Если пользователь не выбрался то заходит в if
-        if (!driver.findElement(By.xpath("//*[@class='tablebodybutton']/following::*[1]")).getText().contains(emailUserForDoc)){
-            driver.findElement(By.cssSelector(".tablebodybutton")).click();
-            handles = driver.getWindowHandles();
-            itr = handles.iterator();
-            parentWindow = itr.next();
-            newWindow = itr.next();
-            driver.switchTo().window(newWindow);
-            driver.findElement(By.xpath("//*[text()='На странице:'] /following::*[1]")).click();
-            driver.findElement(By.xpath("//*[text()='все']")).click();
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[text()='" + emailUserForDoc +  "'])[1]")));
-            explicitWaiting();explicitWaiting();
-            System.out.println("Повторно добавляю пользователя" + emailUserForDoc);
-            driver.findElement(By.xpath("(//*[text()='" + emailUserForDoc +  "'])[1]")).click();
-            driver.switchTo().window(parentWindow);
-            explicitWaiting();
-        }
         Assert.assertTrue(driver.findElement(By.xpath("//*[@class='tablebodybutton']/following::*[1]")).getText().contains(emailUserForDoc));
     }
 
@@ -172,7 +164,7 @@ public class MethodsForDocuments extends BaseActions {
         explicitWaiting();
         File dir = new File("C:\\Users\\SotBit\\Downloads");
         File[] files = dir.listFiles();
-        Assert.assertTrue(files[1].getName().contains("Акт по заказу №2.xlsx"));
+        Assert.assertTrue("Файл не скачался, или в папке 'Downloads' есть лишнии файлы ",files[1].getName().contains("Акт по заказу №2.xlsx"));
     }
     public void navigationToDetailInformationOfOrganizationFromDocument(){
         driver.findElement(By.xpath("(//*[@class='main-grid-cell main-grid-cell-left'])[last()]")).click();

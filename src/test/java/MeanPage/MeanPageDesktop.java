@@ -101,7 +101,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         addingRandomWidgetToTheDesktop();
         storingTheLocationOfWidgetsOnTheDesktop();
         saveTheLocationOfWidgetsOnTheDesktopLikeDefault();
-        exitFromB2BToAuthorizationTab();
+        exitFromB2B();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToTheDesktop();

@@ -28,7 +28,7 @@ public class MeanPageSettingPage extends MethodsForMeanPage {
         navigationToTheSetting();
         fillingNewPassword();
         saveBasicData();
-        exitFromB2BToAuthorizationTab();
+        exitFromB2B();
         fillingFieldsOnTheLogInTabLikeUserWithNewPassword();
         logInToB2B();
         navigationToTheSetting();
