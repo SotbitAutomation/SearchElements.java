@@ -59,7 +59,6 @@ public class BaseActions extends CustomizingForYourself {
         explicitWaiting();
     }
 
-    public boolean areThereAnyOffers = true;
     By registerButtonLocator = By.xpath("//*[text()='Регистрация']");
     public By registrationTabLocator = By.xpath("//*[text()='Создать учетную запись']");
     public By loginInputLocator = By.xpath("//*[@placeholder='Логин']");

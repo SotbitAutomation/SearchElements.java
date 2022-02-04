@@ -274,6 +274,7 @@ public class DangerousTests extends MethodsForCatalog {
     @Test //13. Добавление ТП в корзину
     public void addingTPToTheCart() {
         //arrange
+        areThereAnyOffers = true;
         navigationToAuthorizationTab();
         //act
         fillingFieldsOnTheLogInTabLikeAdmin();
@@ -327,6 +328,7 @@ public class DangerousTests extends MethodsForCatalog {
           // (с включенным кол-вым учетом у каталога, но выключенным кол-ым учетом у одного из товаров, с дробной кратностью товара, ТП)
     public void checkingCorrectnessOfIncreasingTheNumberOfProductsInTheBasket() {
         //arrange
+        areThereAnyOffers = true;
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
@@ -369,6 +371,7 @@ public class DangerousTests extends MethodsForCatalog {
     @Test //16. Изменение кол-ва ТП в корзине
     public void changingNumberOfTPInTheCart() {
         //arrange
+        areThereAnyOffers = true;
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
@@ -399,6 +402,7 @@ public class DangerousTests extends MethodsForCatalog {
     @Test //17. Изменение кол-ва ТП c дробным коэффициентом, и ТП с отключенным кол-ым учетом в корзине
     public void changingNumberOfTPInTheCartWithAFractionalCoefficientAndWithQuantitativeAccountingDisabled() {
         //arrange
+        areThereAnyOffers = true;
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
@@ -518,6 +522,7 @@ public class DangerousTests extends MethodsForCatalog {
     @Test //21. Проверка корректности состава товаров (ТП) на детальной странице оформленного заказа
     public void checkingTheCorrectnessOfTheProductsOfTheGoodsOnTheDetailedPageOfTheCompletedOrderForTP() {
         //arrange
+        areThereAnyOffers = true;
         navigationToAuthorizationTab();
         //act
         fillingFieldsOnTheLogInTabLikeAdmin();

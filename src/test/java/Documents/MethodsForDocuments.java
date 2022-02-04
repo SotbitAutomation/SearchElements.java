@@ -135,7 +135,7 @@ public class MethodsForDocuments extends BaseActions {
             driver.switchTo().window(parentWindow);
             explicitWaiting();
             try {
-                exitFromB2BToAuthorizationTab();
+                exitFromB2B();
             }catch (Exception e1) {
                 System.out.println("Я не смог сделать скриншот");
             }

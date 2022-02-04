@@ -242,21 +242,25 @@ public class MethodsForCatalog extends BaseActions {
             }
         }catch (Exception e){}   //Если у товара есть меньшая цена (для твоей группы пользователя), то выберется меньшая цена
 
-        try{
-            if(basePriceRandomProduct > Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_TEST')])[" + randomNumberOfProductsPerPage + "]"))
-                    .getText()))){
-                basePriceRandomProduct =  Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_TEST')])[" + randomNumberOfProductsPerPage + "]"))
-                        .getText()));
-            }
-        }catch (Exception e){}   //Если у товара есть меньшая цена (для твоей группы пользователя), то выберется меньшая цена
+        if (IsThereATestPrice){
+            try{
+                if(basePriceRandomProduct > Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_TEST')])[" + randomNumberOfProductsPerPage + "]"))
+                        .getText()))){
+                    basePriceRandomProduct =  Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_TEST')])[" + randomNumberOfProductsPerPage + "]"))
+                            .getText()));
+                }
+            }catch (Exception e){}   //Если у товара есть меньшая цена (для твоей группы пользователя), то выберется меньшая цена
+        }
 
-        try{
-            if(basePriceRandomProduct > Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'PRIVATE_PRICE')])[" + randomNumberOfProductsPerPage + "]"))
-                    .getText()))){
-                basePriceRandomProduct =  Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'PRIVATE_PRICE')])[" + randomNumberOfProductsPerPage + "]"))
-                        .getText()));
-            }
-        }catch (Exception e){}   //Если у товара есть меньшая цена (для твоей группы пользователя), то выберется меньшая цена
+        if (IsThereAnIndividualPrice){
+            try{
+                if(basePriceRandomProduct > Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'PRIVATE_PRICE')])[" + randomNumberOfProductsPerPage + "]"))
+                        .getText()))){
+                    basePriceRandomProduct =  Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'PRIVATE_PRICE')])[" + randomNumberOfProductsPerPage + "]"))
+                            .getText()));
+                }
+            }catch (Exception e){}   //Если у товара есть меньшая цена (для твоей группы пользователя), то выберется меньшая цена
+        }
 
         System.out.println("Доступная цена товара за шт. = " + basePriceRandomProduct);
         System.out.println("Рандомное число товаров = " + randomNumberUpToMAxQuantityThisProducts);
@@ -295,7 +299,7 @@ public class MethodsForCatalog extends BaseActions {
         driver.findElement(checkboxThatHighlightsAllProductsInTheCartLocator).click();
         driver.findElement(buttonForDeletingProductsInCartLocator).click();
         driver.navigate().refresh();
-        if (driver.findElements(By.xpath("//*[@class='basket__product-name ']")).size() > 0){
+        if (driver.findElements(By.xpath("//*[contains(@class, 'disabled')]")).size() == 0){
                 driver.findElement(checkboxThatHighlightsAllProductsInTheCartLocator).click();
                 driver.findElement(buttonForDeletingProductsInCartLocator).click();
                 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@data-entity='basket-item-restore-button']")));
