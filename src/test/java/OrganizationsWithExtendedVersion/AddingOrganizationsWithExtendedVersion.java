@@ -1,5 +1,6 @@
 package OrganizationsWithExtendedVersion;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
@@ -505,22 +506,22 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
 
 
 
-//    @Test //Удаление организаций))
-//    public void Deleting() {
-//        //arrange
-//        navigationToAuthorizationTab();
-//        //act
-//        fillingFieldsOnTheLogInTabLikeAdmin();
-//        logInToB2B();
-//        driver.findElement(By.xpath("//*[text() = 'Администрирование']")).click();
-//        driver.findElement(By.id("global_menu_sotbit")).click();
-//        driver.findElement(By.xpath("//*[text() = 'Список компаний']")).click();
-//
-//        for (int i = 0; i <500; i++) {
-//            Assert.assertNotEquals("Компания №2", driver.findElement(By.xpath("(//*[@class='adm-list-table-cell'])[1] /*")).getText());
-//            driver.findElement(By.xpath("(//*[@class='adm-list-table-cell'])[1] /*")).click();
-//            driver.findElement(By.xpath("//*[@id='btn_delete']")).click();
-//            standardConfirmationOfTheActionOnThePage();
-//        }
-//    }
+    @Test //Удаление организаций
+    public void Deleting() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        driver.findElement(By.xpath("//*[text() = 'Администрирование']")).click();
+        driver.findElement(By.id("global_menu_sotbit")).click();
+        driver.findElement(By.xpath("//*[text() = 'Список компаний']")).click();
+
+        for (int i = 0; i <500; i++) {
+            Assert.assertNotEquals("Компания №2", driver.findElement(By.xpath("(//*[@class='adm-list-table-cell'])[1] /*")).getText());
+            driver.findElement(By.xpath("(//*[@class='adm-list-table-cell'])[1] /*")).click();
+            driver.findElement(By.xpath("//*[@id='btn_delete']")).click();
+            standardConfirmationOfTheActionOnThePage();
+        }
+    }
 }

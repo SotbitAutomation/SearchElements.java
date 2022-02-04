@@ -16,7 +16,7 @@ public class DangerousTests extends MethodsForCatalog {
         //act
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
-        returningSettingsBackIfCatalogBroken();
+        //returningSettingsBackIfCatalogBroken();
         navigationToSystemSettings();
         enableOutputOfPropertiesInTheDirectory();
         navigationToGasStoveSetting();

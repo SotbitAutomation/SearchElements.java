@@ -95,6 +95,7 @@ public class MethodsForDocuments extends BaseActions {
         openDocumentsTabInAdminPanel();
         driver.findElement(By.xpath("//*[@id='menucontainer']//*[text()='Акты']")).click();
         driver.findElement(By.xpath("//*[text()='Акт по заказу №2']")).click();
+        explicitWaiting();
     }
     public void fillingOrganizationField(String INNOrganization){
         driver.findElement(By.xpath("//*[contains(text(), 'Организация')] /following::*[1] //input")).clear();
@@ -104,6 +105,7 @@ public class MethodsForDocuments extends BaseActions {
         //driver.findElement(By.xpath("//*[contains(@id, 'SELECTPROP')]")).click();
         //driver.findElement(By.xpath("//*[contains(@id, 'SELECTPROP')] //*[text()='Выбрать']")).click();
         jse.executeScript("window.scrollBy(0,250)", "");
+        scrollToTheElement("//*[@class='tablebodybutton']");
         driver.findElement(By.cssSelector(".tablebodybutton")).click();
 //        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".tablebodybutton")));
 //        try{
@@ -120,7 +122,8 @@ public class MethodsForDocuments extends BaseActions {
         driver.switchTo().window(newWindow);
         driver.findElement(By.xpath("//*[text()='На странице:'] /following::*[1]")).click();
         driver.findElement(By.xpath("//*[text()='все']")).click();
-        explicitWaiting();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[text()='" + emailUserForDoc +  "'])[1]")));
+        explicitWaiting();explicitWaiting();
         System.out.println("Емаил пользователя для которого настраиваю документ  " + emailUserForDoc);
         driver.findElement(By.xpath("(//*[text()='" + emailUserForDoc +  "'])[1]")).click();
         driver.switchTo().window(parentWindow);
@@ -147,11 +150,12 @@ public class MethodsForDocuments extends BaseActions {
     }
     public void navigationToDetailInformationOfOrganizationFromDocument(){
         driver.findElement(By.xpath("(//*[@class='main-grid-cell main-grid-cell-left'])[last()]")).click();
-        try {
-            Assert.assertTrue(driver.findElement(By.cssSelector(".companies-wrapper")).isDisplayed());
-        }catch (Exception e){
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!! На Деталку организации не перешло!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        }
+        Assert.assertTrue(driver.findElement(By.cssSelector(".companies-wrapper")).isDisplayed());
+//        try {
+//            Assert.assertTrue(driver.findElement(By.cssSelector(".companies-wrapper")).isDisplayed());
+//        }catch (Exception e){
+//            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!! На Деталку организации не перешло!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//        }
     }
 
     public void confirmRegistrationOfOrganizationJustCreatedUser() {

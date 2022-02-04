@@ -277,17 +277,21 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
                 radioButtonForPerson = i;
                 count++;
             }else if (driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])[" + i + "]"))
-                    .getText().equals("Индивидуальный предприниматель")){
+                    .getText().equals("Индивидуальный предприниматель") || driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])[" + i + "]"))
+                    .getText().equals("ИП Россия") ){
                 radioButtonForIP = i;
                 count++;
             }else if (driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])[" + i + "]"))
-                    .getText().equals("Юридическое лицо")){
+                    .getText().equals("Юридическое лицо") || driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])[" + i + "]"))
+                    .getText().equals("Юридическое лицо Россия")){
                 radioButtonForLegalPerson = i;
                 count++;
             }
         }
-        if(count <2){
+        if(radioButtonForIP == 0){
             radioButtonForIP = 6;
+        }
+        if (radioButtonForLegalPerson == 0){
             radioButtonForLegalPerson = 5;
         }
     }
