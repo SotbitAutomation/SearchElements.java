@@ -1100,6 +1100,7 @@ public class MethodsForCatalog extends BaseActions {
         driver.findElement(By.xpath("//*[@title='Развернуть']")).click();
         Assert.assertTrue(driver.findElements(By.xpath("//*[contains(text(), 'Показывать на странице списка элементов')]/following-sibling::* //*[@checked]")).size() > 0);
         driver.findElement(By.cssSelector("#savebtn")).click();
+        scrollToTheElement("//*[@class='adm-btn-save']");
         driver.findElement(By.cssSelector(".adm-btn-save")).click();
     }
     public void selectTheSectionWithGasStoves(){

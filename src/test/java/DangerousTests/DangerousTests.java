@@ -23,6 +23,7 @@ public class DangerousTests extends MethodsForCatalog {
         addRegionPropertyToThisProduct();
         configureOutputOfThisPropertyToTheCatalog();
         navigationToMeanPageByUrl();
+        resetCache();
         navigationToCatalogTab();
         selectTheSectionWithGasStoves();
         checkingThatTheColumnWithThisPropertyHasAppearedInTheCatalog();
