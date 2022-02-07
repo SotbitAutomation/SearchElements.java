@@ -121,6 +121,7 @@ public class MethodsForCatalog extends BaseActions {
         randomNumberUpToMAxQuantityThisProducts = quantityOfProductsInStock;
         numberOfProductsInTheFooter++;
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
+        waitingMilliSecond();waitingMilliSecond();
     }
     public void addingTheMaxNumberOfProductsToTheCartUsingIconPlus (){
         determiningNumberOfProductsOnThePage();
@@ -144,6 +145,7 @@ public class MethodsForCatalog extends BaseActions {
         randomNumberUpToMAxQuantityThisProducts = quantityOfProductsInStock;
         numberOfProductsInTheFooter++;
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
+        waitingMilliSecond();waitingMilliSecond();
     }
 
     public void determiningRandomNumberOfProducts() {
@@ -220,6 +222,7 @@ public class MethodsForCatalog extends BaseActions {
             driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]")).sendKeys("0");
             wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
         }
+        waitingMilliSecond();waitingMilliSecond();
     }
 
     public void determiningNumberOfProductsOnThePage() {
@@ -283,7 +286,7 @@ public class MethodsForCatalog extends BaseActions {
         determiningPriceOfThisRandomProduct();
         calculatingOfThePriceForAllProducts();
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
-        explicitWaiting();
+        waitingMilliSecond();waitingMilliSecond();
         tempString = replacingSomeSymbols(driver.findElement(By.id("catalog__basket-price-value")).getText());
         System.out.println("Сумма добавленных товаров отображаемая в футере каталога = " + Double.valueOf(tempString));
         pricesForAllProductsInTheFooter =  Double.valueOf(tempString);
@@ -338,6 +341,7 @@ public class MethodsForCatalog extends BaseActions {
                 .sendKeys(String.valueOf("0"));
         numberOfProductsInTheFooter--;
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
+        waitingMilliSecond();waitingMilliSecond();
         sumOfPricesOfTheAddedProducts = sumOfPricesOfTheAddedProducts - priceForNewlyAddedProducts;
         sumOfPricesOfTheAddedProducts = Math.round(sumOfPricesOfTheAddedProducts *1000.0) / 1000.0; //Ингода добавляет цифру в конце, поэтому округля до 3-х знаков
         tempString = driver.findElement(By.id("catalog__basket-price-value")).getText();
@@ -367,6 +371,7 @@ public class MethodsForCatalog extends BaseActions {
         }
         numberOfProductsInTheFooter--;
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
+        waitingMilliSecond();waitingMilliSecond();
         sumOfPricesOfTheAddedProducts = sumOfPricesOfTheAddedProducts - priceForNewlyAddedProducts;  // /coeff
         tempString = driver.findElement(By.id("catalog__basket-price-value")).getText();
         pricesForAllProductsInTheFooter =  Double.valueOf(replacingSomeSymbols(tempString));
@@ -383,6 +388,7 @@ public class MethodsForCatalog extends BaseActions {
 
     public void addingPlusOneToThisProduct(){
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
+        waitingMilliSecond();waitingMilliSecond();
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]"))
                 .clear();
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]"))
@@ -390,6 +396,7 @@ public class MethodsForCatalog extends BaseActions {
     }
     public void addingPlusOneToThisProductUsingIconPlus(){
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
+        waitingMilliSecond();waitingMilliSecond();
 //        if(quantityOfProductsInStock * coefficientForQuantityOfProducts < 120){
 //            driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]"))
 //                    .clear();
@@ -406,6 +413,7 @@ public class MethodsForCatalog extends BaseActions {
         explicitWaiting();
 
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
+        waitingMilliSecond();waitingMilliSecond();
         randomNumberUpToMAxQuantityThisProducts = quantityOfProductsInStock;
     }
 
@@ -431,6 +439,7 @@ public class MethodsForCatalog extends BaseActions {
             driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]"))
                     .sendKeys(String.valueOf(randomNumberUpToMAxQuantityThisProducts - 1));
             wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
+            waitingMilliSecond();waitingMilliSecond();
             sumOfPricesOfTheAddedProducts = sumOfPricesOfTheAddedProducts - priceForNewlyAddedProducts;
             sumOfPricesOfTheAddedProducts = sumOfPricesOfTheAddedProducts + basePriceRandomProduct * (randomNumberUpToMAxQuantityThisProducts - 1);
             if (Double.valueOf(replacingSomeSymbols(driver.findElement(By.cssSelector(".catalog__basket-price-value")).getText()))
@@ -1572,7 +1581,7 @@ public class MethodsForCatalog extends BaseActions {
         numberOfProductsInTheFooter++;
         determiningPriceOfThisRandomProduct();
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
-        explicitWaiting();
+        waitingMilliSecond();waitingMilliSecond();
         tempString = replacingSomeSymbols(driver.findElement(By.id("catalog__basket-price-value")).getText());
         System.out.println("Сумма добавленных товаров отображаемая в футере каталога = " + Double.valueOf(tempString));
         pricesForAllProductsInTheFooter =  Double.valueOf(tempString);

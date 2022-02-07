@@ -342,7 +342,7 @@ public class BaseActions extends CustomizingForYourself {
     }
     public void waitingMilliSecond() {
         try {
-            Thread.sleep(10);
+            Thread.sleep(50);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
