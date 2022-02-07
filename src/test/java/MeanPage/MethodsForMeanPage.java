@@ -119,7 +119,7 @@ public class MethodsForMeanPage extends BaseActions {
     }
 
     public void storingTheLocationOfWidgetsOnTheDesktop(){
-        tempLocationOfWidgetsOnTheDesktop="";
+        //tempLocationOfWidgetsOnTheDesktop="";
         for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@class, 'sotbit-cabinet-gadget')]//*[@class='card-title']")).size(); i++) {
             tempLocationOfWidgetsOnTheDesktop = tempLocationOfWidgetsOnTheDesktop + driver.findElement(By.xpath("(//*[@class='card-title'])[" + i + "]")).getText();
         }
@@ -132,12 +132,14 @@ public class MethodsForMeanPage extends BaseActions {
     }
 
     public void checkingTgeReturnOfSettingsToDefault(){
-        tempValue="";
+        //tempValue="";
         for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@class, 'sotbit-cabinet-gadget')]//*[@class='card-title']")).size(); i++) {
-            System.out.println(driver.findElement(By.xpath("(//*[@class='card-title'])[" + i + "]")).getText());
             tempValue = tempValue + driver.findElement(By.xpath("(//*[@class='card-title'])[" + i + "]")).getText();
         }
             Assert.assertEquals(tempValue, tempLocationOfWidgetsOnTheDesktop);
+        System.out.println(tempValue);
+        System.out.println(tempLocationOfWidgetsOnTheDesktop);
+
     }
 
 
@@ -166,22 +168,37 @@ public class MethodsForMeanPage extends BaseActions {
         dataFromTheSetting = driver.findElement(By.cssSelector("[placeholder='Введите имя']")).getAttribute("value");
         dataFromTheSetting = dataFromTheWidget + driver.findElement(By.cssSelector("[placeholder='Введите фамилию']")).getAttribute("value");
         dataFromTheSetting = dataFromTheWidget + "\n" + driver.findElement(By.cssSelector("[placeholder='admin@sotbit.com']")).getText();
+    }
+    public void checkingThatDataInWidgetOfPersonalIsEqualsSettingInMeanPage (){
         Assert.assertEquals("данные пользователя не равны", dataFromTheSetting.trim(), dataFromTheWidget.trim());
+        System.out.println("Данные в виджете:");
+        System.out.println(dataFromTheWidget);
+        System.out.println();
+        System.out.println("Данные в настрйоках на главной старнице:");
+        System.out.println(dataFromTheSetting);
     }
 
     public void storingDataFromTheWidgetOfMyCart(){
+        if (driver.findElement(By.xpath("(//*[contains(@class, 'widget-pending')] /*)[1]")).getText().equals("0")){
+            navigationToCatalogTab();
+            makeOrder.changeTheQuantityOfRandomProduct();
+            navigationToTheDesktop();
+        }
         tempNumber = Integer.parseInt(driver.findElement(By.xpath("(//*[contains(@class, 'widget-pending')] /*)[1]")).getText());
     }
 
     public void storingTheQuantityOfProductsInTheCart(){
-        while (i < driver.findElements(By.xpath("//*[contains(@id, 'basket-item-quantity')]")).size()){
-            i++;
+        for (int i = 1; i <= driver.findElements(By.cssSelector(".basket__item")).size(); i++) {
             sumOfProductsInCart = sumOfProductsInCart + Integer.parseInt( driver.findElement(By.xpath("(//*[contains(@id, 'basket-item-quantity')])[" + i + "]")).getAttribute("value"));
         }
+    }
+    public void checkingThatTheNumberOfProductsInTheWidgetAndInTheCartAreEqual (){
         Assert.assertEquals(sumOfProductsInCart, tempNumber);
+        System.out.println("Количество товаров в корзине - " + sumOfProductsInCart);
+        System.out.println("Количество товаров в виджете - " + tempNumber);
     }
 
-    public void CheckingThatTheWidgetOfOrganizationsHaveContent(){
+    public void checkingThatTheWidgetOfOrganizationsHaveContent(){
         Assert.assertTrue(driver.findElement(By.cssSelector(".widget-organizations-content")).isDisplayed());
     }
 
@@ -319,6 +336,9 @@ public class MethodsForMeanPage extends BaseActions {
         driver.findElement(buttonOfHomeLocator).click();
         driver.findElement(desktopIconLocator).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#s0")));
+    }
+    public void checkingThatThereIsNoButtonToSaveTheDefaultSettings(){
+        Assert.assertTrue(driver.findElements(By.xpath("//*[contains(@onclick, 'SetForAll')]")).size() == 0);
     }
 
 

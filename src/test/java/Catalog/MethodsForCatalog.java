@@ -1539,6 +1539,7 @@ public class MethodsForCatalog extends BaseActions {
         driver.findElement(By.xpath("//*[contains(text(), 'Следующий шаг')]")).click();
     }
     public void memorizingDiscountedAndNonDiscountedPricesForGefest(){
+        resetCache();
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).clear();
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).sendKeys("0");
         System.out.println(Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_BASE')])[" + count + "]")).getText())));
@@ -1560,8 +1561,7 @@ public class MethodsForCatalog extends BaseActions {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class = 'main-grid-row main-grid-row-body']//*[@class='main-grid-cell main-grid-cell-action']")));
         }
 
-
-        if (driver.findElements(By.xpath("//*[@class='main-grid-control-sort main-grid-control-sort-asc']")).size() > 0) {
+        if (driver.findElements(By.xpath("//*[@class='main-grid-row main-grid-row-body']")).size() > 0) {
             driver.findElement(By.cssSelector("#tbl_sale_discount_check_all")).click();
             driver.findElement(By.cssSelector("#grid_remove_button_control")).click();
             driver.findElement(By.cssSelector("#tbl_sale_discount-confirm-dialog-apply-button")).click();

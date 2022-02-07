@@ -70,7 +70,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         resettingTheCurrentWidgetSettings();
     }
 
-    @Test //6 Редактирование набора виджетов по умолчанию для админа
+    @Test //6. Редактирование набора виджетов по умолчанию для админа
     public void settingTheDefaultWidgetSetForAdmin() {
         //arrange
         navigationToAuthorizationTab();
@@ -88,7 +88,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         checkingTgeReturnOfSettingsToDefault();
     }
 
-    @Test //7 Редактирование набора виджетов по умолчанию для юзера
+    @Test //7. Редактирование набора виджетов по умолчанию для юзера
     public void settingTheDefaultWidgetSetForUser() {
         //arrange
         navigationToAuthorizationTab();
@@ -101,9 +101,9 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         storingTheLocationOfWidgetsOnTheDesktop();
         saveTheLocationOfWidgetsOnTheDesktopLikeDefault();
         exitFromB2B();
+        navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
-        navigationToTheDesktop();
         deletionRandomWidgetFromDesktop();
         resettingTheCurrentWidgetSettings();
         checkingTgeReturnOfSettingsToDefault();
@@ -133,7 +133,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
 //        Assert.assertTrue(driver.findElement(By.xpath("(//*[contains(@class, 'sotbit-cabinet-gadget-orders')] //*[contains(@class, 'widget_content')])[1]")).isDisplayed());
 //    }
 
-    @Test //10 Проверка выводимых данных виджета "Персональные данные" у админа
+    @Test //10. Проверка выводимых данных виджета "Персональные данные" у админа
     public void checkingTheDataInWidgetOfPersonalDataForAdmin() {
         //arrange
         navigationToAuthorizationTab();
@@ -145,9 +145,12 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         storingDataFromTheWidgetOfPersonalData();
         navigationToTheSetting();
         storingDataFromTheSettingTabOfPersonalData();
+        checkingThatDataInWidgetOfPersonalIsEqualsSettingInMeanPage();
+        navigationToTheDesktop();
+        deletionJustAddedWidget();
     }
 
-    @Test //11 Проверка выводимых данных виджета "Персональные данные" у юзера
+    @Test //11. Проверка выводимых данных виджета "Персональные данные" у юзера
     public void checkingTheDataInWidgetOfPersonalDataForUser() {
         //arrange
         navigationToAuthorizationTab();
@@ -159,9 +162,12 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         storingDataFromTheWidgetOfPersonalData();
         navigationToTheSetting();
         storingDataFromTheSettingTabOfPersonalData();
+        checkingThatDataInWidgetOfPersonalIsEqualsSettingInMeanPage();
+        navigationToTheDesktop();
+        deletionJustAddedWidget();
     }
 
-    @Test //12 Проверка выводимых данных виджета "Моя корзина" у админа
+    @Test //12. Проверка выводимых данных виджета "Моя корзина" у админа
     public void checkingTheDataInWidgetOfMyCartForAdmin() {
         //arrange
         navigationToAuthorizationTab();
@@ -173,9 +179,10 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         storingDataFromTheWidgetOfMyCart();
         navigationToTheCart();
         storingTheQuantityOfProductsInTheCart();
+        checkingThatTheNumberOfProductsInTheWidgetAndInTheCartAreEqual();
     }
 
-    @Test //13 Проверка выводимых данных виджета "Моя корзина" у юзера
+    @Test //13. Проверка выводимых данных виджета "Моя корзина" у юзера
     public void checkingTheDataInWidgetOfMyCartForUser() {
         //arrange
         navigationToAuthorizationTab();
@@ -187,9 +194,10 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         storingDataFromTheWidgetOfMyCart();
         navigationToTheCart();
         storingTheQuantityOfProductsInTheCart();
+        checkingThatTheNumberOfProductsInTheWidgetAndInTheCartAreEqual();
     }
 
-    @Test //14 Проверка выводимых данных виджета "Организации" у админа
+    @Test //14. Проверка выводимых данных виджета "Организации" у админа
     public void checkingTheDataInWidgetOfOrganizationsForAdmin() {
         //arrange
         navigationToAuthorizationTab();
@@ -198,10 +206,10 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         logInToB2B();
         navigationToTheDesktop();
         addingTheWidgetOfOrganizationsToDesktop();
-        CheckingThatTheWidgetOfOrganizationsHaveContent();
+        checkingThatTheWidgetOfOrganizationsHaveContent();
     }
 
-    @Test //15 Проверка выводимых данных виджета "Организации" у юзера
+    @Test //15. Проверка выводимых данных виджета "Организации" у юзера
     public void checkingTheDataInWidgetOfOrganizationsForUser() {
         //arrange
         navigationToAuthorizationTab();
@@ -210,7 +218,17 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         logInToB2B();
         navigationToTheDesktop();
         addingTheWidgetOfOrganizationsToDesktop();
-        CheckingThatTheWidgetOfOrganizationsHaveContent();
+        checkingThatTheWidgetOfOrganizationsHaveContent();
+    }
+    @Test //16. У пользователя нет кнопки "сохранить как настройки по умолчанию"
+    public void userDoesNotHaveSaveDefaultSettingsButton() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        addingRandomWidgetToTheDesktop();
+        checkingThatThereIsNoButtonToSaveTheDefaultSettings();
     }
 
 
