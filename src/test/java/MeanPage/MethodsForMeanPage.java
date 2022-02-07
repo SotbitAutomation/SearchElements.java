@@ -1,27 +1,30 @@
 package MeanPage;
 
 import BaseActions.BaseActions;
-import org.junit.*;
-import org.openqa.selenium.*;
+import MakingOrders.MethodsForMakingOrders;
+import org.junit.Assert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class MethodsForMeanPage extends BaseActions {
 
-
+    MethodsForMakingOrders makeOrder = new MethodsForMakingOrders();
     // локаторы для главной страницы
+    By randomColumnWhereToMoveLocator;
     By calendarIconLocator = By.cssSelector(".icon-calendar2.mr-2");
     By settingIconLocator = By.cssSelector(".icon-cog.mr-2");
-    By buttonOfHomeLocator = By.xpath("//*[contains(@class, 'card-sidebar-mobile')] //*[contains(text(), 'Главная')]");
+    By buttonOfHomeLocator = By.xpath("//*[@title='Главная']");
     By buttonForResetTheCurrentSettings = By.xpath("//*[text()='Сбросить текущие настройки']");
     By leftColumnLocator = By.xpath("//*[@id='s0']");
     By middleColumnLocator = By.xpath("//*[@id='s1']");
     By rightColumnLocator = By.xpath("//*[@id='s2']");
     By firsWidgetInLeftColumnLocator = By.xpath("(//*[@id='s0'] //*[@class='card-title'])[1]");
     By secondWidgetInMiddleColumnLocator = By.xpath("(//*[@id='s1'] //*[@class='card-title'])[2]");
-    By randomWidgetFromAddTabLocator = By.xpath("(//div[@class='widgets_cabinet_title'])" + "[" + randomNumberUpToTwelve + "]");
+
     By firsWidgetInRightColumnLocator = By.xpath("(//*[@id='s2'] //*[@class='card-title'])[1]");
-    By randomWidgetInDesktopLocator = By.xpath("(//*[contains(@class, 'sotbit-cabinet-gadget')])" + "[" + randomNumberUpToTwelve + "]");
+    By desktopIconLocator = By.cssSelector(".icon-menu7.mr-2");
     String tempValueOfTitle;
     String tempValueOfId;
     String tempLocationOfWidgetsOnTheDesktop;
@@ -30,6 +33,7 @@ public class MethodsForMeanPage extends BaseActions {
     int tempNumber;
     int sumOfProductsInCart = 0;
     int i = 0;
+    int columnNumberWhereToMove;
 
     WebElement tempLocator;
     By tempLocatorForSearchElementByTextAndColumn;
@@ -41,53 +45,41 @@ public class MethodsForMeanPage extends BaseActions {
     By buttonPrivacyPolicyForMainSettings = By.xpath("(//*[contains(text(), 'политикой конфиденциальности.')])[1]");
 
 
-    public void movingTheWidgetFromTheLeftToTheMiddleColumn(){
-        tempValueOfTitle = driver.findElement(firsWidgetInLeftColumnLocator).getText();
-        actions.moveToElement(driver.findElement(firsWidgetInLeftColumnLocator));
+    public void movingARandomWidget(int columnNumber ){
+        tempRandomNumber = 1 + (int) (Math.random() * driver.findElements(By.xpath("(//*[contains(@class, 'gd-page-column')])[" + columnNumber + "] //*[contains(@class, 'sotbit-cabinet-gadget')]")).size());
+        System.out.println("Рандомный номер виджета в колонке № " + columnNumber + "  =  " + tempRandomNumber);
+        By randomWidgetLocator = By.xpath("((//*[contains(@class, 'gd-page-column')])[" + columnNumber + "] //*[contains(@class, 'sotbit-cabinet-gadget')])[" + tempRandomNumber + "] //*[@class='card-title']");
+        tempValueOfTitle = driver.findElement(randomWidgetLocator).getText();
+        System.out.println("Название виджета который перемещаю - " + tempValueOfTitle);
+        actions.moveToElement(driver.findElement(randomWidgetLocator));
         actions.clickAndHold();
-        actions.moveToElement(driver.findElement(middleColumnLocator));
+
+        if (columnNumber != 3){
+            columnNumberWhereToMove = columnNumber+1;
+        }else  {
+            columnNumberWhereToMove = 1;
+        }
+        randomColumnWhereToMoveLocator = By.xpath("(//*[contains(@class, 'gd-page-column')])[" + columnNumberWhereToMove +  "]");
+
+        actions.moveToElement(driver.findElement(randomColumnWhereToMoveLocator));
         actions.release().perform();
-        explicitWaiting();
-        tempLocatorForSearchElementByTextAndColumn = By.xpath("//*[@id='s1'] //*[text()='" + tempValueOfTitle + "']");
-        Assert.assertTrue("Перемещенный виджет не отображается в другой колонке",driver.findElement(tempLocatorForSearchElementByTextAndColumn).isDisplayed());
-        explicitWaiting();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                By.xpath("(//*[contains(@class, 'gd-page-column')])[" + columnNumber + "] //*[@class='card-title'][text()='" + tempValueOfTitle + "']")));
         driver.navigate().refresh();
-        explicitWaiting();
-        Assert.assertTrue("Перемещенный виджет не отображается в другой колонке",driver.findElement(tempLocatorForSearchElementByTextAndColumn).isDisplayed());
+        Assert.assertTrue("Виджет отображается в колонке из которой я его перемещал"
+                ,driver.findElements(By.xpath("(//*[contains(@class, 'gd-page-column')])[" + columnNumber + "] //*[@class='card-title'][text()='" + tempValueOfTitle + "']")).size()==0);
+
+        Assert.assertTrue("Перемещенный виджет не отображается в колонке в которую я его переместил"
+                , driver.findElement(By.xpath("(//*[contains(@class, 'gd-page-column')])[" + columnNumberWhereToMove + "] //*[@class='card-title'][text()='" + tempValueOfTitle + "']")).isDisplayed());
     }
-    public void movingTheWidgetFromTheMiddleToTheRightColumn(){
-        tempValueOfTitle = driver.findElement(secondWidgetInMiddleColumnLocator).getText();
-        actions.moveToElement(driver.findElement(secondWidgetInMiddleColumnLocator));
-        actions.clickAndHold();
-        actions.moveToElement(driver.findElement(rightColumnLocator));
-        actions.release().perform();
-        explicitWaiting();
-        tempLocatorForSearchElementByTextAndColumn = By.xpath("//*[@id='s2'] //*[text()='" + tempValueOfTitle + "']");
-        Assert.assertTrue("Перемещенный виджет не отображается в другой колонке",driver.findElement(tempLocatorForSearchElementByTextAndColumn).isDisplayed());
-        explicitWaiting();
-        driver.navigate().refresh();
-        explicitWaiting();
-        Assert.assertTrue("Перемещенный виджет не отображается в другой колонке",driver.findElement(tempLocatorForSearchElementByTextAndColumn).isDisplayed());
-    }
-    public void movingTheWidgetFromTheRightToTheLeftColumn(){
-        tempValueOfTitle = driver.findElement(firsWidgetInRightColumnLocator).getText();
-        actions.moveToElement(driver.findElement(firsWidgetInRightColumnLocator));
-        actions.clickAndHold();
-        actions.moveToElement(driver.findElement(leftColumnLocator));
-        actions.release().perform();
-        explicitWaiting();
-        tempLocatorForSearchElementByTextAndColumn = By.xpath("//*[@id='s0'] //*[text()='" + tempValueOfTitle + "']");
-        Assert.assertTrue("Перемещенный виджет не отображается в другой колонке",driver.findElement(tempLocatorForSearchElementByTextAndColumn).isDisplayed());
-        explicitWaiting();
-        driver.navigate().refresh();
-        explicitWaiting();
-        Assert.assertTrue("Перемещенный виджет не отображается в другой колонке",driver.findElement(tempLocatorForSearchElementByTextAndColumn).isDisplayed());
-    }
+
     public void addingRandomWidgetToTheDesktop(){
         driver.findElement(addWidgetButtonLocator).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".widgets_cabinet")));
-        tempValueOfTitle = driver.findElement(randomWidgetFromAddTabLocator).getText();
-        driver.findElement(randomWidgetFromAddTabLocator).click();
+        tempRandomNumber = 1 + (int) (Math.random() * driver.findElements(By.xpath("(//div[@class='widgets_cabinet_title'])")).size());
+        tempValueOfTitle = driver.findElement(By.xpath("(//div[@class='widgets_cabinet_title'])" + "[" + tempRandomNumber + "]")).getText();
+        System.out.println("Название добавленного виджета  - " + tempValueOfTitle);
+        driver.findElement(By.xpath("(//div[@class='widgets_cabinet_title'])" + "[" + tempRandomNumber + "]")).click();
         explicitWaiting();
         tempLocatorForSearchElementByTextAndColumn = By.xpath("//*[text()='" + tempValueOfTitle + "']");
         Assert.assertTrue("Добавленный виджет не отображается", driver.findElement(tempLocatorForSearchElementByTextAndColumn).isDisplayed());
@@ -101,23 +93,22 @@ public class MethodsForMeanPage extends BaseActions {
         tempValueOfId = driver.findElement(By.xpath("(//*[contains(@class, 'data-table-gadget')])[1]")).getAttribute("id");
         driver.findElement(By.xpath("(//*[@data-action='remove'])[1]")).click();
         explicitWaiting();
-        Assert.assertNotEquals(tempValueOfId, driver.findElement(By.xpath("(//*[contains(@class, 'data-table-gadget')])[1]")).getAttribute("id"));
+        Assert.assertTrue(driver.findElements(By.xpath("//*[@id='" + tempValueOfId + "']")).size() == 0);
         explicitWaiting();
         driver.navigate().refresh();
         explicitWaiting();
-        Assert.assertNotEquals(tempValueOfId, driver.findElement(By.xpath("(//*[contains(@class, 'data-table-gadget')])[1]")).getAttribute("id"));
+        Assert.assertTrue(driver.findElements(By.xpath("//*[@id='" + tempValueOfId + "']")).size() == 0);
     }
 
     public void deletionRandomWidgetFromDesktop(){
+        tempRandomNumber = 1 + (int) (Math.random() * driver.findElements(By.xpath("//*[contains(@class, 'sotbit-cabinet-gadget')]//*[@class='card-title']")).size());
+        By randomWidgetInDesktopLocator = By.xpath("(//*[contains(@class, 'sotbit-cabinet-gadget')])" + "[" + tempRandomNumber + "] //*[@data-action = 'remove']");
         tempValueOfId = driver.findElement(randomWidgetInDesktopLocator).getAttribute("id");
-        tempLocator = driver.findElement(randomWidgetInDesktopLocator);
-        tempLocator.findElement(By.xpath("//*[@data-action='remove']")).click();
-        explicitWaiting();
-        Assert.assertNotEquals(tempValueOfId, driver.findElement(randomWidgetInDesktopLocator).getAttribute("id"));
-        explicitWaiting();
+        driver.findElement(randomWidgetInDesktopLocator).click();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[@id='" + tempValueOfId + "']")));
+        Assert.assertTrue(driver.findElements(By.xpath("//*[@id='" + tempValueOfId + "']")).size() == 0);
         driver.navigate().refresh();
-        explicitWaiting();
-        Assert.assertNotEquals(tempValueOfId, driver.findElement(randomWidgetInDesktopLocator).getAttribute("id"));
+        Assert.assertTrue(driver.findElements(By.xpath("//*[@id='" + tempValueOfId + "']")).size() == 0);
     }
 
     public void resettingTheCurrentWidgetSettings (){
@@ -128,7 +119,10 @@ public class MethodsForMeanPage extends BaseActions {
     }
 
     public void storingTheLocationOfWidgetsOnTheDesktop(){
-            tempLocationOfWidgetsOnTheDesktop = driver.findElements(allWidgetsOnTheDesktop).toString();
+        tempLocationOfWidgetsOnTheDesktop="";
+        for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@class, 'sotbit-cabinet-gadget')]//*[@class='card-title']")).size(); i++) {
+            tempLocationOfWidgetsOnTheDesktop = tempLocationOfWidgetsOnTheDesktop + driver.findElement(By.xpath("(//*[@class='card-title'])[" + i + "]")).getText();
+        }
     }
 
     public void saveTheLocationOfWidgetsOnTheDesktopLikeDefault(){
@@ -138,7 +132,12 @@ public class MethodsForMeanPage extends BaseActions {
     }
 
     public void checkingTgeReturnOfSettingsToDefault(){
-            Assert.assertEquals(driver.findElements(allWidgetsOnTheDesktop).toString(), tempLocationOfWidgetsOnTheDesktop); // проверка что виджеты метод
+        tempValue="";
+        for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@class, 'sotbit-cabinet-gadget')]//*[@class='card-title']")).size(); i++) {
+            System.out.println(driver.findElement(By.xpath("(//*[@class='card-title'])[" + i + "]")).getText());
+            tempValue = tempValue + driver.findElement(By.xpath("(//*[@class='card-title'])[" + i + "]")).getText();
+        }
+            Assert.assertEquals(tempValue, tempLocationOfWidgetsOnTheDesktop);
     }
 
 
@@ -216,7 +215,8 @@ public class MethodsForMeanPage extends BaseActions {
 
     public void checkThatTheOrdersAreDisplayInTheCalendarTab(){
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'Создан заказ')]")).isDisplayed());
-        //Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'Изменился статус заказа')]")).isDisplayed());
+        System.out.println(tempValue);
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@class='fc-event-title'][text()='Создан заказ №" + tempValue + "']")).isDisplayed());
     }
     public void fillingBasicData(){
             driver.findElement(By.cssSelector("[placeholder='Введите имя']")).clear();
@@ -314,6 +314,11 @@ public class MethodsForMeanPage extends BaseActions {
     }
     public void checkingThatPhotoIsDisplayed(){
         Assert.assertTrue(driver.findElement(By.xpath("//*[@class='image_photo']/img")).isDisplayed());
+    }
+    public void navigationToTheDesktop() {
+        driver.findElement(buttonOfHomeLocator).click();
+        driver.findElement(desktopIconLocator).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#s0")));
     }
 
 

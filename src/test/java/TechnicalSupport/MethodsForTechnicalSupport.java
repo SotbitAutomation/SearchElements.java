@@ -142,9 +142,6 @@ public class MethodsForTechnicalSupport extends BaseActions {
     public void checkingThatURLContainsIDOfRequest(){
         Assert.assertTrue(driver.getCurrentUrl().contains(tempValue));
     }
-    public void rememberingLastOrder(){
-        tempValue = driver.findElement(By.xpath("//*[@class='main-grid-row main-grid-row-body'] //*[contains(@class, 'main-grid-cell-left')]")).getText();
-    }
     public void openingLastRequestOnTheTechnicalSupportPage(){
         driver.findElement(By.xpath("//*[contains(@class, 'action-button')]")).click();
         driver.findElement(By.xpath("//*[@class='menu-popup-item-text']")).click();

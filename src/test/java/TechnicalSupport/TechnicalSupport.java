@@ -98,6 +98,7 @@ public class TechnicalSupport extends MethodsForTechnicalSupport {
         checkingThatLastRequestIsDisplayedOnTheDetailOrderPageInSupportTab();
         navigationToMeanPageByUrl();
         navigationToTechnicalSupportTab();
+        System.out.println(tempValue);
         checkingThatTheLastRequestIsDisplayedOnTheTechnicalSupportPage();
         openingLastRequestOnTheTechnicalSupportPage();
         checkingDisplayingRequestByMessage();

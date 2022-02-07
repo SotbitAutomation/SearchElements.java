@@ -15,9 +15,9 @@ public class Catalog extends MethodsForCatalog {
         deletingProductsFromTheCart();
         navigationToCatalogTab();
         changeTheQuantityOfRandomProduct();
-        checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(productCounterInTheCart);
+        checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(numberOfProductsInTheFooter);
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
-        checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(productCounterInTheCart);
+        checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(numberOfProductsInTheFooter);
     }
 
     @Test //2. Добавление товара в корзину использую "+"
@@ -30,9 +30,9 @@ public class Catalog extends MethodsForCatalog {
         deletingProductsFromTheCart();
         navigationToCatalogTab();
         changeTheQuantityOfRandomProductUsingIconPlus();
-        checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(productCounterInTheCart);
+        checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(numberOfProductsInTheFooter);
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
-        checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(productCounterInTheCart);
+        checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(numberOfProductsInTheFooter);
     }
 
     @Test //3. Добавление товаров в корзину
@@ -47,9 +47,9 @@ public class Catalog extends MethodsForCatalog {
         changeTheQuantityOfRandomProduct();
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
         changeTheQuantityOfRandomProduct();
-        checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(productCounterInTheCart);
+        checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(numberOfProductsInTheFooter);
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
-        checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(productCounterInTheCart);
+        checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(numberOfProductsInTheFooter);
     }
 
     @Test //4. Добавление товаров в корзину
@@ -64,9 +64,9 @@ public class Catalog extends MethodsForCatalog {
         changeTheQuantityOfRandomProductUsingIconPlus();
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
         changeTheQuantityOfRandomProductUsingIconPlus();
-        checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(productCounterInTheCart);
+        checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(numberOfProductsInTheFooter);
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
-        checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(productCounterInTheCart);
+        checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(numberOfProductsInTheFooter);
     }
 
     @Test //5. Добавление в корзину максимум   (равно наличию) товаров
@@ -480,7 +480,10 @@ public class Catalog extends MethodsForCatalog {
         checkThatProductsAreSortedByDecreasePrice();
         try {
             changingPageInCatalog();
-        }catch (Exception e){}
+        }
+        catch (Exception e){
+            System.out.println("Всего одна страница");
+        }
         checkThatMaxPriceHasBeenApplied();
         checkThatProductsAreSortedByDecreasePrice();
     }

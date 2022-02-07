@@ -632,7 +632,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         tempValue = replacingSomeSymbols(driver.findElement(By.xpath("//*[contains(text(), 'Ваш заказ')] /*")).getText());
         exitFromB2B();
         makingOrders.priceForNewlyAddedProducts = 0;
-        makingOrders.productCounterInTheCart = 0;
+        makingOrders.numberOfProductsInTheFooter = 0;
         makingOrders.pricesForAllProductsInTheFooter = 0;
         makingOrders.sumOfPricesOfTheAddedProducts = 0;
         makingOrders.madeOrder();

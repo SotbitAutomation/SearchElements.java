@@ -23,7 +23,6 @@ public class Documents extends MethodsForDocuments {
         navigationToActsOfDocuments();
         checkingThatDocumentIsDisplayed();
         downloadDocument();
-        exitFromB2B();
     }
 
     @Test //2. Добавление существующего  документа пользователю c привязкой организации
@@ -45,7 +44,6 @@ public class Documents extends MethodsForDocuments {
         checkingThatDocumentIsDisplayed();
         downloadDocument();
         navigationToDetailInformationOfOrganizationFromDocument();
-        exitFromB2B();
     }
 
     @Test //3. Добавление документа пользователю
@@ -66,7 +64,6 @@ public class Documents extends MethodsForDocuments {
         navigationToActsOfDocuments();
         checkingThatDocumentIsDisplayed();
         downloadDocument();
-        exitFromB2B();
     }
 
     @Test //4. Добавление документа пользователю c привязкой организации
@@ -90,7 +87,6 @@ public class Documents extends MethodsForDocuments {
         checkingThatDocumentIsDisplayed();
         downloadDocument();
         navigationToDetailInformationOfOrganizationFromDocument();
-        exitFromB2B();
     }
     @Test //5. Отображение документа привязонного к заказу
     public void displayingTheDocumentLinkedToTheOrder() {
@@ -117,7 +113,6 @@ public class Documents extends MethodsForDocuments {
         navigationToMyOrdersPage();
         checkingThatLastOrderHaveDocument();
         downloadDocument();
-        exitFromB2B();
     }
     @Test //6. Переход на детальную страницу заказа из раздела "Документы" с помощью привязанного к заказу документа
     public void goToTheDetailedOrderPageFromTheDocumentsSectionUsingTheDocumentLinkedToTheOrder() {
@@ -144,7 +139,6 @@ public class Documents extends MethodsForDocuments {
         logInToB2B();
         navigationToActsOfDocuments();
         navigationToTheLastOrderFromDocumentsPage();
-        exitFromB2B();
     }
     @Test //7. Смена порядка вывода инфоблоков раздела "Документы"
     public void changingTheOrderOutputOfInformationBlocksInTheDocumentsSection() {
@@ -159,6 +153,5 @@ public class Documents extends MethodsForDocuments {
         navigationToMeanPageByUrl();
         resetCache();
         checkingThatTheSequenceNumberOfTheActsHasChanged();
-        exitFromB2B();
     }
 }

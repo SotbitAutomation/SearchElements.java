@@ -22,11 +22,12 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToTheDesktop();
+        movingARandomWidget(1);
+        movingARandomWidget(2);
+        movingARandomWidget(3);
         resettingTheCurrentWidgetSettings();
-        movingTheWidgetFromTheLeftToTheMiddleColumn();
-        movingTheWidgetFromTheMiddleToTheRightColumn();
-        movingTheWidgetFromTheRightToTheLeftColumn();
     }
+
 
     @Test //3. Редактирование расположения виджетов у пользователя
     public void movingWidgetsWithTheUser() {
@@ -36,10 +37,10 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToTheDesktop();
+        movingARandomWidget(1);
+        movingARandomWidget(2);
+        movingARandomWidget(3);
         resettingTheCurrentWidgetSettings();
-        movingTheWidgetFromTheLeftToTheMiddleColumn();
-        movingTheWidgetFromTheMiddleToTheRightColumn();
-        movingTheWidgetFromTheRightToTheLeftColumn();
     }
 
     @Test //4. Редактирование набора виджетов у админа
@@ -50,9 +51,9 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToTheDesktop();
-        resettingTheCurrentWidgetSettings();
         addingRandomWidgetToTheDesktop();
         deletionJustAddedWidget();
+        resettingTheCurrentWidgetSettings();
     }
 
     @Test //5. Редактирование набора виджетов у пользователя
@@ -63,12 +64,11 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToTheDesktop();
-        resettingTheCurrentWidgetSettings();
         addingRandomWidgetToTheDesktop();
         deletionJustAddedWidget();
         deletionRandomWidgetFromDesktop();
+        resettingTheCurrentWidgetSettings();
     }
-
 
     @Test //6 Редактирование набора виджетов по умолчанию для админа
     public void settingTheDefaultWidgetSetForAdmin() {
@@ -79,11 +79,10 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         logInToB2B();
         navigationToTheDesktop();
         resettingTheCurrentWidgetSettings();
-        storingTheLocationOfWidgetsOnTheDesktop();
         deletionRandomWidgetFromDesktop();
         addingRandomWidgetToTheDesktop();
-        saveTheLocationOfWidgetsOnTheDesktopLikeDefault();
         storingTheLocationOfWidgetsOnTheDesktop();
+        saveTheLocationOfWidgetsOnTheDesktopLikeDefault();
         deletionRandomWidgetFromDesktop();
         resettingTheCurrentWidgetSettings();
         checkingTgeReturnOfSettingsToDefault();
@@ -213,5 +212,6 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         addingTheWidgetOfOrganizationsToDesktop();
         CheckingThatTheWidgetOfOrganizationsHaveContent();
     }
+
 
 }

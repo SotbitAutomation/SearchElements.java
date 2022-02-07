@@ -67,7 +67,6 @@ public class BaseActions extends CustomizingForYourself {
     By organizationsTabLocator = By.xpath("//*[contains(@class, 'nav')] //*[contains(text(), 'Организации')]");
     By employeesTabLocator = By.cssSelector(".icon-person");
     public By catalogTabLocator = By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][@title='Каталог'] /span");
-    By desktopIconLocator = By.cssSelector(".icon-menu7.mr-2");
     By cartIconLocator = By.xpath("//*[contains(@href, 'orders/make/')][@class='nav-link']");
     public By firstHamburgerMenuOnTheOrganizationTabLocator = By.xpath("(//*[@class='main-grid-cell main-grid-cell-action'][not(ancestor-or-self::*[@hidden = 'true'])])[1]");
     public By ordersTabInTheOrganization = By.xpath("//a[contains(text(), 'Заказы')]");
@@ -134,7 +133,6 @@ public class BaseActions extends CustomizingForYourself {
     public By buttonMakeOrderInTheCartLocator = By.xpath("//button[contains(text(), 'Оформить заказ')]");
     public By buttonToSaveTheComponentSettingsForTheCatalog = By.cssSelector("#bx-comp-params-save-button");
     public By buttonSaveLocator = By.xpath("//*[@name='save']");
-    public By buttonOfHomeLocator = By.xpath("//*[contains(@class, 'card-sidebar-mobile')] //*[contains(text(), 'Главная')]");
     public By buttonForMakeOrderLocatorOnTheCheckoutPage = By.cssSelector("#ORDER_CONFIRM_BUTTON");
 
 
@@ -313,7 +311,6 @@ public class BaseActions extends CustomizingForYourself {
         driver.findElement(cartIconLocator).click();
         Assert.assertTrue(driver.findElement(By.cssSelector(".basket-page")).isDisplayed());
 
-
 //        try {
 //            driver.findElement(cartIconLocator).click();
 //            Assert.assertTrue(driver.findElement(By.cssSelector(".basket-page")).isDisplayed());
@@ -324,11 +321,6 @@ public class BaseActions extends CustomizingForYourself {
 //        } catch (Error e) {
 //            System.out.println("я не нашел иконку корзины");
 //        }
-    }
-    public void navigationToTheDesktop() {
-        driver.findElement(buttonOfHomeLocator).click();
-        driver.findElement(desktopIconLocator).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#s0")));
     }
     public void navigationToMyOrdersPage(){
         driver.findElement(By.xpath("//*[@title='Мои заказы']")).click();
@@ -589,5 +581,8 @@ public class BaseActions extends CustomizingForYourself {
     public void enableEditMode(){
         driver.findElement(By.cssSelector("#bx-panel-toggle-indicator")).click();
         explicitWaiting();
+    }
+    public void rememberingLastOrder(){
+        tempValue = driver.findElement(By.xpath("//*[@class='main-grid-row main-grid-row-body'] //*[contains(@class, 'main-grid-cell-left')]")).getText();
     }
 }

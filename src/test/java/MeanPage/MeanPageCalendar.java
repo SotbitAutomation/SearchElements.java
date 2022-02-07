@@ -1,6 +1,5 @@
 package MeanPage;
 
-import MakingOrders.MakingOrders;
 import org.junit.Test;
 
 public class MeanPageCalendar extends MethodsForMeanPage {
@@ -12,15 +11,38 @@ public class MeanPageCalendar extends MethodsForMeanPage {
         //act
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
+        makeOrder.deletingProductsFromTheCart();
+        navigationToCatalogTab();
+        makeOrder.changeTheQuantityOfRandomProduct();
+        makeOrder.checkingThatThePriceOfTheAddedProductHasBeenCalculated();
+        navigationToCart();
+        makeOrder.navigationToMakingOrderFromCart();
+        makeOrder.trySelectCompany();
+        makeOrder.checkingPriceOfProductsOnTheMakingOrderPage();
+        makeOrder.makingOrder();
+        navigationToMyOrdersPage();
+        rememberingLastOrder();
         navigationToTheCalendar();
         checkThatTheOrdersAreDisplayInTheCalendarTab();
     }
     @Test //2. Проверить корректность отображения Календаря и заказов в нем у юзера
     public void checkThatTheOrdersAreDisplayInTheCalendarForUser() {
         //arrange
-        MakingOrders makingOrders = new MakingOrders();
-        makingOrders.madeOrder();
+        navigationToAuthorizationTab();
         //act
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        makeOrder.deletingProductsFromTheCart();
+        navigationToCatalogTab();
+        makeOrder.changeTheQuantityOfRandomProduct();
+        makeOrder.checkingThatThePriceOfTheAddedProductHasBeenCalculated();
+        navigationToCart();
+        makeOrder.navigationToMakingOrderFromCart();
+        makeOrder.trySelectCompany();
+        makeOrder.checkingPriceOfProductsOnTheMakingOrderPage();
+        makeOrder.makingOrder();
+        navigationToMyOrdersPage();
+        rememberingLastOrder();
         navigationToTheCalendar();
         checkThatTheOrdersAreDisplayInTheCalendarTab();
     }
