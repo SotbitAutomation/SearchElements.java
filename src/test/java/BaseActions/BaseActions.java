@@ -278,7 +278,7 @@ public class BaseActions extends CustomizingForYourself {
                 driver.findElement(By.xpath("//i[@class='icon-cross']")).click();
             }else flag = true;
         }
-        Assert.assertTrue("Иконка наличия товаров в корзине не показывает 'number'"
+        Assert.assertTrue("Иконка наличия товаров в корзине не показывает 'количество'"
                 , driver.findElement(By.cssSelector(".badge")).getText().equals(tempValueForNumbers));
     }
     public void resetCache(){

@@ -120,6 +120,7 @@ public class MethodsForCatalog extends BaseActions {
         priceForNewlyAddedProducts = basePriceRandomProduct * quantityOfProductsInStock;
         randomNumberUpToMAxQuantityThisProducts = quantityOfProductsInStock;
         numberOfProductsInTheFooter++;
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
     }
     public void addingTheMaxNumberOfProductsToTheCartUsingIconPlus (){
         determiningNumberOfProductsOnThePage();
@@ -142,6 +143,7 @@ public class MethodsForCatalog extends BaseActions {
         priceForNewlyAddedProducts = basePriceRandomProduct * quantityOfProductsInStock;
         randomNumberUpToMAxQuantityThisProducts = quantityOfProductsInStock;
         numberOfProductsInTheFooter++;
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
     }
 
     public void determiningRandomNumberOfProducts() {
