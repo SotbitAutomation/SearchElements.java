@@ -585,4 +585,7 @@ public class BaseActions extends CustomizingForYourself {
     public void rememberingLastOrder(){
         tempValue = driver.findElement(By.xpath("//*[@class='main-grid-row main-grid-row-body'] //*[contains(@class, 'main-grid-cell-left')]")).getText();
     }
+    public void refreshingThisPage(){
+        driver.navigate().refresh();
+    }
 }

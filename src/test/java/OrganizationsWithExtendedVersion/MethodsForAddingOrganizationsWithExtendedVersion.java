@@ -949,6 +949,16 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
             driver.findElement(By.xpath("//*[contains(text(), 'Телефон')][not(ancestor-or-self::*[@style = 'display: none;'])] /following::*[2]")).sendKeys(mobilePhone);
         }catch (Exception e){}
     }
+
+    public void creatingThreeOrganizations(){
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended == true){
+            creatingThreeOrganizationForExtendedVersion();
+        }else {
+            creatingThreeOrganizationForStandardVersion();
+        }
+    }
+
     public void creatingThreeOrganizationForExtendedVersion(){
         MethodsForAddingOrganizationsWithExtendedVersion org = new MethodsForAddingOrganizationsWithExtendedVersion();
         org.navigationToAddOrganizationTab();

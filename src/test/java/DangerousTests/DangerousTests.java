@@ -450,11 +450,7 @@ public class DangerousTests extends MethodsForCatalog {
             returningSettingsBackIfCatalogBroken();
             navigationToOrganizationTab();
             MethodsForAddingOrganizationsWithExtendedVersion org = new MethodsForAddingOrganizationsWithExtendedVersion();
-            if (versionsOfWorkingWithOrganizationsExtended == true){
-                org.creatingThreeOrganizationForExtendedVersion();
-            }else {
-                org.creatingThreeOrganizationForStandardVersion();
-            }
+            org.creatingThreeOrganizations();
             exitFromB2B();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeAdmin();

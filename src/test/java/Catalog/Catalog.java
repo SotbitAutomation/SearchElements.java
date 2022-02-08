@@ -2,6 +2,7 @@ package Catalog;
 
 import MakingOrders.MakingOrders;
 import org.junit.Test;
+import org.openqa.selenium.By;
 
 
 public class Catalog extends MethodsForCatalog {
@@ -309,7 +310,7 @@ public class Catalog extends MethodsForCatalog {
         logInToB2B();
         deletingProductsFromTheCart();
         navigationToCatalogTab();
-        downloadExcelCatalog();
+        downloadingCatalogToYourComputer();
     }
 
     @Test //20.  Загрузка товаров из Excel
@@ -322,7 +323,7 @@ public class Catalog extends MethodsForCatalog {
         logInToB2B();
         deletingProductsFromTheCart();
         navigationToCatalogTab();
-        uploadingExcelCatalog("blank.xlsx");
+        downloadingCatalogFromExcel("blank.xlsx");
         navigationToCart();
         checkingThatThereAreTwoGefestGasStoveInTheCart();
     }
@@ -337,7 +338,7 @@ public class Catalog extends MethodsForCatalog {
         logInToB2B();
         deletingProductsFromTheCart();
         navigationToCatalogTab();
-        uploadingExcelCatalog("emptyBlank.xlsx");
+        downloadingCatalogFromExcel("emptyBlank.xlsx");
         checkThatMessageAboutEmptyExcelIsDisplayed();
     }
 
@@ -554,7 +555,7 @@ public class Catalog extends MethodsForCatalog {
         logInToB2B();
         deletingProductsFromTheCart();
         navigationToCatalogTab();
-        uploadingExcelCatalog("fullBlank.xlsx");
+        downloadingCatalogFromExcel("fullBlank.xlsx");
         navigationToCart();
         checkThatProductsAreDisplayedInCart();
         MakingOrders make = new MakingOrders();
@@ -710,6 +711,36 @@ public class Catalog extends MethodsForCatalog {
         navigationToCart();
         checkingThatThereIsProductInTheCartThatWasAddedFromTheDetailedProductPage();
     }
+    @Test //43. фыв
+    public void asd() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        driver.findElement(By.xpath("//*[contains(@href, 'personal/account')]")).click();
+        driver.findElement(By.cssSelector(".btn-pay")).click();
+        driver.findElement(By.cssSelector(".blank_invoices-pay_button")).click();
+
+        explicitWaiting();explicitWaiting();explicitWaiting();explicitWaiting();explicitWaiting();explicitWaiting();explicitWaiting();explicitWaiting();explicitWaiting();explicitWaiting();
+        System.out.println(driver.findElement(By.cssSelector(".bx-sap.blank_personal")).getText());
+
+
+
+//        deletingProductsFromTheCart();
+//        navigationToCatalogTab();
+//        changePageOnTheSecond();
+//        openingAllOffers();
+//        determiningNumberOfProductsOnThePage();
+//        determiningRandomNumberOfProducts();
+//        openDetailPageOfRandomProduct();
+//        addingProductFromPopUpDetailPage();
+//        navigationToMeanPageByUrl();
+//        checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(1);
+//        navigationToCart();
+//        checkingThatThereIsProductInTheCartThatWasAddedFromTheDetailedProductPage();
+    }
+
 
 
 

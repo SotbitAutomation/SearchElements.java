@@ -102,7 +102,7 @@ public class MakingOrders extends MethodsForMakingOrders{
         ifThereAreLessThanThreeOrganizationsThenCreateThreeOrganizations();
         deletingProductsFromTheCart();
         navigationToCatalogTab();
-        uploadingExcelCatalog("blank.xlsx");
+        downloadingCatalogFromExcel("blank.xlsx");
         navigationToCart();
         checkThatProductsAreDisplayedInCart();
         //act

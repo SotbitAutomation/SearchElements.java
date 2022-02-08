@@ -2,28 +2,42 @@ package MeanPage;
 
 import BaseActions.BaseActions;
 import MakingOrders.MethodsForMakingOrders;
+import OrganizationsWithExtendedVersion.MethodsForAddingOrganizationsWithExtendedVersion;
 import org.junit.Assert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class MethodsForMeanPage extends BaseActions {
 
     MethodsForMakingOrders makeOrder = new MethodsForMakingOrders();
+    MethodsForAddingOrganizationsWithExtendedVersion org = new MethodsForAddingOrganizationsWithExtendedVersion();
+
     // локаторы для главной страницы
     By randomColumnWhereToMoveLocator;
     By calendarIconLocator = By.cssSelector(".icon-calendar2.mr-2");
     By settingIconLocator = By.cssSelector(".icon-cog.mr-2");
     By buttonOfHomeLocator = By.xpath("//*[@title='Главная']");
     By buttonForResetTheCurrentSettings = By.xpath("//*[text()='Сбросить текущие настройки']");
-    By leftColumnLocator = By.xpath("//*[@id='s0']");
-    By middleColumnLocator = By.xpath("//*[@id='s1']");
-    By rightColumnLocator = By.xpath("//*[@id='s2']");
-    By firsWidgetInLeftColumnLocator = By.xpath("(//*[@id='s0'] //*[@class='card-title'])[1]");
-    By secondWidgetInMiddleColumnLocator = By.xpath("(//*[@id='s1'] //*[@class='card-title'])[2]");
+    By notesWidgetLocator = By.xpath("//*[@class='widget_button'] //*[contains(text(), 'Заметки')]");
+    By organizationWidgetLocator = By.xpath("//*[@class='widget_button'] //*[contains(text(), 'Организации')]");
+    By myCartWidgetLocator = By.xpath("//*[@class='widget_button'] //*[contains(text(), 'Моя корзина')]");
+    By catalogWidgetLocator = By.xpath("//*[@class='widget_button'] //*[contains(text(), 'Каталог')]");
+    By trafficJamsWidgetLocator = By.xpath("//*[@class='widget_button'] //*[contains(text(), 'Пробки')]");
+    By favoritesLinks = By.xpath("//*[@class='widget_button'] //*[contains(text(), 'Избранные ссылки')]");
+    By personalDataWidgetLocator = By.xpath("//*[@class='widget_button'] //*[contains(text(), 'Персональные данные')]");
+    By weatherWidgetLocator = By.xpath("//*[@class='widget_button'] //*[contains(text(), 'погод')]");
+    By myOrdersWidgetLocator = By.xpath("//*[@class='widget_button'] //*[contains(text(), 'Мои заказы')]");
+    By rssLEntWidgetLocator = By.xpath("//*[@class='widget_button'] //*[contains(text(), 'RSS лента')]");
+    By personalAccountWidgetLocator = By.xpath("//*[@class='widget_button'] //*[contains(text(), 'Личный счет')]");
 
-    By firsWidgetInRightColumnLocator = By.xpath("(//*[@id='s2'] //*[@class='card-title'])[1]");
+
+    By tempLocatorForSearchElementByTextAndColumn;
+    By addWidgetButtonLocator = By.xpath("//*[contains(text(), 'Добавить виджет')]");
+    By saveSettingLikeDefaultLocator = By.xpath("//*[contains(text(), 'Сохранить как настройки по умолчанию')]");
+    By buttonForSavingTheMainSettings =  By.xpath("(//*[contains(@name, 'save')])[1]");
+    By buttonForSavingThePersonalData =  By.xpath("(//*[contains(@name, 'save')])[2]");
+    By buttonPrivacyPolicyForMainSettings = By.xpath("(//*[contains(text(), 'политикой конфиденциальности.')])[1]");
     By desktopIconLocator = By.cssSelector(".icon-menu7.mr-2");
     String tempValueOfTitle;
     String tempValueOfId;
@@ -35,14 +49,7 @@ public class MethodsForMeanPage extends BaseActions {
     int i = 0;
     int columnNumberWhereToMove;
 
-    WebElement tempLocator;
-    By tempLocatorForSearchElementByTextAndColumn;
-    By addWidgetButtonLocator = By.xpath("//*[contains(text(), 'Добавить виджет')]");
-    By saveSettingLikeDefaultLocator = By.xpath("//*[contains(text(), 'Сохранить как настройки по умолчанию')]");
-    By allWidgetsOnTheDesktop = By.cssSelector(".sotbit-cabinet-gadget");
-    By buttonForSavingTheMainSettings =  By.xpath("(//*[contains(@name, 'save')])[1]");
-    By buttonForSavingThePersonalData =  By.xpath("(//*[contains(@name, 'save')])[2]");
-    By buttonPrivacyPolicyForMainSettings = By.xpath("(//*[contains(text(), 'политикой конфиденциальности.')])[1]");
+
 
 
     public void movingARandomWidget(int columnNumber ){
@@ -65,7 +72,7 @@ public class MethodsForMeanPage extends BaseActions {
         actions.release().perform();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(
                 By.xpath("(//*[contains(@class, 'gd-page-column')])[" + columnNumber + "] //*[@class='card-title'][text()='" + tempValueOfTitle + "']")));
-        driver.navigate().refresh();
+        refreshingThisPage();
         Assert.assertTrue("Виджет отображается в колонке из которой я его перемещал"
                 ,driver.findElements(By.xpath("(//*[contains(@class, 'gd-page-column')])[" + columnNumber + "] //*[@class='card-title'][text()='" + tempValueOfTitle + "']")).size()==0);
 
@@ -84,7 +91,7 @@ public class MethodsForMeanPage extends BaseActions {
         tempLocatorForSearchElementByTextAndColumn = By.xpath("//*[text()='" + tempValueOfTitle + "']");
         Assert.assertTrue("Добавленный виджет не отображается", driver.findElement(tempLocatorForSearchElementByTextAndColumn).isDisplayed());
         explicitWaiting();
-        driver.navigate().refresh();
+        refreshingThisPage();
         explicitWaiting();
         Assert.assertTrue("Добавленный виджет не отображается", driver.findElement(tempLocatorForSearchElementByTextAndColumn).isDisplayed());
     }
@@ -93,11 +100,11 @@ public class MethodsForMeanPage extends BaseActions {
         tempValueOfId = driver.findElement(By.xpath("(//*[contains(@class, 'data-table-gadget')])[1]")).getAttribute("id");
         driver.findElement(By.xpath("(//*[@data-action='remove'])[1]")).click();
         explicitWaiting();
-        Assert.assertTrue(driver.findElements(By.xpath("//*[@id='" + tempValueOfId + "']")).size() == 0);
-        explicitWaiting();
-        driver.navigate().refresh();
-        explicitWaiting();
-        Assert.assertTrue(driver.findElements(By.xpath("//*[@id='" + tempValueOfId + "']")).size() == 0);
+        Assert.assertNotEquals(driver.findElement(By.xpath("(//*[contains(@class, 'data-table-gadget')])[1]")).getAttribute("id"), tempValueOfId);
+        waitingMilliSecond();
+        refreshingThisPage();
+        waitingMilliSecond();
+        Assert.assertNotEquals(driver.findElement(By.xpath("(//*[contains(@class, 'data-table-gadget')])[1]")).getAttribute("id"), tempValueOfId);
     }
 
     public void deletionRandomWidgetFromDesktop(){
@@ -107,7 +114,7 @@ public class MethodsForMeanPage extends BaseActions {
         driver.findElement(randomWidgetInDesktopLocator).click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[@id='" + tempValueOfId + "']")));
         Assert.assertTrue(driver.findElements(By.xpath("//*[@id='" + tempValueOfId + "']")).size() == 0);
-        driver.navigate().refresh();
+        refreshingThisPage();
         Assert.assertTrue(driver.findElements(By.xpath("//*[@id='" + tempValueOfId + "']")).size() == 0);
     }
 
@@ -125,7 +132,7 @@ public class MethodsForMeanPage extends BaseActions {
         }
     }
 
-    public void saveTheLocationOfWidgetsOnTheDesktopLikeDefault(){
+    public void saveTheSettingForWidgetsOnTheDesktopLikeDefault(){
             driver.findElement(saveSettingLikeDefaultLocator).click();
             new WebDriverWait(driver, 10).until(ExpectedConditions.alertIsPresent());  //сохраннеие настроек по умолчанию метод
             driver.switchTo().alert().accept();
@@ -199,35 +206,29 @@ public class MethodsForMeanPage extends BaseActions {
     }
 
     public void checkingThatTheWidgetOfOrganizationsHaveContent(){
-        Assert.assertTrue(driver.findElement(By.cssSelector(".widget-organizations-content")).isDisplayed());
+        try {
+            Assert.assertTrue(driver.findElement(By.cssSelector(".widget-organizations-content")).isDisplayed());
+        }catch (Exception e){
+            navigationToOrganizationTab();
+            Assert.assertTrue("Организации есть, но в виджет не выводятся", driver.findElements(By.cssSelector(".main-grid-row-body")).size() < 3);
+            org.creatingThreeOrganizations();
+            navigationToTheDesktop();
+            Assert.assertTrue(driver.findElement(By.cssSelector(".widget-organizations-content")).isDisplayed());
+        }
+        tempValue = driver.findElement(By.cssSelector(".widget-organizations-content")).getText();
+        navigationToOrganizationTab();
+        Assert.assertTrue(driver.findElement(By.xpath("//*[text()='" + tempValue + "']")).isDisplayed());
+    }
+    public void checkingThatTheWidgetOfTrafficJamsHaveContent(){
+        Assert.assertTrue(driver.findElement(By.cssSelector(".congestion_content")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.cssSelector(".congestion_content-rate")).isDisplayed());
     }
 
-//    public void addingTheWidgetOfOrdersStatusToDesktop(){
-//            driver.findElement(addWidgetButtonLocator).click();
-//            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".widgets_cabinet")));
-//            driver.findElement(By.xpath("//*[@class='widget_button'] //*[contains(text(), 'Состояние заказов')]")).click();
-//            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".sotbit-cabinet-gadget-orders")));
-//    }
-
-    public void addingTheWidgetOfPersonalDataToDesktop(){
-            driver.findElement(addWidgetButtonLocator).click();
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".widgets_cabinet")));
-            driver.findElement(By.xpath("//*[@class='widget_button'] //*[contains(text(), 'Персональные данные')]")).click();
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".sotbit-cabinet-gadget-profile")));
-    }
-
-    public void addingTheWidgetOfMyCartToDesktop(){
-            driver.findElement(addWidgetButtonLocator).click();
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".widgets_cabinet")));
-            driver.findElement(By.xpath("//*[@class='widget_button'] //*[contains(text(), 'Моя корзина')]")).click();
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".sotbit-cabinet-gadget-basket")));
-    }
-
-    public void addingTheWidgetOfOrganizationsToDesktop(){
+    public void addingTheWidgetToDesktop(By xpathOfWidget){
         driver.findElement(addWidgetButtonLocator).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".widgets_cabinet")));
-        driver.findElement(By.xpath("//*[@class='widget_button'] //*[contains(text(), 'Организации')]")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".sotbit-cabinet-gadget-buyers")));
+        driver.findElement(xpathOfWidget).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".sotbit_cabinet")));
     }
 
     public void checkThatTheOrdersAreDisplayInTheCalendarTab(){
@@ -340,6 +341,84 @@ public class MethodsForMeanPage extends BaseActions {
     public void checkingThatThereIsNoButtonToSaveTheDefaultSettings(){
         Assert.assertTrue(driver.findElements(By.xpath("//*[contains(@onclick, 'SetForAll')]")).size() == 0);
     }
+    public void fillingTheDataForTheNotesWidget(){
+        driver.findElement(By.xpath("//*[@class='gadgetholder']//*[contains(@href, 'edit')]")).click();
+        driver.findElement(By.xpath("//*[@class='gadgetholder']//*[contains(@class, 'editor-cell')]")).click();
+        By locIframe = By.xpath("//*[contains(@id, 'LHE_iframe_bxlhe')]");
+        driver.switchTo().frame(driver.findElement(locIframe));
+        driver.findElement(By.xpath("/html/body")).sendKeys(randomData);
+        driver.switchTo().defaultContent();
+        driver.findElement(By.xpath("(//*[contains(@class, 'sotbit-cabinet-gadget')])[1] //*[contains(@onclick, 'save()')]")).click();
+    }
+    public void fillingTheDataForTheFavoriteLinksWidget(){
+        driver.findElement(By.xpath("(//*[contains(@id, 'favoriteslink')][not(ancestor-or-self::*[@style = 'display: none;'])] /*)[1]")).click();
+        driver.findElement(By.xpath("//*[@name='url']")).sendKeys("www.bbc.com");
+        driver.findElement(By.xpath("//*[@name='name']")).sendKeys("Новости на - BBC" + randomData);
+        System.out.println(randomData);
+        driver.findElement(By.xpath("//*[@type='submit']")).click();
+        refreshingThisPage();
+    }
+    public void checkingThatEnteredDataIsDisplayedInTheNotesWidget(){
+        refreshingThisPage();
+        Assert.assertTrue(driver.findElement(By.xpath("(//*[contains(@class, 'sotbit-cabinet-gadget')])[1] //*[contains(@class, 'gdcontent')]")).getText().contains(randomData));
+    }
+    public void downloadingCatalogToYourComputerFromMeanPage(){
+        makeOrder.deletingExcelAndJpgFilesFromDownloads();
+        driver.findElement(By.cssSelector(".icon-upload")).click();
+    }
+    public void checkingThatTheLinkInTheFavoriteLinksWidgetWorks(){
+        driver.findElement(By.xpath("//*[contains(text(), '" + randomData + "')]")).click();
+        Assert.assertTrue(driver.getCurrentUrl().contains("www.bbc.com"));
+    }
+    public void checkingThatWeatherWidgetIsDisplayed(){
+        Assert.assertEquals(driver.findElement(By.xpath("(//*[contains(@class, 'sotbit-cabinet-gadget')])[1] //*[@class='card-title']")).getText(), "Погода");
+    }
+    public void makeOrderForWidget (){
+            makeOrder.deletingProductsFromTheCart();
+            navigationToCatalogTab();
+            makeOrder.changeTheQuantityOfRandomProduct();
+            makeOrder.checkingThatThePriceOfTheAddedProductHasBeenCalculated();
+            //act
+            navigationToCart();
+            makeOrder.navigationToMakingOrderFromCart();
+            makeOrder.trySelectCompany();
+            //checkingPriceOfProductsOnTheMakingOrderPage();
+            makeOrder.makingOrder();
+            navigationToTheDesktop();
+    }
+    public void rememberingDataOfMyOrdersInTheWidget(){
+        explicitWaiting();
+        tempValue = driver.findElement(By.xpath("(//*[contains(@class, 'sotbit-cabinet-gadget')])[1] //*[contains(@href, '/order/detail')]")).getAttribute("title").replaceAll("[^\\d.]", "");
+        tempValue2 = driver.findElement(By.xpath("//*[@class='widget_order_information'] /*[contains(text(), 'умма')]")).getText().replaceAll("[^\\d.]", "");
+    }
+    public void checkingThatThereIsAOrderWhichDisplayedInWidget (){
+        Assert.assertEquals(tempValue, driver.findElement(By.xpath("//*[@class='main-grid-row main-grid-row-body'] /*[@class='main-grid-cell main-grid-cell-left']")).getText());
+        Assert.assertEquals(tempValue2, driver.findElement(By.xpath("//*[@class='main-grid-row main-grid-row-body'] /*[@class='main-grid-cell main-grid-cell-left'] //*[contains(text(), '₽')]"))
+                .getText().replaceAll("[^\\d.]", ""));
+    }
+    public void goToTheDetailedOrderPageFromTheWidget(){
+        driver.findElement(By.xpath("(//*[contains(@class, 'sotbit-cabinet-gadget')])[1] //*[contains(@title, 'аказ №')]/*[contains(text(), '" + tempValue + "')]")).click();
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@class='breadcrumb']//*[contains(text(), '" + tempValue + "')]")).isDisplayed());
+    }
+    public void addingRssLentToTheWidget(){
+        driver.findElement(By.xpath("//*[contains(@class, 'icon-pencil')]")).click();
+        driver.findElement(By.xpath("//*[contains(@id, 'RSS_URL')]")).sendKeys("https://news.mail.ru/rss/");
+        driver.findElement(By.cssSelector(".button-ok")).click();
+    }
+    public void checkingThatThisLentIsAdded(){
+        Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'Новости Mail.ru')]")).isDisplayed());
+    }
+    public void requestReplenishmentOfYourPersonalAccount(){
+        driver.findElement(By.xpath("(//*[@class='sale-acountpay-pp-company-image'])[4]")).click();
+        driver.findElement(By.xpath("//*[@class='form-control sale-acountpay-input']")).sendKeys("1000");
+        waitingMilliSecond();
+        driver.findElement(By.cssSelector(".send_invoices")).click();
+    }
+    public void checkingThatThePersonalAccountReplenishmentRequestHasBeenCreated(){
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@class='widget_content widget-private_invoices_content'] /p[contains(text(), 'Номер вашей оплаты')]")).isDisplayed());
+    }
+
+
 
 
 

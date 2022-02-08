@@ -4,7 +4,6 @@ import org.junit.Test;
 
 public class MeanPageDesktop extends MethodsForMeanPage {
 
-
     @Test //1. Проверка наличия баннера
     public void checkThatTheBannerIsVisible() {
         //arrange
@@ -80,10 +79,10 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         navigationToTheDesktop();
         resettingTheCurrentWidgetSettings();
         deletionRandomWidgetFromDesktop();
-        addingRandomWidgetToTheDesktop();
         storingTheLocationOfWidgetsOnTheDesktop();
-        saveTheLocationOfWidgetsOnTheDesktopLikeDefault();
+        saveTheSettingForWidgetsOnTheDesktopLikeDefault();
         deletionRandomWidgetFromDesktop();
+        addingRandomWidgetToTheDesktop();
         resettingTheCurrentWidgetSettings();
         checkingTgeReturnOfSettingsToDefault();
     }
@@ -97,41 +96,51 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         logInToB2B();
         navigationToTheDesktop();
         resettingTheCurrentWidgetSettings();
-        addingRandomWidgetToTheDesktop();
+        deletionRandomWidgetFromDesktop();
         storingTheLocationOfWidgetsOnTheDesktop();
-        saveTheLocationOfWidgetsOnTheDesktopLikeDefault();
+        saveTheSettingForWidgetsOnTheDesktopLikeDefault();
         exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         deletionRandomWidgetFromDesktop();
+        addingRandomWidgetToTheDesktop();
         resettingTheCurrentWidgetSettings();
         checkingTgeReturnOfSettingsToDefault();
     }
-    //Пока что пропал такой виджет!
 
-//    @Test //8 Проверка выводимых данных виджета  "Состояние заказов" у админа
-//    public void checkingTheDataInWidgetOfOrderStatusForAdmin() {
-//        //arrange
-//        navigationToAuthorizationTab();
-//        //act
-//        fillingFieldsOnTheLogInTabLikeAdmin();
-//        logInToB2B();
-//        navigationToTheDesktop();
-//        addingTheWidgetOfOrdersStatusToDesktop();
-//        Assert.assertTrue(driver.findElement(By.xpath("(//*[contains(@class, 'sotbit-cabinet-gadget-orders')] //*[contains(@class, 'widget_content')])[1]")).isDisplayed());
-//    }
-//    @Test //9 Проверка выводимых данных виджета  "Состояние заказов" у юзера
-//    public void checkingTheDataInWidgetOfOrderStatusForUser() {
-//        //arrange
-//        navigationToAuthorizationTab();
-//        //act
-//        fillingFieldsOnTheLogInTabLikeUser();
-//        logInToB2B();
-//        navigationToTheDesktop();
-//        addingTheWidgetOfOrdersStatusToDesktop();
-//        Assert.assertTrue(driver.findElement(By.xpath("(//*[contains(@class, 'sotbit-cabinet-gadget-orders')] //*[contains(@class, 'widget_content')])[1]")).isDisplayed());
-//    }
+    @Test //8 Проверка выводимых данных виджета  "Мои заказы" у админа
+    public void checkingTheDataInWidgetOfMyOrdersForAdmin() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToTheDesktop();
+        addingTheWidgetToDesktop(myOrdersWidgetLocator);
+        makeOrderForWidget();
+        rememberingDataOfMyOrdersInTheWidget();
+        navigationToMyOrdersPage();
+        checkingThatThereIsAOrderWhichDisplayedInWidget();
+        navigationToTheDesktop();
+        goToTheDetailedOrderPageFromTheWidget();
+    }
+    @Test //9 Проверка выводимых данных виджета  "Мои заказы" у юзера
+    public void checkingTheDataInWidgetOfMyOrdersForUser() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToTheDesktop();
+        addingTheWidgetToDesktop(myOrdersWidgetLocator);
+        makeOrderForWidget();
+        rememberingDataOfMyOrdersInTheWidget();
+        navigationToMyOrdersPage();
+        checkingThatThereIsAOrderWhichDisplayedInWidget();
+        navigationToTheDesktop();
+        goToTheDetailedOrderPageFromTheWidget();
+    }
 
     @Test //10. Проверка выводимых данных виджета "Персональные данные" у админа
     public void checkingTheDataInWidgetOfPersonalDataForAdmin() {
@@ -141,13 +150,12 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToTheDesktop();
-        addingTheWidgetOfPersonalDataToDesktop();
+        addingTheWidgetToDesktop(personalDataWidgetLocator);
         storingDataFromTheWidgetOfPersonalData();
         navigationToTheSetting();
         storingDataFromTheSettingTabOfPersonalData();
         checkingThatDataInWidgetOfPersonalIsEqualsSettingInMeanPage();
         navigationToTheDesktop();
-        deletionJustAddedWidget();
     }
 
     @Test //11. Проверка выводимых данных виджета "Персональные данные" у юзера
@@ -158,13 +166,12 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToTheDesktop();
-        addingTheWidgetOfPersonalDataToDesktop();
+        addingTheWidgetToDesktop(personalDataWidgetLocator);
         storingDataFromTheWidgetOfPersonalData();
         navigationToTheSetting();
         storingDataFromTheSettingTabOfPersonalData();
         checkingThatDataInWidgetOfPersonalIsEqualsSettingInMeanPage();
         navigationToTheDesktop();
-        deletionJustAddedWidget();
     }
 
     @Test //12. Проверка выводимых данных виджета "Моя корзина" у админа
@@ -175,7 +182,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToTheDesktop();
-        addingTheWidgetOfMyCartToDesktop();
+        addingTheWidgetToDesktop(myCartWidgetLocator);
         storingDataFromTheWidgetOfMyCart();
         navigationToTheCart();
         storingTheQuantityOfProductsInTheCart();
@@ -190,7 +197,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToTheDesktop();
-        addingTheWidgetOfMyCartToDesktop();
+        addingTheWidgetToDesktop(myCartWidgetLocator);
         storingDataFromTheWidgetOfMyCart();
         navigationToTheCart();
         storingTheQuantityOfProductsInTheCart();
@@ -205,7 +212,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToTheDesktop();
-        addingTheWidgetOfOrganizationsToDesktop();
+        addingTheWidgetToDesktop(organizationWidgetLocator);
         checkingThatTheWidgetOfOrganizationsHaveContent();
     }
 
@@ -217,7 +224,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToTheDesktop();
-        addingTheWidgetOfOrganizationsToDesktop();
+        addingTheWidgetToDesktop(organizationWidgetLocator);
         checkingThatTheWidgetOfOrganizationsHaveContent();
     }
     @Test //16. У пользователя нет кнопки "сохранить как настройки по умолчанию"
@@ -230,6 +237,169 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         addingRandomWidgetToTheDesktop();
         checkingThatThereIsNoButtonToSaveTheDefaultSettings();
     }
-
-
+    @Test //17. Проверка выводимых данных виджета "Заметки" у админа и пользователя
+    public void checkingTheOutputDataOfTheNotesWidgetFromTheAdminAndTheUser() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToTheDesktop();
+        addingTheWidgetToDesktop(notesWidgetLocator);
+        fillingTheDataForTheNotesWidget();
+        checkingThatEnteredDataIsDisplayedInTheNotesWidget();
+        saveTheSettingForWidgetsOnTheDesktopLikeDefault();
+        exitFromB2B();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToTheDesktop();
+        resettingTheCurrentWidgetSettings();
+        checkingThatEnteredDataIsDisplayedInTheNotesWidget();
+        exitFromB2B();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToTheDesktop();
+        deletionJustAddedWidget();
+        saveTheSettingForWidgetsOnTheDesktopLikeDefault();
+    }
+    @Test //18. Проверка выводимых данных виджета Каталог у админа
+    public void checkingTheOutputDataOfTheCatalogWidgetFromTheAdmin() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToTheDesktop();
+        addingTheWidgetToDesktop(catalogWidgetLocator);
+        makeOrder.uploadingExcelCatalog("blank.xlsx");
+        navigationToCart();
+        makeOrder.checkingThatThereAreTwoGefestGasStoveInTheCart();
+        navigationToTheDesktop();
+        downloadingCatalogToYourComputerFromMeanPage();
+        makeOrder.checkingThatCatalogIsDownloaded();
+    }
+    @Test //19. Проверка выводимых данных виджета Каталог у юзера
+    public void checkingTheOutputDataOfTheCatalogWidgetFromTheUser() {
+        //arrange
+        deletingExcelAndJpgFilesFromDownloads();
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToTheDesktop();
+        addingTheWidgetToDesktop(catalogWidgetLocator);
+        makeOrder.uploadingExcelCatalog("blank.xlsx");
+        navigationToCart();
+        makeOrder.checkingThatThereAreTwoGefestGasStoveInTheCart();
+        navigationToTheDesktop();
+        downloadingCatalogToYourComputerFromMeanPage();
+        makeOrder.checkingThatCatalogIsDownloaded();
+    }
+    @Test //20. Проверка выводимых данных виджета пробки
+    public void checkingTheOutputDataOfTheTrafficJamsWidget() {
+        //arrange
+        deletingExcelAndJpgFilesFromDownloads();
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToTheDesktop();
+        addingTheWidgetToDesktop(trafficJamsWidgetLocator);
+        checkingThatTheWidgetOfTrafficJamsHaveContent();
+        exitFromB2B();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToTheDesktop();
+        addingTheWidgetToDesktop(trafficJamsWidgetLocator);
+        checkingThatTheWidgetOfTrafficJamsHaveContent();
+    }
+    @Test //21. Добавление избранной ссылки от администратора, отображение этой ссылки для пользователей
+    public void addingFavoriteLinkFromTheAdminDisplayingThisLinkForUsers() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToTheDesktop();
+        resettingTheCurrentWidgetSettings();
+        addingTheWidgetToDesktop(favoritesLinks);
+        fillingTheDataForTheFavoriteLinksWidget();
+        saveTheSettingForWidgetsOnTheDesktopLikeDefault();
+        checkingThatTheLinkInTheFavoriteLinksWidgetWorks();
+        navigationToMeanPageByUrl();
+        exitFromB2B();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToTheDesktop();
+        resettingTheCurrentWidgetSettings();
+        checkingThatTheLinkInTheFavoriteLinksWidgetWorks();
+        navigationToMeanPageByUrl();
+        exitFromB2B();
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToTheDesktop();
+        deletionJustAddedWidget();
+        saveTheSettingForWidgetsOnTheDesktopLikeDefault();
+    }
+    @Test //22. Проверка добавления виджета "Погода" у админа
+    public void checkingAddingWidgetOfWeatherForAdmin() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToTheDesktop();
+        addingTheWidgetToDesktop(weatherWidgetLocator);
+        checkingThatWeatherWidgetIsDisplayed();
+    }
+    @Test //23. Проверка добавления виджета "Погода" у юзера
+    public void checkingAddingWidgetOfWeatherForUser() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToTheDesktop();
+        addingTheWidgetToDesktop(weatherWidgetLocator);
+        checkingThatWeatherWidgetIsDisplayed();
+    }
+    @Test //24. Проверка выводимых данных виджета "RSS лента" у админа
+    public void checkingAddingWidgetOfRssLentForAdmin() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToTheDesktop();
+        addingTheWidgetToDesktop(rssLEntWidgetLocator);
+        addingRssLentToTheWidget();
+        checkingThatThisLentIsAdded();
+    }
+    @Test //25. Проверка выводимых данных виджета "RSS лента" у пользователя
+    public void checkingAddingWidgetOfRssLentForUser() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToTheDesktop();
+        addingTheWidgetToDesktop(rssLEntWidgetLocator);
+        addingRssLentToTheWidget();
+        checkingThatThisLentIsAdded();
+    }
+    @Test //26. Заказ пополнение личного счета с помощью виджета "Личный кабинет"
+    public void orderReplenishmentOfThePersonalAccountUsingThePersonalAccountWidget() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToTheDesktop();
+        addingTheWidgetToDesktop(personalAccountWidgetLocator);
+        requestReplenishmentOfYourPersonalAccount();
+        checkingThatThePersonalAccountReplenishmentRequestHasBeenCreated();
+    }
 }

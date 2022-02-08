@@ -73,7 +73,7 @@ public class Basket extends MethodsForCatalog {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         deletingProductsFromTheCart();
-        uploadingExcelCatalog("blank.xlsx");
+        downloadingCatalogFromExcel("blank.xlsx");
         checkingThatThereAreTwoGefestGasStoveInTheCart();
     }
     @Test //5.  Добавления 10 рандомных дополнительных товаров

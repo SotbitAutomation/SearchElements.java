@@ -495,7 +495,7 @@ public class MethodsForCatalog extends BaseActions {
         Assert.assertEquals(driver.findElement(By.cssSelector(".catalog__basket-quantity-value")).getText(), "0");
     }
 
-    public void downloadExcelCatalog(){
+    public void downloadingCatalogToYourComputer(){
         driver.findElement(By.cssSelector(".catalog__actions-toggler")).click();
         driver.findElement(By.cssSelector(".icon-upload")).click();
         if (driver.findElements(By.xpath("//*[contains(@id, 'All_link')]")).size() != 0){
@@ -505,14 +505,17 @@ public class MethodsForCatalog extends BaseActions {
         checkingThatCatalogIsDownloaded();
     }
 
-    public void uploadingExcelCatalog (String nameCatalog){
+    public void downloadingCatalogFromExcel(String nameCatalog){
         try {
             driver.findElement(By.cssSelector(".catalog__actions-toggler")).click();
         }catch (Exception e){
             driver.findElement(By.cssSelector(".btn-actions")).click();
         }
+        uploadingExcelCatalog(nameCatalog);
+    }
+    public void uploadingExcelCatalog(String nameCatalog){
         driver.findElement(By.xpath("//*[contains(@class, 'icon-download')]")).click();
-        By fileInput = By.cssSelector("input[type=file]");
+        By fileInput = By.xpath("//input[@class='file-fileUploader']");
         String filePath = System.getProperty("user.dir")  + "\\resources\\" + nameCatalog;
         driver.findElement(fileInput).sendKeys(filePath);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@class, 'file-extended')] //*[contains(@class, 'files-size')]")));
@@ -2145,6 +2148,7 @@ public class MethodsForCatalog extends BaseActions {
             driver.navigate().refresh();
         }
     }
+
 
 
 
