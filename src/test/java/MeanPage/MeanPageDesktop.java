@@ -21,6 +21,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToTheDesktop();
+        resettingTheCurrentWidgetSettings();
         movingARandomWidget(1);
         movingARandomWidget(2);
         movingARandomWidget(3);
@@ -36,6 +37,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToTheDesktop();
+        resettingTheCurrentWidgetSettings();
         movingARandomWidget(1);
         movingARandomWidget(2);
         movingARandomWidget(3);
