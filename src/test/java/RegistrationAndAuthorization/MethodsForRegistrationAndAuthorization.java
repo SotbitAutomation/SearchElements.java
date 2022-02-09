@@ -240,7 +240,7 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
     public void choiceINNFromTheListOnTheRegistrationTab (){
         driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='ИНН']")).clear();
         driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='ИНН']")).sendKeys(randomNumber(3));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='checkcompany-list']")));
+        wait.until( ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='checkcompany-list']")));
         Assert.assertTrue(driver.findElement(By.xpath("//*[@id='checkcompany-list']")).isDisplayed());
         driver.findElement(By.xpath("(//*[@id='checkcompany-list'] /*)[2]")).click();
         explicitWaiting();

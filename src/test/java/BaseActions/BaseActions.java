@@ -142,9 +142,16 @@ public class BaseActions extends CustomizingForYourself {
         try {
             Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
         }catch (Exception e){
-            exitFromB2B();
-            driver.navigate().to(b2bUrl);
-            Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
+            try {
+               driver.findElement(By.cssSelector("#details-button")).click();
+               driver.findElement(By.cssSelector("#proceed-link")).click();
+               Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
+            }catch (Exception e1){
+                System.out.println("Пробовал обойти предупреждение что подключение защищено");
+                exitFromB2B();
+                driver.navigate().to(b2bUrl);
+                Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
+            }
         }
     }
     public void doubleClick(String xpath){
@@ -262,6 +269,9 @@ public class BaseActions extends CustomizingForYourself {
     }
     public void navigationToDeliveryWayByUrl(){
         driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/" , "") + "bitrix/admin/sale_delivery_service_list.php");
+    }
+    public void navigationToOrdersPageInAdminPart (){
+        driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/" , "") + "bitrix/admin/sale_order.php?lang=ru");
     }
     public void navigationToEmployeesTab() {
         driver.findElement(employeesTabLocator).click();

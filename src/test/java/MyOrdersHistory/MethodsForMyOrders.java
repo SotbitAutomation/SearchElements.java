@@ -246,9 +246,6 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
                 ("((//*[@id='PRODUCT_LIST_table']//*[@class='main-grid-row main-grid-row-body'])[1]//*[@class='main-grid-cell main-grid-cell-left'])[" + count + "]")).getText())
                 == tempDouble);
     }
-    public void navigationToOrdersPageInAdminPart (){
-        driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/" , "") + "bitrix/admin/sale_order.php?lang=ru");
-    }
     public void openLastOrder(){
         driver.findElement(By.xpath("//*[@title='Посмотреть подробную информацию о заказе']")).click();
     }

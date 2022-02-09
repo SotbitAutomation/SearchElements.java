@@ -1,6 +1,7 @@
 package Catalog;
 
 import MakingOrders.MakingOrders;
+import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
@@ -722,9 +723,14 @@ public class Catalog extends MethodsForCatalog {
         driver.findElement(By.cssSelector(".btn-pay")).click();
         driver.findElement(By.cssSelector(".blank_invoices-pay_button")).click();
 
-        explicitWaiting();explicitWaiting();explicitWaiting();explicitWaiting();explicitWaiting();explicitWaiting();explicitWaiting();explicitWaiting();explicitWaiting();explicitWaiting();
-        System.out.println(driver.findElement(By.cssSelector(".bx-sap.blank_personal")).getText());
-
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@class='bx-sap blank_personal'] //*[contains(text(), '№')]")).isDisplayed());
+        System.out.println(driver.findElement(By.xpath("//*[@class='bx-sap blank_personal'] //*[contains(text(), '№')]")).getText().replaceAll("№", ""));
+        tempValue = driver.findElement(By.xpath("//*[@class='bx-sap blank_personal'] //*[contains(text(), '№')]")).getText().replaceAll("№", "");
+        exitFromB2B();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToOrdersPageInAdminPart();
 
 
 //        deletingProductsFromTheCart();
