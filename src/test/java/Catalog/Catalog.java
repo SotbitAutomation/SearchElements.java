@@ -710,8 +710,8 @@ public class Catalog extends MethodsForCatalog {
         navigationToCart();
         checkingThatThereIsProductInTheCartThatWasAddedFromTheDetailedProductPage();
     }
-    @Test //43. фыв
-    public void asd() {
+    @Test //44. Добавление денег на личный счет
+    public void addingMoneyToAPersonalAccount() {
         //arrange
         registr.registrationIPWithManualEntryINN();
         registr.tryConfirmRegistration();
@@ -735,21 +735,6 @@ public class Catalog extends MethodsForCatalog {
         logInToB2B();
         navigationToPersonalAccountTab();
         checkingThatTheUserHasBeenAddedMoneyToHisPersonalAccount();
-
-
-
-//        deletingProductsFromTheCart();
-//        navigationToCatalogTab();
-//        changePageOnTheSecond();
-//        openingAllOffers();
-//        determiningNumberOfProductsOnThePage();
-//        determiningRandomNumberOfProducts();
-//        openDetailPageOfRandomProduct();
-//        addingProductFromPopUpDetailPage();
-//        navigationToMeanPageByUrl();
-//        checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(1);
-//        navigationToCart();
-//        checkingThatThereIsProductInTheCartThatWasAddedFromTheDetailedProductPage();
     }
 
 
