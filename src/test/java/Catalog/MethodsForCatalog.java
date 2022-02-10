@@ -908,6 +908,11 @@ public class MethodsForCatalog extends BaseActions {
         driver.findElement(By.xpath("//*[contains(@title, 'company.order')]")).click();
         driver.findElement(By.xpath("//*[@title='Развернуть']")).click();
     }
+    public void navigationToComponentOfUserParameters(){
+        driver.findElement(By.xpath("//*[contains(@id, 'components')] //*[@class='bx-panel-small-single-button-arrow']")).click();
+        driver.findElement(By.xpath("//*[contains(@title, 'main.profile')]")).click();
+        driver.findElement(By.xpath("//*[@title='Развернуть']")).click();
+    }
     public void navigationToComponentOfCatalogSetting(){
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@id, 'components')] //*[@class='bx-panel-small-single-button-arrow']")));
@@ -2174,6 +2179,36 @@ public class MethodsForCatalog extends BaseActions {
     }
     public void checkingThatTheUserHasBeenAddedMoneyToHisPersonalAccount (){
         Assert.assertTrue(driver.findElement(By.cssSelector(".form-control.blank_invoices-amount")).getAttribute("placeholder").contains("111"));
+    }
+    public void addUserParameterInTheSettingsOnTheMainPage (){
+        if (driver.findElement(By.xpath("//*[contains(@for, 'USER_PROPERTY_WORK_INFORMATION')] /following::*[1] //*[@value='HIDE']")).isSelected()){
+            driver.findElement(By.xpath("//*[contains(@for, 'USER_PROPERTY_WORK_INFORMATION')] /following::*[1] //*[@value='HIDE']")).click();
+        }
+        if (!driver.findElement(By.xpath("//*[contains(@for, 'USER_PROPERTY_WORK_INFORMATION')] /following::*[1] //*[@value='WORK_COMPANY']")).isSelected()){
+            driver.findElement(By.xpath("//*[contains(@for, 'USER_PROPERTY_WORK_INFORMATION')] /following::*[1] //*[@value='WORK_COMPANY']")).click();
+        }
+        driver.findElement(By.cssSelector("#bx-comp-params-save-button")).click();
+    }
+    public void checkingThatNewUserParameterInTheSettingsOnTheMainPageISDisplayed(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='Информация о работе']")));
+        Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Информация о работе']")).isDisplayed());
+    }
+    public void deletingAddedUserParameterInTheSettingsOnTheMainPage (){
+        if (!driver.findElement(By.xpath("//*[contains(@for, 'USER_PROPERTY_WORK_INFORMATION')] /following::*[1] //*[@value='HIDE']")).isSelected()){
+            driver.findElement(By.xpath("//*[contains(@for, 'USER_PROPERTY_WORK_INFORMATION')] /following::*[1] //*[@value='HIDE']")).click();
+        }
+        if (driver.findElement(By.xpath("//*[contains(@for, 'USER_PROPERTY_WORK_INFORMATION')] /following::*[1] //*[@value='WORK_COMPANY']")).isSelected()){
+            driver.findElement(By.xpath("//*[contains(@for, 'USER_PROPERTY_WORK_INFORMATION')] /following::*[1] //*[@value='WORK_COMPANY']")).click();
+        }
+        driver.findElement(By.cssSelector("#bx-comp-params-save-button")).click();
+    }
+    public void enteredDataInAddedUserParameter (){
+        driver.findElement(By.xpath("//*[@name='WORK_COMPANY']")).clear();
+        System.out.println(randomData);
+        driver.findElement(By.xpath("//*[@name='WORK_COMPANY']")).sendKeys(randomData);
+    }
+    public void checkingThatEnteredDataIsDisplayed (){
+        Assert.assertEquals(driver.findElement(By.xpath("//*[@name='WORK_COMPANY']")).getAttribute("value"), randomData);
     }
 
 

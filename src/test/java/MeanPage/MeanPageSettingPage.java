@@ -1,7 +1,6 @@
 package MeanPage;
 
 import org.junit.Test;
-import org.openqa.selenium.By;
 
 public class MeanPageSettingPage extends MethodsForMeanPage {
     @Test //1. Изменения основных данных у юзера
@@ -13,7 +12,7 @@ public class MeanPageSettingPage extends MethodsForMeanPage {
         logInToB2B();
         navigationToTheSetting();
         fillingBasicData();
-        saveBasicData();
+        saveBasicData(1);
         navigationToTheDesktop();
         navigationToTheSetting();
         checkThatBasicDataHasBeenSaved();
@@ -27,13 +26,13 @@ public class MeanPageSettingPage extends MethodsForMeanPage {
         logInToB2B();
         navigationToTheSetting();
         fillingNewPassword();
-        saveBasicData();
+        saveBasicData(1);
         exitFromB2B();
         fillingFieldsOnTheLogInTabLikeUserWithNewPassword();
         logInToB2B();
         navigationToTheSetting();
         returnOldPassword();
-        saveBasicData();
+        saveBasicData(1);
     }
 
     @Test //3. Проверка отображения политики конфиденциальности
@@ -44,6 +43,7 @@ public class MeanPageSettingPage extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToTheSetting();
+        makeSureThatTheCheckboxForThePrivacyPolicyIsMandatory();
         openPrivacyPolicy();
     }
     @Test //4. Изменения личных данных у юзера
@@ -68,9 +68,9 @@ public class MeanPageSettingPage extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToTheSetting();
-        driver.findElement(By.xpath("(//*[@class='uniform-checker'])[1]")).click();
+        uncheckThePrivacyPolicyCheckbox();
         fillingBasicData();
-        saveBasicData();
+        saveBasicDataWithOutAgreement();
         navigationToTheDesktop();
         navigationToTheSetting();
         checkThatBasicDataDoesNotSaved();

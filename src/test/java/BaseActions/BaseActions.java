@@ -74,7 +74,6 @@ public class BaseActions extends CustomizingForYourself {
     public By sotbitTabLocator = By.cssSelector("#global_menu_sotbit");
 
 
-
     public String name = "Name Имя" + randomString(8);
     public String lastName = "LastName Фамилия" + randomString(10);
     public String phone = "+7" + randomNumber(+10);
@@ -134,8 +133,10 @@ public class BaseActions extends CustomizingForYourself {
     public By buttonToSaveTheComponentSettingsForTheCatalog = By.cssSelector("#bx-comp-params-save-button");
     public By buttonSaveLocator = By.xpath("//*[@name='save']");
     public By buttonForMakeOrderLocatorOnTheCheckoutPage = By.cssSelector("#ORDER_CONFIRM_BUTTON");
-
-
+    By settingIconLocator = By.cssSelector(".icon-cog.mr-2");
+    By buttonOfHomeLocator = By.xpath("//*[@title='Главная']");
+    By calendarIconLocator = By.cssSelector(".icon-calendar2.mr-2");
+    By desktopIconLocator = By.cssSelector(".icon-menu7.mr-2");
 
     public void navigationToAuthorizationTab() {
         driver.navigate().to(b2bUrl);
@@ -143,16 +144,31 @@ public class BaseActions extends CustomizingForYourself {
             Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
         }catch (Exception e){
             try {
-               driver.findElement(By.cssSelector("#details-button")).click();
-               driver.findElement(By.cssSelector("#proceed-link")).click();
-               Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
+//               driver.findElement(By.cssSelector("#details-button")).click();
+//               driver.findElement(By.cssSelector("#proceed-link")).click();
+//               System.out.println("Обошел предупреждение что подключение защищено");
+                Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
             }catch (Exception e1){
-                System.out.println("Пробовал обойти предупреждение что подключение защищено");
                 exitFromB2B();
                 driver.navigate().to(b2bUrl);
                 Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
             }
         }
+    }
+    public void navigationToTheSetting(){
+        driver.findElement(buttonOfHomeLocator).click();
+        driver.findElement(settingIconLocator).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#settings")));
+    }
+    public void navigationToTheCalendar(){
+        driver.findElement(buttonOfHomeLocator).click();
+        driver.findElement(calendarIconLocator).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@class, 'b2bcabinet-mainpage__calendar')]")));
+    }
+    public void navigationToTheDesktop() {
+        driver.findElement(buttonOfHomeLocator).click();
+        driver.findElement(desktopIconLocator).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#s0")));
     }
     public void doubleClick(String xpath){
         Action doubleClick = actions.doubleClick(driver.findElement(By.xpath(xpath))).build();
@@ -601,6 +617,10 @@ public class BaseActions extends CustomizingForYourself {
     }
     public void rememberingLastOrder(){
         tempValue = driver.findElement(By.xpath("//*[@class='main-grid-row main-grid-row-body'] //*[contains(@class, 'main-grid-cell-left')]")).getText();
+    }
+    public void saveBasicData(int numberOfSetting){
+        driver.findElement(By.xpath("(//*[contains(@name, 'save')])[" + numberOfSetting + "]")).click();
+        Assert.assertTrue(driver.findElement(By.cssSelector(".alert-success")).isDisplayed());
     }
     public void refreshingThisPage(){
         driver.navigate().refresh();

@@ -18,9 +18,6 @@ public class MethodsForMeanPage extends BaseActions {
 
     // локаторы для главной страницы
     By randomColumnWhereToMoveLocator;
-    By calendarIconLocator = By.cssSelector(".icon-calendar2.mr-2");
-    By settingIconLocator = By.cssSelector(".icon-cog.mr-2");
-    By buttonOfHomeLocator = By.xpath("//*[@title='Главная']");
     By buttonForResetTheCurrentSettings = By.xpath("//*[text()='Сбросить текущие настройки']");
     By notesWidgetLocator = By.xpath("//*[@class='widget_button'] //*[contains(text(), 'Заметки')]");
     By organizationWidgetLocator = By.xpath("//*[@class='widget_button'] //*[contains(text(), 'Организации')]");
@@ -38,10 +35,8 @@ public class MethodsForMeanPage extends BaseActions {
     By tempLocatorForSearchElementByTextAndColumn;
     By addWidgetButtonLocator = By.xpath("//*[contains(text(), 'Добавить виджет')]");
     By saveSettingLikeDefaultLocator = By.xpath("//*[contains(text(), 'Сохранить как настройки по умолчанию')]");
-    By buttonForSavingTheMainSettings =  By.xpath("(//*[contains(@name, 'save')])[1]");
     By buttonForSavingThePersonalData =  By.xpath("(//*[contains(@name, 'save')])[2]");
     By buttonPrivacyPolicyForMainSettings = By.xpath("(//*[contains(text(), 'политикой конфиденциальности.')])[1]");
-    By desktopIconLocator = By.cssSelector(".icon-menu7.mr-2");
     String tempValueOfTitle;
     String tempValueOfId;
     String tempLocationOfWidgetsOnTheDesktop;
@@ -84,6 +79,7 @@ public class MethodsForMeanPage extends BaseActions {
     }
 
     public void addingRandomWidgetToTheDesktop(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(addWidgetButtonLocator));
         driver.findElement(addWidgetButtonLocator).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".widgets_cabinet")));
         tempRandomNumber = 1 + (int) (Math.random() * driver.findElements(By.xpath("(//div[@class='widgets_cabinet_title'])")).size());
@@ -136,9 +132,10 @@ public class MethodsForMeanPage extends BaseActions {
     }
 
     public void saveTheSettingForWidgetsOnTheDesktopLikeDefault(){
-            driver.findElement(saveSettingLikeDefaultLocator).click();
-            new WebDriverWait(driver, 10).until(ExpectedConditions.alertIsPresent());  //сохраннеие настроек по умолчанию метод
-            driver.switchTo().alert().accept();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(saveSettingLikeDefaultLocator));
+        driver.findElement(saveSettingLikeDefaultLocator).click();
+        new WebDriverWait(driver, 10).until(ExpectedConditions.alertIsPresent());  //сохраннеие настроек по умолчанию метод
+        driver.switchTo().alert().accept();
     }
 
     public void checkingTgeReturnOfSettingsToDefault(){
@@ -150,19 +147,6 @@ public class MethodsForMeanPage extends BaseActions {
         System.out.println(tempValue);
         System.out.println(tempLocationOfWidgetsOnTheDesktop);
 
-    }
-
-
-    public void navigationToTheCalendar(){
-            driver.findElement(buttonOfHomeLocator).click();
-            driver.findElement(calendarIconLocator).click();
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@class, 'b2bcabinet-mainpage__calendar')]")));
-    }
-
-    public void navigationToTheSetting(){
-        driver.findElement(buttonOfHomeLocator).click();
-        driver.findElement(settingIconLocator).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#settings")));
     }
 
     public void navigationToTheCart(){
@@ -261,10 +245,6 @@ public class MethodsForMeanPage extends BaseActions {
         driver.findElement(By.cssSelector("[placeholder='Введите мобильный']")).clear();
         driver.findElement(By.cssSelector("[placeholder='Введите мобильный']")).sendKeys(mobilePhone);
     }
-
-    public void saveBasicData(){
-        driver.findElement(buttonForSavingTheMainSettings).click();
-    }
     public void savePersonalData(){
             driver.findElement(buttonForSavingThePersonalData).click();
     }
@@ -335,11 +315,6 @@ public class MethodsForMeanPage extends BaseActions {
     }
     public void checkingThatPhotoIsDisplayed(){
         Assert.assertTrue(driver.findElement(By.xpath("//*[@class='image_photo']/img")).isDisplayed());
-    }
-    public void navigationToTheDesktop() {
-        driver.findElement(buttonOfHomeLocator).click();
-        driver.findElement(desktopIconLocator).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#s0")));
     }
     public void checkingThatThereIsNoButtonToSaveTheDefaultSettings(){
         Assert.assertTrue(driver.findElements(By.xpath("//*[contains(@onclick, 'SetForAll')]")).size() == 0);
@@ -423,6 +398,16 @@ public class MethodsForMeanPage extends BaseActions {
     }
     public void checkingThatTheUserHasBeenAddedMoneyToHisPersonalAccountInWidget (){
         Assert.assertEquals(driver.findElement(By.xpath("(//*[contains(@class, 'widget-private_invoices_header')] /*)[2]")).getText().replaceAll("[^\\d.]", ""), "111");
+    }
+    public void makeSureThatTheCheckboxForThePrivacyPolicyIsMandatory(){
+        Assert.assertTrue(driver.findElements(By.xpath("(//*[@class='uniform-checker']//*[@type='checkbox'][@required])[1]")).size() > 0);
+    }
+    public void saveBasicDataWithOutAgreement( ){
+        driver.findElement(By.xpath("(//*[contains(@name, 'save')])[1]")).click();
+        Assert.assertTrue(driver.findElements(By.cssSelector(".alert-success")).size() == 0);
+    }
+    public void uncheckThePrivacyPolicyCheckbox(){
+        driver.findElement(By.xpath("(//*[@class='uniform-checker'])[1]")).click();
     }
 
 

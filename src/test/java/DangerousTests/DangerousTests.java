@@ -9,6 +9,25 @@ import org.junit.runners.MethodSorters;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DangerousTests extends MethodsForCatalog {
+    @Test //0. Возвращение настроек назад (количественный учет в каталоге, а в товаре - по умолчанию; откл вывод складов)
+    public void a_returningSettingsBack() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToSystemSettings();
+        navigationToSettingOfQuantitativeAccountingForTheProduct();
+        enableQuantitativeAccountingForTheProductsInCatalog();
+        navigationToGasStoveSetting();
+        returningQuantitativeAccountingAtTheGefestGasStoveByDefault();
+        returningTheKaiserGasStoveSettingByDefault();
+        navigationToMeanPageByUrl();
+        navigationToCatalogTab();
+        tryTurnOffShowTheQuantityOfProductsInStorage();
+        navigationToComponentOfCatalogSetting();
+        choiceStandardCatalog();
+    }
     @Test //1. Вывод свойст товаров в каталог с помощью "параметра свойств в компонентах и формах"
     public void checkingDisplaySettingsOfProductPropertiesInTheCatalog() {
         //arrange
@@ -549,39 +568,31 @@ public class DangerousTests extends MethodsForCatalog {
         navigationToComponentOfCatalogSetting();
         choiceStandardCatalog();
     }
-
-
-
-
-
-
-
-
-
-
-    @Test //0. Тоже самое что и 15 тест, но запускается перед автотестами
-    public void a_returningSettingsBack() {
+    @Test //22. Настройока вывода полей в компоненте
+    public void settingTheOutputOfFieldsInTheComponent() {
         //arrange
         navigationToAuthorizationTab();
         //act
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
-        navigationToSystemSettings();
-        navigationToSettingOfQuantitativeAccountingForTheProduct();
-        enableQuantitativeAccountingForTheProductsInCatalog();
-        navigationToGasStoveSetting();
-        returningQuantitativeAccountingAtTheGefestGasStoveByDefault();
-        returningTheKaiserGasStoveSettingByDefault();
-        navigationToMeanPageByUrl();
-        navigationToCatalogTab();
-        tryTurnOffShowTheQuantityOfProductsInStorage();
-        navigationToComponentOfCatalogSetting();
-        choiceStandardCatalog();
+        navigationToTheSetting();
+        enableEditMode();
+        navigationToComponentOfUserParameters();
+        addUserParameterInTheSettingsOnTheMainPage();
+        checkingThatNewUserParameterInTheSettingsOnTheMainPageISDisplayed();
+        enteredDataInAddedUserParameter();
+        saveBasicData(3);
+        resetCache();
+        checkingThatEnteredDataIsDisplayed();
+        navigationToComponentOfUserParameters();
+        deletingAddedUserParameterInTheSettingsOnTheMainPage();
     }
 
-    @Test //last Возвращение настроек назад (количественный учет в каталоге, а в товаре - по умолчанию; откл вывод складов)
+
+    @Test // Тоже самое что и 0 тест, но запускается после автотестов
     public void w_returningSettingsBack() {
         a_returningSettingsBack();
     }
+
 
 }

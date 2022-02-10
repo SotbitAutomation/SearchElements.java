@@ -105,6 +105,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
+        navigationToTheDesktop();
         deletionRandomWidgetFromDesktop();
         addingRandomWidgetToTheDesktop();
         resettingTheCurrentWidgetSettings();
@@ -236,7 +237,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         //act
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
-        addingRandomWidgetToTheDesktop();
+        navigationToTheDesktop();
         checkingThatThereIsNoButtonToSaveTheDefaultSettings();
     }
     @Test //17. Проверка выводимых данных виджета "Заметки" у админа и пользователя
@@ -247,6 +248,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToTheDesktop();
+        resettingTheCurrentWidgetSettings();
         addingTheWidgetToDesktop(notesWidgetLocator);
         fillingTheDataForTheNotesWidget();
         checkingThatEnteredDataIsDisplayedInTheNotesWidget();
@@ -415,6 +417,5 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         logInToB2B();
         navigationToTheDesktop();
         checkingThatTheUserHasBeenAddedMoneyToHisPersonalAccountInWidget();
-
     }
 }
