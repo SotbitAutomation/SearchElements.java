@@ -273,6 +273,9 @@ public class BaseActions extends CustomizingForYourself {
     public void navigationToOrdersPageInAdminPart (){
         driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/" , "") + "bitrix/admin/sale_order.php?lang=ru");
     }
+    public void navigationToPageForAddingPersonalAccountInAdminPart(){
+        driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/" , "") + "bitrix/admin/sale_account_admin.php?lang=ru");
+    }
     public void navigationToEmployeesTab() {
         driver.findElement(employeesTabLocator).click();
         Assert.assertTrue(driver.findElement(By.cssSelector("#STAFF_LIST")).isDisplayed());
@@ -301,6 +304,10 @@ public class BaseActions extends CustomizingForYourself {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".catalog")));
         Assert.assertTrue(driver.findElement(By.cssSelector(".catalog")).isDisplayed());
         openingAllOffers();
+    }
+    public void navigationToPersonalAccountTab(){
+        driver.findElement(By.xpath("//*[contains(@href, 'personal/account')]")).click();
+        Assert.assertTrue(driver.findElement(By.cssSelector(".blank_personal")).isDisplayed());
     }
     public void openingAllOffers(){
         if (areThereAnyOffers == true){

@@ -1,6 +1,8 @@
 package Catalog;
 
 import BaseActions.BaseActions;
+import Documents.MethodsForDocuments;
+import RegistrationAndAuthorization.RegistrationB2B;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -10,6 +12,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class MethodsForCatalog extends BaseActions {
+    RegistrationB2B registr = new RegistrationB2B();
 
     int numberOfProductsPerPage = 0;
     public int randomNumberOfProductsPerPage = 0;
@@ -2148,7 +2151,29 @@ public class MethodsForCatalog extends BaseActions {
             driver.navigate().refresh();
         }
     }
+    public void sendRequestToTopUpYourPersonalAccountForOneHundredRubles(){
+        driver.findElement(By.cssSelector(".btn-pay")).click();
+        driver.findElement(By.cssSelector(".blank_invoices-pay_button")).click();
+    }
+    public void checkingConfirmInformationThatTheRequestIsSent(){
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@class='bx-sap blank_personal'] //*[contains(text(), '№')]")).isDisplayed());
+        tempValue = driver.findElement(By.xpath("//*[@class='bx-sap blank_personal'] //*[contains(text(), '№')]")).getText().replaceAll("№", "");
+    }
 
+    public void checkingThatTheRequestForReplenishmentOfThePersonalAccountIsDisplayedByTheAdmin(){
+        Assert.assertTrue(driver.findElement(By.xpath("//*[text()='№" + tempValue + "']")).isDisplayed());
+    }
+    public void addMoneyToTheUserSPersonalAccount(){
+        MethodsForDocuments methodsForDocument = new MethodsForDocuments();
+        driver.findElement(By.xpath("//*[contains(@href, 'sale_account_edit')]")).click();
+        driver.findElement(By.cssSelector(".tablebodybutton")).click();
+        methodsForDocument.choiceUserFromJustOpenedPage(registr.theSameEmail);
+        driver.findElement(By.xpath("//*[@name='CURRENT_BUDGET']")).sendKeys("111");
+        driver.findElement(buttonSaveLocator).click();
+    }
+    public void checkingThatTheUserHasBeenAddedMoneyToHisPersonalAccount (){
+        Assert.assertTrue(driver.findElement(By.cssSelector(".form-control.blank_invoices-amount")).getAttribute("placeholder").contains("111"));
+    }
 
 
 

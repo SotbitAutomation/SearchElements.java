@@ -1,9 +1,7 @@
 package Catalog;
 
 import MakingOrders.MakingOrders;
-import org.junit.Assert;
 import org.junit.Test;
-import org.openqa.selenium.By;
 
 
 public class Catalog extends MethodsForCatalog {
@@ -715,22 +713,29 @@ public class Catalog extends MethodsForCatalog {
     @Test //43. фыв
     public void asd() {
         //arrange
-        navigationToAuthorizationTab();
+        registr.registrationIPWithManualEntryINN();
+        registr.tryConfirmRegistration();
         //act
-        fillingFieldsOnTheLogInTabLikeUser();
+        registr.fillingFieldsOnTheLogInTab();
         logInToB2B();
-        driver.findElement(By.xpath("//*[contains(@href, 'personal/account')]")).click();
-        driver.findElement(By.cssSelector(".btn-pay")).click();
-        driver.findElement(By.cssSelector(".blank_invoices-pay_button")).click();
-
-        Assert.assertTrue(driver.findElement(By.xpath("//*[@class='bx-sap blank_personal'] //*[contains(text(), '№')]")).isDisplayed());
-        System.out.println(driver.findElement(By.xpath("//*[@class='bx-sap blank_personal'] //*[contains(text(), '№')]")).getText().replaceAll("№", ""));
-        tempValue = driver.findElement(By.xpath("//*[@class='bx-sap blank_personal'] //*[contains(text(), '№')]")).getText().replaceAll("№", "");
+        navigationToPersonalAccountTab();
+        sendRequestToTopUpYourPersonalAccountForOneHundredRubles();
+        checkingConfirmInformationThatTheRequestIsSent();
         exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToOrdersPageInAdminPart();
+        checkingThatTheRequestForReplenishmentOfThePersonalAccountIsDisplayedByTheAdmin();
+        navigationToPageForAddingPersonalAccountInAdminPart();
+        addMoneyToTheUserSPersonalAccount();
+        exitFromB2B();
+        navigationToAuthorizationTab();
+        registr.fillingFieldsOnTheLogInTab();
+        logInToB2B();
+        navigationToPersonalAccountTab();
+        checkingThatTheUserHasBeenAddedMoneyToHisPersonalAccount();
+
 
 
 //        deletingProductsFromTheCart();
