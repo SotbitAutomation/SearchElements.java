@@ -3,6 +3,7 @@ package MeanPage;
 import BaseActions.BaseActions;
 import MakingOrders.MethodsForMakingOrders;
 import OrganizationsWithExtendedVersion.MethodsForAddingOrganizationsWithExtendedVersion;
+import RegistrationAndAuthorization.RegistrationB2B;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -11,6 +12,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class MethodsForMeanPage extends BaseActions {
 
     MethodsForMakingOrders makeOrder = new MethodsForMakingOrders();
+    RegistrationB2B registr = new RegistrationB2B();
+
     MethodsForAddingOrganizationsWithExtendedVersion org = new MethodsForAddingOrganizationsWithExtendedVersion();
 
     // локаторы для главной страницы
@@ -413,9 +416,13 @@ public class MethodsForMeanPage extends BaseActions {
         driver.findElement(By.xpath("//*[@class='form-control sale-acountpay-input']")).sendKeys("1000");
         waitingMilliSecond();
         driver.findElement(By.cssSelector(".send_invoices")).click();
+        tempValue = driver.findElement(By.xpath("(//*[contains(@class, 'widget-private_invoices_content')]/p)[2]")).getText().replaceAll("[^\\d.]", "");
     }
     public void checkingThatThePersonalAccountReplenishmentRequestHasBeenCreated(){
         Assert.assertTrue(driver.findElement(By.xpath("//*[@class='widget_content widget-private_invoices_content'] /p[contains(text(), 'Номер вашей оплаты')]")).isDisplayed());
+    }
+    public void checkingThatTheUserHasBeenAddedMoneyToHisPersonalAccountInWidget (){
+        Assert.assertEquals(driver.findElement(By.xpath("(//*[contains(@class, 'widget-private_invoices_header')] /*)[2]")).getText().replaceAll("[^\\d.]", ""), "111");
     }
 
 

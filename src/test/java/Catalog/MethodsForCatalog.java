@@ -2160,14 +2160,15 @@ public class MethodsForCatalog extends BaseActions {
         tempValue = driver.findElement(By.xpath("//*[@class='bx-sap blank_personal'] //*[contains(text(), '№')]")).getText().replaceAll("№", "");
     }
 
-    public void checkingThatTheRequestForReplenishmentOfThePersonalAccountIsDisplayedByTheAdmin(){
-        Assert.assertTrue(driver.findElement(By.xpath("//*[text()='№" + tempValue + "']")).isDisplayed());
+    public void checkingThatTheRequestForReplenishmentOfThePersonalAccountIsDisplayedByTheAdmin(String numberOrder){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='№" + numberOrder + "']")));
+        Assert.assertTrue(driver.findElement(By.xpath("//*[text()='№" + numberOrder + "']")).isDisplayed());
     }
-    public void addMoneyToTheUserSPersonalAccount(){
+    public void addMoneyToTheUserSPersonalAccount(String emailUserForDoc){
         MethodsForDocuments methodsForDocument = new MethodsForDocuments();
         driver.findElement(By.xpath("//*[contains(@href, 'sale_account_edit')]")).click();
         driver.findElement(By.cssSelector(".tablebodybutton")).click();
-        methodsForDocument.choiceUserFromJustOpenedPage(registr.theSameEmail);
+        methodsForDocument.choiceUserFromJustOpenedPage(emailUserForDoc);
         driver.findElement(By.xpath("//*[@name='CURRENT_BUDGET']")).sendKeys("111");
         driver.findElement(buttonSaveLocator).click();
     }

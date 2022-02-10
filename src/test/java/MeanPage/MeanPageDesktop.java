@@ -395,13 +395,26 @@ public class MeanPageDesktop extends MethodsForMeanPage {
     @Test //26. Заказ пополнение личного счета с помощью виджета "Личный кабинет"
     public void orderReplenishmentOfThePersonalAccountUsingThePersonalAccountWidget() {
         //arrange
-        navigationToAuthorizationTab();
+        registr.registrationIPWithManualEntryINN();
         //act
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
         navigationToTheDesktop();
         addingTheWidgetToDesktop(personalAccountWidgetLocator);
         requestReplenishmentOfYourPersonalAccount();
         checkingThatThePersonalAccountReplenishmentRequestHasBeenCreated();
+        exitFromB2B();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToOrdersPageInAdminPart();
+        makeOrder.checkingThatTheRequestForReplenishmentOfThePersonalAccountIsDisplayedByTheAdmin(tempValue);
+        navigationToPageForAddingPersonalAccountInAdminPart();
+        makeOrder.addMoneyToTheUserSPersonalAccount(registr.theSameEmail);
+        exitFromB2B();
+        navigationToAuthorizationTab();
+        registr.fillingFieldsOnTheLogInTab();
+        logInToB2B();
+        navigationToTheDesktop();
+        checkingThatTheUserHasBeenAddedMoneyToHisPersonalAccountInWidget();
+
     }
 }

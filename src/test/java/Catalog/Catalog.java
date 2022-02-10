@@ -714,10 +714,7 @@ public class Catalog extends MethodsForCatalog {
     public void addingMoneyToAPersonalAccount() {
         //arrange
         registr.registrationIPWithManualEntryINN();
-        registr.tryConfirmRegistration();
         //act
-        registr.fillingFieldsOnTheLogInTab();
-        logInToB2B();
         navigationToPersonalAccountTab();
         sendRequestToTopUpYourPersonalAccountForOneHundredRubles();
         checkingConfirmInformationThatTheRequestIsSent();
@@ -726,9 +723,9 @@ public class Catalog extends MethodsForCatalog {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToOrdersPageInAdminPart();
-        checkingThatTheRequestForReplenishmentOfThePersonalAccountIsDisplayedByTheAdmin();
+        checkingThatTheRequestForReplenishmentOfThePersonalAccountIsDisplayedByTheAdmin(tempValue);
         navigationToPageForAddingPersonalAccountInAdminPart();
-        addMoneyToTheUserSPersonalAccount();
+        addMoneyToTheUserSPersonalAccount(registr.theSameEmail);
         exitFromB2B();
         navigationToAuthorizationTab();
         registr.fillingFieldsOnTheLogInTab();
