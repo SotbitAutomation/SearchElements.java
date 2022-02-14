@@ -111,7 +111,7 @@ public class BaseActions extends CustomizingForYourself {
     public String tempValueForNumbers;
     public boolean flag;
     public static boolean flagForLocation = false;
-    public boolean doNeedToConfirmRegistration = false;
+    public boolean doNeedToConfirmRegistrationUser = false;
     public boolean doNeedToConfirmRegistrationOrganization = false;
     public boolean versionsOfWorkingWithOrganizationsExtended = true;
     public String fileNameForConfirmRegistrationUser = "doNeedToConfirmRegistrationUser";  //Имя создаваемого файла в папке с проектом
@@ -411,29 +411,27 @@ public class BaseActions extends CustomizingForYourself {
         if (doNeedToConfirmRegistrationOrganization == true){
             navigationToAdminPartFromMeanPage();
             driver.findElement(By.cssSelector("#global_menu_sotbit")).click();
-            try {
-                driver.findElement(By.xpath("//*[text()='Подтверждение организации (расширенный режим)']")).click();
-            }catch (Exception e ){
-                driver.findElement(By.xpath("//*[text()='Оптовые покупатели']")).click();
-                driver.findElement(By.xpath("//*[contains(text(),'Подтверждение организации')]")).click();
-            }
-
-//            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(((//*[@class='adm-list-table-row'])[1] //*[@class='adm-list-table-cell'])[3])[contains(text(), '" + nameCompany + "')]")));
-//            Assert.assertTrue(driver.findElement
-//                    (By.xpath("(((//*[@class='adm-list-table-row'])[1] //*[@class='adm-list-table-cell'])[3])[contains(text(), '" + nameCompany + "')]"))
-//                    .isDisplayed());
-            explicitWaiting();
-            Assert.assertTrue(driver.findElement(By.xpath("((//*[@class='adm-list-table-row'])[1] //*[@class='adm-list-table-cell'])[3]")).getText().contains(nameCompany));
-            driver.findElement(By.xpath("//*[@class='adm-designed-checkbox-label adm-checkbox']")).click();
-            driver.findElement(By.cssSelector("#digitalwand_admin_helper_sotbit_auth_company_confirm_action")).click();
-            driver.findElement(By.xpath("//*[text()='Одобрить']")).click();
-            driver.findElement(By.xpath("//*[@value='Применить']")).click();
+            approveTheRegistrationOfTheLastOrganization(nameCompany);
             try {
                 driver.findElement(By.cssSelector(".adm-header-btn-site")).click();
             }catch (Exception e){
                 driver.navigate().to(b2bUrl);
             }
         }
+    }
+    public void approveTheRegistrationOfTheLastOrganization(String nameCompany){
+        try {
+            driver.findElement(By.xpath("//*[text()='Подтверждение организации (расширенный режим)']")).click();
+        }catch (Exception e ){
+            driver.findElement(By.xpath("//*[text()='Оптовые покупатели']")).click();
+            driver.findElement(By.xpath("//*[contains(text(),'Подтверждение организации')]")).click();
+        }
+        explicitWaiting();
+        Assert.assertTrue(driver.findElement(By.xpath("((//*[@class='adm-list-table-row'])[1] //*[@class='adm-list-table-cell'])[3]")).getText().contains(nameCompany));
+        driver.findElement(By.xpath("//*[@class='adm-designed-checkbox-label adm-checkbox']")).click();
+        driver.findElement(By.cssSelector("#digitalwand_admin_helper_sotbit_auth_company_confirm_action")).click();
+        driver.findElement(By.xpath("//*[text()='Одобрить']")).click();
+        driver.findElement(By.xpath("//*[@value='Применить']")).click();
     }
     public void confirmRegistrationOfOrganizationInB2bFromTheUser(){
         exitFromB2B();
@@ -508,20 +506,20 @@ public class BaseActions extends CustomizingForYourself {
     }
 
 
-    public void determineWhetherRegistrationNeedsToBeConfirmed(){
+    public void determineWhetherRegistrationUserNeedsToBeConfirmed(){
         try {
             inputStream = new ObjectInputStream(new FileInputStream(fileNameForConfirmRegistrationUser)); //Имя файла с массивом
         } catch (IOException e) {
             e.printStackTrace();
         }
         try {
-            doNeedToConfirmRegistration = (boolean) inputStream.readObject();
+            doNeedToConfirmRegistrationUser = (boolean) inputStream.readObject();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        System.out.println("Нужно подтверждать регистрацию? - " + doNeedToConfirmRegistration);
+        System.out.println("Нужно подтверждать регистрацию? - " + doNeedToConfirmRegistrationUser);
     }
     public void determineWhetherVersionsOfWorkingWithOrganization(){
         try {
@@ -579,8 +577,7 @@ public class BaseActions extends CustomizingForYourself {
         stringForReplace = stringForReplace.replaceAll("[1-9]", "");
         return stringForReplace = stringForReplace.replaceAll("\\p{P}","");
     }
-    public void navigationToTheEventTableFromAdminMeanPage(){
-        driver.findElement(buttonToGoToAdminPartLocator).click();
+    public void navigationToTablesFromAdmin(){
         driver.findElement(By.xpath("//*[contains(@class,'adm-main-menu')][text()='Настройки']")).click();
         try {
             driver.findElement(By.xpath("//*[contains(@class,'adm-submenu')][text()='Таблицы']")).click();
@@ -588,6 +585,10 @@ public class BaseActions extends CustomizingForYourself {
             driver.findElement(By.xpath("//*[contains(@class,'adm-submenu')][text()='Производительность']")).click();
             driver.findElement(By.xpath("//*[contains(@class,'adm-submenu')][text()='Таблицы']")).click();
         }
+    }
+    public void navigationToTheEventTableFromAdminMeanPage(){
+        driver.findElement(buttonToGoToAdminPartLocator).click();
+        navigationToTablesFromAdmin();
         driver.findElement(By.xpath("//*[text()='b_event']")).click();
         sortingEventsByDecrease();
     }

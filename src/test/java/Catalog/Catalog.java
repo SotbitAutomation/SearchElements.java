@@ -742,15 +742,12 @@ public class Catalog extends MethodsForCatalog {
 //    public void circle() {
 //        for (int i = 0; i < 20; i++) {
 //
-//
-//            checkingCorrectnessOfTheOutputOfSecondLevelDirectorySections();
 //            //Сюда тест
+//            addingTheMaxNumberPlusOneOfProductsToCartUsingIconPlus();
 //
-//            productCounterInTheCart = 0;
 //            pricesForAllProductsInTheFooter = 0;
 //            sumOfPricesOfTheAddedProducts = 0;
 //            exitFromB2B();
-//
 //        }
 //    }
 }

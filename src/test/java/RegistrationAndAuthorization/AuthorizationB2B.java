@@ -87,9 +87,9 @@ public class AuthorizationB2B extends MethodsForRegistrationAndAuthorization {
     public void authorizationWithoutConfirmInAdminPart() {
         //arrange
         navigationToRegistrationTab();
-        determineWhetherRegistrationNeedsToBeConfirmed();
+        determineWhetherRegistrationUserNeedsToBeConfirmed();
         //act
-        if (doNeedToConfirmRegistration == true){
+        if (doNeedToConfirmRegistrationUser == true){
             choiceIP();
             enterINNManually();
             fillingFieldsOnTheRegistrationTab(arrayWithExistingLocatorsForIP);
@@ -122,7 +122,7 @@ public class AuthorizationB2B extends MethodsForRegistrationAndAuthorization {
     @Test //9. Регистрация пользователя с уже существующим  ИНН
     public void registrationUserWithTheSameINN() {
         determineWhetherVersionsOfWorkingWithOrganization();
-        determineWhetherRegistrationNeedsToBeConfirmed();
+        determineWhetherRegistrationUserNeedsToBeConfirmed();
         if(versionsOfWorkingWithOrganizationsExtended == true){
             navigationToRegistrationTab();
             choiceLegalPerson();
@@ -138,7 +138,7 @@ public class AuthorizationB2B extends MethodsForRegistrationAndAuthorization {
             fillingFieldsOnTheRegistrationTab(arrayWithExistingLocatorsForIP);
             enterINNToTheSame();
             logInFromAuthorizationTabUseTheSameInn();
-            if (doNeedToConfirmRegistration == false){ exitFromB2B();}
+            if (doNeedToConfirmRegistrationUser == false){ exitFromB2B();}
             tryConfirmRegistration();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTab(tempValueForEmail, password);

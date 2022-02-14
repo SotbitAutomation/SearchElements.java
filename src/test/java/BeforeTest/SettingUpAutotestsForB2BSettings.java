@@ -93,9 +93,9 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
 
         try{
             checkingThatTheBannerIsDisplayed();
-            doNeedToConfirmRegistration = false;
+            doNeedToConfirmRegistrationUser = false;
         }catch (Exception e){
-            doNeedToConfirmRegistration = true;
+            doNeedToConfirmRegistrationUser = true;
         }
         //Запись в файл
         try {
@@ -104,11 +104,11 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
             e.printStackTrace();
         }
         try {
-            outputStream.writeObject(this.doNeedToConfirmRegistration);
+            outputStream.writeObject(this.doNeedToConfirmRegistrationUser);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(doNeedToConfirmRegistration);
+        System.out.println(doNeedToConfirmRegistrationUser);
     }
 
     @Test //4. Определение версии работы с компаниями

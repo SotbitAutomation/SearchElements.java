@@ -116,7 +116,7 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
 //    };
     public void entranceToB2BFromRegistrationTabWithoutConfirm(){
         driver.findElement(registerButtonOnRegistrationTabLocator).click();
-        if (doNeedToConfirmRegistration == true){
+        if (doNeedToConfirmRegistrationUser == true){
             try {
                 driver.findElement(By.cssSelector(".btn.bg-success")).click();
             }catch (Exception e){}
@@ -124,8 +124,8 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
     }
   
     public void entranceToB2BFromRegistrationTab () {
-        determineWhetherRegistrationNeedsToBeConfirmed();
-        if (doNeedToConfirmRegistration == true) {
+        determineWhetherRegistrationUserNeedsToBeConfirmed();
+        if (doNeedToConfirmRegistrationUser == true) {
             fillingFieldsOnTheLogInTab();
             logInFromAuthorizationTab();
         } else {
@@ -382,11 +382,7 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
         explicitWaiting();
         driver.findElement(locator).sendKeys("\u0008");
     }
-    public void changeEmail(){
-        driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='Введите e-mail']")).clear();
-        driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='Введите e-mail']"))
-                .sendKeys("differentEmail" + email);
-    }
+
     public void changeEmailOnTheSame(){
         driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='Введите e-mail']")).clear();
         driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='Введите e-mail']"))
@@ -398,14 +394,24 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
     By choiceOfActionForApproveLocator = By.xpath("//*[@value = 'approve']");
     By applyApprovalLocator = By.xpath("//*[@value = 'Применить']");
 
-    public void confirmRegistration(){
+    public void confirmUserRegistration(){
         try{
             driver.findElement(registerButtonOnRegistrationTabLocator).click();
         }catch (Exception e){}
+        navigationToPageForConfirmUserRegistration();
+        approveTheRegistrationOfTheLastUser();
+        exitFromB2B();
+        navigationToAuthorizationTab();
+    }
+    public void approveTheRegistrationOfTheLastUser(){
+        driver.findElement(chekBoxForUserSelectionLocator).click();
+        driver.findElement(choiceOfActionForApproveLocator).click();
+        driver.findElement(applyApprovalLocator).click();
+    }
+    public void navigationToPageForConfirmUserRegistration(){
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInFromAuthorizationTab();
-        //navigationToAuthorizationTab();
         navigationToAdminPartFromMeanPage();
         driver.findElement(sotbitTabLocator).click();
         try {
@@ -414,17 +420,12 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
             driver.findElement(By.xpath("(//*[text()='Оптовые покупатели'])")).click();
             driver.findElement(organizationsForConfirmRegistrationLocator).click();
         }
-        driver.findElement(chekBoxForUserSelectionLocator).click();
-        driver.findElement(choiceOfActionForApproveLocator).click();
-        driver.findElement(applyApprovalLocator).click();
-        exitFromB2B();
-        navigationToAuthorizationTab();
     }
 
     public void tryConfirmRegistration(){
-        determineWhetherRegistrationNeedsToBeConfirmed();
-        if (doNeedToConfirmRegistration == true){
-            confirmRegistration();
+        determineWhetherRegistrationUserNeedsToBeConfirmed();
+        if (doNeedToConfirmRegistrationUser == true){
+            confirmUserRegistration();
         }
     }
 

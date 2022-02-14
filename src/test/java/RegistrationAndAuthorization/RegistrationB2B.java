@@ -106,7 +106,7 @@ public class RegistrationB2B extends MethodsForRegistrationAndAuthorization {
         @Test //9. Регистрация пользователя с уже существующим  ИНН
         public void registrationUserWithTheSameINN() {
             determineWhetherVersionsOfWorkingWithOrganization();
-            determineWhetherRegistrationNeedsToBeConfirmed();
+            determineWhetherRegistrationUserNeedsToBeConfirmed();
             if(versionsOfWorkingWithOrganizationsExtended == true){
                 navigationToRegistrationTab();
                 choiceLegalPerson();
@@ -122,7 +122,7 @@ public class RegistrationB2B extends MethodsForRegistrationAndAuthorization {
                 fillingFieldsOnTheRegistrationTab(arrayWithExistingLocatorsForIP);
                 enterINNToTheSame();
                 logInFromAuthorizationTabUseTheSameInn();
-                if (doNeedToConfirmRegistration == false){ exitFromB2B();}
+                if (doNeedToConfirmRegistrationUser == false){ exitFromB2B();}
                 tryConfirmRegistration();
                 navigationToAuthorizationTab();
                 fillingFieldsOnTheLogInTab(tempValueForEmail, password);
@@ -174,8 +174,8 @@ public class RegistrationB2B extends MethodsForRegistrationAndAuthorization {
             choiceIP();
             enterINNManually();
             fillingFieldsOnTheRegistrationTab(arrayWithExistingLocatorsForIP);
-            determineWhetherRegistrationNeedsToBeConfirmed();
-            if (doNeedToConfirmRegistration == true){
+            determineWhetherRegistrationUserNeedsToBeConfirmed();
+            if (doNeedToConfirmRegistrationUser == true){
                 driver.findElement(registerButtonOnRegistrationTabLocator).click();
                 Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(),'Ожидайте подтверждение модератором.')]")).isDisplayed());
             }
@@ -188,8 +188,8 @@ public class RegistrationB2B extends MethodsForRegistrationAndAuthorization {
         choiceLegalPerson();
         enterINNManually();
         fillingFieldsOnTheRegistrationTab(arrayWithExistingLocatorsForLegalPerson);
-        determineWhetherRegistrationNeedsToBeConfirmed();
-        if (doNeedToConfirmRegistration == true){
+        determineWhetherRegistrationUserNeedsToBeConfirmed();
+        if (doNeedToConfirmRegistrationUser == true){
             driver.findElement(registerButtonOnRegistrationTabLocator).click();
             Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(),'Ожидайте подтверждение модератором.')]")).isDisplayed());
         }
