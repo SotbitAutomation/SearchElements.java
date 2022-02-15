@@ -219,7 +219,7 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
     }
 
     @Test //11. Добавление  существующего  сотрудника к организации который уже является сотрудником компании
-    public void AddingReExistingEmployeeToAnOrganization() {
+    public void addingReExistingEmployeeToAnOrganization() {
         //arrange
         addingAnEmployeeToAnOrganization();
         exitFromB2B();
@@ -231,7 +231,7 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
     }
 
     @Test //12. Регистрация сотрудника компании из раздела сотрудники
-    public void RegistrationOfEmployeeFromTheEmployeesSection() {
+    public void registrationOfEmployeeFromTheEmployeesSection() {
         //arrange
         navigationToAuthorizationTab();
         //act
@@ -257,7 +257,7 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
     }
 
     @Test //13. Регистрация руководителя компании из раздела сотрудники
-    public void RegistrationOfBossFromTheEmployeesSection() {
+    public void registrationOfBossFromTheEmployeesSection() {
         //arrange
         navigationToAuthorizationTab();
         //act
@@ -284,7 +284,7 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
     }
 
     @Test //14. Регистрация сотрудника компании из раздела сотрудники с существующим email
-    public void RegistrationEmployeeFromTheEmployeesSectionWithExistingEmail() {
+    public void registrationEmployeeFromTheEmployeesSectionWithExistingEmail() {
         //arrange
         navigationToAuthorizationTab();
         //act

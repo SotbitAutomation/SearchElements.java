@@ -403,8 +403,6 @@ public class BaseActions extends CustomizingForYourself {
         driver.findElement(fileInput).sendKeys(filePath);
     }
 
-
-
     public void confirmRegistrationOfOrganizationFromAdmin() {
         System.out.println(nameCompany);
         determineWhetherRegistrationOrganizationNeedsToBeConfirmed();
@@ -419,6 +417,15 @@ public class BaseActions extends CustomizingForYourself {
             }
         }
     }
+    public void navigationToRegistrationOrganizationsTableFromAdminPart (){
+        try {
+            driver.findElement(By.xpath("//*[text()='Подтверждение организации (расширенный режим)']")).click();
+        }catch (Exception e ){
+            driver.findElement(By.xpath("//*[text()='Оптовые покупатели']")).click();
+            driver.findElement(By.xpath("//*[contains(text(),'Подтверждение организации')]")).click();
+        }
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#digitalwand_admin_helper_sotbit_auth_company_confirm")));
+    }
     public void approveTheRegistrationOfTheLastOrganization(String nameCompany){
         try {
             driver.findElement(By.xpath("//*[text()='Подтверждение организации (расширенный режим)']")).click();
@@ -426,7 +433,7 @@ public class BaseActions extends CustomizingForYourself {
             driver.findElement(By.xpath("//*[text()='Оптовые покупатели']")).click();
             driver.findElement(By.xpath("//*[contains(text(),'Подтверждение организации')]")).click();
         }
-        explicitWaiting();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#digitalwand_admin_helper_sotbit_auth_company_confirm")));
         Assert.assertTrue(driver.findElement(By.xpath("((//*[@class='adm-list-table-row'])[1] //*[@class='adm-list-table-cell'])[3]")).getText().contains(nameCompany));
         driver.findElement(By.xpath("//*[@class='adm-designed-checkbox-label adm-checkbox']")).click();
         driver.findElement(By.cssSelector("#digitalwand_admin_helper_sotbit_auth_company_confirm_action")).click();
@@ -588,6 +595,9 @@ public class BaseActions extends CustomizingForYourself {
     }
     public void navigationToTheEventTableFromAdminMeanPage(){
         driver.findElement(buttonToGoToAdminPartLocator).click();
+        navigationToTheEventTableFromAdmin();
+    }
+    public void navigationToTheEventTableFromAdmin(){
         navigationToTablesFromAdmin();
         driver.findElement(By.xpath("//*[text()='b_event']")).click();
         sortingEventsByDecrease();

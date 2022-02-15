@@ -125,7 +125,7 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
   
     public void entranceToB2BFromRegistrationTab () {
         determineWhetherRegistrationUserNeedsToBeConfirmed();
-        if (doNeedToConfirmRegistrationUser == true) {
+        if (doNeedToConfirmRegistrationUser) {
             fillingFieldsOnTheLogInTab();
             logInFromAuthorizationTab();
         } else {
@@ -368,7 +368,7 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
         }
         return count;
     }
-    public void enterINNToTheSame(){
+    public void enterTheSameINN(){
 
         driver.findElement(inputINNLocator).clear();
         enterNumberByDigit(theSameInnManual, inputINNLocator);
@@ -392,6 +392,8 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
     By organizationsForConfirmRegistrationLocator = By.xpath("(//*[text()='Подтверждение регистрации'])[1]");
     By chekBoxForUserSelectionLocator = By.xpath("(//*[@class='adm-designed-checkbox-label adm-checkbox'])[1]");
     By choiceOfActionForApproveLocator = By.xpath("//*[@value = 'approve']");
+    By choiceOfActionForRejectLocator = By.xpath("//*[@value = 'unapprove']");
+
     By applyApprovalLocator = By.xpath("//*[@value = 'Применить']");
 
     public void confirmUserRegistration(){
@@ -407,6 +409,14 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
         driver.findElement(chekBoxForUserSelectionLocator).click();
         driver.findElement(choiceOfActionForApproveLocator).click();
         driver.findElement(applyApprovalLocator).click();
+    }
+    public void rejectTheRegistrationOfTheLastUser(){
+        driver.findElement(chekBoxForUserSelectionLocator).click();
+        driver.findElement(choiceOfActionForRejectLocator).click();
+        driver.findElement(applyApprovalLocator).click();
+    }
+    public void rejectTheRegistrationOfTheLasOrOrganization(){
+        rejectTheRegistrationOfTheLastUser();
     }
     public void navigationToPageForConfirmUserRegistration(){
         navigationToAuthorizationTab();
@@ -424,8 +434,20 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
 
     public void tryConfirmRegistration(){
         determineWhetherRegistrationUserNeedsToBeConfirmed();
-        if (doNeedToConfirmRegistrationUser == true){
+        if (doNeedToConfirmRegistrationUser){
             confirmUserRegistration();
+        }
+    }
+    public void tryRejectRegistration(){
+        determineWhetherRegistrationUserNeedsToBeConfirmed();
+        if (doNeedToConfirmRegistrationUser){
+            try{
+                driver.findElement(registerButtonOnRegistrationTabLocator).click();
+            }catch (Exception e){}
+            navigationToPageForConfirmUserRegistration();
+            rejectTheRegistrationOfTheLastUser();
+            exitFromB2B();
+            navigationToAuthorizationTab();
         }
     }
 
@@ -460,6 +482,10 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
     public void logInFromAuthorizationTab(){
         driver.findElement(loginButtonLocator).click();
         Assert.assertTrue(driver.findElement(By.cssSelector(".navbar")).isDisplayed());
+    }
+    public void logInFromAuthorizationTabWithRejectedStatus(){
+        driver.findElement(loginButtonLocator).click();
+        Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
     }
     public void logInExistingUserWithoutConfirm(){
         driver.findElement(loginButtonLocator).click();
@@ -775,6 +801,11 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
         Assert.assertTrue(driver.findElement(By.xpath("(//*[@class='adm-list-table-row'])[1] //*[contains(text(), 'SUCCESS_CHANGE_PASSWORD')]")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.xpath("(//*[@class='adm-list-table-row'])[1] //*[contains(text(), '" + email + "')]")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.xpath("((//*[@class='adm-list-table-row'])[1] //* [@class = 'adm-list-table-cell'])[5] [text()= 'Y']")).isDisplayed());
+    }
+    public void checkingThatYouCantLogInWithoutConfirm(){
+        Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(),'Ожидайте подтверждение модератором.')]")).isDisplayed());
+        navigationToMeanPageByUrl();
+        Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
     }
 
 

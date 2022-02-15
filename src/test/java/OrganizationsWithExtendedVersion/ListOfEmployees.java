@@ -122,7 +122,7 @@ public class ListOfEmployees extends MethodsForAddingOrganizationsWithExtendedVe
         navigationToPersonsTab();
         checkingEmployeesOthersOrganizationDisable();
     }
-    @Test //5. Проверка, что сотрудник не может добавить нового сотрудника
+    @Test //5. Сотрудник не может добавить нового сотрудника
     public void checkThatEmployeeCannotAddANewEmployee() {
         //arrange
         navigationToAuthorizationTab();
@@ -132,8 +132,8 @@ public class ListOfEmployees extends MethodsForAddingOrganizationsWithExtendedVe
         navigationToPersonsTab();
         checkingThatThereAreNoButtonForAddEmployee();
     }
-    @Test //6. Проверить что список сотрудников организации в которой проходишь модерацию не отображается
-    public void checkThatListOfEmployeesOfTheOrganizationInWhichEmployeeoAreUndergoingModerationIsNotDisplayed() {
+    @Test //6. Список сотрудников организации в которой проходишь модерацию не отображается
+    public void checkThatListOfEmployeesOfTheOrganizationInWhichEmployeeAreUndergoingModerationIsNotDisplayed() {
         //arrange
         registerBosWithOrganization();
         registerEmployeeForBosSOrganization();
@@ -144,7 +144,7 @@ public class ListOfEmployees extends MethodsForAddingOrganizationsWithExtendedVe
         navigationToPersonsTab();
         checkingThatListOfEmployeeIsEmpty();
     }
-    @Test //7. Проверить, что после прохождения модерации, в списке сотрудников отображается сотрудники организаций, в которой пользователь прошёл модерацию.
+    @Test //7. После прохождения модерации, в списке сотрудников отображается сотрудники организаций, в которой пользователь прошёл модерацию.
     public void checkThatAfterPassingModerationEmployeesOfOrganizationsInWhichUserHasPassedModerationAreDisplayedInTheListOfEmployees() {
         registerBosWithOrganization();
         registerEmployeeForBosSOrganization();
@@ -165,11 +165,10 @@ public class ListOfEmployees extends MethodsForAddingOrganizationsWithExtendedVe
         navigationToPersonsTab();
         checkingThatListOfEmployeeIsNotEmpty();
     }
-    @Test //8. Проверка, что сотрудник отображается у управляющего компанией в табе "Заявки"
+    @Test //8. Сотрудник отображается у управляющего компанией в табе "Заявки"
     public void checkThatEmployeeIsDisplayedByCompanyManagerInApplicationsTab() {
         registerBosWithOrganization();
         registerEmployeeForBosSOrganization();
-        System.out.println(tempValue3);
         navigationToOrganizationTab();
         nameCompany = CompanyNameToJoinEmployees;
         requestToJoinTheCompany();
@@ -182,7 +181,7 @@ public class ListOfEmployees extends MethodsForAddingOrganizationsWithExtendedVe
         navigationToPersonsTab();
         checkingThatUserSNameIsDisplayed();
     }
-    @Test //9. Проверка, что поп-ап окно "регистрация нового сторудника" закрылось после нажатия "Отмена"
+    @Test //9. Поп-ап окно "регистрация нового сторудника" закрылось после нажатия "Отмена"
     public void checkThatPopUpWindowRegistrationOfNewEmployeeIsClosedAfterClickingCancel() {
         //arrange
         navigationToAuthorizationTab();
@@ -192,7 +191,7 @@ public class ListOfEmployees extends MethodsForAddingOrganizationsWithExtendedVe
         navigationToPersonsTab();
         checkingThatPopUpWindowIsClosedAfterClickCancel();
     }
-    @Test //10. Проверка, что внесённые данные отображаются, после повторного открытия поп-ап окна.
+    @Test //10. Внесённые данные отображаются, после повторного открытия поп-ап окна.
     public void checkThatEnteredDataIsDisplayedAfterReopeningPopUpWindow() {
         //arrange
         navigationToAuthorizationTab();
@@ -229,7 +228,9 @@ public class ListOfEmployees extends MethodsForAddingOrganizationsWithExtendedVe
         logInToB2B();
         try {
             driver.findElement(By.cssSelector(".auth-company-change__current")).click();
-        }catch (Exception e){}
+        }catch (Exception e){
+            System.out.println("Список организаций в шапке не раскрылся");
+        }
         if (driver.findElements(By.cssSelector(".auth-company-change__item")).size() < 2){
             exitFromB2B();
             a_creatingBossesWithOrganizationsAndEmployees();
@@ -241,4 +242,5 @@ public class ListOfEmployees extends MethodsForAddingOrganizationsWithExtendedVe
         creatingOrganizationWithoutConfirm();
         checkingThatOrganizationWithoutConfirmIsUnavailableInHeader();
     }
+
 }

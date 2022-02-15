@@ -2,6 +2,7 @@ package SettingUpCabinetForTesting;
 
 import BaseActions.BaseActions;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class MethodsForSettingUpCabinetForTesting extends BaseActions {
     public String[] arrayWithBuyerTypes={
@@ -53,6 +54,7 @@ public class MethodsForSettingUpCabinetForTesting extends BaseActions {
             driver.findElement(By.xpath("//*[@name='filter_person_type_id']//*[contains(text(), '"+ arrayWithBuyerTypes[i] + "')]")).click();
             driver.findElement(By.xpath("//*[@name='set_filter']")).click();
             for (int j = 0; j < arrayWithPropertyNames.length ; j=j+2) {
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".adm-btn-add")));
                 driver.findElement(By.cssSelector(".adm-btn-add")).click();
                 driver.findElement(By.xpath("//*[contains(@class, 'popup-menu-item-text')][contains(text(), '"+ arrayWithBuyerTypes[i] + "')]")).click();
                 driver.findElement(By.xpath("//*[@name='NAME']")).sendKeys(arrayWithPropertyNames[j]);

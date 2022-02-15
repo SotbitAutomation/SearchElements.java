@@ -376,8 +376,8 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         }
         driver.findElement(By.xpath("//*[@placeholder='Создать пароль']")).sendKeys(password);
         driver.findElement(By.xpath("//*[@placeholder='Повторите пароль']")).sendKeys(password);
-        System.out.println("емаил созданного поьзователя" + email);
-        System.out.println("пароль созданного поьзователя" + password);
+        System.out.println("емаил созданного поьзователя " + email);
+        System.out.println("пароль созданного поьзователя " + password);
         Assert.assertEquals("Емаил не отображается"
                 ,email, driver.findElement(By.xpath("//*[contains(@placeholder,'Введите e-mai')][@class='form-control']")).getAttribute("value"));
         Assert.assertEquals("Пароль не отображается"
@@ -672,7 +672,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
     }
     public void checkingThatOrganizationWithoutConfirmIsUnavailableInHeader(){
         determineWhetherRegistrationOrganizationNeedsToBeConfirmed();
-        if (doNeedToConfirmRegistrationOrganization == true){
+        if (doNeedToConfirmRegistrationOrganization){
             driver.findElement(By.cssSelector(".auth-company-change__current")).click();
             Assert.assertTrue(driver.findElements(By.cssSelector(".auth-company-change__item")).size() == tempIntValue);
             navigationToOrganizationTab();
@@ -1085,6 +1085,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         }
         Assert.assertTrue("Организация ИП отображается, хотя в админ части убрал ИП из доступных типов плательщиков", flag == true);
     }
+
 
 
 }
