@@ -51,7 +51,6 @@ public class Documents extends MethodsForDocuments {
         //arrange
         deletingExcelAndJpgFilesFromDownloads();
         registr.registrationIPWithManualEntryINN();
-        registr.tryConfirmRegistration();
         //act
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
