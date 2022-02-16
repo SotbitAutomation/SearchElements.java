@@ -406,7 +406,7 @@ public class BaseActions extends CustomizingForYourself {
     public void confirmRegistrationOfOrganizationFromAdmin() {
         System.out.println(nameCompany);
         determineWhetherRegistrationOrganizationNeedsToBeConfirmed();
-        if (doNeedToConfirmRegistrationOrganization == true){
+        if (doNeedToConfirmRegistrationOrganization){
             navigationToAdminPartFromMeanPage();
             driver.findElement(By.cssSelector("#global_menu_sotbit")).click();
             approveTheRegistrationOfTheLastOrganization(nameCompany);
@@ -467,7 +467,8 @@ public class BaseActions extends CustomizingForYourself {
     }
     public void checkingThatOrganizationIsConfirmed(){
         navigationToOrganizationTab();
-        if (doNeedToConfirmRegistrationOrganization == true){
+        determineWhetherRegistrationOrganizationNeedsToBeConfirmed();
+        if (doNeedToConfirmRegistrationOrganization){
             sortingOrganizationByDecrease();
             waitingMilliSecond();
             try {
@@ -480,7 +481,7 @@ public class BaseActions extends CustomizingForYourself {
             }
             Assert.assertEquals("Одобрена", driver.findElement(By.xpath("(//*[@class='main-grid-row main-grid-row-body'])[1] /*[7]")).getText());
         }else {
-            //Assert.assertTrue(driver.findElement(By.xpath("//*[text()='" + nameCompany + "']")).isDisplayed());
+            System.out.println("Одобрять орг. не нужно");
         }
     }
 

@@ -115,8 +115,6 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@title, 'Юридическое лицо')]")).isDisplayed());
     }
 
-
-
     public void creatingOrganization() {
         driver.findElement(saveButtonOnTheOrganizationTabLocator).click();
         navigationToOrganizationTab();
@@ -146,8 +144,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         driver.findElement(saveButtonOnTheOrganizationTabLocator).click();
         Assert.assertTrue(driver.findElement(By.cssSelector(".validation-invalid-label.errortext")).isDisplayed());
     }
-
-    public void checkingAvailableActionsWithOrganization( boolean confirmFromAdmin) {
+    public void openTabsInTheOrganizationDetailedPage() {
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//*[@class='main-grid-row main-grid-row-body'])[1] /*[7]"), "Одобрена"));
         explicitWaiting();
         driver.findElement(firstHamburgerMenuOnTheOrganizationTabLocator).click();
@@ -162,6 +159,8 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         navigationToOrganizationTab();
         sortingOrganizationByDecrease();
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//*[@class='main-grid-row main-grid-row-body'])[1] /*[7]"), "Одобрена"));
+    }
+    public void changeSomeDataInTheOrganizationTab(){
         explicitWaiting();
         driver.findElement(By.xpath("(//*[@class='main-grid-row-action-button'])[1]")).click();
         driver.findElement(By.xpath("(//*[@class='menu-popup-item-text'])[2]")).click();
@@ -185,7 +184,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         }
         sortingOrganizationByDecrease();
         determineWhetherRegistrationOrganizationNeedsToBeConfirmed();
-        if (doNeedToConfirmRegistrationOrganization == true){
+        if (doNeedToConfirmRegistrationOrganization){
             try {
                 wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//*[@class='main-grid-row main-grid-row-body'])[1] /*[7]"), "На модерации"));
             }catch (Exception e){
@@ -195,8 +194,12 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
             }
         }
         System.out.println(driver.findElement(By.xpath("(//*[@class = 'main-grid-row main-grid-row-body'])[1] /*[3]")).getText());
+    }
 
-        if (confirmFromAdmin == true){
+    public void checkingAvailableActionsWithOrganization( boolean confirmFromAdmin) {
+        openTabsInTheOrganizationDetailedPage();
+        changeSomeDataInTheOrganizationTab();
+        if (confirmFromAdmin){
             confirmRegistrationOfOrganizationFromAdmin();
         }else {
             tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
@@ -204,7 +207,6 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
             fillingFieldsOnTheLogInTabLikeUser();
             logInToB2B();
         }
-
         navigationToOrganizationTab();
         sortingOrganizationByDecrease();
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//*[@class='main-grid-row main-grid-row-body'])[1] /*[7]"), "Одобрена"));
@@ -257,16 +259,19 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         Assert.assertTrue(driver.findElement(By.cssSelector("#STAFF_LIST")).isDisplayed());
     }
 
-    public void confirmationEmployeeRequest() {
+    public void confirmEmployeeRequest() {
+        navigationToRequestOfEmployee();
+        driver.findElement(By.xpath("//*[text()='Принять']")).click();
+    }
+    public void rejectEmployeeRequest(){
+        navigationToRequestOfEmployee();
+        driver.findElement(By.xpath("//*[text()='Отклонить']")).click();
+    }
+    public void navigationToRequestOfEmployee(){
         navigationToPersonsTab();
         driver.findElement(By.xpath("//*[contains(text(), 'Заявки')]")).click();
         Assert.assertTrue(driver.findElement(By.cssSelector("#STAFF_UNCONFIRMED_LIST")).isDisplayed());
         driver.findElement(By.xpath("//*[@name='form_STAFF_UNCONFIRMED_LIST']//*[@class= 'main-grid-row-action-button']")).click();
-        driver.findElement(By.xpath("//*[text()='Принять']")).click();
-//        if (driver.findElement(By.xpath("(//*[@class= 'main-grid-row-action-button'])[2]")).isDisplayed()) {
-//            driver.findElement(By.xpath("(//*[@class= 'main-grid-row-action-button'])[2]")).click();
-//            driver.findElement(By.xpath("//*[text()='Принять']")).click();
-//        }
     }
 
     public void requestToJoinTheCompany() {
@@ -465,7 +470,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
-        confirmationEmployeeRequest();
+        confirmEmployeeRequest();
         navigationToPersonsTab();
     }
     public void creatingOrganizationForUser(){

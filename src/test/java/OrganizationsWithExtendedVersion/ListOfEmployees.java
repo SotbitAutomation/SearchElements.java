@@ -50,7 +50,7 @@ public class ListOfEmployees extends MethodsForAddingOrganizationsWithExtendedVe
             navigationToAuthorizationTab();
             registr.fillingFieldsOnTheLogInTab();
             registr.logInFromAuthorizationTab();
-            confirmationEmployeeRequest();
+            confirmEmployeeRequest();
             exitFromB2B();
             fillingFieldsOnTheLogInTabLikeEmployee();
             logInToB2B();
@@ -74,7 +74,7 @@ public class ListOfEmployees extends MethodsForAddingOrganizationsWithExtendedVe
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
-        confirmationEmployeeRequest();
+        confirmEmployeeRequest();
     }
 
 
@@ -158,7 +158,7 @@ public class ListOfEmployees extends MethodsForAddingOrganizationsWithExtendedVe
         fillingFieldsOnTheLogInTab(tempValue, tempValueForPassword);
         logInToB2B();
         navigationToPersonsTab();
-        confirmationEmployeeRequest();
+        confirmEmployeeRequest();
         exitFromB2B();
         fillingFieldsOnTheLogInTab(tempValue2, tempValueForPassword);
         logInToB2B();

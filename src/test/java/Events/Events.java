@@ -27,7 +27,6 @@ public class Events extends MethodsForEvents{
         checkingEventAboutNeededToConfirmUserRegistration();
         determineWhetherRegistrationOrganizationNeedsToBeConfirmed();
         checkingEventAboutTheRegistrationOrganization();
-        searchForAColumnWithEventStatuses();
         checkingTheStatusEventAboutNeededConfirmUserRegistration();
         checkingTheStatusEventThatYouNeedToConfirmOfTheRegistrationOfTheOrganization(expectedSuccessExec);
     }
@@ -148,7 +147,7 @@ public class Events extends MethodsForEvents{
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         selectionFromTheHeaderOrganization(nameCompany);
-        confirmationEmployeeRequest();
+        confirmEmployeeRequest();
         navigationToPersonsTab();
         deletingEmployee();
         exitFromB2B();
@@ -175,7 +174,6 @@ public class Events extends MethodsForEvents{
             fillingFieldsOnTheLogInTabLikeAdmin();
             logInToB2B();
             navigationToTheEventTableFromAdminMeanPage();
-            searchForAColumnWithEventStatuses();
             checkingEventAboutNeededToConfirmUserRegistration();
             checkingTheStatusEventAboutNeededConfirmUserRegistration();
             checkingEventAboutConfirmUserRegistration();
@@ -199,10 +197,9 @@ public class Events extends MethodsForEvents{
         driver.findElement(registr.registerButtonOnRegistrationTabLocator).click();
         confirmRegistrations();
         navigationToTheEventTableFromAdmin();
-        searchForAColumnWithEventStatuses();
         checkingEventAboutTheRegistrationOrganizationHasBeenApproved();
         checkingTheStatusEventThatYouNeedToConfirmOfTheRegistrationOfTheOrganization(expectedSuccessExec);
-        checkingStatusEventThatTheOrganizationSRegistrationHasBeenConfirmedByTheAdministrator(expectedSuccessExec);
+        checkingTheStatusEventThatTheOrganizationSRegistrationHasBeenConfirmedByTheAdministrator(expectedSuccessExec);
     }
     @Test //9. Уведомление об отклонении регистрации пользователя
     public void eventAboutUserRegistrationRejection() {
@@ -223,7 +220,6 @@ public class Events extends MethodsForEvents{
             fillingFieldsOnTheLogInTabLikeAdmin();
             logInToB2B();
             navigationToTheEventTableFromAdminMeanPage();
-            searchForAColumnWithEventStatuses();
             checkingEventAboutRejectionUsersRegistration();
             checkingTheStatusEventThatAdminRejectedUserSRegistration(expectedSuccessExec);
         }else {
@@ -244,22 +240,178 @@ public class Events extends MethodsForEvents{
             registr.navigationToPageForConfirmUserRegistration();
             registr.navigationToRegistrationOrganizationsTableFromAdminPart();
             registr.rejectTheRegistrationOfTheLasOrOrganization();
-            navigationToTheEventTableFromAdminMeanPage();
-
-
-            if (doNeedToConfirmRegistrationUser){
-                System.out.println("Проверяю событие что регистрация организации с таким ИНН   "  + registr.iNNManual + " была отклонена админом");
-                Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'SOTBIT_AUTH_COMPANY_REJECTED')] /following::*[contains(text(), '" + registr.iNNManual + "')]"))
-                        .isDisplayed());
-            }else {
-                System.out.println("Если подтверждать регистрацию пользователя не нужно, то никакие события о пользователе не создаются");
-            }
-
-
+            navigationToTheEventTableFromAdmin();
+            checkingEventAboutRejectionCompanyRegistration();
+            checkingTheStatusEventThatAdminRejectedCompanyRegistration(expectedSuccessExec);
         }else {
             System.out.println("Если подтверждать регистрацию организации не нужно, то никакие события об организации не создаются");
         }
-
+    }
+    @Test //11. Уведомление управляющему компании о новой заявке в сотрудники
+    public void eventAboutRequestToJoinTheCompanyFromAnEmployee() {
+        //arrange
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToOrganizationTab();
+        navigationToAddOrganizationTab();
+        selectionFromDropDownListIndividualBusinessman();
+        fillingFieldsForCreatingOrganization();
+        creatingOrganization();
+        tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeEmployee();
+        logInToB2B();
+        navigationToOrganizationTab();
+        requestToJoinTheCompany();
+        exitFromB2B();
+        //act
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToTheEventTableFromAdminMeanPage();
+        checkingEventAboutRequestToJoinTheCompanyFromAnEmployee();
+        checkingTheStatusEventAboutRequestToJoinTheCompanyFromAnEmployee(expectedSuccessExec);
+    }
+    @Test //12. Уведомление сотруднику о присоединении к компании
+    public void eventThatTheEmployeeHasBeenConfirmedToJoinTheCompany() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToOrganizationTab();
+        navigationToAddOrganizationTab();
+        selectionFromDropDownListIndividualBusinessman();
+        fillingFieldsForCreatingOrganization();
+        creatingOrganization();
+        tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeEmployee();
+        logInToB2B();
+        navigationToOrganizationTab();
+        requestToJoinTheCompany();
+        exitFromB2B();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        confirmEmployeeRequest();
+        exitFromB2B();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToTheEventTableFromAdminMeanPage();
+        checkingEventAboutConfirmJoiningToTheCompanyFromAnEmployee();
+        checkingStatusEventAboutConfirmJoiningToTheCompanyFromAnEmployee(expectedSuccessExec);
+    }
+    @Test //13. Уведомление сотруднику об отказе в присоединении к компании
+    public void eventAboutRefusalToJoinTheCompanyToAnEmployee () {
+        //arrange
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToOrganizationTab();
+        navigationToAddOrganizationTab();
+        selectionFromDropDownListIndividualBusinessman();
+        fillingFieldsForCreatingOrganization();
+        creatingOrganization();
+        tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeEmployee();
+        logInToB2B();
+        navigationToOrganizationTab();
+        requestToJoinTheCompany();
+        exitFromB2B();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        rejectEmployeeRequest();
+        exitFromB2B();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        //act
+        navigationToTheEventTableFromAdminMeanPage();
+        checkingEventThatTheManagerHasRejectedTheJoiningOfThisEmployeeToTheCompany();
+        checkingTheStatusEventAboutRejectedJoiningToTheCompanyFromAnEmployee(expectedSuccessExec);
+    }
+    @Test //14. Изменение данных созданной организациии у юзера
+    public void checkAvailableActionsWithOrganizationsFromTheUser() {
+        //arrange
+        try{
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            navigationToOrganizationTab();
+            checkingThatOrganizationIsConfirmed();
+        }catch (Exception e){ //Если нет одобренной организации для проверки > создать ее
+            exitFromB2B();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            navigationToOrganizationTab();
+            navigationToAddOrganizationTab();
+            selectionFromDropDownListIndividualBusinessman();
+            fillingFieldsForCreatingOrganization();
+            creatingOrganization();
+            tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            checkingThatOrganizationIsConfirmed();
+            navigationToOrganizationTab();
+            checkingThatOrganizationIsConfirmed();
+        }
+        sortingOrganizationByDecrease();
+        checkingAvailableActionsWithOrganization(false);
+        //act
+        exitFromB2B();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToTheEventTableFromAdminMeanPage();
+        checkingEventAboutNeededToConfirmTheCompanyAfterChanging();
+        checkingStatusOfEventAboutNeededToConfirmTheCompanyAfterChanging(expectedSuccessExec);
+        checkingEventAboutConfirmTheCompanyAfterChanging();
+        checkingStatusOfEventAboutConfirmTheCompanyAfterChanging(expectedSuccessExec);
+    }
+    @Test //15. Уведомление, что администратор не подтвердил изменение данных организации
+    public void eventThatTheAdministratorHasNotConfirmedTheChangeOfTheOrganizationSData() {
+        //arrange
+        try{
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            navigationToOrganizationTab();
+            checkingThatOrganizationIsConfirmed();
+        }catch (Exception e){ //Если нет одобренной организации для проверки > создать ее
+            exitFromB2B();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            navigationToOrganizationTab();
+            navigationToAddOrganizationTab();
+            selectionFromDropDownListIndividualBusinessman();
+            fillingFieldsForCreatingOrganization();
+            creatingOrganization();
+            tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            checkingThatOrganizationIsConfirmed();
+            navigationToOrganizationTab();
+            checkingThatOrganizationIsConfirmed();
+        }
+        sortingOrganizationByDecrease();
+        openTabsInTheOrganizationDetailedPage();
+        changeSomeDataInTheOrganizationTab();
+        registr.navigationToPageForConfirmUserRegistration();
+        registr.navigationToRegistrationOrganizationsTableFromAdminPart();
+        //act
+        registr.rejectTheRegistrationOfTheLasOrOrganization();
+        navigationToTheEventTableFromAdmin();
+        checkingEventAboutRejectTheCompanyByAdminAfterChanging();
+        checkingStatusOfEventAboutRejectTheCompanyByAdminAfterChanging(expectedSuccessExec);
     }
 
 

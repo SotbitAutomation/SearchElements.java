@@ -87,7 +87,7 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
         checkingThatTheFieldsAreRequired();
     }
 
-    @Test //6. Проверка доступных действий над организациями у админа
+    @Test //6. Изменение данных созданной организации у админа
     public void checkAvailableActionsWithOrganizationsFromTheAdmin() {
         //arrange
         try{
@@ -103,13 +103,12 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
             navigationToOrganizationTab();
             checkingThatOrganizationIsConfirmed();
         }
-        addOrganizationIPFromTheAdmin();
         //act
-
+        addOrganizationIPFromTheAdmin();
         checkingAvailableActionsWithOrganization(true);
     }
 
-    @Test //7. Проверка доступных действий над организациями у юзера
+    @Test //7. Изменение данных созданной организациии у юзера
     public void checkAvailableActionsWithOrganizationsFromTheUser() {
         //arrange
         try{
@@ -151,7 +150,7 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
-        confirmationEmployeeRequest();
+        confirmEmployeeRequest();
         exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeEmployee();
@@ -182,7 +181,7 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
-        confirmationEmployeeRequest();
+        confirmEmployeeRequest();
         exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeEmployee();
@@ -359,7 +358,7 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
     }
 
     @Test //17 Проверка почтового события после добавления пользователя управляющим компании
-    public void checkingEmail() {
+    public void checkingEvent() {
         //arrange
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
@@ -408,7 +407,7 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         selectionFromTheHeaderOrganization(nameCompany);
-        confirmationEmployeeRequest();
+        confirmEmployeeRequest();
         navigationToPersonsTab();
         deletingEmployee();
         exitFromB2B();
