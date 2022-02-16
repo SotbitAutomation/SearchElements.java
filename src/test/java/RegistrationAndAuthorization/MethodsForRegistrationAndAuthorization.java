@@ -393,15 +393,17 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
     By chekBoxForUserSelectionLocator = By.xpath("(//*[@class='adm-designed-checkbox-label adm-checkbox'])[1]");
     By choiceOfActionForApproveLocator = By.xpath("//*[@value = 'approve']");
     By choiceOfActionForRejectLocator = By.xpath("//*[@value = 'unapprove']");
-
     By applyApprovalLocator = By.xpath("//*[@value = 'Применить']");
 
     public void confirmUserRegistration(){
         try{
             driver.findElement(registerButtonOnRegistrationTabLocator).click();
-        }catch (Exception e){}
+        }catch (Exception e){
+            System.out.println("Подтвердаю регистрацию юзера не со страницы регистрации");
+        }
         navigationToPageForConfirmUserRegistration();
         approveTheRegistrationOfTheLastUser();
+        navigationToMeanPageByUrl();
         exitFromB2B();
         navigationToAuthorizationTab();
     }
