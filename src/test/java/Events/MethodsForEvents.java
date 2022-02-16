@@ -74,8 +74,16 @@ public class MethodsForEvents extends MethodsForAddingOrganizationsWithExtendedV
         }
     }
     public void checkingThatThereIsThisEvent(String nameEvent, String uniqueInformation){
-        Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), '" + nameEvent + "')] /following::*[contains(text(), '" + uniqueInformation + "')]"))
-                .isDisplayed());
+        try {
+            Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), '" + nameEvent + "')] /following::*[contains(text(), '" + uniqueInformation + "')]"))
+                    .isDisplayed());
+        }catch (Exception e){
+            System.out.println("!!!!   словил тупую ошибку, сменило само старницу на первую, меняю обратно !!!!! ");
+            driver.findElement(By.xpath("//*[@class='adm-nav-page']")).click();
+            waitingMilliSecond();
+            Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), '" + nameEvent + "')] /following::*[contains(text(), '" + uniqueInformation + "')]"))
+                    .isDisplayed());
+        }
     }
 
     public void searchForAColumnWithEventStatuses(){
