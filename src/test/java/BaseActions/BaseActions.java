@@ -1,5 +1,4 @@
 package BaseActions;
-//***********test
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
