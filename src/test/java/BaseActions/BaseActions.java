@@ -98,7 +98,7 @@ public class BaseActions extends CustomizingForYourself {
     public String tempValue1;
     public String tempValue2;
     public String tempValue2WithSell;
-    public String tempValue3;
+    public String tempValue3 = "";
     public String tempValue4;
     public String tempValue5;
     public String tempValue6;
@@ -109,7 +109,7 @@ public class BaseActions extends CustomizingForYourself {
     public int tempIntValue;
     public int tempIntValue2;
     public String tempValueForNumbers;
-    public boolean flag;
+    public boolean flag = false;
     public static boolean flagForLocation = false;
     public boolean doNeedToConfirmRegistrationUser = false;
     public boolean doNeedToConfirmRegistrationOrganization = false;
@@ -259,14 +259,23 @@ public class BaseActions extends CustomizingForYourself {
         Assert.assertEquals("Пароль не отображается", password,
                 driver.findElement(passwordInputInAuthorizationTanLocator).getAttribute("value"));
     }
-
+    public void hideTheMenu(){
+        if (driver.findElement(By.cssSelector(".bx-user-info-name")).isDisplayed())
+            driver.findElement(By.cssSelector(".icon-transmission")).click();
+    }
+    public void unHideTheMenu(){
+        if (!driver.findElement(By.cssSelector(".bx-user-info-name")).isDisplayed())
+            driver.findElement(By.cssSelector(".icon-transmission")).click();
+    }
     public void logInToB2B() {
         driver.findElement(logInButtonOnTheAuthorizationTabLocator).click();
         try {
             Assert.assertTrue(driver.findElement(By.cssSelector(".swiper-wrapper")).isDisplayed());
+            unHideTheMenu();
         }catch (Exception e){
             navigationToMeanPageByUrl();
             Assert.assertTrue(driver.findElement(By.cssSelector(".swiper-wrapper")).isDisplayed());
+            unHideTheMenu();
         }
     }
 
@@ -430,9 +439,17 @@ public class BaseActions extends CustomizingForYourself {
         try {
             driver.findElement(By.xpath("//*[text()='Подтверждение организации (расширенный режим)']")).click();
         }catch (Exception e ){
+            System.out.println("меню выбора 'Подтверждение организации (расширенный режим)' было скрыто");
+        }try {
+            driver.findElement(By.xpath("//*[text()='Оптовые покупатели']")).click();
+            driver.findElement(By.xpath("//*[contains(text(),'Подтверждение организации')]")).click();
+        }catch (Exception e){
+            driver.findElement(By.xpath("//*[text()='Расширенная авторизация']")).click();
             driver.findElement(By.xpath("//*[text()='Оптовые покупатели']")).click();
             driver.findElement(By.xpath("//*[contains(text(),'Подтверждение организации')]")).click();
         }
+
+
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#digitalwand_admin_helper_sotbit_auth_company_confirm")));
         Assert.assertTrue(driver.findElement(By.xpath("((//*[@class='adm-list-table-row'])[1] //*[@class='adm-list-table-cell'])[3]")).getText().contains(nameCompany));
         driver.findElement(By.xpath("//*[@class='adm-designed-checkbox-label adm-checkbox']")).click();
@@ -451,7 +468,7 @@ public class BaseActions extends CustomizingForYourself {
 
     public void tryConfirmRegistrationOfOrganizationInB2bFromTheUser() {
         determineWhetherRegistrationOrganizationNeedsToBeConfirmed();
-        if (doNeedToConfirmRegistrationOrganization == true){
+        if (doNeedToConfirmRegistrationOrganization){
             confirmRegistrationOfOrganizationInB2bFromTheUser();
         }
     }
@@ -636,5 +653,10 @@ public class BaseActions extends CustomizingForYourself {
     }
     public void refreshingThisPage(){
         driver.navigate().refresh();
+    }
+
+    public void hoveringTheCursorOverTheElement(By xpathLocator){
+        actions.moveToElement(driver.findElement(xpathLocator));
+        actions.perform();
     }
 }

@@ -68,13 +68,11 @@ public class MethodsForCatalog extends BaseActions {
     public By priceForFirstProductInCart = By.xpath("((//*[@class='basket__column-price-wrap'])[1] /span)[1]");
     public By priceForSecondProductInCart = By.xpath("(//*[@class='basket__column-price-wrap'] /span)[last()-1]");
 
-
-
     public String del = Keys.chord(Keys.CONTROL, "a") + Keys.DELETE;
 
-    //By priceForUser = By.xpath("//*[@href='/orders/blank_zakaza/']");
     public By checkboxThatHighlightsAllProductsInTheCartLocator =  By.xpath("//*[@data-entity='basket-gruope-item-checkbox']");
     public By buttonForDeletingProductsInCartLocator =  By.xpath("//*[@data-entity='basket-groupe-item-delete']");
+    public By iconCatalogLocator = By.xpath("//*[contains(@class, 'nav-item nav-item-submenu')] /*[contains(@href, 'blank_zakaza')]");
 
 
     public void changeTheQuantityOfRandomProduct() {
@@ -637,6 +635,7 @@ public class MethodsForCatalog extends BaseActions {
                     Assert.assertTrue(Double.valueOf(tempValue2) <= Double.valueOf(tempValue3));
                 }
             }else Assert.assertTrue(Double.valueOf(tempValue2) <= Double.valueOf(tempValue3));
+
         }
     }
 
@@ -700,7 +699,7 @@ public class MethodsForCatalog extends BaseActions {
                     .getText();
             tempValue2 = replacingSomeSymbols(tempValue2);
             tempValue2 = tempValue2.replaceAll("[^0-9.]", "");
-            tempValue3 = driver.findElement(By.xpath("((//*[@class='blank-zakaza__item'] /*[@class='product'] /following::*[1][not(ancestor-or-self::*[contains(@class, 'product product--offer')])] /preceding::tr[1])[" + i +"] //*[@class='product__property product__property--price'])[1]"))
+            tempValue3 = driver.findElement(By.xpath("((//*[@class='blank-zakaza__item'] /*[@class='product'] /following::*[1][not(ancestor-or-self::*[contains(@class, 'product product--offer')])] /preceding::tr[1])[" + (i+1) +"] //*[@class='product__property product__property--price'])[1]"))
                     .getText();
             tempValue3 = replacingSomeSymbols(tempValue3);
             tempValue3 = tempValue3.replaceAll("[^0-9.]", "");
@@ -771,15 +770,73 @@ public class MethodsForCatalog extends BaseActions {
         if (driver.findElements(By.xpath("//*[contains(@class, 'categorie')]")).size() > 0){
             driver.findElement(By.xpath("(//*[contains(@class, 'catalog_section')])[3]")).click();
             driver.findElement(By.xpath("(//*[contains(@class, 'catalog_section')])[3] //*[@class='form-check-label']")).click();
+            goToTheLastPage();
+            checkThatTheQuantityOfPagesIsChanged();
         }else {
-            driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][@title='Каталог']")).click();
-            explicitWaiting();
-            tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(By.xpath("//*[contains(@class, 'nav-item-open')]/*[contains(@class, 'nav-group-sub')] /li /a /span")).size()));
-            driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]")).click();
-            tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(By.xpath("(//*[contains(@class, 'nav-item-open')])[last()] /ul /li")).size()));
-            System.out.println(tempRandomNumber);
-            driver.findElement(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()] /ul /li)[" + tempRandomNumber + "]")).click();
+            expandCatalogCategories();
+            choiceRandomCategoryInMenuCatalog();
+            checkingThatAllProductsHaveASimilarIdToTheSectionId();
+            choiceRandomUnderCategoryOfTheSelectedCategory();
+            checkingThatBreadCrumbHaveSelectedCategories();
+            checkingThatAllProductsHaveASimilarIdToTheSectionId();
         }
+    }
+    public void expandCatalogCategories(){
+        tempValue1 = driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][@title='Каталог']")).getText();
+        driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][@title='Каталог']")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='nav-item nav-item-submenu'])[2]")));
+        waitingMilliSecond();
+        String backgroundColor = driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][@title='Каталог']")).getCssValue("background-color");
+        Assert.assertEquals("Цвет фона для 'Каталог не соответсвует ожидаемому'"
+                , "rgba(62, 73, 95, 1)",  backgroundColor);
+        explicitWaiting();
+    }
+    public void choiceRandomCategoryInMenuCatalog(){
+        System.out.println(driver.findElements(By.xpath("//*[contains(@class, 'nav-item-open')]/*[contains(@class, 'nav-group-sub')] /li /a /span")).size());
+        tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(By.xpath("//*[contains(@class, 'nav-item-open')]/*[contains(@class, 'nav-group-sub')] /li /a /span")).size()));
+        tempValue2 = driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]")).getText();
+        System.out.println("Рандомный раздел - " + tempValue2);
+        driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[contains(@class, 'nav-item-open')])[2] //*[@class='nav nav-group-sub']//*[@class='nav-link']")));
+        waitingMilliSecond();
+        String backgroundColor = driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')]/*[contains(@class, 'nav-group-sub')] /li /a)[" + tempRandomNumber + "]"))
+                .getCssValue("background-color");
+        Assert.assertEquals("Цвет фона для 'Каталог не соответсвует ожидаемому'"
+                , "rgba(0, 0, 0, 0.15)",  backgroundColor);
+        tempValue4 = driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')])[last()] /*[@href]")).getAttribute("href");
+        tempValue4 = tempValue4.substring(tempValue4.indexOf('=')+1);
+    }
+    public void choiceRandomCategoryInPopUpMenuCatalog(){
+        By pathToSectionsInMenuLocator = By.xpath("//*[contains(@class, 'nav-sidebar')]/*[contains(@class, 'nav-item nav-item-submenu')] /*[contains(@class, 'nav nav-group-sub')] /*[contains(@class, 'nav-item nav-item-submenu')]/*[@class='nav-link']");
+        tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(pathToSectionsInMenuLocator).size()));
+        By pathToRandomSectionsInMenuLocator = By.xpath("(//*[contains(@class, 'nav-sidebar')]/*[contains(@class, 'nav-item nav-item-submenu')] /*[contains(@class, 'nav nav-group-sub')] /*[contains(@class, 'nav-item nav-item-submenu')]/*[@class='nav-link'])[" + tempRandomNumber + "]/span");
+        tempValue2 = driver.findElement(pathToRandomSectionsInMenuLocator).getText();
+        System.out.println("УДАЛИТЬ " + tempRandomNumber);
+        System.out.println("Рандомный раздел - " + tempValue2);
+        driver.findElement(pathToRandomSectionsInMenuLocator).click();
+        hoveringTheCursorOverTheElement(iconCatalogLocator);
+        waitingMilliSecond();
+        String backgroundColor = driver.findElement(By.xpath("(//*[@class='nav-item nav-item-submenu nav-item-open'])[last()] /*[@class='nav-link']")).getCssValue("background-color");
+        Assert.assertEquals("Цвет фона для 'Каталог не соответсвует ожидаемому'"
+                , "rgba(0, 0, 0, 0.15)",  backgroundColor);
+        tempValue4 = driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')])[last()] /*[@href]")).getAttribute("href");
+        tempValue4 = tempValue4.substring(tempValue4.indexOf('=')+1);
+    }
+
+    public void choiceRandomUnderCategoryOfTheSelectedCategory(){
+        tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(By.xpath("(//*[contains(@class, 'nav-item-open')])[last()] /ul /li")).size()));
+        tempValue3 = driver.findElement(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()] /ul /li)[" + tempRandomNumber + "]")).getText();
+        driver.findElement(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]")).click();
+        hoveringTheCursorOverTheElement(iconCatalogLocator);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@class, 'nav-item-open')] //*[text()='" + tempValue3 + "']")));
+        waitingMilliSecond();
+        System.out.println("Рандомный подраздел рандомного раздела - " + tempValue3);
+        String backgroundColor = driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')])[last()] /*[@class='nav-link']"))
+                .getCssValue("background-color");
+        Assert.assertEquals("Цвет фона для 'Каталог не соответсвует ожидаемому'"
+                , "rgba(0, 0, 0, 0.15)",  backgroundColor);
+        tempValue4 = driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')])[last()] /*[@href]")).getAttribute("href");
+        tempValue4 = tempValue4.substring(tempValue4.indexOf('=')+1);
     }
     public void checkThatTheQuantityOfPagesIsChanged(){
         Assert.assertNotEquals(tempValueForNumbers, tempValue2);
@@ -808,31 +865,14 @@ public class MethodsForCatalog extends BaseActions {
                     .getText();
             tempValue2 = replacingSomeSymbols(tempValue2);
             tempValue2 = tempValue2.replaceAll("[^0-9.]", "");
+            if (Double.valueOf(tempValue2)>Double.valueOf(maxPriceForFiltering)){
+                tempValue2 = driver.findElement(By.xpath("((//*[@class='blank-zakaza__item'] /*[@class='product'] /following::*[1][not(ancestor-or-self::*[contains(@class, 'product product--offer')])] /preceding::tr[1])[2] //*[@class='product__property product__property--price'])[1] //*[contains(@id, 'BASE')]"))
+                        .getText();
+                tempValue2 = replacingSomeSymbols(tempValue2);
+                tempValue2 = tempValue2.replaceAll("[^0-9.]", "");
+            }
             Assert.assertTrue(Double.valueOf(tempValue2) <= Double.valueOf(maxPriceForFiltering));
-
-
-//            tempValue3 = driver.findElement(By.xpath("((//*[@class='blank-zakaza__item'])[" + (i+1) + "] //*[@class='product__property product__property--price'])[1]"))
-//                    .getText();
-//            tempValue3 = replacingSomeSymbols(tempValue3);
-//            tempValue3 = tempValue3.replaceAll("[^0-9.]", "");
-//            if (areThereAnyOffers == true){
-//                if (tempValue2 != null && !tempValue2.trim().isEmpty() && tempValue3 != null && !tempValue3.trim().isEmpty()){
-//                    Assert.assertTrue(Double.valueOf(tempValue2) >= Double.valueOf(tempValue3));
-//                    Assert.assertTrue(Double.valueOf(tempValue2) <= Double.valueOf(maxPriceForFiltering));
-//                    Assert.assertTrue(Double.valueOf(tempValue3) <= Double.valueOf(maxPriceForFiltering));
-//                }
-//            }else {
-//                Assert.assertTrue(Double.valueOf(tempValue2) >= Double.valueOf(tempValue3));
-//                Assert.assertTrue(Double.valueOf(tempValue2) <= Double.valueOf(maxPriceForFiltering));
-//                Assert.assertTrue(Double.valueOf(tempValue3) <= Double.valueOf(maxPriceForFiltering));
-//            }
         }
-
-//        Assert.assertTrue(Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_BASE')])[1]")).getText()))
-//                <= Double.valueOf(maxPriceForFiltering));
-//
-//        Assert.assertTrue(Double.valueOf(replacingSomeSymbols(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_BASE')])[1]")).getText())))
-//                >= Double.valueOf(replacingSomeSymbols(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_BASE')])[1]")).getText()))));
     }
     public void checkThatMinPriceHasBeenApplied(){
         for (int i = 1; i < driver.findElements(By.xpath("//*[@class='blank-zakaza__item'] /*[@class='product'] /following::*[1][not(ancestor-or-self::*[contains(@class, 'product product--offer')])] /preceding::tr[1]")).size(); i++) {
@@ -840,25 +880,13 @@ public class MethodsForCatalog extends BaseActions {
                     .getText();
             tempValue2 = replacingSomeSymbols(tempValue2);
             tempValue2 = tempValue2.replaceAll("[^0-9.]", "");
+            if (Double.valueOf(tempValue2)<Double.valueOf(maxPriceForFiltering)){
+                tempValue2 = driver.findElement(By.xpath("((//*[@class='blank-zakaza__item'] /*[@class='product'] /following::*[1][not(ancestor-or-self::*[contains(@class, 'product product--offer')])] /preceding::tr[1])[2] //*[@class='product__property product__property--price'])[1] //*[contains(@id, 'BASE')]"))
+                        .getText();
+                tempValue2 = replacingSomeSymbols(tempValue2);
+                tempValue2 = tempValue2.replaceAll("[^0-9.]", "");
+            }
             Assert.assertTrue(Double.valueOf(tempValue2) >= Double.valueOf(minPriceForFiltering));
-
-
-
-//            tempValue3 = driver.findElement(By.xpath("((//*[@class='blank-zakaza__item'])[" + (i+1) + "] //*[@class='product__property product__property--price'])[1]"))
-//                    .getText();
-//            tempValue3 = replacingSomeSymbols(tempValue3);
-//            tempValue3 = tempValue3.replaceAll("[^0-9.]", "");
-//            if (areThereAnyOffers == true){
-//                if (tempValue2 != null && !tempValue2.trim().isEmpty() && tempValue3 != null && !tempValue3.trim().isEmpty()){
-//                    Assert.assertTrue(Double.valueOf(tempValue2) <= Double.valueOf(tempValue3));
-//
-//                    Assert.assertTrue(Double.valueOf(tempValue3) >= Double.valueOf(minPriceForFiltering));
-//                }
-//            }else {
-//                Assert.assertTrue(Double.valueOf(tempValue2) <= Double.valueOf(tempValue3));
-//                Assert.assertTrue(Double.valueOf(tempValue2) >= Double.valueOf(minPriceForFiltering));
-//                Assert.assertTrue(Double.valueOf(tempValue3) >= Double.valueOf(minPriceForFiltering));
-//            }
         }
     }
     public void changePageOnTheSecond(){
@@ -866,6 +894,44 @@ public class MethodsForCatalog extends BaseActions {
             driver.findElement(By.xpath("(//*[@class='page-item'])[1]")).click();
         }catch (Exception e){
             System.out.println("Я не нашел второй страницы");
+        }
+    }
+    public void checkThatTheMaximumPriceIsAppliedOnAllPages (){
+        System.out.println("ID раздела - " + tempValue4);
+        count = 1;
+        while (!flag){
+            checkThatMaxPriceHasBeenApplied();
+            try {
+                driver.findElement(By.xpath("//*[@class='page-item next']")).click();
+                count++;
+                System.out.println();
+                System.out.println("Выбрал старницу №" + count + " с товарами категории, для проверки всех цен на ней");
+                System.out.println();
+            }catch (Exception e){
+                System.out.println();
+                System.out.println("Больше страниц с товарами категории нет, всего страниц - " + count);
+                System.out.println();
+                flag=true;
+            }
+        }
+    }
+    public void checkThatTheMinimumPriceIsAppliedOnAllPages (){
+        System.out.println("ID раздела - " + tempValue4);
+        count = 1;
+        while (!flag){
+            checkThatMinPriceHasBeenApplied();
+            try {
+                driver.findElement(By.xpath("//*[@class='page-item next']")).click();
+                count++;
+                System.out.println();
+                System.out.println("Выбрал старницу №" + count + " с товарами категории, для проверки всех цен на ней");
+                System.out.println();
+            }catch (Exception e){
+                System.out.println();
+                System.out.println("Больше страниц с товарами категории нет, всего страниц - " + count);
+                System.out.println();
+                flag=true;
+            }
         }
     }
     public void changePageOnTheFifth(){
@@ -2210,6 +2276,111 @@ public class MethodsForCatalog extends BaseActions {
     public void checkingThatEnteredDataIsDisplayed (){
         Assert.assertEquals(driver.findElement(By.xpath("//*[@name='WORK_COMPANY']")).getAttribute("value"), randomData);
     }
+    public void checkingThatBreadCrumbHaveSelectedCategories(){
+        tempValue5 = driver.findElement(By.cssSelector(".breadcrumb")).getText();
+        Assert.assertTrue(tempValue5.contains(tempValue1));
+        Assert.assertTrue(tempValue5.contains(tempValue2));
+        System.out.println("УДАЛИТЬ" + tempValue5 + "! - -  - - " + tempValue3 );
+        Assert.assertTrue(tempValue5.contains(tempValue3));
+    }
+    public void checkingThatAllProductsHaveASimilarIdToTheSectionId(){
+        System.out.println("ID раздела - " + tempValue4);
+        count = 1;
+        flag = false;
+        while (!flag){
+            for (int i = 1; i <=driver.findElements(By.xpath("//*[@class='product__link']")).size() ; i++) {
+                tempValue5 = driver.findElement(By.xpath("(//*[@class='product__link'])[" + i + "]")).getAttribute("href");
+                tempValue5 = tempValue5.substring(tempValue5.indexOf('=')+1);
+                tempValue5 = tempValue5.substring(0,tempValue5.indexOf('&'));
+                System.out.println("Id товара № " + i + " настранице № " + count + " - " + tempValue5);
+                Assert.assertTrue(Integer.parseInt(tempValue5) >= Integer.parseInt(tempValue4));
+                Assert.assertTrue((Integer.parseInt(tempValue4) + 10) >= Integer.parseInt(tempValue5));
+            }
+            try {
+                driver.findElement(By.xpath("//*[@class='page-item next']")).click();
+                System.out.println();
+                System.out.println("Выбрал следующую старницу с товарами категории");
+                System.out.println();
+                count++;
+            }catch (Exception e){
+                System.out.println();
+                System.out.println("Больше страниц с товарами категории нет, всего страниц - " + count);
+                System.out.println();
+                flag=true;
+            }
+        }
+    }
+    public void configureTheMenuOutputToTheRightSideOfTheScreen(){
+        driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/" , "") + "bitrix/admin/sotbit.b2bcabinet_settings.php?mid=sotbit.b2bcabinet&lang=ru&site=s1");
+        scrollToTheElement("//*[@id='MENU_POSITION']");
+        driver.findElement(By.cssSelector("#MENU_POSITION")).click();
+        driver.findElement(By.xpath("//*[@value='RIGHT']")).click();
+        driver.findElement(buttonSaveLocator).click();
+        navigationToMeanPageByUrl();
+    }
+    public void configureTheMenuOutputToTheLeftSideOfTheScreen (){
+        driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/" , "") + "bitrix/admin/sotbit.b2bcabinet_settings.php?mid=sotbit.b2bcabinet&lang=ru&site=s1");
+        scrollToTheElement("//*[@id='MENU_POSITION']");
+        driver.findElement(By.cssSelector("#MENU_POSITION")).click();
+        driver.findElement(By.xpath("//*[@value='LEFT']")).click();
+        driver.findElement(buttonSaveLocator).click();
+        navigationToMeanPageByUrl();
+    }
+    public void checkingThatTheMenuIsOnTheRightSideOfTheScreen(){
+        Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@class, 'b2bcabinet-sidebar-right')]")).isDisplayed());
+    }
+    public void checkingThatTheMenuIsOnTheLeftSideOfTheScreen(){
+        Assert.assertEquals(0, driver.findElements( By.xpath("//*[contains(@class, 'b2bcabinet-sidebar-right')]")).size());
+    }
+    public void determineMaxPriceForFilteringAThousandLessThanThePriceOfTheMostExpensiveProductInThisSection(){
+        try {
+            maxPriceForFiltering = String.valueOf(Double.valueOf(driver.findElement(By.cssSelector(".max-price")).getAttribute("placeholder")) - 1000);
+        }catch (Exception e){
+            System.out.println("В фильтре нет поля (или плэйсхолдера) для ввода максимальной цены, меняю категорию");
+        }try {
+            navigationToMeanPageByUrl();
+            expandCatalogCategories();
+            choiceRandomCategoryInMenuCatalog();
+            maxPriceForFiltering = String.valueOf(Double.valueOf(driver.findElement(By.cssSelector(".max-price")).getAttribute("placeholder")) - 1000);
+        }catch (Exception e) {
+            System.out.println("В фильтре нет поля (или плэйсхолдера) для ввода максимальной цены (снова), меняю категорию");
+            navigationToMeanPageByUrl();
+            expandCatalogCategories();
+            choiceRandomCategoryInMenuCatalog();
+            maxPriceForFiltering = String.valueOf(Double.valueOf(driver.findElement(By.cssSelector(".max-price")).getAttribute("placeholder")) - 1000);
+        }
+    }
+    public void determineMinPriceForFilteringAThousandMoreThanThePriceOfTheMostCheapProductInThisSection(){
+        try {
+            minPriceForFiltering = String.valueOf(Double.valueOf(driver.findElement(By.cssSelector(".min-price")).getAttribute("placeholder")) + 1000);
+        }catch (Exception e) {
+            System.out.println("В фильтре нет поля (или плэйсхолдера) для ввода минимальной цены, меняю категорию");
+        }try {
+            navigationToMeanPageByUrl();
+            expandCatalogCategories();
+            choiceRandomCategoryInMenuCatalog();
+            minPriceForFiltering = String.valueOf(Double.valueOf(driver.findElement(By.cssSelector(".min-price")).getAttribute("placeholder")) + 1000);
+        }catch (Exception e){
+            System.out.println("В фильтре нет поля (или плэйсхолдера) для ввода минимальной цены (снова), меняю категорию");
+            navigationToMeanPageByUrl();
+            expandCatalogCategories();
+            choiceRandomCategoryInMenuCatalog();
+            minPriceForFiltering = String.valueOf(Double.valueOf(driver.findElement(By.cssSelector(".min-price")).getAttribute("placeholder")) + 1000);
+        }
+    }
+    public void rememberQuantityProductsOnThisPage(){
+        tempInt = driver.findElements(By.xpath("//*[@class='product__link']")).size();
+    }
+    public void applyTheFirstProperty(){
+        driver.findElement(By.xpath("//*[@type='checkbox']")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#set_filter")));
+        waitingMilliSecond();
+        driver.findElement(By.cssSelector("#set_filter")).click();
+    }
+    public void checkingThatQuantityProductsOnThisPageAreDecreased(){
+        Assert.assertTrue(tempInt > driver.findElements(By.xpath("//*[@class='product__link']")).size());
+    }
+
 
 
 

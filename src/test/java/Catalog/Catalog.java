@@ -621,8 +621,6 @@ public class Catalog extends MethodsForCatalog {
         goToTheLastPage();
         rememberTheNumberOfPages();
         choiceTheSecondLevelCategory();
-        goToTheLastPage();
-        checkThatTheQuantityOfPagesIsChanged();
     }
     @Test //39. Проверка корректности вывода релевантных свойств фильтра
     public void checkingCorrectnessOfOutputOfRelevantFilterProperties() {
