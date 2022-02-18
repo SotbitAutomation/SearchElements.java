@@ -201,6 +201,7 @@ public class MethodsForCatalog extends BaseActions {
         try {
             wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter+1)));
         }catch (Exception e){
+            System.out.println("C первого раза не кликнулось");
             driver.findElement(By.xpath("(//*[@class='quantity-selector__increment'])[" + randomNumberOfProductsPerPage + "]")).click();
             wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter+1)));
         }
@@ -216,13 +217,16 @@ public class MethodsForCatalog extends BaseActions {
         driver.findElement(By.xpath("(//*[@class='quantity-selector__decrement'])[" + randomNumberOfProductsPerPage + "]")).click();
         coefficientForQuantityOfProducts = 1/unitsOfMeasurement;
         driver.findElement(By.xpath("(//*[@class='quantity-selector__decrement'])[" + randomNumberOfProductsPerPage + "]")).click();
-        try {
-            wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
-        }catch (Exception e){
-            driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]")).clear();
-            driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]")).sendKeys("0");
-            wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
-        }
+//        try {
+//            wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
+//        }catch (Exception e){
+//            driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]")).clear();
+//            driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]")).sendKeys("0");
+//            wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
+//        } //было так, но долго сделал как снизу
+        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]")).clear();
+        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]")).sendKeys("0");
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
         waitingMilliSecond();waitingMilliSecond();
     }
 
@@ -232,47 +236,64 @@ public class MethodsForCatalog extends BaseActions {
     }
 
     public void determiningPriceOfThisRandomProduct() {
-        tempString = driver.findElement(By.xpath("(//*[contains(@id, 'price_BASE')])[" + randomNumberOfProductsPerPage + "]")).getText();
-        basePriceRandomProduct = Double.valueOf(replacingSomeSymbols(tempString));
-        if (IsThereASmallOptPrice) {
-        try{
-            if(basePriceRandomProduct > Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'SMALL_OPT')])[" + randomNumberOfProductsPerPage + "]"))
-                    .getText()))){
-                basePriceRandomProduct =  Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'SMALL_OPT')])[" + randomNumberOfProductsPerPage + "]"))
-                        .getText()));
+        for (int i = 1; i <driver.findElements(By.xpath("//*[@class='blank-zakaza__header-row']/*[contains(@class, 'blank-zakaza__header')]")).size() ; i++) {
+            if (driver.findElement(By.xpath("(//*[@class='blank-zakaza__header-row']/*[contains(@class, 'blank-zakaza__header')])[" + i + "]")).getText().contains("Минимальная цена")){
+                countColumnForMinPrice = i;
+                break;
             }
-            }catch (Exception e){}   //Если у товара есть меньшая цена (для твоей группы пользователя), то выберется меньшая цена
         }
-        if (IsThereAOptPrice) {
-            try {
-                if (basePriceRandomProduct > Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_OPT')])[" + randomNumberOfProductsPerPage + "]"))
-                        .getText()))) {
-                    basePriceRandomProduct = Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_OPT')])[" + randomNumberOfProductsPerPage + "]"))
-                            .getText()));
-                }
-            } catch (Exception e) {
-            }   //Если у товара есть меньшая цена (для твоей группы пользователя), то выберется меньшая цена
+        if (countColumnForMinPrice>0){
+            tempString = driver.findElement(
+                    By.xpath("(((//*[@class='quantity-selector'])[" + randomNumberOfProductsPerPage+ "] /preceding::*[@class='product__property product__property--image'])[last()] /following::*[contains(@class, 'product__property product__property')])[" + (countColumnForMinPrice-1) + "]"))
+                    .getText();
+            basePriceRandomProduct = Double.valueOf(replacingSomeSymbols(tempString));
         }
-        if (IsThereATestPrice){
-            try{
-                if(basePriceRandomProduct > Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_TEST')])[" + randomNumberOfProductsPerPage + "]"))
-                        .getText()))){
-                    basePriceRandomProduct =  Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_TEST')])[" + randomNumberOfProductsPerPage + "]"))
-                            .getText()));
-                }
-            }catch (Exception e){}   //Если у товара есть меньшая цена (для твоей группы пользователя), то выберется меньшая цена
+        else {
+            System.out.println("Я не нашел колонку с минимальной ценой!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            tempString = driver.findElement(By.xpath("(//*[contains(@id, 'price_BASE')])[" + randomNumberOfProductsPerPage + "]")).getText();
+            basePriceRandomProduct = Double.valueOf(replacingSomeSymbols(tempString));
+            if (IsThereASmallOptPrice) {
+                try{
+                    if(basePriceRandomProduct > Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'SMALL_OPT')])[" + randomNumberOfProductsPerPage + "]"))
+                            .getText()))){
+                        basePriceRandomProduct =  Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'SMALL_OPT')])[" + randomNumberOfProductsPerPage + "]"))
+                                .getText()));
+                    }
+                }catch (Exception e){}   //Если у товара есть меньшая цена (для твоей группы пользователя), то выберется меньшая цена
+            }
+            if (IsThereAOptPrice) {
+                try {
+                    if (basePriceRandomProduct > Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_OPT')])[" + randomNumberOfProductsPerPage + "]"))
+                            .getText()))) {
+                        basePriceRandomProduct = Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_OPT')])[" + randomNumberOfProductsPerPage + "]"))
+                                .getText()));
+                    }
+                } catch (Exception e) {
+                }   //Если у товара есть меньшая цена (для твоей группы пользователя), то выберется меньшая цена
+            }
+            if (IsThereATestPrice){
+                try{
+                    if(basePriceRandomProduct > Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_TEST')])[" + randomNumberOfProductsPerPage + "]"))
+                            .getText()))){
+                        basePriceRandomProduct =  Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_TEST')])[" + randomNumberOfProductsPerPage + "]"))
+                                .getText()));
+                    }
+                }catch (Exception e){}   //Если у товара есть меньшая цена (для твоей группы пользователя), то выберется меньшая цена
+            }
+
+            if (
+                    IsThereAnIndividualPrice){
+                try{
+                    if(basePriceRandomProduct > Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'PRIVATE_PRICE')])[" + randomNumberOfProductsPerPage + "]"))
+                            .getText()))){
+                        basePriceRandomProduct =  Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'PRIVATE_PRICE')])[" + randomNumberOfProductsPerPage + "]"))
+                                .getText()));
+                    }
+                }catch (Exception e){}   //Если у товара есть меньшая цена (для твоей группы пользователя), то выберется меньшая цена
+            }
         }
 
-        if (
-                IsThereAnIndividualPrice){
-            try{
-                if(basePriceRandomProduct > Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'PRIVATE_PRICE')])[" + randomNumberOfProductsPerPage + "]"))
-                        .getText()))){
-                    basePriceRandomProduct =  Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'PRIVATE_PRICE')])[" + randomNumberOfProductsPerPage + "]"))
-                            .getText()));
-                }
-            }catch (Exception e){}   //Если у товара есть меньшая цена (для твоей группы пользователя), то выберется меньшая цена
-        }
+
 
         System.out.println("Доступная цена товара за шт. = " + basePriceRandomProduct);
         System.out.println("Рандомное число товаров = " + randomNumberUpToMAxQuantityThisProducts);
@@ -811,7 +832,6 @@ public class MethodsForCatalog extends BaseActions {
         tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(pathToSectionsInMenuLocator).size()));
         By pathToRandomSectionsInMenuLocator = By.xpath("(//*[contains(@class, 'nav-sidebar')]/*[contains(@class, 'nav-item nav-item-submenu')] /*[contains(@class, 'nav nav-group-sub')] /*[contains(@class, 'nav-item nav-item-submenu')]/*[@class='nav-link'])[" + tempRandomNumber + "]/span");
         tempValue2 = driver.findElement(pathToRandomSectionsInMenuLocator).getText();
-        System.out.println("УДАЛИТЬ " + tempRandomNumber);
         System.out.println("Рандомный раздел - " + tempValue2);
         driver.findElement(pathToRandomSectionsInMenuLocator).click();
         hoveringTheCursorOverTheElement(iconCatalogLocator);
@@ -2223,6 +2243,13 @@ public class MethodsForCatalog extends BaseActions {
         }
     }
     public void sendRequestToTopUpYourPersonalAccountForOneHundredRubles(){
+        for (int i = 1; i <=driver.findElements(By.xpath("//*[@class='card-body blank_invoices-payment_method']//*[@class='nav-item']")).size() ; i++) {
+            if (driver.findElement(By.xpath("(//*[@class='card-body blank_invoices-payment_method']//*[@class='nav-item'])[" + i + "]")).getText().contains("Наличные курьеру")){
+                driver.findElement(By.xpath("(//*[@class='card-body blank_invoices-payment_method']//*[@class='nav-item'])[" + i + "]")).click();
+                break;
+            }
+
+        }
         driver.findElement(By.cssSelector(".btn-pay")).click();
         driver.findElement(By.cssSelector(".blank_invoices-pay_button")).click();
     }
@@ -2280,7 +2307,6 @@ public class MethodsForCatalog extends BaseActions {
         tempValue5 = driver.findElement(By.cssSelector(".breadcrumb")).getText();
         Assert.assertTrue(tempValue5.contains(tempValue1));
         Assert.assertTrue(tempValue5.contains(tempValue2));
-        System.out.println("УДАЛИТЬ" + tempValue5 + "! - -  - - " + tempValue3 );
         Assert.assertTrue(tempValue5.contains(tempValue3));
     }
     public void checkingThatAllProductsHaveASimilarIdToTheSectionId(){

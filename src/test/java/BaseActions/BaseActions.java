@@ -120,6 +120,7 @@ public class BaseActions extends CustomizingForYourself {
     public ObjectOutputStream outputStream = null;
     public ObjectInputStream inputStream = null;
     public int count;
+    public int countColumnForMinPrice;
     public int countIP;
     public int counterOfExistingLocators = 0;
     public int numberOfOffersPerPage = 0;
@@ -334,14 +335,10 @@ public class BaseActions extends CustomizingForYourself {
         Assert.assertTrue(driver.findElement(By.cssSelector(".blank_personal")).isDisplayed());
     }
     public void openingAllOffers(){
-        if (areThereAnyOffers == true){
+        if (areThereAnyOffers){
             if (driver.findElements(By.cssSelector(".offers-info__label")).size() > 0){
-                try{
-                    for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(text(), 'Предложения:')]")).size(); i++) {
+                for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(text(), 'Предложения:')]")).size(); i++) {
                         driver.findElement(By.xpath("(//*[contains(text(), 'Предложения:')])[" + i + "]")).click();
-                    }
-                }catch (Exception e) {
-                    System.out.println("Нет офферов");
                 }
             }
         }

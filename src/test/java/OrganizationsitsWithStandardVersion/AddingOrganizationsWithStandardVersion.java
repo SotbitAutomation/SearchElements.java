@@ -99,7 +99,7 @@ public class AddingOrganizationsWithStandardVersion extends MethodsForAddingOrga
         checkingAvailableActionsWithOrganizationInStandardVersion();
     }
     @Test //8. Проверка корректности вывода профилей покупателя (организаций)
-    public void CheckingCorrectnessOfTheOutputOfCustomerProfiles() {
+    public void checkingCorrectnessOfTheOutputOfCustomerProfiles() {
         //arrange
         navigationToAuthorizationTab();
         //act
@@ -109,7 +109,7 @@ public class AddingOrganizationsWithStandardVersion extends MethodsForAddingOrga
         checkingThatNeededProfilesOfBuyersIsSelected();
     }
     @Test //9. Проверить валидацию полей формы заданных в настройках свойств
-    public void CheckValidationOfFormFieldsSpecifiedInThePropertiesSettings () {
+    public void checkValidationOfFormFieldsSpecifiedInThePropertiesSettings () {
         //arrange
         navigationToAuthorizationTab();
         //act
@@ -129,7 +129,7 @@ public class AddingOrganizationsWithStandardVersion extends MethodsForAddingOrga
         checkingMinimumAndMaximumStringLength();
     }
     @Test //10. Проверить соответствия набора полей заявленным в настройках системы
-    public void CheckThatCreatedPropertiesIsOutputIn2b2 () {
+    public void checkThatCreatedPropertiesIsOutputIn2b2 () {
         //arrange
         navigationToAuthorizationTab();
         //act
@@ -145,7 +145,7 @@ public class AddingOrganizationsWithStandardVersion extends MethodsForAddingOrga
         checkingThatAllFieldsForIndividualBusinessman();
     }
     @Test //11. Проверить корректность автоподстановки данных при заполнении ИНН
-    public void CheckCorrectnessOfAutomaticDataSubstitutionWhenFillingInTheTIN() {
+    public void checkCorrectnessOfAutomaticDataSubstitutionWhenFillingInTheTIN() {
         //arrange
         navigationToAuthorizationTab();
         //act
@@ -160,7 +160,7 @@ public class AddingOrganizationsWithStandardVersion extends MethodsForAddingOrga
         creatingOrganization();
     }
     @Test //12. Проверить корректность сохранения данных существующей организации
-    public void CheckCorrectnessOfDataSavingExistingOrganization() {
+    public void checkCorrectnessOfDataSavingExistingOrganization() {
         //arrange
         navigationToAuthorizationTab();
         //act
@@ -178,7 +178,7 @@ public class AddingOrganizationsWithStandardVersion extends MethodsForAddingOrga
     }
     @Test //12.1. !!!Пока ошибка в 12 (клиенты не жалуются, поэтому пока исправляться не будет), выполнять этот!
           // Проверить корректность сохранения данных существующей организации
-    public void CheckCorrectnessOfDataSavingExistingOrganization2() {
+    public void checkCorrectnessOfDataSavingExistingOrganization2() {
         //arrange
         navigationToAuthorizationTab();
         //act
@@ -195,7 +195,7 @@ public class AddingOrganizationsWithStandardVersion extends MethodsForAddingOrga
         checkingThatDataHasBeenChanged2();
     }
     @Test //13. Проверка работы настройки списка организаций (для всех)
-    public void CheckingOperationOfTheOrganizationListSettingsForAll() {
+    public void checkingOperationOfTheOrganizationListSettingsForAll() {
         //arrange
         navigationToAuthorizationTab();
         //act
@@ -217,7 +217,7 @@ public class AddingOrganizationsWithStandardVersion extends MethodsForAddingOrga
         selectingAllColumnsToDisplay();
     }
     @Test //14. Проверка работы настройки списка организаций (по умолчанию)
-    public void CheckingOperationOfTheOrganizationListSettingsByDefault() {
+    public void checkingOperationOfTheOrganizationListSettingsByDefault() {
         //arrange
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();

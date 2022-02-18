@@ -12,12 +12,13 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
 
 
     public By saveButtonOnTheOrganizationTabLocator = By.xpath("//*[@name='save']");
-    By addOrganizationButtonLocator = By.xpath("//*[@type='button'][contains(text(), 'Добавить организацию')]");
+    By addOrganizationButtonLocator = By.xpath("//*[contains(@class,'add_organization-button')]");
     By joinToOrganizationButtonLocator = By.cssSelector(".btn.index_company-join_organization-button");
     By dropDownListForSelectingTypeOfOrganizationLocator = By.cssSelector("#select2-person-type-container");
     By individualBusinessmanFromDropDownListLocator = By.xpath("//*[contains(@class, 'select2-results__option')][contains(text(),'Индивидуальный предприниматель')]");
     By legalPersonFromDropDownListLocator = By.xpath("//*[contains(@class, 'select2-results__option')][contains(text(),'Юридическое лицо')]");
     By employeesTab = By.xpath("//*[contains(@class, 'icon')]/following::*[contains(text(), 'Сотрудники')]");
+    By confirmPopUpWindowAfterManagerAddingUserToCompanyLocator = By.xpath("//*[@role='dialog']//button[contains(@class, 'btn_b2b')]");
     public String stringOfNinetyNineSymbols = "фыв'АПР'ячтьjAb=&G;PwAZ*[U]AC3U%/%hNAV%:9Q#rf&v)uLKpx3W]<G*PhK8f8[]6@J\"kT`%~HD>g`kW*G9{ZJ{E&ZRVYQ)z";
 
     public String[] arrayWithAllPossibleLocatorsForOrganization={
@@ -105,8 +106,18 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
     }
 
     public void navigationToAddOrganizationTab() {
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended){
+            driver.findElement(By.cssSelector(".card__footer__actions-toggler")).click();
+        }
         driver.findElement(addOrganizationButtonLocator).click();
         Assert.assertTrue(driver.findElement(By.cssSelector(".row.add-company__wrapper")).isDisplayed());
+    }
+    public void navigationToJoinOrganizationTab() {
+        driver.findElement(By.cssSelector(".card__footer__actions-toggler")).click();
+        driver.findElement(joinToOrganizationButtonLocator).click();
+        driver.findElement(By.cssSelector(".join__search-company")).click();
+        Assert.assertTrue(driver.findElement(By.cssSelector("#modal_company_join-dialog")).isDisplayed());
     }
 
     public void selectionFromDropDownListLegalPerson() {
@@ -275,15 +286,14 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
     }
 
     public void requestToJoinTheCompany() {
-        driver.findElement(joinToOrganizationButtonLocator).click();
-        Assert.assertTrue(driver.findElement(By.cssSelector(".popup-window")).isDisplayed());
+        navigationToJoinOrganizationTab();
         driver.findElement(By.xpath("//input[contains(@placeholder,'Введите название')]")).sendKeys(nameCompany);
         waitingMilliSecond();waitingMilliSecond();waitingMilliSecond();waitingMilliSecond();waitingMilliSecond();
         driver.findElement(By.xpath("//*[contains(text(), '" + nameCompany + "')]")).click();
-        driver.findElement(By.xpath("//*[@value = 'Присоединиться']")).click();
+        driver.findElement(By.xpath("//*[@name = 'company-join-send']")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='Ваш запрос успешно отправлен!']")));
         Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Ваш запрос успешно отправлен!']")).isDisplayed());
-        driver.findElement(By.xpath("//*[@type='button'][contains(@class, 'btn_ok')]")).click();
+        driver.findElement(confirmPopUpWindowAfterManagerAddingUserToCompanyLocator).click();
     }
 
     public void checkingThatTheEmployeeOfCompanyIsDisplayed() {
@@ -320,13 +330,16 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
 
 
     public void addingAnEmployeeToAnOrganizationUsingByReferralLink() {
-        driver.findElement(By.xpath("//*[@value='Отправить ссылку']")).click();
-        driver.findElement(By.cssSelector(".btn_confirm")).click();
-        driver.findElement(By.cssSelector(".btn_ok")).click();
+        driver.findElement(By.xpath("//*[@name='referral_submit_button']")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='modal-dialog']//button[contains(@class, 'btn_b2b')][contains(text(), 'Присоединить')]")));
+        driver.findElement(By.xpath("//*[@class='modal-dialog']//button[contains(@class, 'btn_b2b')][contains(text(), 'Присоединить')]")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(confirmPopUpWindowAfterManagerAddingUserToCompanyLocator));
+        driver.findElement(confirmPopUpWindowAfterManagerAddingUserToCompanyLocator).click();
     }
     public void fillingFieldForCreatingEmployeeUsingReferralLink(){
         navigationToPersonsTab();
         driver.findElement(buttonAddNewEmployee).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".register-referral-link")));
         driver.findElement(By.cssSelector(".register-referral-link")).click();
         driver.findElement(By.xpath("//*[@placeholder='Введите e-mail']")).sendKeys(emailEmployee);
 
@@ -344,6 +357,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
     public void addingAnBossToAnOrganizationFromAnotherUser() {
         navigationToPersonsTab();
         driver.findElement(By.xpath("//*[contains(text(), 'Добавить нового сотрудника')]")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".register-referral-link")));
         driver.findElement(By.cssSelector(".register-referral-link")).click();
         driver.findElement(By.xpath("//*[@placeholder='Введите e-mail']")).sendKeys("qwert@qa.team");
         driver.findElement(By.xpath("(//*[@class='select2-selection__rendered'])[1]")).click();
@@ -351,19 +365,21 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         driver.findElement(By.xpath("(//*[@class='select2-selection__rendered'])[2]")).click();
         //driver.findElement(By.xpath("//*[contains(@class, 'select2-results__option')][text()='Все пользователи (в том числе неавторизованные)']")).click();
         driver.findElement(By.xpath("//*[contains(@class, 'select2-results__option')][text()='Зарегистрированные пользователи']")).click();
-        driver.findElement(By.xpath("//*[@value='Отправить ссылку']")).click();
+        driver.findElement(By.xpath("//*[@name='referral_submit_button']")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='Пользователь с таким e-mail уже есть в системе.']")));
         Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Пользователь с таким e-mail уже есть в системе.']")).isDisplayed());
-        driver.findElement(By.cssSelector(".btn_confirm")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='modal-dialog']//button[contains(@class, 'btn_b2b')][contains(text(), 'Присоединить')]")));
+        driver.findElement(By.xpath("//*[@class='modal-dialog']//button[contains(@class, 'btn_b2b')][contains(text(), 'Присоединить')]")).click();
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'добавлен в список сотрудников.')]")).isDisplayed());
-        driver.findElement(By.cssSelector(".btn_ok")).click();
+        driver.findElement(confirmPopUpWindowAfterManagerAddingUserToCompanyLocator).click();
     }
 
     public void addingTheSameEmployeeToAnOrganizationFromAnotherUser() {
         fillingFieldForCreatingEmployeeUsingReferralLink();
-        driver.findElement(By.xpath("//*[@value='Отправить ссылку']")).click();
+        driver.findElement(By.xpath("//*[@name='referral_submit_button']")).click();
         Assert.assertTrue(driver.findElement(By.cssSelector(".errortext")).isDisplayed());
-        driver.findElement(By.cssSelector(".popup-close")).click();
+        Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(),'Сотрудник уже привязан к компании.')]")).isDisplayed());
+        driver.findElement(By.xpath("//*[contains(@id, 'modal-staff-referal-register')] //*[contains(@class, 'close')]")).click();
     }
 
     public void fillingFieldsOnTheRegisterNewEmployee(){
@@ -413,28 +429,32 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
     }
 
     public void registrationUserFromTheEmployeesTab(){
-        driver.findElement(By.xpath("//*[@value='Регистрация']")).click();
+        driver.findElement(By.xpath("//*[@name='register_submit_button']")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'добавлен в список сотрудников.')]")));
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'добавлен в список сотрудников.')]")).isDisplayed());
-        driver.findElement(By.cssSelector(".btn_ok")).click();
+        driver.findElement(confirmPopUpWindowAfterManagerAddingUserToCompanyLocator).click();
     }
 
     public void registrationTheSameUserFromTheEmployeesTab() {
+        System.out.println("!!УДАЛИТЬ " + emailEmployee);
         driver.findElement(By.xpath("//*[@placeholder='Введите e-mail (логин)']")).clear();
-        driver.findElement(By.xpath("//*[@placeholder='Введите e-mail (логин)']")).sendKeys("qwer@qa.team");
-        driver.findElement(By.xpath("//*[@value='Регистрация']")).click();
+        driver.findElement(By.xpath("//*[@placeholder='Введите e-mail (логин)']")).sendKeys(emailEmployee);
+        driver.findElement(By.xpath("//*[@name='register_submit_button']")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(text(),'Присоединить')]")));
         driver.findElement(By.xpath("//button[contains(text(),'Присоединить')]")).click();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//button[contains(text(),'Присоединить')]")));
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(),'добавлен в список сотрудников')]")).isDisplayed());
-        driver.findElement(By.xpath("//button[contains(@class, 'btn_ok')]")).click();
+        driver.findElement(confirmPopUpWindowAfterManagerAddingUserToCompanyLocator).click();
     }
     public void registrationNewUserUsingReferralLink(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".register-referral-link")));
         driver.findElement(By.cssSelector(".register-referral-link")).click();
-        driver.findElement(By.xpath("//*[@class='referral__input-email']")).sendKeys("unregisteredEmail" + randomString(4) + email );
-        driver.findElement(By.xpath("//*[@value='Отправить ссылку']")).click();
+        driver.findElement(By.cssSelector(".referral__input-email")).sendKeys("unregisteredEmail" + randomString(4) + email );
+        driver.findElement(By.xpath("//*[@name='referral_submit_button']")).click();
     }
     public void checkingSuccessfulRegistrationMessage(){
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".success-form-add")));
-        Assert.assertTrue(driver.findElement(By.cssSelector(".success-form-add")).isDisplayed());
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@class, 'success')][@role='dialog']")));
+        Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@class, 'success')][@role='dialog']")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Ссылка для регистрации нового сотрудника отправлена на указанный e-mail.']")).isDisplayed());
     }
     public void checkingThatEventAboutInviteBossIsDisplayed() {
@@ -568,19 +588,22 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
     }
     public void checkingThatPopUpWindowIsClosedAfterClickCancel(){
         driver.findElement(buttonAddNewEmployee).click();
-        Assert.assertTrue(driver.findElement(By.cssSelector(".popup-content")).isDisplayed());
-        driver.findElement(By.cssSelector(".popup-close")).click();
-        Assert.assertFalse(driver.findElement(By.cssSelector(".popup-content")).isDisplayed());
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@id, 'modal-staff-register')] //*[contains(@class, 'close')]")));
+        driver.findElement(By.xpath("//*[contains(@id, 'modal-staff-register')] //*[contains(@class, 'close')]")).click();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[@placeholder='Введите e-mail (логин)']")));
+        Assert.assertFalse(driver.findElement(By.xpath("//*[@placeholder='Введите e-mail (логин)']")).isDisplayed());
         driver.findElement(buttonAddNewEmployee).click();
-        driver.findElement(By.xpath("//*[@value='Отмена']")).click();
-        Assert.assertFalse(driver.findElement(By.cssSelector(".popup-content")).isDisplayed());
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@id, 'modal-staff-register')] //*[contains(text(), 'Отмена')]")));
+        driver.findElement(By.xpath("//*[contains(@id, 'modal-staff-register')] //*[contains(text(), 'Отмена')]")).click();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[@placeholder='Введите e-mail (логин)']")));
+        Assert.assertFalse(driver.findElement(By.xpath("//*[@placeholder='Введите e-mail (логин)']")).isDisplayed());
     }
     public void checkingThatEnteredDataIsDisplayedAfterReopeningPopUpWindow(){
         driver.findElement(buttonAddNewEmployee).click();
-        Assert.assertTrue(driver.findElement(By.cssSelector(".popup-content")).isDisplayed());
         driver.findElement(By.xpath("//*[@placeholder='Введите e-mail (логин)']")).sendKeys("TEST@qa.team");
-        driver.findElement(By.cssSelector(".popup-close")).click();
-        Assert.assertFalse(driver.findElement(By.cssSelector(".popup-content")).isDisplayed());
+        driver.findElement(By.xpath("//*[contains(@id, 'modal-staff-register')] //*[contains(@class, 'close')]")).click();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[@placeholder='Введите e-mail (логин)']")));
+        Assert.assertFalse(driver.findElement(By.xpath("//*[@placeholder='Введите e-mail (логин)']")).isDisplayed());
         driver.findElement(buttonAddNewEmployee).click();
         Assert.assertEquals(driver.findElement(By.xpath("//*[@placeholder='Введите e-mail (логин)']")).getAttribute("value"), "TEST@qa.team");
     }
@@ -590,17 +613,19 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Такая организация уже существует']")).isDisplayed());
     }
     public void checkingThatPopUpWindowJoinToOrganizationIsClosedAfterClickCancel(){
-        driver.findElement(joinToOrganizationButtonLocator).click();
-        Assert.assertTrue(driver.findElement(By.cssSelector(".popup-window")).isDisplayed());
-        driver.findElement(By.xpath("//input[@value='Отмена']")).click();
-        Assert.assertFalse(driver.findElement(By.cssSelector(".popup-window")).isDisplayed());
-        driver.findElement(joinToOrganizationButtonLocator).click();
-        driver.findElement(By.cssSelector(".popup-close")).click();
-        Assert.assertFalse(driver.findElement(By.cssSelector(".popup-window")).isDisplayed());
+        navigationToJoinOrganizationTab();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@name='company-join-reset']")));
+        driver.findElement(By.xpath("//*[@name='company-join-reset']")).click();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[@id='modal_company_join-dialog']")));
+        Assert.assertFalse(driver.findElement(By.xpath("//*[@id='modal_company_join-dialog']")).isDisplayed());
+        navigationToJoinOrganizationTab();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@id, 'modal_company_join')] //*[contains(@class, 'close')]")));
+        driver.findElement(By.xpath("//*[contains(@id, 'modal_company_join')] //*[contains(@class, 'close')]")).click();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[@id='modal_company_join-dialog']")));
+        Assert.assertFalse(driver.findElement(By.xpath("//*[@id='modal_company_join-dialog']")).isDisplayed());
     }
     public void checkingThatDataWasDeletedAfterClickCancel(){
-        driver.findElement(joinToOrganizationButtonLocator).click();
-        Assert.assertTrue(driver.findElement(By.cssSelector(".popup-window")).isDisplayed());
+        navigationToJoinOrganizationTab();
         driver.findElement(By.xpath("//*[contains(@class,'join__search-company')]")).sendKeys("Name");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='select__company-item']")));
         Assert.assertTrue("Список компаний не отобразился",driver.findElements(By.xpath("//*[@class='select__company-item']")).size() > 0);
@@ -612,22 +637,21 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         Assert.assertTrue("Компании отображаются, хотя название очищено",driver.findElements(By.xpath("//*[@class='select__company-item']")).size() == 0);
         driver.findElement(By.xpath("//*[contains(@class,'join__search-company')]")).sendKeys("Name");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='select__company-item']")));
-        driver.findElement(By.xpath("//input[@value='Отмена']")).click();
-        driver.findElement(joinToOrganizationButtonLocator).click();
-        Assert.assertTrue(driver.findElement(By.cssSelector(".popup-window")).isDisplayed());
+        driver.findElement(By.xpath("//*[@name='company-join-reset']")).click();
+        navigationToJoinOrganizationTab();
         System.out.println(driver.findElement(By.xpath("//*[contains(@class,'join__search-company')]")).getText());
         Assert.assertTrue("Название компании для поиска не удалилось после закрытия попап окна с помощью кнопки 'Отмена'"
                 , driver.findElement(By.xpath("//*[contains(@class,'join__search-company')]")).getText().isEmpty());
         Assert.assertTrue("Компании отображаются, хотя название очищено",driver.findElements(By.xpath("//*[@class='select__company-item']")).size() == 0);
     }
     public void checkingThatEnteredDataIsDisplayedAfterReopeningPopUpWindowJoinToOrganization(){
-        driver.findElement(joinToOrganizationButtonLocator).click();
-        Assert.assertTrue(driver.findElement(By.cssSelector(".popup-window")).isDisplayed());
+        navigationToJoinOrganizationTab();
         driver.findElement(By.xpath("//input[contains(@placeholder,'Введите название')]")).sendKeys("Name");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='select__company-item']")));
         Assert.assertTrue("Список компаний не отобразился",driver.findElements(By.xpath("//*[@class='select__company-item']")).size() > 0);
-        driver.findElement(By.cssSelector(".popup-close")).click();
-        driver.findElement(joinToOrganizationButtonLocator).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@id, 'modal_company_join')] //*[contains(@class, 'close')]")));
+        driver.findElement(By.xpath("//*[contains(@id, 'modal_company_join')] //*[contains(@class, 'close')]")).click();
+        navigationToJoinOrganizationTab();
         Assert.assertTrue(driver.findElement(By.xpath("//input[contains(@placeholder,'Введите название')]")).getAttribute("value").equals("Name"));
         Assert.assertTrue("Список компаний не отобразился",driver.findElements(By.xpath("//*[@class='select__company-item']")).size() > 0);
     }
