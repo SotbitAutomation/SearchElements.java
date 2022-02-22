@@ -120,7 +120,7 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
         driver.findElement(By.xpath("//*[@type='button'][contains(@class, 'b2b_detail_order__second__tab__btn')]")).click();
         driver.findElement(By.xpath("//*[@class='dropdown-item'][text()='Повторить заказ']")).click();
         Assert.assertTrue(driver.findElement(By.cssSelector(".basket-page")).isDisplayed());
-        Assert.assertTrue(sumOfPricesOfTheAddedProducts
+        Assert.assertTrue("сумма для сравнения - " + sumOfPricesOfTheAddedProducts,sumOfPricesOfTheAddedProducts
                 == Double.valueOf(replacingSomeSymbols(driver.findElement(By.cssSelector(".basket-page__total-price-value"))
                 .getText())));
     }

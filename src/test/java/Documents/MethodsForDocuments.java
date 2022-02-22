@@ -219,7 +219,7 @@ public class MethodsForDocuments extends BaseActions {
         Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Акт по заказу №2']")).isDisplayed());
     }
     public void navigationToTheLastOrderFromDocumentsPage(){
-        driver.findElement(By.xpath("//*[contains(@href, 'order/detail')]")).click();
+        driver.findElement(By.xpath("//*[contains(@href, 'order')][contains(@href, 'detail')]")).click();
         Assert.assertTrue(driver.findElement(By.cssSelector(".blank_detail")).isDisplayed());
     }
     public void searchSequenceNumberOfActs (){

@@ -591,11 +591,17 @@ public class MethodsForCatalog extends BaseActions {
         openingAllOffers();
     }
     public void sortsProductsByIncreasePrice(){
-        try {
-            driver.findElement(By.xpath("//*[@data-property-code = 'BASE']")).click();
-        }catch (Exception e){
-            System.out.println("Нет столбца с 'BASE'");
-            driver.findElement(By.xpath("//*[contains(@class, 'blank-zakaza__header-property')][contains(text(), 'Розничная цена')]")).click();
+//        try {
+//            driver.findElement(By.xpath("//*[@data-property-code = 'BASE']")).click();
+//        }catch (Exception e){
+//            System.out.println("Нет столбца с 'BASE'");
+//            driver.findElement(By.xpath("//*[contains(@class, 'blank-zakaza__header-property')][contains(text(), 'Розничная цена')]")).click();
+//        } у столбца "розиничная цена" пропало BASE
+        for (int i = 1; i <driver.findElements(By.xpath("//*[@class='blank-zakaza__header-row']/*[contains(@class, 'blank-zakaza__header')]")).size() ; i++) {
+            if (driver.findElement(By.xpath("(//*[@class='blank-zakaza__header-row']/*[contains(@class, 'blank-zakaza__header')])[" + i + "]")).getText().contains("Розничная цена")){
+                driver.findElement(By.xpath("(//*[@class='blank-zakaza__header-row']/*[contains(@class, 'blank-zakaza__header')])[" + i + "]")).click();
+                break;
+            }
         }
         Assert.assertTrue("У 'Розничная цена' не появился флажок сортировки во убыванию", driver.findElement(By.xpath("//*[contains(@class, 'active sort-ASC')]")).isDisplayed());
         openingAllOffers();
@@ -764,7 +770,7 @@ public class MethodsForCatalog extends BaseActions {
         explicitWaiting();
         Assert.assertTrue(driver.findElement(By.cssSelector(".blank-zakaza__item")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.xpath("//*[@title='" + tempString2 + "']")).isDisplayed());
-        Assert.assertEquals(driver.findElement(By.xpath("//*[@placeholder='Поиск']")).getAttribute("value"), tempString);
+        Assert.assertEquals(driver.findElement(By.xpath("//*[@placeholder='Поиск']")).getAttribute("value").trim(), tempString);
     }
     public void goToTheLastPage(){
         try {
@@ -2058,12 +2064,18 @@ public class MethodsForCatalog extends BaseActions {
         navigationToCart();
     }
     public void checkingThatThereAreTwoProductsInTheCart(){
-        Assert.assertTrue(driver.findElements(By.xpath("//*[@class='basket__product-name ']")).size() == 2);
+        Assert.assertTrue(driver.findElements(By.xpath("//*[contains(@class, 'basket__item')][not(contains(@class,'expend'))]")).size() == 2);
         driver.navigate().refresh();
-        Assert.assertTrue(driver.findElements(By.xpath("//*[@class='basket__product-name ']")).size() == 2);
+        Assert.assertTrue(driver.findElements(By.xpath("//*[contains(@class, 'basket__item')][not(contains(@class,'expend'))]")).size() == 2);
     }
-    public void checkingThatThereAreOneProductsInTheCart(){
-        Assert.assertTrue(driver.findElements(By.xpath("//*[@class='basket__product-name ']")).size() == 1);
+    public void checkingThatThereAreOneActiveProductInTheCart(){
+        Assert.assertTrue(driver.findElements(By.xpath("//*[contains(@class, 'basket__item')][not(contains(@class,'expend'))]")).size() == 1);
+        checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(1);
+    }
+    public void checkingThatInCartOnlyOneProduct(){
+        driver.findElement(buttonMakeOrderInTheCartLocator).click();
+        showProductsInTheCartOnTheMakingOrderPage();
+        Assert.assertTrue(driver.findElements(By.xpath("//*[contains(@id, 'DataTables')] /tbody /tr")).size() == 1);
     }
     public void deleteTheFirstProductFromTheCart(){
         tempString = driver.findElement(By.xpath("//*[@class='basket__product-name ']")).getText();
@@ -2259,6 +2271,7 @@ public class MethodsForCatalog extends BaseActions {
     }
 
     public void checkingThatTheRequestForReplenishmentOfThePersonalAccountIsDisplayedByTheAdmin(String numberOrder){
+        System.out.println(numberOrder);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='№" + numberOrder + "']")));
         Assert.assertTrue(driver.findElement(By.xpath("//*[text()='№" + numberOrder + "']")).isDisplayed());
     }
@@ -2405,6 +2418,10 @@ public class MethodsForCatalog extends BaseActions {
     }
     public void checkingThatQuantityProductsOnThisPageAreDecreased(){
         Assert.assertTrue(tempInt > driver.findElements(By.xpath("//*[@class='product__link']")).size());
+    }
+    public void showProductsInTheCartOnTheMakingOrderPage(){
+        driver.findElement(By.xpath("//*[@data-action='collapse'][contains(@class, 'rotate')]")).click();
+        waitingMilliSecond();
     }
 
 

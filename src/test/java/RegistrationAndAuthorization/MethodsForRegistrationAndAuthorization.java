@@ -445,7 +445,9 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
         if (doNeedToConfirmRegistrationUser){
             try{
                 driver.findElement(registerButtonOnRegistrationTabLocator).click();
-            }catch (Exception e){}
+            }catch (Exception e){
+                System.out.println("Я уже нажал кнопку 'зарегистироваться'");
+            }
             navigationToPageForConfirmUserRegistration();
             rejectTheRegistrationOfTheLastUser();
             exitFromB2B();

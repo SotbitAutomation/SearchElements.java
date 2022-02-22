@@ -28,29 +28,51 @@ public class MethodsForEvents extends MethodsForAddingOrganizationsWithExtendedV
     }
 
     public void checkingEventAboutNeededToConfirmUserRegistration(){
-        if (doNeedToConfirmRegistrationUser){
-            System.out.println("Проверяю событие о необходимости подтвержить  рег. юзера с таким email   "  + registr.email);
-            checkingThatThereIsThisEvent("SOTBIT_AUTH_CONFIRM_REGISTRATION", registr.email);
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            if (doNeedToConfirmRegistrationUser){
+                System.out.println("Проверяю событие о необходимости подтвержить  рег. юзера с таким email   "  + registr.email);
+                checkingThatThereIsThisEvent("SOTBIT_AUTH_CONFIRM_REGISTRATION", registr.email);
+            }else {
+                System.out.println("Если подтверждать регистрацию пользователя не нужно, то никакие события не создаются");
+            }
         }else {
-            System.out.println("Если подтверждать регистрацию пользователя не нужно, то никакие события не создаются");
+            if (doNeedToConfirmRegistrationUser){
+                System.out.println("Проверяю событие о необходимости подтвержить  рег. юзера с таким email   "  + registr.email);
+                checkingThatThereIsThisEvent("SOTBIT_AUTH_CONFIRM_REGISTRATION", registr.email);
+            }else {
+                System.out.println("Проверяю событие что пользователь зарегистирровался (без подтверждения)"  + registr.email);
+                checkingThatThereIsThisEvent("SOTBIT_AUTH_WHOLESALER_NOTICE", registr.email);
+            }
         }
     }
     public void checkingEventAboutConfirmUserRegistration(){
-        if (doNeedToConfirmRegistrationUser){
-            System.out.println("Проверяю событие о том что рег. юзера с таким email   "  + registr.email + "   была подтверждена админом");
-            checkingThatThereIsThisEvent("SOTBIT_AUTH_ADMIN_CONFIRM", registr.email);
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            if (doNeedToConfirmRegistrationUser){
+                System.out.println("Проверяю событие о том что рег. юзера с таким email   "  + registr.email + "   была подтверждена админом");
+                checkingThatThereIsThisEvent("SOTBIT_AUTH_ADMIN_CONFIRM", registr.email);
+            }else System.out.println("Подтверждать регистрацию пользователя не нужно");
         }else {
-            System.out.println("Если подтверждать регистрацию пользователя не нужно, то никакие события о пользователе не создаются");
+            if (doNeedToConfirmRegistrationUser){
+                System.out.println("Проверяю событие о том что рег. юзера с таким email   "  + registr.email + "   была подтверждена админом");
+                checkingThatThereIsThisEvent("SOTBIT_AUTH_WHOLESALER_NOTICE", registr.email);
+            }else System.out.println("Подтверждать регистрацию пользователя не нужно");
             }
         }
 
     public void checkingEventAboutTheRegistrationOrganization(){
-        if (doNeedToConfirmRegistrationOrganization){
-            System.out.println("Проверяю событие о необходимости подтвердить орг. с таким ИНН   "  + registr.iNNManual);
-            checkingThatThereIsThisEvent("SOTBIT_AUTH_COMPANY_MODERATION", registr.iNNManual);
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            if (doNeedToConfirmRegistrationOrganization){
+                System.out.println("Проверяю событие о необходимости подтвердить орг. с таким ИНН   "  + registr.iNNManual);
+                checkingThatThereIsThisEvent("SOTBIT_AUTH_COMPANY_MODERATION", registr.iNNManual);
+            }else {
+                System.out.println("Проверяю событие что зарегистрировалась орг. с таким ИНН   "  + registr.iNNManual);
+                checkingThatThereIsThisEvent("SOTBIT_AUTH_COMPANY_REGISTER", registr.iNNManual);
+            }
         }else {
-            System.out.println("Проверяю событие что зарегистрировалась орг. с таким ИНН   "  + registr.iNNManual);
-            checkingThatThereIsThisEvent("SOTBIT_AUTH_COMPANY_REGISTER", registr.iNNManual);
+            System.out.println("СОБЫТИЯ ПРО ОРГАНИЗАЦИЮ НЕ СОЗДАЮТСЯ в нерасширенной версии!!!!!");
         }
     }
     public void checkingEventAboutTheRegistrationOrganizationHasBeenApproved(){
@@ -104,23 +126,18 @@ public class MethodsForEvents extends MethodsForAddingOrganizationsWithExtendedV
         }
     }
     public void checkingTheStatusEventOfTheUserSRegistrationHasBeenConfirmedByTheAdmin(String expectedValue){
-        if (doNeedToConfirmRegistrationUser){
-            System.out.println("Проверяю статус события что рег. юзера (ожидаю '" +expectedValue+ "') с таким email   "  + registr.email + " была подтверждена админом");
-            checkingTheStatusThisEvent(expectedValue, "SOTBIT_AUTH_ADMIN_CONFIRM", registr.email);
-
-//            for (int i = 1; i < 10; i++) {
-//                if (driver.findElement(By.xpath("(//*[@class='adm-list-table-row'])[" + i + "]")).getText().contains(registr.email)
-//                        && driver.findElement(By.xpath("(//*[@class='adm-list-table-row'])[" + i + "]")).getText().contains("SOTBIT_AUTH_ADMIN_CONFIRM")){
-//                    count = i;
-//                    System.out.println("№ события о что рег. юзера была подтверждена админом -   " + count);
-//                    break;
-//                }
-//            }
-//            Assert.assertTrue(driver.findElement(By.xpath("((//*[@class='adm-list-table-row'])[" + count + "] //*[contains(@class, 'adm-list-table-cell')])[" + countColumnWithEventStatus + "]"))
-//                    .getText().equals(expectedValue));
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            if (doNeedToConfirmRegistrationUser){
+                System.out.println("Проверяю статус события что рег. юзера (ожидаю '" +expectedValue+ "') с таким email   "  + registr.email + " была подтверждена админом");
+                checkingTheStatusThisEvent(expectedValue, "SOTBIT_AUTH_ADMIN_CONFIRM", registr.email);
+            }else System.out.println("Подтверждать регистрацию пользователя не нужно");
         }else {
-            System.out.println("Если подтверждать регистрацию пользователя не нужно, то никакие события о пользователе не создаются");
-            }
+            if (doNeedToConfirmRegistrationUser){
+                System.out.println("Проверяю статус события что рег. юзера (ожидаю '" +expectedValue+ "') с таким email   "  + registr.email + " была подтверждена админом");
+                checkingTheStatusThisEvent(expectedValue, "SOTBIT_AUTH_WHOLESALER_NOTICE", registr.email);
+            }else System.out.println("Подтверждать регистрацию пользователя не нужно");
+        }
     }
     public void checkingTheStatusEventThatYouNeedToConfirmOfTheRegistrationOfTheOrganization(String expectedValue){
         if (doNeedToConfirmRegistrationOrganization){
@@ -287,7 +304,7 @@ public class MethodsForEvents extends MethodsForAddingOrganizationsWithExtendedV
         checkingTheStatusThisEvent(expectedValue, "SOTBIT_AUTH_COMPANY_CONFIRM", nameCompany);
     }
     public void checkingEventAboutRejectTheCompanyByAdminAfterChanging(){
-        System.out.println("Проверяю что создалось событие после подтверждения руководителем запроса работника на присоединение к компании руководителя   "  + nameCompany);
+        System.out.println("Проверяю что создалось событие после отклонения изменений в организации   "  + nameCompany);
         checkingThatThereIsThisEvent("SOTBIT_AUTH_COMPANY_CHANGES_REJECTED", nameCompany);
     }
     public void checkingStatusOfEventAboutRejectTheCompanyByAdminAfterChanging(String expectedValue){

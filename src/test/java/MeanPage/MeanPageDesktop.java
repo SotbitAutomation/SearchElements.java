@@ -120,6 +120,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToTheDesktop();
+        resettingTheCurrentWidgetSettings();
         addingTheWidgetToDesktop(myOrdersWidgetLocator);
         makeOrderForWidget();
         rememberingDataOfMyOrdersInTheWidget();
@@ -136,6 +137,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToTheDesktop();
+        resettingTheCurrentWidgetSettings();
         addingTheWidgetToDesktop(myOrdersWidgetLocator);
         makeOrderForWidget();
         rememberingDataOfMyOrdersInTheWidget();
@@ -153,6 +155,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToTheDesktop();
+        resettingTheCurrentWidgetSettings();
         addingTheWidgetToDesktop(personalDataWidgetLocator);
         storingDataFromTheWidgetOfPersonalData();
         navigationToTheSetting();
@@ -169,6 +172,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToTheDesktop();
+        resettingTheCurrentWidgetSettings();
         addingTheWidgetToDesktop(personalDataWidgetLocator);
         storingDataFromTheWidgetOfPersonalData();
         navigationToTheSetting();
@@ -185,6 +189,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToTheDesktop();
+        resettingTheCurrentWidgetSettings();
         addingTheWidgetToDesktop(myCartWidgetLocator);
         storingDataFromTheWidgetOfMyCart();
         navigationToTheCart();
@@ -200,6 +205,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToTheDesktop();
+        resettingTheCurrentWidgetSettings();
         addingTheWidgetToDesktop(myCartWidgetLocator);
         storingDataFromTheWidgetOfMyCart();
         navigationToTheCart();
@@ -215,8 +221,10 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToTheDesktop();
+        resettingTheCurrentWidgetSettings();
         addingTheWidgetToDesktop(organizationWidgetLocator);
         checkingThatTheWidgetOfOrganizationsHaveContent();
+        goToTheDetailedOrganizationPageFromTheWidget();
     }
 
     @Test //15. Проверка выводимых данных виджета "Организации" у юзера
@@ -227,8 +235,10 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToTheDesktop();
+        resettingTheCurrentWidgetSettings();
         addingTheWidgetToDesktop(organizationWidgetLocator);
         checkingThatTheWidgetOfOrganizationsHaveContent();
+        goToTheDetailedOrganizationPageFromTheWidget();
     }
     @Test //16. У пользователя нет кнопки "сохранить как настройки по умолчанию"
     public void userDoesNotHaveSaveDefaultSettingsButton() {
@@ -276,6 +286,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToTheDesktop();
+        resettingTheCurrentWidgetSettings();
         addingTheWidgetToDesktop(catalogWidgetLocator);
         makeOrder.uploadingExcelCatalog("blank.xlsx");
         navigationToCart();
@@ -293,6 +304,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToTheDesktop();
+        resettingTheCurrentWidgetSettings();
         addingTheWidgetToDesktop(catalogWidgetLocator);
         makeOrder.uploadingExcelCatalog("blank.xlsx");
         navigationToCart();
@@ -310,6 +322,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToTheDesktop();
+        resettingTheCurrentWidgetSettings();
         addingTheWidgetToDesktop(trafficJamsWidgetLocator);
         checkingThatTheWidgetOfTrafficJamsHaveContent();
         exitFromB2B();
@@ -356,6 +369,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToTheDesktop();
+        resettingTheCurrentWidgetSettings();
         addingTheWidgetToDesktop(weatherWidgetLocator);
         checkingThatWeatherWidgetIsDisplayed();
     }
@@ -367,6 +381,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToTheDesktop();
+        resettingTheCurrentWidgetSettings();
         addingTheWidgetToDesktop(weatherWidgetLocator);
         checkingThatWeatherWidgetIsDisplayed();
     }
@@ -378,6 +393,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToTheDesktop();
+        resettingTheCurrentWidgetSettings();
         addingTheWidgetToDesktop(rssLEntWidgetLocator);
         addingRssLentToTheWidget();
         checkingThatThisLentIsAdded();
@@ -390,6 +406,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToTheDesktop();
+        resettingTheCurrentWidgetSettings();
         addingTheWidgetToDesktop(rssLEntWidgetLocator);
         addingRssLentToTheWidget();
         checkingThatThisLentIsAdded();
@@ -400,6 +417,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         registr.registrationIPWithManualEntryINN();
         //act
         navigationToTheDesktop();
+        resettingTheCurrentWidgetSettings();
         addingTheWidgetToDesktop(personalAccountWidgetLocator);
         requestReplenishmentOfYourPersonalAccount();
         checkingThatThePersonalAccountReplenishmentRequestHasBeenCreated();

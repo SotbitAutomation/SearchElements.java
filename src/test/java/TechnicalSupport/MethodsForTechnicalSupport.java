@@ -18,7 +18,7 @@ public class MethodsForTechnicalSupport extends BaseActions {
     String headingForCheck;
 
     public void openingPageOfCreateRequest(){
-        driver.findElement(By.cssSelector(".btn_create-appeal")).click();
+        driver.findElement(By.xpath("//*[contains(@href, 'support')][contains(@class, 'btn_b2b')]")).click();
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@class,'page-title')]/*[text()='Новое обращение']")).isDisplayed());
     }
     public void fillingTheHeadForTechnicalSupport(){
@@ -51,7 +51,6 @@ public class MethodsForTechnicalSupport extends BaseActions {
     public void checkingThatRequestIsDisplayedForTheUser(){
         Assert.assertTrue(driver.findElement(By.xpath("//*[text()='" + heading + "']")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@class,'page-title')]/*[text()='Список обращений']")).isDisplayed());
-        Assert.assertTrue(driver.findElement(By.cssSelector(".support-list__title")).isDisplayed());
     }
     public void navigationToAdminPart(){
         driver.findElement(By.cssSelector("#bx-panel-admin-tab")).click();

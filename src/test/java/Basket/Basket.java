@@ -7,7 +7,6 @@ public class Basket extends MethodsForCatalog {
     @Test //1. Проверка корректности удаления товаров в корзине
     public void checkCorrectnessOfDeletingProductsInTheCart() {
         //arrange
-        //arrange
         navigationToAuthorizationTab();
         //act
         fillingFieldsOnTheLogInTabLikeUser();
@@ -26,9 +25,7 @@ public class Basket extends MethodsForCatalog {
     @Test //2. Удаление и восстановление одного из товаров в корзине
     public void deletingAndRestoringOneOfTheProductsInTheShoppingCart() {
         //arrange
-        //arrange
         navigationToAuthorizationTab();
-        //act
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         deletingProductsFromTheCart();
@@ -41,16 +38,16 @@ public class Basket extends MethodsForCatalog {
         navigationToCart();
         checkingThatThereAreTwoProductsInTheCart();
         deleteTheFirstProductFromTheCart();
-        checkingThatThereAreOneProductsInTheCart();
+        checkingThatThereAreOneActiveProductInTheCart();
         restoreTheFirstProductInTheCart();
         checkingThatThereAreTwoProductsInTheCart();
+        deleteTheFirstProductFromTheCart();
+        checkingThatInCartOnlyOneProduct();
     }
     @Test //3. Выделение всех товаров с помощью чек-бокса "выделить все" (все чекбоксы выделены)
     public void highlightingAllProductsUsingTheHighlightAllCheckbox() {
         //arrange
-        //arrange
         navigationToAuthorizationTab();
-        //act
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         deletingProductsFromTheCart();

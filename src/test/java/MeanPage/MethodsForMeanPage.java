@@ -18,7 +18,7 @@ public class MethodsForMeanPage extends BaseActions {
 
     // локаторы для главной страницы
     By randomColumnWhereToMoveLocator;
-    By buttonForResetTheCurrentSettings = By.xpath("//*[text()='Сбросить текущие настройки']");
+    By buttonForResetTheCurrentSettings = By.cssSelector(".icon-reset");
     By notesWidgetLocator = By.xpath("//*[@class='widget_button'] //*[contains(text(), 'Заметки')]");
     By organizationWidgetLocator = By.xpath("//*[@class='widget_button'] //*[contains(text(), 'Организации')]");
     By myCartWidgetLocator = By.xpath("//*[@class='widget_button'] //*[contains(text(), 'Моя корзина')]");
@@ -33,8 +33,8 @@ public class MethodsForMeanPage extends BaseActions {
 
 
     By tempLocatorForSearchElementByTextAndColumn;
-    By addWidgetButtonLocator = By.xpath("//*[contains(text(), 'Добавить виджет')]");
-    By saveSettingLikeDefaultLocator = By.xpath("//*[contains(text(), 'Сохранить как настройки по умолчанию')]");
+    By addWidgetButtonLocator = By.xpath("//*[contains(@data-fab-label, 'Добавить виджет')]");
+    By saveSettingLikeDefaultLocator = By.cssSelector(".icon-floppy-disk");
     By buttonForSavingThePersonalData =  By.xpath("(//*[contains(@name, 'save')])[2]");
     By buttonPrivacyPolicyForMainSettings = By.xpath("(//*[contains(text(), 'политикой конфиденциальности.')])[1]");
     String tempValueOfTitle;
@@ -77,9 +77,18 @@ public class MethodsForMeanPage extends BaseActions {
         Assert.assertTrue("Перемещенный виджет не отображается в колонке в которую я его переместил"
                 , driver.findElement(By.xpath("(//*[contains(@class, 'gd-page-column')])[" + columnNumberWhereToMove + "] //*[@class='card-title'][text()='" + tempValueOfTitle + "']")).isDisplayed());
     }
+    public void showButtonForAddingWidgets(){
+        try {
+            driver.findElement(By.cssSelector(".fab-menu-absolute")).click();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".icon-reset")));
+            explicitWaiting();
+        }catch (Exception e){
+            System.out.println("меню с кнопкой доб. виджета уже раскрыта");
+        }
+    }
 
     public void addingRandomWidgetToTheDesktop(){
-        wait.until(ExpectedConditions.visibilityOfElementLocated(addWidgetButtonLocator));
+        showButtonForAddingWidgets();
         driver.findElement(addWidgetButtonLocator).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".widgets_cabinet")));
         tempRandomNumber = 1 + (int) (Math.random() * driver.findElements(By.xpath("(//div[@class='widgets_cabinet_title'])")).size());
@@ -88,6 +97,7 @@ public class MethodsForMeanPage extends BaseActions {
         driver.findElement(By.xpath("(//div[@class='widgets_cabinet_title'])" + "[" + tempRandomNumber + "]")).click();
         explicitWaiting();
         tempLocatorForSearchElementByTextAndColumn = By.xpath("//*[text()='" + tempValueOfTitle + "']");
+        System.out.println("Проверяю что виджет с таким заголовком есть " + tempValueOfTitle);
         Assert.assertTrue("Добавленный виджет не отображается", driver.findElement(tempLocatorForSearchElementByTextAndColumn).isDisplayed());
         explicitWaiting();
         refreshingThisPage();
@@ -109,7 +119,7 @@ public class MethodsForMeanPage extends BaseActions {
     public void deletionRandomWidgetFromDesktop(){
         tempRandomNumber = 1 + (int) (Math.random() * driver.findElements(By.xpath("//*[contains(@class, 'sotbit-cabinet-gadget')]//*[@class='card-title']")).size());
         By randomWidgetInDesktopLocator = By.xpath("(//*[contains(@class, 'sotbit-cabinet-gadget')])" + "[" + tempRandomNumber + "] //*[@data-action = 'remove']");
-        tempValueOfId = driver.findElement(randomWidgetInDesktopLocator).getAttribute("id");
+        tempValueOfId = driver.findElement(By.xpath("(//*[contains(@class, 'sotbit-cabinet-gadget')])[" + tempRandomNumber + "]")).getAttribute("id");
         driver.findElement(randomWidgetInDesktopLocator).click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[@id='" + tempValueOfId + "']")));
         Assert.assertTrue(driver.findElements(By.xpath("//*[@id='" + tempValueOfId + "']")).size() == 0);
@@ -118,21 +128,22 @@ public class MethodsForMeanPage extends BaseActions {
     }
 
     public void resettingTheCurrentWidgetSettings (){
+        showButtonForAddingWidgets();
         driver.findElement(buttonForResetTheCurrentSettings).click();
         new WebDriverWait(driver, 10).until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
         explicitWaiting();
+        refreshingThisPage();
     }
 
     public void storingTheLocationOfWidgetsOnTheDesktop(){
-        //tempLocationOfWidgetsOnTheDesktop="";
         for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@class, 'sotbit-cabinet-gadget')]//*[@class='card-title']")).size(); i++) {
             tempLocationOfWidgetsOnTheDesktop = tempLocationOfWidgetsOnTheDesktop + driver.findElement(By.xpath("(//*[@class='card-title'])[" + i + "]")).getText();
         }
     }
 
     public void saveTheSettingForWidgetsOnTheDesktopLikeDefault(){
-        wait.until(ExpectedConditions.visibilityOfElementLocated(saveSettingLikeDefaultLocator));
+        showButtonForAddingWidgets();
         driver.findElement(saveSettingLikeDefaultLocator).click();
         new WebDriverWait(driver, 10).until(ExpectedConditions.alertIsPresent());  //сохраннеие настроек по умолчанию метод
         driver.switchTo().alert().accept();
@@ -182,9 +193,10 @@ public class MethodsForMeanPage extends BaseActions {
     }
 
     public void storingTheQuantityOfProductsInTheCart(){
-        for (int i = 1; i <= driver.findElements(By.cssSelector(".basket__item")).size(); i++) {
-            sumOfProductsInCart = sumOfProductsInCart + Integer.parseInt( driver.findElement(By.xpath("(//*[contains(@id, 'basket-item-quantity')])[" + i + "]")).getAttribute("value"));
-        }
+//        for (int i = 1; i <= driver.findElements(By.cssSelector(".basket__item")).size(); i++) {
+//            sumOfProductsInCart = sumOfProductsInCart + Integer.parseInt( driver.findElement(By.xpath("(//*[contains(@id, 'basket-item-quantity')])[" + i + "]")).getAttribute("value"));
+//        }
+        sumOfProductsInCart = driver.findElements(By.cssSelector(".basket__product-name")).size();
     }
     public void checkingThatTheNumberOfProductsInTheWidgetAndInTheCartAreEqual (){
         Assert.assertEquals(sumOfProductsInCart, tempNumber);
@@ -194,15 +206,14 @@ public class MethodsForMeanPage extends BaseActions {
 
     public void checkingThatTheWidgetOfOrganizationsHaveContent(){
         try {
-            Assert.assertTrue(driver.findElement(By.cssSelector(".widget-organizations-content")).isDisplayed());
+            if (driver.findElements(By.cssSelector(".company-auth-vidget-item")).size() < 3);
         }catch (Exception e){
             navigationToOrganizationTab();
-            Assert.assertTrue("Организации есть, но в виджет не выводятся", driver.findElements(By.cssSelector(".main-grid-row-body")).size() < 3);
             org.creatingThreeOrganizations();
             navigationToTheDesktop();
-            Assert.assertTrue(driver.findElement(By.cssSelector(".widget-organizations-content")).isDisplayed());
+            Assert.assertTrue(driver.findElements(By.cssSelector(".company-auth-vidget-item")).size() < 3);
         }
-        tempValue = driver.findElement(By.cssSelector(".widget-organizations-content")).getText();
+        tempValue = driver.findElement(By.xpath("(//*[@class='company-auth-vidget-item'])[1]")).getText();
         navigationToOrganizationTab();
         Assert.assertTrue(driver.findElement(By.xpath("//*[text()='" + tempValue + "']")).isDisplayed());
     }
@@ -212,6 +223,7 @@ public class MethodsForMeanPage extends BaseActions {
     }
 
     public void addingTheWidgetToDesktop(By xpathOfWidget){
+        showButtonForAddingWidgets();
         driver.findElement(addWidgetButtonLocator).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".widgets_cabinet")));
         driver.findElement(xpathOfWidget).click();
@@ -317,6 +329,7 @@ public class MethodsForMeanPage extends BaseActions {
         Assert.assertTrue(driver.findElement(By.xpath("//*[@class='image_photo']/img")).isDisplayed());
     }
     public void checkingThatThereIsNoButtonToSaveTheDefaultSettings(){
+        showButtonForAddingWidgets();
         Assert.assertTrue(driver.findElements(By.xpath("//*[contains(@onclick, 'SetForAll')]")).size() == 0);
     }
     public void fillingTheDataForTheNotesWidget(){
@@ -391,7 +404,7 @@ public class MethodsForMeanPage extends BaseActions {
         driver.findElement(By.xpath("//*[@class='form-control sale-acountpay-input']")).sendKeys("1000");
         waitingMilliSecond();
         driver.findElement(By.cssSelector(".send_invoices")).click();
-        tempValue = driver.findElement(By.xpath("(//*[contains(@class, 'widget-private_invoices_content')]/p)[2]")).getText().replaceAll("[^\\d.]", "");
+        tempValue = driver.findElement(By.xpath("(//*[contains(@class, 'widget-private_invoices_content')]/p)[1] /b")).getText().replaceAll("[^\\d.]", "");
     }
     public void checkingThatThePersonalAccountReplenishmentRequestHasBeenCreated(){
         Assert.assertTrue(driver.findElement(By.xpath("//*[@class='widget_content widget-private_invoices_content'] /p[contains(text(), 'Номер вашей оплаты')]")).isDisplayed());
@@ -408,6 +421,12 @@ public class MethodsForMeanPage extends BaseActions {
     }
     public void uncheckThePrivacyPolicyCheckbox(){
         driver.findElement(By.xpath("(//*[@class='uniform-checker'])[1]")).click();
+    }
+    public void goToTheDetailedOrganizationPageFromTheWidget(){
+        navigationToTheDesktop();
+        tempValue = driver.findElement(By.cssSelector(".company-auth-vidget-item-link")).getText();
+        driver.findElement(By.cssSelector(".company-auth-vidget-item-link")).click();
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@name='NAME']")).getAttribute("value").contains(tempValue));
     }
 
 

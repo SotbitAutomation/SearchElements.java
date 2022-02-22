@@ -368,7 +368,6 @@ public class BaseActions extends CustomizingForYourself {
         scrollToTheElement("//*[@class='icon-clippy']");
         driver.findElement(By.xpath("//*[@class='icon-clippy']")).click();
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@class,'page-title')]/*[text()='Список обращений']")).isDisplayed());
-        Assert.assertTrue(driver.findElement(By.cssSelector(".support-list__title")).isDisplayed());
     }
 
     public void explicitWaiting() {

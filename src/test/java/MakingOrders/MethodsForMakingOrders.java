@@ -155,11 +155,11 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
             wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("((//*[contains(@class, 'delivery')] //*[@class='uniform-choice'])["
                     + randomNumberUpToDeliveryWays + "])/*[@class='checked']")));
         }
-        explicitWaiting();explicitWaiting();explicitWaiting();
+        explicitWaiting();
         nameDeliveryWay = driver.findElement(By.xpath("(//*[@class='index_checkout-delivery_type'] //*[@class='index_checkout-radios_title'])["
                 + randomNumberUpToDeliveryWays + "]")).getText();
 
-        System.out.println(randomNumberUpToDeliveryWays);
+        System.out.println("Номер выбранной рандомной доставки - " + randomNumberUpToDeliveryWays);
         tempString = replacingSomeSymbols(driver.findElement(By.xpath("(//*[@class='index_checkout-delivery_cost'])[" + randomNumberUpToDeliveryWays + "]")).getText());
         if (tempString.trim().isEmpty()){
             tempDouble=0;
@@ -316,8 +316,7 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'Самовывоз')] /preceding::span[1][@class='checked']")).isDisplayed());
     }
     public void checkThePriceAtTheTopOfThePage(){
-        driver.findElement(By.xpath("//*[@data-action='collapse'][contains(@class, 'rotate')]")).click();
-
+        showProductsInTheCartOnTheMakingOrderPage();
         Assert.assertTrue(Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[@class='index_checkout-promocode-total_amount'])[1]")).getText())) ==
                 sumOfPricesOfTheAddedProducts);
     }
