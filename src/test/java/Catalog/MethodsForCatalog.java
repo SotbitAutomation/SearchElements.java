@@ -68,7 +68,7 @@ public class MethodsForCatalog extends BaseActions {
     public By priceForFirstProductInCart = By.xpath("((//*[@class='basket__column-price-wrap'])[1] /span)[1]");
     public By priceForSecondProductInCart = By.xpath("(//*[@class='basket__column-price-wrap'] /span)[last()-1]");
 
-    public String del = Keys.chord(Keys.CONTROL, "a") + Keys.DELETE;
+    //public String del = Keys.chord(Keys.CONTROL, "a") + Keys.DELETE;
 
     public By checkboxThatHighlightsAllProductsInTheCartLocator =  By.xpath("//*[@data-entity='basket-gruope-item-checkbox']");
     public By buttonForDeletingProductsInCartLocator =  By.xpath("//*[@data-entity='basket-groupe-item-delete']");
@@ -355,6 +355,7 @@ public class MethodsForCatalog extends BaseActions {
                 }
             }
         Assert.assertTrue(driver.findElement(By.xpath("//*[@class='card-title']//*[contains(@href, 'blank')]")).isDisplayed());
+        numberOfProductsInTheFooter = 0;
     }
     public void deletingLastAddedProductFromTheCatalog (){
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]"))
@@ -1282,7 +1283,8 @@ public class MethodsForCatalog extends BaseActions {
                 if (tempInt >20) break;
             }
         }
-        Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@title, 'Плита GEFEST')] /following::td[" + (tempInt-2) +"]")).getText().replaceAll(" ", "").equals(tempString));
+        System.out.println(tempInt);
+        Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@title, 'Плита GEFEST')] /following::td[" + (tempInt-1) +"]")).getText().replaceAll(" ", "").equals(tempString));
     }
     public void removeAllColumnsWithPropertiesFromTheCatalog (){
         for (int i = 2; i <= driver.findElements(By.xpath("(//*[@data-bx-property-id='LIST_PROPERTY_CODE'] //option)")).size(); i++) {
@@ -1326,6 +1328,7 @@ public class MethodsForCatalog extends BaseActions {
         driver.findElement(By.xpath("//td[contains(text(), 'SMALL_OPT')] /following::input[1][not(ancestor-or-self::*[@style = 'display: none;'])]")).clear();
         tempDouble = Double.parseDouble(driver.findElement(By.xpath("//input[contains(@id, 'BASE_PRICE')][not(ancestor-or-self::*[@style = 'display: none;'])]")).getAttribute("value")) - 1;
         driver.findElement(By.xpath("//td[contains(text(), 'SMALL_OPT')] /following::input[1][not(ancestor-or-self::*[@style = 'display: none;'])]")).sendKeys(String.valueOf(tempDouble));
+        scrollUp();
         driver.findElement(By.xpath("//*[@title='Управление скидками']")).click();
         if (driver.findElements(By.xpath("//td[text()='ID']")).size() > 0){
             tempDouble2 = tempDouble * Double.valueOf(driver.findElement(By.xpath("(//td[contains(@style, 'text-align:')])[5]")).getText().replaceAll("%", "")) / 100;
@@ -1454,7 +1457,7 @@ public class MethodsForCatalog extends BaseActions {
         }
     }
     public void addingThisProductOneMoreTime(){
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter+1)));
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
         explicitWaiting();
         driver.findElement(By.xpath("(//*[contains(@id, 'quantity-increment')])[" + randomNumberOfProductsPerPage + "]")).click();
         explicitWaiting();
@@ -1492,6 +1495,7 @@ public class MethodsForCatalog extends BaseActions {
         }catch (Exception e){
             navigationToSystemSettings();
             navigationToSettingOfQuantitativeAccountingForTheProduct();
+            scrollDown();
             driver.findElement(By.xpath("//*[@for='use_store_control_y'][@class]")).click();
             driver.findElement(By.xpath("//*[@value='Сохранить']")).click();
             navigationToGasStoveSetting();
@@ -1701,9 +1705,9 @@ public class MethodsForCatalog extends BaseActions {
 
     public void choiceCatalogWithOnlyOffers(){
         driver.findElement(By.xpath("//*[@data-bx-property-id = 'IBLOCK_TYPE']")).click();
-        driver.findElement(By.xpath("//*[@data-bx-property-id = 'IBLOCK_TYPE'] //*[@value='catalog']")).click();
+        driver.findElement(By.xpath("//*[@data-bx-property-id = 'IBLOCK_TYPE'] //*[contains(@value, 'catalog')]")).click();
         driver.findElement(By.xpath("//select[@data-bx-property-id = 'IBLOCK_ID']")).click();
-        driver.findElement(By.xpath("//select[@data-bx-property-id = 'IBLOCK_ID'] //*[contains(text(), 'Одежда')]")).click();
+        driver.findElement(By.xpath("//select[@data-bx-property-id = 'IBLOCK_ID'] //*[contains(text(), 'дежда')]")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(buttonToSaveTheComponentSettingsForTheCatalog));
         explicitWaiting();
         driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
@@ -1713,7 +1717,6 @@ public class MethodsForCatalog extends BaseActions {
     public void choiceStandardCatalog (){
         driver.findElement(By.xpath("//*[@data-bx-property-id = 'IBLOCK_TYPE']")).click();
         driver.findElement(By.xpath("//*[@data-bx-property-id = 'IBLOCK_TYPE'] //*[@value='sotbit_b2bcabinet_type_catalog']")).click();
-
         driver.findElement(By.xpath("//select[@data-bx-property-id = 'IBLOCK_ID']")).click();
         driver.findElement(By.xpath("//select[@data-bx-property-id = 'IBLOCK_ID'] //*[contains(text(), 'Каталог товаров')]")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(buttonToSaveTheComponentSettingsForTheCatalog));
@@ -1909,11 +1912,16 @@ public class MethodsForCatalog extends BaseActions {
 
     public void addingMaxQuantityOfProductInTheCartUsingPlusIconOneMoreThanAvailable (By quantityFieldSelector, By quantityPlusSelector, double numberOfAvailableProduct){
         tempDouble = 1;
-        driver.findElement(quantityFieldSelector).clear();
-        explicitWaiting();explicitWaiting();
+        //driver.findElement(quantityFieldSelector).clear();
+        waitingMilliSecond();
+        driver.findElement(quantityFieldSelector).sendKeys("\b\b\b\b\b\b" + "0");
+        explicitWaiting();
+        driver.findElement(checkboxThatHighlightsAllProductsInTheCartLocator).click();
+
         System.out.println("Доступное кол-во товара - " + numberOfAvailableProduct);
         if (numberOfAvailableProduct > 95){
-            driver.findElement(quantityFieldSelector).sendKeys(del + (numberOfAvailableProduct - 10));
+//            driver.findElement(quantityFieldSelector).sendKeys(del + (numberOfAvailableProduct - 10));
+            driver.findElement(quantityFieldSelector).sendKeys("\b\b\b\b\b\b" + (numberOfAvailableProduct - 10));
             driver.findElement(checkboxThatHighlightsAllProductsInTheCartLocator).click();
             explicitWaiting();
         }
@@ -1941,7 +1949,7 @@ public class MethodsForCatalog extends BaseActions {
     public void attemptToSelectNegativeQuantityOfProductsInTheCartUsingMinusIcon(By quantityFieldSelector, By quantityMinusSelector){
         tempDouble = Double.valueOf(driver.findElement(quantityFieldSelector).getAttribute("value"));
         if (tempDouble > 95){
-            driver.findElement(quantityFieldSelector).sendKeys(del + "10");
+            driver.findElement(quantityFieldSelector).sendKeys("\b\b\b" + "10");
             driver.findElement(checkboxThatHighlightsAllProductsInTheCartLocator).click();
             explicitWaiting();
         }
@@ -1969,15 +1977,19 @@ public class MethodsForCatalog extends BaseActions {
         driver.findElement(checkboxThatHighlightsAllProductsInTheCartLocator).click();
     }
     public void attemptToEnterNegativeQuantityOfProductsInTheCart(By quantityFieldSelector){
-        driver.findElement(quantityFieldSelector).sendKeys(del + "-1");
+        driver.findElement(quantityFieldSelector).sendKeys("\b\b\b" + "-1");
         explicitWaiting();explicitWaiting();
         driver.findElement(checkboxThatHighlightsAllProductsInTheCartLocator).click();
     }
     public void addingMaxQuantityOfProductInTheCartUsingInputField(By quantityFieldSelector, double numberOfAvailableProduct){
-        explicitWaiting();explicitWaiting();
-        driver.findElement(quantityFieldSelector).click();
-        driver.findElement(quantityFieldSelector).sendKeys(del + String.valueOf(numberOfAvailableProduct + 1));
-        explicitWaiting();explicitWaiting();
+        explicitWaiting();
+//        driver.findElement(quantityFieldSelector).click();
+//        driver.findElement(quantityFieldSelector).sendKeys(del +  String.valueOf(numberOfAvailableProduct + 1));
+//        explicitWaiting();
+//        driver.findElement(checkboxThatHighlightsAllProductsInTheCartLocator).click();
+//        explicitWaiting();explicitWaiting(); после обновы 1.11 этот способ перестал работать
+        driver.findElement(quantityFieldSelector).sendKeys("\b\b\b\b\b\b" + String.valueOf(numberOfAvailableProduct + 1));
+        explicitWaiting();
         driver.findElement(checkboxThatHighlightsAllProductsInTheCartLocator).click();
         explicitWaiting();explicitWaiting();
     }
@@ -2008,7 +2020,9 @@ public class MethodsForCatalog extends BaseActions {
         Assert.assertTrue(Double.valueOf(driver.findElement(quantityFieldSelector).getAttribute("value")) == numberOfAvailableProduct);
     }
     public void checkingThatQuantityThisProductIsEqualsOne(By quantityFieldSelector){
-        Assert.assertTrue(driver.findElement(quantityFieldSelector).getAttribute("value").equals("1"));
+        if (driver.findElement(quantityFieldSelector).getAttribute("value").equals("1")){
+            Assert.assertTrue(driver.findElement(quantityFieldSelector).getAttribute("value").equals("1"));
+        }else Assert.assertTrue(driver.findElement(quantityFieldSelector).getAttribute("value").equals("0.1"));
     }
     public void checkingThatQuantityOfKaiserGasStoveEqualsOneTenth(){
         Assert.assertTrue(driver.findElement(quantityFieldOfKaiserLocator).getAttribute("value").equals("0.1"));
@@ -2019,11 +2033,11 @@ public class MethodsForCatalog extends BaseActions {
     public void checkingThatThereAreNoProdutsInTheBasket(){
         Assert.assertTrue(driver.findElements(By.cssSelector(".basket__item")).size() == 0);
     }
-    public void configureTheFirstTwoTP(){
+    public void configureTheFirstTwoTP(String quantitativeAccountingLocator){
         actions.moveToElement(driver.findElement(By.xpath("(//*[@class='quantity-selector__increment'])[1]")));
         actions.perform();
         explicitWaiting();
-        driver.findElement(By.xpath("(//*[@class = 'bx-context-toolbar-button-text'][text()='Изменить товар'])[1]")).click();
+        driver.findElement(By.xpath("(//*[@class = 'bx-context-toolbar-button-text'][text()='Изменить элемент'])[1]")).click();
         driver.findElement(By.xpath("//*[contains(@title, 'еречень торговых предложений')]")).click();
         driver.findElement(By.xpath("(//*[@class='adm-list-table-popup'])[1]")).click();
         driver.findElement(By.xpath("//*[contains(@class, 'menu-item-text')][text()='Изменить']")).click();
@@ -2038,14 +2052,14 @@ public class MethodsForCatalog extends BaseActions {
         }
         driver.findElement(By.xpath("(//*[@class='adm-list-table-popup'])[2]")).click();
         try {
-            driver.findElement(By.xpath("(//*[contains(@class, 'menu-item-text')][text()='Изменить'])[1]")).click();
-        }catch (Exception e){
             driver.findElement(By.xpath("(//*[contains(@class, 'menu-item-text')][text()='Изменить'])[2]")).click();
+        }catch (Exception e){
+            driver.findElement(By.xpath("(//*[contains(@class, 'menu-item-text')][text()='Изменить'])[1]")).click();
         }
         driver.findElement(By.xpath("//*[contains(text(), 'Торговый каталог')][contains(@class, 'adm-detail-tab')]")).click();
         driver.findElement(By.xpath("//*[@title='Дополнительные параметры']")).click();
         driver.findElement(By.xpath("//*[contains(@id, 'BASE_QUANTITY_TRACE')]")).click();
-        driver.findElement(By.xpath("//*[contains(@id, 'BASE_QUANTITY_TRACE')] /option[@value='N']")).click();
+        driver.findElement(By.xpath("//*[contains(@id, 'BASE_QUANTITY_TRACE')] /option[@value='"+ quantitativeAccountingLocator+"']")).click();
         try {
             driver.findElement(By.xpath("//*[@class='adm-btn-save']")).click();
         }catch (Exception e){
@@ -2054,6 +2068,7 @@ public class MethodsForCatalog extends BaseActions {
         driver.findElement(By.cssSelector(".adm-btn-save")).click();
         explicitWaiting();
     }
+
     public void addingFirstTwoTPToTheCart(){
         driver.findElement(By.cssSelector(".offers-info")).click();
         quantityOfProductsInStock = Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[@class='item-quantity__general'])[1]")).getText()));
@@ -2215,9 +2230,10 @@ public class MethodsForCatalog extends BaseActions {
         tempDouble2 = Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("((//*[@class='catalog-list__body']//*[contains(@class, 'catalog-list__column')])["+ count + "])/*[1]")).getText()));
         Assert.assertTrue(tempDouble == tempDouble2);
         driver.findElement(By.xpath("(//*[@class='catalog-list__body'] //*[@class='input-group-append'])")).click();
-        driver.findElement(By.xpath("(//*[@class='catalog-list__body'] //*[@class='form-control'])")).sendKeys(del + "1");
+        driver.findElement(By.xpath("(//*[@class='catalog-list__body'] //*[@class='form-control'])")).sendKeys("\b\b\b" + "1");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".basket__product-name")));
         explicitWaiting();
+        System.out.println("EУДАЛИТЬ" + tempDouble);
         Assert.assertTrue(tempDouble == Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("((//*[@class = 'basket__column-price-wrap'])[2])/*[1]")).getText())));
         Assert.assertTrue(tempDouble == Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("//*[@class='basket-page__total-price-value']")).getText())));
     }

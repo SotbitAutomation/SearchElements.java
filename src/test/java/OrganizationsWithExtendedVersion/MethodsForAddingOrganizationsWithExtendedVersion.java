@@ -1098,24 +1098,26 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
             flag = false;
             for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@for, 'PPROFILE_ID')]")).size(); i++) {
                 if (driver.findElement(By.xpath("(//*[contains(@for, 'PPROFILE_ID')])[" + i + "]")).getText().equals(tempValue1)){
-                    driver.findElement(By.xpath("(//*[contains(@for, 'PPROFILE_ID')])[" + i + "]")).click();
+                    System.out.println("ELFKBУДАЛИТЬ0 " + i);
+                    //driver.findElement(By.xpath("(//*[contains(@for, 'PPROFILE_ID')])[" + i + "] /*[@class='uniform-choice']")).click(); тупая ошибка, не может кликнуть выбранный радиобатн
                     flag = true;
+                    explicitWaiting();
                 }
+
                 if (driver.findElement(By.xpath("(//*[contains(@for, 'PPROFILE_ID')])[" + i + "]")).getText().equals(tempValue2)){
-                    driver.findElement(By.xpath("(//*[contains(@for, 'PPROFILE_ID')])[" + i + "]")).click();
+                    driver.findElement(By.xpath("(//*[contains(@for, 'PPROFILE_ID')])[" + i + "] /*[@class='uniform-choice']")).click();
                     flag = true;
+                    explicitWaiting();
                 }
                 if (driver.findElement(By.xpath("(//*[contains(@for, 'PPROFILE_ID')])[" + i + "]")).getText().equals(tempValue)){
-                    driver.findElement(By.xpath("(//*[contains(@for, 'PPROFILE_ID')])[" + i + "]")).click();
+                    driver.findElement(By.xpath("(//*[contains(@for, 'PPROFILE_ID')])[" + i + "] /*[@class='uniform-choice']")).click();
                     flag = false;
-                    Assert.assertTrue("Организация ИП отображается, хотя в админ части убрал ИП из доступных типов плательщиков", flag == true);
+                    explicitWaiting();
+                    Assert.assertTrue("Организация ИП отображается, хотя в админ части убрал ИП из доступных типов плательщиков", flag);
                 }
             }
         }
-        Assert.assertTrue("Организация ИП отображается, хотя в админ части убрал ИП из доступных типов плательщиков", flag == true);
+        Assert.assertTrue("Организация ИП отображается, хотя в админ части убрал ИП из доступных типов плательщиков", flag);
     }
-
-
-
 }
 

@@ -44,6 +44,7 @@ public class DangerousTests extends MethodsForCatalog {
         navigationToMeanPageByUrl();
         resetCache();
         navigationToCatalogTab();
+        resetCache();
         selectTheSectionWithGasStoves();
         checkingThatTheColumnWithThisPropertyHasAppearedInTheCatalog();
         checkingThatTheProductHasAPropertyWithThePreviouslyEnteredValue();
@@ -139,6 +140,7 @@ public class DangerousTests extends MethodsForCatalog {
         //act
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
+        deletingProductsFromTheCart();
         returningSettingsBackIfCatalogBroken();
         deletingProductsFromTheCart();
         navigationToSettingOfQuantitativeAccountingForTheProduct();
@@ -153,6 +155,7 @@ public class DangerousTests extends MethodsForCatalog {
         checkingThatPriceAndQuantityAreTheSame();
         addThisProductOneMoreTimeManually();
         checkingThatPriceAndQuantityAreTheSame();
+        deletingProductsFromTheCart();
         navigationToCatalogTab();
         addingTheMaxNumberOfProductsToTheCartUsingIconPlus();
         addingThisProductOneMoreTime();
@@ -373,7 +376,6 @@ public class DangerousTests extends MethodsForCatalog {
         checkingThatQuantityThisProductIsEqualsOne(quantityFieldOfGefestLocator);
         addingMaxQuantityOfProductInTheCartUsingInputField(quantityFieldOfGefestLocator, numberOfAvailableGefestGasStove);
         checkingThatQuantityOfGefestGasStoveIsOneMoreThanAvailable();
-
         addingMaxQuantityOfProductInTheCartUsingPlusIconOneMoreThanAvailable(quantityFieldOfKaiserLocator, iconPlusOfKaiserLocator, numberOfAvailableKaiserGasStove);
         checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfKaiserLocator, numberOfAvailableKaiserGasStove);
         attemptToSelectNegativeQuantityOfProductsInTheCartUsingMinusIcon(quantityFieldOfKaiserLocator, iconMinusOfKaiserLocator);
@@ -432,7 +434,7 @@ public class DangerousTests extends MethodsForCatalog {
         choiceCatalogWithOnlyOffers();
         navigationToMeanPageByUrl();
         navigationToCatalogTab();
-        configureTheFirstTwoTP();
+        configureTheFirstTwoTP("N");
         addingFirstTwoTPToTheCart();
         //act
         addingMaxQuantityOfProductInTheCartUsingPlusIconOneMoreThanAvailable(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, iconPlusOfTPWithQuantitativeAccountingDisabledLocator, quantityOfProductsInStock);
@@ -443,7 +445,6 @@ public class DangerousTests extends MethodsForCatalog {
         checkingThatQuantityThisProductIsEqualsOne(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator);
         addingMaxQuantityOfProductInTheCartUsingInputField(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, quantityOfProductsInStock);
         checkingThatQuantityOfThisProductIsOneMoreThanAvailable(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, quantityOfProductsInStock);
-
         addingMaxQuantityOfProductInTheCartUsingPlusIconOneMoreThanAvailable(quantityFieldOfTPWithAFractionalCoefficientLocator, iconPlusOfTPWithWithAFractionalCoefficientLocator, quantityOfSecondProductsInStock);
         checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfTPWithAFractionalCoefficientLocator, quantityOfSecondProductsInStock);
         attemptToSelectNegativeQuantityOfProductsInTheCartUsingMinusIcon(quantityFieldOfTPWithAFractionalCoefficientLocator, iconMinusOfTPWithWithAFractionalCoefficientLocator);
@@ -453,9 +454,11 @@ public class DangerousTests extends MethodsForCatalog {
         addingMaxQuantityOfProductInTheCartUsingInputField(quantityFieldOfTPWithAFractionalCoefficientLocator, quantityOfSecondProductsInStock);
         checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfTPWithAFractionalCoefficientLocator, quantityOfSecondProductsInStock);
         checkingThatTotalPriceOfTheseProductsAreCalculatedRight(priceForFirstProductInCart, priceForSecondProductInCart);
-        navigationToAdminPartFromMeanPage();
-        navigationToGasStoveSetting();
-        returningQuantitativeAccountingAtTheGefestGasStoveByDefault();
+        navigationToCatalogTab();
+        configureTheFirstTwoTP("D");
+        navigationToCatalogTab();
+        navigationToComponentOfCatalogSetting();
+        choiceStandardCatalog();
     }
 
     @Test //18. Организации  ИП не отображаются у пользователя после снятия ИП в доступных типах плательщика
@@ -526,7 +529,9 @@ public class DangerousTests extends MethodsForCatalog {
         settingUpRandomDiscountForGefestGasStove();
         explicitWaiting();
         navigationToMeanPageByUrl();
+        resetCache();
         navigationToCatalogTab();
+        resetCache();
         selectTheSectionWithGasStoves();
         enterTheMaximumAvailableQuantityOfThisProduct();
         memorizingDiscountedAndNonDiscountedPricesForGefest();

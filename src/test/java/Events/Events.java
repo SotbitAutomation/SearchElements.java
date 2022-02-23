@@ -180,7 +180,8 @@ public class Events extends MethodsForEvents{
         navigationToRegistrationTab();
         //act
         determineWhetherRegistrationUserNeedsToBeConfirmed();
-        if (doNeedToConfirmRegistrationUser){
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (doNeedToConfirmRegistrationUser && versionsOfWorkingWithOrganizationsExtended){
             registr.choiceIP();
             registr.enterINNManually();
             registr.fillingFieldsOnTheRegistrationTab(registr.arrayWithExistingLocatorsForIP);
@@ -193,7 +194,7 @@ public class Events extends MethodsForEvents{
             checkingEventAboutNeededToConfirmUserRegistration();
             checkingTheStatusEventAboutNeededConfirmUserRegistration();
             checkingEventAboutConfirmUserRegistration();
-            checkingTheStatusEventOfTheUserSRegistrationHasBeenConfirmedByTheAdmin("0"); //expectedSuccessExec
+            checkingTheStatusEventOfTheUserSRegistrationHasBeenConfirmedByTheAdmin("F"); //expectedSuccessExec
             determineWhetherRegistrationOrganizationNeedsToBeConfirmed();
             checkingEventAboutTheRegistrationOrganization();
             checkingTheStatusEventThatYouNeedToConfirmOfTheRegistrationOfTheOrganization(expectedSuccessExec);
@@ -225,8 +226,9 @@ public class Events extends MethodsForEvents{
         //arrange
         navigationToRegistrationTab();
         //act
+        determineWhetherVersionsOfWorkingWithOrganization();
         determineWhetherRegistrationUserNeedsToBeConfirmed();
-        if (doNeedToConfirmRegistrationUser){
+        if (doNeedToConfirmRegistrationUser && versionsOfWorkingWithOrganizationsExtended){
             registr.choiceIP();
             registr.enterINNManually();
             registr.fillingFieldsOnTheRegistrationTab(registr.arrayWithExistingLocatorsForIP);
