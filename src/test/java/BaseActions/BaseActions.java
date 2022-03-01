@@ -117,9 +117,10 @@ public class BaseActions extends CustomizingForYourself {
     public String fileNameForConfirmRegistrationOrganization = "doNeedToConfirmRegistrationOrganization";  //Имя создаваемого файла в папке с проектом
     public String fileNameForUsersEmailsAndPasswords = "fileNameForUsersEmailsAndPasswords";  //Имя создаваемого файла в папке с проектом
     public String fileNameForVersionOfWorkingWithOrganization = "fileNameForVersionOfWorkingWithOrganization";  //Имя создаваемого файла в папке с проектом
+
     public ObjectOutputStream outputStream = null;
-    public ObjectInputStream inputStream = null;
     public int count;
+    public int countForThemeColor = 0;
     public int countColumnForMinPrice;
     public int countIP;
     public int counterOfExistingLocators = 0;
@@ -137,6 +138,10 @@ public class BaseActions extends CustomizingForYourself {
     By buttonOfHomeLocator = By.xpath("//*[@title='Главная']");
     By calendarIconLocator = By.cssSelector(".icon-calendar2.mr-2");
     By desktopIconLocator = By.cssSelector(".icon-menu7.mr-2");
+    public By dropdownUserIcon = By.cssSelector(".dropdown-user");
+    public ObjectInputStream inputStream = null;
+    public String fileNameForB2BThemeColor = "fileNameForVersionOfWorkingWithOrganization";  //Имя создаваемого файла в папке с проектом
+    public boolean themeColorBlack = true;
 
     public void navigationToAuthorizationTab() {
         driver.navigate().to(b2bUrl);
@@ -156,18 +161,34 @@ public class BaseActions extends CustomizingForYourself {
         }
     }
     public void navigationToTheSetting(){
-        driver.findElement(buttonOfHomeLocator).click();
+        determineThemeColor();
+        if(themeColorBlack){
+            driver.findElement(buttonOfHomeLocator).click();
+        }else {
+            driver.findElement(By.xpath("//*[contains(@class, 'icon-home')]")).click();
+        }
         driver.findElement(settingIconLocator).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#settings")));
     }
     public void navigationToTheCalendar(){
-        driver.findElement(buttonOfHomeLocator).click();
+        determineThemeColor();
+        if(themeColorBlack){
+            driver.findElement(buttonOfHomeLocator).click();
+        }else {
+            driver.findElement(By.xpath("//*[contains(@class, 'icon-home')]")).click();
+        }
         driver.findElement(calendarIconLocator).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@class, 'b2bcabinet-mainpage__calendar')]")));
     }
     public void navigationToTheDesktop() {
-        driver.findElement(buttonOfHomeLocator).click();
-        driver.findElement(desktopIconLocator).click();
+        determineThemeColor();
+        if(themeColorBlack){
+            driver.findElement(buttonOfHomeLocator).click();
+            driver.findElement(desktopIconLocator).click();
+        }else {
+            driver.findElement(By.xpath("//*[contains(@class, 'icon-home')]")).click();
+            driver.findElement(By.xpath("//*[@class='nav-item']/*[contains(@href, 'desktop')]")).click();
+        }
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#s0")));
     }
     public void doubleClick(String xpath){
@@ -183,6 +204,8 @@ public class BaseActions extends CustomizingForYourself {
                 , "Создать учетную запись", driver.findElement(registrationTabLocator).getText());
     }
     public void navigationToAdminPartFromMeanPage(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(buttonToGoToAdminPartLocator));
+        scrollUp();scrollUp();scrollUp();
         driver.findElement(buttonToGoToAdminPartLocator).click();
         try {
             driver.findElement(By.cssSelector("#global_menu_content")).click();
@@ -264,8 +287,11 @@ public class BaseActions extends CustomizingForYourself {
             driver.findElement(By.cssSelector(".icon-transmission")).click();
     }
     public void unHideTheMenu(){
-        if (!driver.findElement(By.cssSelector(".bx-user-info-name")).isDisplayed())
-            driver.findElement(By.cssSelector(".icon-transmission")).click();
+        determineThemeColor();
+        if (themeColorBlack){
+            if (!driver.findElement(By.cssSelector(".bx-user-info-name")).isDisplayed())
+                driver.findElement(By.cssSelector(".icon-transmission")).click();
+        }
     }
     public void logInToB2B() {
         driver.findElement(logInButtonOnTheAuthorizationTabLocator).click();
@@ -280,17 +306,35 @@ public class BaseActions extends CustomizingForYourself {
     }
 
     public void exitFromB2B() {
+        determineThemeColor();
+        if (!themeColorBlack){
+            try {
+                driver.findElement(dropdownUserIcon).click();
+            }catch (Exception e){
+                System.out.println("Я не в публичной части, походу");
+            }
+        }
         wait.until(ExpectedConditions.visibilityOfElementLocated(exitButtonInb2bCabinetLocator));
         driver.findElement(exitButtonInb2bCabinetLocator).click();
     }
 
     public void navigationToOrganizationTab() {
+        determineThemeColor();
+        if (!themeColorBlack){
+            for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@class, 'navbar-nav-link dropdown-toggle')]")).size(); i++) {
+                if (driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).getText().contains("рганизации")){
+                    driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).click();
+                    break;
+                }
+            }
+        }
         driver.findElement(organizationsTabLocator).click();
         try {
             Assert.assertTrue(driver.findElement(By.cssSelector("#PERSONAL_PROFILE_LIST")).isDisplayed());
         }catch (Exception e){
             Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Список организаций пуст']")).isDisplayed());
         }
+
     }
     public void navigationToDeliveryWayByUrl(){
         driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/" , "") + "bitrix/admin/sale_delivery_service_list.php");
@@ -302,6 +346,15 @@ public class BaseActions extends CustomizingForYourself {
         driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/" , "") + "bitrix/admin/sale_account_admin.php?lang=ru");
     }
     public void navigationToEmployeesTab() {
+        determineThemeColor();
+        if (!themeColorBlack){
+            for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@class, 'navbar-nav-link dropdown-toggle')]")).size(); i++) {
+                if (driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).getText().contains("рганизации")){
+                    driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).click();
+                    break;
+                }
+            }
+        }
         driver.findElement(employeesTabLocator).click();
         Assert.assertTrue(driver.findElement(By.cssSelector("#STAFF_LIST")).isDisplayed());
     }
@@ -325,12 +378,26 @@ public class BaseActions extends CustomizingForYourself {
         explicitWaiting();explicitWaiting();
     }
     public void navigationToCatalogTab() {
-        driver.findElement(catalogTabLocator).click();
+        determineThemeColor();
+        if (!themeColorBlack){
+            driver.navigate().to(b2bUrl + "orders/blank_zakaza/");
+        }else {
+            driver.findElement(catalogTabLocator).click();
+        }
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".catalog")));
         Assert.assertTrue(driver.findElement(By.cssSelector(".catalog")).isDisplayed());
         openingAllOffers();
     }
     public void navigationToPersonalAccountTab(){
+        determineThemeColor();
+        if (!themeColorBlack){
+            for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@class, 'navbar-nav-link dropdown-toggle')]")).size(); i++) {
+                if (driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).getText().contains("рганизации")){
+                    driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).click();
+                    break;
+                }
+            }
+        }
         driver.findElement(By.xpath("//*[contains(@href, 'personal/account')]")).click();
         Assert.assertTrue(driver.findElement(By.cssSelector(".blank_personal")).isDisplayed());
     }
@@ -345,29 +412,69 @@ public class BaseActions extends CustomizingForYourself {
     }
 
     public void navigationToCart() {
-        scrollToTheElement("//*[contains(@href, 'orders/make/')][@class='nav-link']");
-        driver.findElement(cartIconLocator).click();
-        Assert.assertTrue(driver.findElement(By.cssSelector(".basket-page")).isDisplayed());
-
-//        try {
-//            driver.findElement(cartIconLocator).click();
-//            Assert.assertTrue(driver.findElement(By.cssSelector(".basket-page")).isDisplayed());
-//        } catch (Exception e) {
-//            driver.findElement(By.cssSelector(".icon-cross")).click();
-//            driver.findElement(cartIconLocator).click();
-//            Assert.assertTrue(driver.findElement(By.cssSelector(".basket-page")).isDisplayed());
-//        } catch (Error e) {
-//            System.out.println("я не нашел иконку корзины");
-//        }
+        determineThemeColor();
+        if (!themeColorBlack){
+            explicitWaiting();
+            flag=false;
+            while (flag == false){
+                if (driver.findElements(By.cssSelector(".b2b-notification__content")).size() > 0){
+                    try {
+                        driver.findElement(By.xpath("//i[@class='icon-cross']")).click();
+                    }catch (Exception e){
+                        System.out.println("Всплывашка что товар добавлен в корзину пропала сама");
+                    }
+                }else flag = true;
+            }
+            try {
+                driver.findElement(By.xpath("//*[contains(@class, 'icon-cart')]")).click();
+            }catch (Exception e){
+                flag=false;
+                while (flag == false){
+                    if (driver.findElements(By.cssSelector(".b2b-notification__content")).size() > 0){
+                        driver.findElement(By.xpath("//i[@class='icon-cross']")).click();
+                    }else flag = true;
+                }
+                try {
+                    driver.findElement(By.xpath("//*[contains(@class, 'icon-cart')]")).click();
+                }catch (Exception e2){
+                    explicitWaiting();
+                    driver.findElement(By.xpath("//*[contains(@class, 'icon-cart')]")).click();
+                }
+            }
+        }else {
+            scrollToTheElement("//*[contains(@href, 'orders/make/')][@class='nav-link']");
+            driver.findElement(cartIconLocator).click();
+            Assert.assertTrue(driver.findElement(By.cssSelector(".basket-page")).isDisplayed());
+        }
     }
     public void navigationToMyOrdersPage(){
-        driver.findElement(By.xpath("//*[@title='Мои заказы']")).click();
+        determineThemeColor();
+        if (!themeColorBlack){
+            for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@class, 'navbar-nav-link dropdown-toggle')]")).size(); i++) {
+                if (driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).getText().contains("аказы")){
+                    driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).click();
+                    break;
+                }
+            }
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'ои заказы')][@class='dropdown-item']")));
+            driver.findElement(By.xpath("//*[contains(text(), 'ои заказы')][@class='dropdown-item']")).click();
+        }else {
+            driver.findElement(By.xpath("//*[@title='Мои заказы']")).click();
+        }
         Assert.assertTrue(driver.findElement(By.cssSelector(".order_wrapper")).isDisplayed());
     }
     public void navigationToTechnicalSupportTab(){
-        scrollToTheElement("//*[@class='icon-clippy']");
-        driver.findElement(By.xpath("//*[@class='icon-clippy']")).click();
-        Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@class,'page-title')]/*[text()='Список обращений']")).isDisplayed());
+        determineThemeColor();
+        if (!themeColorBlack){
+            driver.findElement(dropdownUserIcon).click();
+            driver.findElement(By.xpath("//*[contains(@href,'support')][contains(@class, 'action')]")).click();
+        }else {
+            scrollToTheElement("//*[@class='icon-clippy']");
+            driver.findElement(By.xpath("//*[@class='icon-clippy']")).click();
+        }
+        if (driver.findElements(By.xpath("//*[contains(@class,'page-title')]/*[text()='Список обращений']")).size()>0){
+            Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@class,'page-title')]/*[text()='Список обращений']")).isDisplayed());
+        }else {Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@href, 'support')][contains(@class, 'btn_b2b')]")).isDisplayed());}
     }
 
     public void explicitWaiting() {
@@ -392,6 +499,11 @@ public class BaseActions extends CustomizingForYourself {
     }
     public void scrollToTheElement(String xpath){
         WebElement element = driver.findElement(By.xpath(xpath));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+        explicitWaiting();
+    }
+    public void scrollToTheElement(By locator){
+        WebElement element = driver.findElement(locator);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
         explicitWaiting();
     }
@@ -556,6 +668,7 @@ public class BaseActions extends CustomizingForYourself {
         }
         System.out.println("Версия работы с компаниями расширенная - " + versionsOfWorkingWithOrganizationsExtended);
     }
+
     public void determineWhetherRegistrationOrganizationNeedsToBeConfirmed(){
         try {
             inputStream = new ObjectInputStream(new FileInputStream(fileNameForConfirmRegistrationOrganization)); //Имя файла с массивом
@@ -643,6 +756,8 @@ public class BaseActions extends CustomizingForYourself {
         tempValue = driver.findElement(By.xpath("//*[@class='main-grid-row main-grid-row-body'] //*[contains(@class, 'main-grid-cell-left')]")).getText();
     }
     public void saveBasicData(int numberOfSetting){
+        System.out.println(numberOfSetting);
+        scrollToTheElement("(//*[contains(@name, 'save')])[" + numberOfSetting + "]");
         driver.findElement(By.xpath("(//*[contains(@name, 'save')])[" + numberOfSetting + "]")).click();
         Assert.assertTrue(driver.findElement(By.cssSelector(".alert-success")).isDisplayed());
     }
@@ -654,4 +769,45 @@ public class BaseActions extends CustomizingForYourself {
         actions.moveToElement(driver.findElement(xpathLocator));
         actions.perform();
     }
+    public void determineThemeColor(){
+        if (countForThemeColor == 0){
+            try {
+                inputStream = new ObjectInputStream(new FileInputStream(fileNameForB2BThemeColor)); //Имя файла с массивом
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                themeColorBlack = (boolean) inputStream.readObject();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Темная ли версия шапки - " + themeColorBlack);
+            countForThemeColor++;
+        }
+    }
+    public void disclosureOfASubcategories(String xpathThisCategory ){
+        actions.moveToElement(driver.findElement(By.xpath(xpathThisCategory)) , 5, 15).click().build().perform();
+    }
+    public void expandTheNeededNavigationMenu(String nameOfTheMenuForOpen){
+        determineThemeColor();
+        if (!themeColorBlack){
+            for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@class, 'navbar-nav-link dropdown-toggle')]")).size(); i++) {
+                if (driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).getText().contains(nameOfTheMenuForOpen)){
+                    driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).click();
+                    break;
+                }
+            }
+        }
+    }
+//    public void expandTheCatalogSectionsInTheLightVersion(){
+//        for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@class, 'navbar-nav-link dropdown-toggle')]")).size(); i++) {
+//            if (driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).getText().contains("аталог")) {
+//                driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).click();
+//                explicitWaiting();
+//                break;
+//            }
+//        }
+//    }
 }

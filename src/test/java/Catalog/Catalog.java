@@ -735,6 +735,26 @@ public class Catalog extends MethodsForCatalog {
 
 
 
+//    @Test //1.asd
+//    public void asd() {
+//        //arrange
+//        driver.navigate().to("http://b2b-gospod-10.0.2.devsotbit.ru/");
+//        //act
+//        fillingFieldsOnTheLogInTabLikeUser();
+//        driver.findElement(logInButtonOnTheAuthorizationTabLocator).click();
+//
+//        driver.findElement(By.xpath("//*[contains(@href, 'blank_zakaza')][contains(@class, 'navbar-nav-link')]")).click();
+//
+//        actions.moveToElement(driver.findElement(By.cssSelector(".show > .dropdown-menu > .dropdown-submenu:first-child ")));
+//        actions.perform();
+//        explicitWaiting();explicitWaiting();
+//        disclosureOfASubcategories("//*[contains(@class ,'show')]/*[contains(@class ,'dropdown-menu')]/*[contains(@class ,'dropdown-submenu')]");
+//        //driver.findElement(By.cssSelector(".show > .dropdown-menu > .dropdown-submenu:first-child  ")).click();
+//    }
+
+
+
+
 
 //    @Test
 //    public void circle() {

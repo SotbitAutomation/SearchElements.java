@@ -148,9 +148,16 @@ public class MethodsForDocuments extends BaseActions {
     }
 
     public void navigationToActsOfDocuments(){
-        driver.findElement(By.xpath("//*[text()='Акты']")).click();
-        Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@class,'page-header')] //*[text()='Акты']")).isDisplayed());
+        determineThemeColor();
+        if (!themeColorBlack){
+            expandTheNeededNavigationMenu("окументы");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Акты')]")));
+            driver.findElement(By.xpath("//*[contains(text(), 'Акты')]")).click();
+        }else {
+            driver.findElement(By.xpath("//*[text()='Акты']")).click();
 
+        }
+        Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@class,'page-header')] //*[text()='Акты']")).isDisplayed());
     }
     public void checkingThatDocumentIsDisplayed(){
         Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Акт по заказу №2']")).isDisplayed());

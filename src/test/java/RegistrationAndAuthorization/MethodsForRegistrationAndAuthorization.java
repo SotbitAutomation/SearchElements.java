@@ -400,6 +400,11 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
             driver.findElement(registerButtonOnRegistrationTabLocator).click();
         }catch (Exception e){
             System.out.println("Подтвердаю регистрацию юзера не со страницы регистрации");
+            try {
+                exitFromB2B();
+            }catch (Exception e2){
+                System.out.println("Подтвердаю регистрацию юзера не со страницы регистрации и не с главной страницы");
+            }
         }
         navigationToPageForConfirmUserRegistration();
         approveTheRegistrationOfTheLastUser();
@@ -426,10 +431,14 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
         logInFromAuthorizationTab();
         navigationToAdminPartFromMeanPage();
         driver.findElement(sotbitTabLocator).click();
-        try {
+        if (driver.findElements(organizationsForConfirmRegistrationLocator).size()>0){
             driver.findElement(organizationsForConfirmRegistrationLocator).click();
-        }catch (Exception e){
-            driver.findElement(By.xpath("(//*[text()='Оптовые покупатели'])")).click();
+        }else {
+            if (driver.findElements(By.xpath("(//*[text()='птовые покупатели'])")).size() == 0){
+                driver.findElement(By.xpath("//*[contains(text(), 'асширенная авторизация')]")).click();
+            }else {
+                driver.findElement(By.xpath("(//*[text()='птовые покупатели'])")).click();
+            }
             driver.findElement(organizationsForConfirmRegistrationLocator).click();
         }
     }

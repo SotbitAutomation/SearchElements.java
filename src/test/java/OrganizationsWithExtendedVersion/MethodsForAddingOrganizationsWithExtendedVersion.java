@@ -127,6 +127,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
     }
 
     public void creatingOrganization() {
+        scrollToTheElement(saveButtonOnTheOrganizationTabLocator);
         driver.findElement(saveButtonOnTheOrganizationTabLocator).click();
         navigationToOrganizationTab();
         try {
@@ -137,14 +138,15 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
 
         }
     }
+    public void checkingThatFieldWithThisDescriptionHasRequiredTag(String descriptionField ){
+        Assert.assertTrue("После с таким названием" + descriptionField + "  не обязтельное", driver.findElement(By.xpath("(//*[contains(text(),'" + descriptionField + "')] /following::input)[1][@required]")).isDisplayed());
+    }
 
     public void checkingThatTheFieldsAreRequired() {
         selectionFromDropDownListLegalPerson();
-        try {
-            Assert.assertTrue("Поле  не обзятельное", driver.findElement(By.xpath("(//*[contains(text(),'Название:')]/following::*[2])[@required]")).isDisplayed());
-        }catch (Exception e){}
-        Assert.assertTrue("Поле  не обязтельное", driver.findElement(By.xpath("(//*[contains(text(),'Название компании')]/following::*[1])[@required]")).isDisplayed());
-        Assert.assertTrue("Поле  не обязтельное", driver.findElement(By.xpath("(//*[contains(text(),'E-Mail')]/following::*[1])[@required]")).isDisplayed());
+        checkingThatFieldWithThisDescriptionHasRequiredTag("Название");
+        checkingThatFieldWithThisDescriptionHasRequiredTag("Название компании");
+        checkingThatFieldWithThisDescriptionHasRequiredTag("E-Mail");
         selectionFromDropDownListIndividualBusinessman();
         fillingFieldsForCreatingOrganization();
         try {
@@ -152,6 +154,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         }catch (Exception e){
             driver.findElement(By.xpath("//*[contains(@placeholder, 'название')][not(ancestor-or-self::*[@style = 'display: none;'])]")).clear();
         }
+        scrollToTheElement(saveButtonOnTheOrganizationTabLocator);
         driver.findElement(saveButtonOnTheOrganizationTabLocator).click();
         Assert.assertTrue(driver.findElement(By.cssSelector(".validation-invalid-label.errortext")).isDisplayed());
     }
@@ -256,7 +259,9 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         driver.findElement(By.xpath("//*[contains(text(),'Название компании')]/following::*[1]")).clear();
         driver.findElement(By.xpath("//*[contains(text(),'Название компании')]/following::*[1]")).sendKeys(nameCompany + "NewName");
         tempValue = nameCompany + "NewName";
-        driver.findElement(By.xpath("//*[@value='Сохранить']")).click();
+        scrollToTheElement(saveButtonOnTheOrganizationTabLocator);
+        driver.findElement(saveButtonOnTheOrganizationTabLocator).click();
+        //driver.findElement(By.xpath("//*[@value='Сохранить']")).click();
         navigationToOrganizationTab();
         sortingOrganizationByDecrease();
         explicitWaiting();
@@ -608,6 +613,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         Assert.assertEquals(driver.findElement(By.xpath("//*[@placeholder='Введите e-mail (логин)']")).getAttribute("value"), "TEST@qa.team");
     }
     public void checkingMessageAboutExistOrganization (){
+        scrollToTheElement(saveButtonOnTheOrganizationTabLocator);
         driver.findElement(saveButtonOnTheOrganizationTabLocator).click();
         Assert.assertTrue(driver.findElement(By.cssSelector(".validation-invalid-label.errortext")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Такая организация уже существует']")).isDisplayed());
@@ -852,6 +858,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         }catch (Exception e){
             System.out.println("Я не нашел поле 'Телефон'");
         }
+        scrollToTheElement(saveButtonOnTheOrganizationTabLocator);
         driver.findElement(saveButtonOnTheOrganizationTabLocator).click();
     }
     public void increaseQuantityOfFirstProduct(){
@@ -860,6 +867,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         }catch (Exception e){
             driver.findElement(By.xpath("(//*[@class='quantity-selector__increment'])[1]")).click();
         }
+        explicitWaiting();
     }
     public void checkingThatDataHasBeenChanged(){
 
@@ -1067,7 +1075,8 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
                 driver.findElement(By.xpath("(//*[contains(@id, 'BUYER_PERSONAL_TYPE')] /option)[" + i + "]")).click();
             }
         }
-        driver.findElement(By.xpath("//*[@name='save']")).click();
+        scrollToTheElement(saveButtonOnTheOrganizationTabLocator);
+        driver.findElement(saveButtonOnTheOrganizationTabLocator).click();
     }
     public void addingBackIPToAvailablePayerTypes(){
         tempIntValue = driver.findElements(By.xpath("//*[contains(@id, 'BUYER_PERSONAL_TYPE')] /option")).size();
@@ -1077,7 +1086,8 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
                 driver.findElement(By.xpath("(//*[contains(@id, 'BUYER_PERSONAL_TYPE')] /option)[" + i + "]")).click();
             }
         }
-        driver.findElement(By.xpath("//*[@name='save']")).click();
+        scrollToTheElement(saveButtonOnTheOrganizationTabLocator);
+        driver.findElement(saveButtonOnTheOrganizationTabLocator).click();
     }
     public void checkingThatTheAddedLPOrganizationsAreAvailableForSelectionAndTheAddedIPOrganizationIsNotAvailable (){
         //проверка что добавленные организации LP доступны для выбора, а добавленная организация IP не доступны

@@ -795,18 +795,27 @@ public class MethodsForCatalog extends BaseActions {
         driver.findElement(By.xpath("(//*[contains(@class, 'catalog_section')])[" + tempIntValue  + "] //*[@class='form-check']")).click();
     }
     public void choiceTheSecondLevelCategory(){
-        if (driver.findElements(By.xpath("//*[contains(@class, 'categorie')]")).size() > 0){
-            driver.findElement(By.xpath("(//*[contains(@class, 'catalog_section')])[3]")).click();
-            driver.findElement(By.xpath("(//*[contains(@class, 'catalog_section')])[3] //*[@class='form-check-label']")).click();
-            goToTheLastPage();
-            checkThatTheQuantityOfPagesIsChanged();
+        if (themeColorBlack) {
+            if (driver.findElements(By.xpath("//*[contains(@class, 'categorie')]")).size() > 0){
+                driver.findElement(By.xpath("(//*[contains(@class, 'catalog_section')])[3]")).click();
+                driver.findElement(By.xpath("(//*[contains(@class, 'catalog_section')])[3] //*[@class='form-check-label']")).click();
+                goToTheLastPage();
+                checkThatTheQuantityOfPagesIsChanged();
+            }else {
+                expandCatalogCategories();
+                choiceRandomCategoryInMenuCatalog();
+                checkingThatAllProductsHaveASimilarIdToTheSectionId();
+                choiceRandomUnderCategoryOfTheSelectedCategory();
+                checkingThatBreadCrumbHaveSelectedCategories();
+                checkingThatAllProductsHaveASimilarIdToTheSectionId();
+            }
         }else {
-            expandCatalogCategories();
-            choiceRandomCategoryInMenuCatalog();
-            checkingThatAllProductsHaveASimilarIdToTheSectionId();
-            choiceRandomUnderCategoryOfTheSelectedCategory();
-            checkingThatBreadCrumbHaveSelectedCategories();
-            checkingThatAllProductsHaveASimilarIdToTheSectionId();
+            for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@class, 'navbar-nav-link dropdown-toggle')]")).size(); i++) {
+                if (driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).getText().contains("аталог")) {
+                    driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).click();
+                    break;
+                }
+            }
         }
     }
     public void expandCatalogCategories(){
@@ -998,7 +1007,8 @@ public class MethodsForCatalog extends BaseActions {
     }
     public void navigationToComponentOfUserOrders(){
         driver.findElement(By.xpath("//*[contains(@id, 'components')] //*[@class='bx-panel-small-single-button-arrow']")).click();
-        driver.findElement(By.xpath("//*[contains(@title, 'company.order')]")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@title, '.order')]")));
+        driver.findElement(By.xpath("//*[contains(@title, '.order')]")).click();
         driver.findElement(By.xpath("//*[@title='Развернуть']")).click();
     }
     public void navigationToComponentOfUserParameters(){
@@ -1013,6 +1023,7 @@ public class MethodsForCatalog extends BaseActions {
             driver.findElement(By.cssSelector("#bx-panel-expander-arrow")).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@id, 'components')] //*[@class='bx-panel-small-single-button-arrow']")));
         }
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@id, 'components')] //*[@class='bx-panel-small-single-button-arrow']")));
         driver.findElement(By.xpath("//*[contains(@id, 'components')] //*[@class='bx-panel-small-single-button-arrow']")).click();
         explicitWaiting();
         try {
@@ -1028,6 +1039,7 @@ public class MethodsForCatalog extends BaseActions {
     public void selectTheWorkModelAsUserConfigurable(){
         driver.findElement(By.xpath("//*[contains(@for, 'MODEL_OF_WORK')] / following::*[1]")).click();
         driver.findElement(By.xpath("//*[@value= 'user_config']")).click();
+        scrollToTheElement(By.xpath("//*[contains(@id, 'save-button')]"));
         driver.findElement(By.xpath("//*[contains(@id, 'save-button')]")).click();
     }
     public void selectTheNumberOfDisplayedOrdersOnThePage(){
@@ -1140,19 +1152,35 @@ public class MethodsForCatalog extends BaseActions {
     }
     public void choosingRandomCategory(){
         tempInt = driver.findElements(By.cssSelector(".item_name")).size();
-        if (driver.findElements(By.xpath("//*[contains(@class, 'categorie')]")).size() > 0){
-            tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(By.xpath("//*[contains(@class, 'catalog_section')]")).size()));
-            driver.findElement(By.xpath("(//*[contains(@class, 'catalog_section')])[" + tempRandomNumber +"]//*[@class='form-check']")).click();
+        if (themeColorBlack){
+            if (driver.findElements(By.xpath("//*[contains(@class, 'categorie')]")).size() > 0){
+                tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(By.xpath("//*[contains(@class, 'catalog_section')]")).size()));
+                driver.findElement(By.xpath("(//*[contains(@class, 'catalog_section')])[" + tempRandomNumber +"]//*[@class='form-check']")).click();
+            }else {
+                driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][@title='Каталог']")).click();
+                explicitWaiting();
+                tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(By.xpath("//*[contains(@class, 'nav-item-open')]/*[contains(@class, 'nav-group-sub')] /li /a /span")).size()));
+                driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]")).click();
+            }
         }else {
-            driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][@title='Каталог']")).click();
-            explicitWaiting();
-            tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(By.xpath("//*[contains(@class, 'nav-item-open')]/*[contains(@class, 'nav-group-sub')] /li /a /span")).size()));
-            driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]")).click();
+            for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@class, 'navbar-nav-link dropdown-toggle')]")).size(); i++) {
+                if (driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).getText().contains("аталог")){
+                    driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).click();
+                    break;
+                }
+            }
+            tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(
+                    By.xpath("//*[contains(@class ,'show')]/*[contains(@class ,'dropdown-menu')]/*[contains(@class ,'dropdown-submenu')]")).size()));
+            driver.findElement(
+                    By.xpath("(//*[contains(@class ,'show')]/*[contains(@class ,'dropdown-menu')]/*[contains(@class ,'dropdown-submenu')] /*[1] /span)["
+                            + tempRandomNumber + "]")).click();
         }
     }
 
     public void checkingThatQuantityOfPropertiesIsHadDecreased(){
         explicitWaiting();explicitWaiting();
+        System.out.println(tempInt);
+        System.out.println(driver.findElements(By.cssSelector(".item_name")).size());
         Assert.assertTrue("Количество свойств в рандомной разделе больше или равно чем во всех разделах"
                 ,tempInt > driver.findElements(By.cssSelector(".item_name")).size());
     }
@@ -1231,41 +1259,55 @@ public class MethodsForCatalog extends BaseActions {
         driver.findElement(By.cssSelector(".adm-btn-save")).click();
     }
     public void selectTheSectionWithGasStoves(){
-        if (driver.findElements(By.xpath("//*[contains(@class, 'categorie')]")).size() > 0){
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='nav-item nav-item-submenu catalog_section '])[1]")));
-            driver.findElement(By.xpath("(//*[@class='nav-item nav-item-submenu catalog_section '])[1]")).click();
-            explicitWaiting();
-            driver.findElement(By.xpath("(//*[@class='nav-item nav-item-submenu'])[1]")).click();
-            explicitWaiting();
-        }else {
-            try {
-                driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][@title='Каталог']")).click();
+        if (themeColorBlack) {
+            if (driver.findElements(By.xpath("//*[contains(@class, 'categorie')]")).size() > 0) {
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='nav-item nav-item-submenu catalog_section '])[1]")));
+                driver.findElement(By.xpath("(//*[@class='nav-item nav-item-submenu catalog_section '])[1]")).click();
                 explicitWaiting();
-                driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')] //span)[2]")).click();
+                driver.findElement(By.xpath("(//*[@class='nav-item nav-item-submenu'])[1]")).click();
                 explicitWaiting();
-                driver.findElement(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()] //span)[2]")).click();
-            }catch (Exception e){
-                navigationToCatalogTab();
-                driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][@title='Каталог']")).click();
-                explicitWaiting();
-                driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')] //span)[2]")).click();
-                explicitWaiting();
-                driver.findElement(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()] //span)[2]")).click();
+            } else {
+                try {
+                    driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][@title='Каталог']")).click();
+                    explicitWaiting();
+                    driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')] //span)[2]")).click();
+                    explicitWaiting();
+                    driver.findElement(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()] //span)[2]")).click();
+                } catch (Exception e) {
+                    navigationToCatalogTab();
+                    driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][@title='Каталог']")).click();
+                    explicitWaiting();
+                    driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')] //span)[2]")).click();
+                    explicitWaiting();
+                    driver.findElement(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()] //span)[2]")).click();
+                }
             }
+        }else {
+            expandTheNeededNavigationMenu("аталог");
+            disclosureOfASubcategories("//*[@class='nav-item dropdown nav-item-dropdown-xl show'] //*[contains(text(), 'Бытовая техника')]");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='nav-item dropdown nav-item-dropdown-xl show'] //*[contains(text(), 'плиты')]")));
+            driver.findElement(By.xpath("//*[@class='nav-item dropdown nav-item-dropdown-xl show'] //*[contains(text(), 'плиты')]")).click();
         }
     }
     public void selectSectionWithChainsaws(){
-        if (driver.findElements(By.xpath("//*[contains(@class, 'categorie')]")).size() > 0){
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='nav-item nav-item-submenu catalog_section '])[2]")));
-            driver.findElement(By.xpath("(//*[@class='nav-item nav-item-submenu catalog_section '])[2]")).click();
-            explicitWaiting();
-            driver.findElement(By.xpath("(//*[contains(@class, 'card-body border')]//*[@type='checkbox'])[6]")).click();
+        if (themeColorBlack) {
+            if (driver.findElements(By.xpath("//*[contains(@class, 'categorie')]")).size() > 0){
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='nav-item nav-item-submenu catalog_section '])[2]")));
+                driver.findElement(By.xpath("(//*[@class='nav-item nav-item-submenu catalog_section '])[2]")).click();
+                explicitWaiting();
+                driver.findElement(By.xpath("(//*[contains(@class, 'card-body border')]//*[@type='checkbox'])[6]")).click();
+            }else {
+                driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][@title='Каталог']")).click();
+                explicitWaiting();
+                driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')]/*[contains(@class, 'nav-group-sub')] /li /a /span)[2]")).click();
+                explicitWaiting();
+                driver.findElement(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()] //span)[2]")).click();
+            }
         }else {
-            driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][@title='Каталог']")).click();
-            explicitWaiting();
-            driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')]/*[contains(@class, 'nav-group-sub')] /li /a /span)[2]")).click();
-            explicitWaiting();
-            driver.findElement(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()] //span)[2]")).click();
+            expandTheNeededNavigationMenu("аталог");
+            disclosureOfASubcategories("//*[@class='nav-item dropdown nav-item-dropdown-xl show'] //*[contains(text(), 'Дом, дача, ремонт')]");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='nav-item dropdown nav-item-dropdown-xl show'] //*[contains(text(), 'ензопилы')]")));
+            driver.findElement(By.xpath("//*[@class='nav-item dropdown nav-item-dropdown-xl show'] //*[contains(text(), 'ензопилы')]")).click();
         }
     }
     public void checkingThatTheColumnWithThisPropertyHasAppearedInTheCatalog (){
@@ -1711,7 +1753,7 @@ public class MethodsForCatalog extends BaseActions {
         wait.until(ExpectedConditions.visibilityOfElementLocated(buttonToSaveTheComponentSettingsForTheCatalog));
         explicitWaiting();
         driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(catalogTabLocator));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".catalog")));
         explicitWaiting();
     }
     public void choiceStandardCatalog (){
@@ -1759,7 +1801,7 @@ public class MethodsForCatalog extends BaseActions {
             wait.until(ExpectedConditions.visibilityOfElementLocated(buttonToSaveTheComponentSettingsForTheCatalog));
             explicitWaiting();
             driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
-            wait.until(ExpectedConditions.visibilityOfElementLocated(catalogTabLocator));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".catalog")));
             explicitWaiting();
         }
     }
@@ -1770,7 +1812,7 @@ public class MethodsForCatalog extends BaseActions {
             wait.until(ExpectedConditions.visibilityOfElementLocated(buttonToSaveTheComponentSettingsForTheCatalog));
             explicitWaiting();
             driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
-            wait.until(ExpectedConditions.visibilityOfElementLocated(catalogTabLocator));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".catalog")));
             explicitWaiting();
         }
     }
@@ -1779,7 +1821,7 @@ public class MethodsForCatalog extends BaseActions {
         wait.until(ExpectedConditions.visibilityOfElementLocated(buttonToSaveTheComponentSettingsForTheCatalog));
         explicitWaiting();
         driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(catalogTabLocator));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".catalog")));
         explicitWaiting();
     }
     public void addingSecondStorageIfItNeed(){
@@ -1914,9 +1956,10 @@ public class MethodsForCatalog extends BaseActions {
         tempDouble = 1;
         //driver.findElement(quantityFieldSelector).clear();
         waitingMilliSecond();
-        driver.findElement(quantityFieldSelector).sendKeys("\b\b\b\b\b\b" + "0");
+        driver.findElement(quantityFieldSelector).sendKeys("\b\b\b\b\b" + "0");
         explicitWaiting();
         driver.findElement(checkboxThatHighlightsAllProductsInTheCartLocator).click();
+        explicitWaiting();
 
         System.out.println("Доступное кол-во товара - " + numberOfAvailableProduct);
         if (numberOfAvailableProduct > 95){
@@ -2325,6 +2368,7 @@ public class MethodsForCatalog extends BaseActions {
         driver.findElement(By.cssSelector("#bx-comp-params-save-button")).click();
     }
     public void enteredDataInAddedUserParameter (){
+        scrollToTheElement(By.xpath("//*[@name='WORK_COMPANY']"));
         driver.findElement(By.xpath("//*[@name='WORK_COMPANY']")).clear();
         System.out.println(randomData);
         driver.findElement(By.xpath("//*[@name='WORK_COMPANY']")).sendKeys(randomData);

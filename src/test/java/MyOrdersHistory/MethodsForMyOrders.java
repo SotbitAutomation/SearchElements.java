@@ -108,6 +108,7 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
         System.out.println("цена выбранного заказа =" + tempPriceOfOrder);
     }
     public void openRandomOrder (){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='main-grid-row-action-button'])[" + randomNumberUpToNumberOfOrders + "]")));
         driver.findElement(By.xpath("(//*[@class='main-grid-row-action-button'])[" + randomNumberUpToNumberOfOrders + "]")).click();
         driver.findElement(By.xpath("(//*[@class='menu-popup-item-text'])")).click();
     }

@@ -73,9 +73,32 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
         }
         System.out.println(flagForLocation);
     }
+    @Test //3. Определение типа шапки
+    public void c_determiningTheTypeOfHeader () {
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        if (driver.findElements(dropdownUserIcon).size()==0){
+            themeColorBlack = true;
+        }else {
+            themeColorBlack = false;
+        }
 
-    @Test //3. Определение нужно ли подтверждать регистрацию пользователя
-    public void c_determiningOfNeedToConfirmOfRegistrationUser () {
+        //Запись в файл
+        try {
+            outputStream = new ObjectOutputStream(new FileOutputStream(fileNameForB2BThemeColor));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            outputStream.writeObject(this.themeColorBlack);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Темная ли версия шапки " + themeColorBlack);
+    }
+    @Test //4. Определение нужно ли подтверждать регистрацию пользователя
+    public void d_determiningOfNeedToConfirmOfRegistrationUser () {
         //arrange
         navigationToRegistrationTab();
         //act
@@ -111,8 +134,8 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
         System.out.println(doNeedToConfirmRegistrationUser);
     }
 
-    @Test //4. Определение версии работы с компаниями
-    public void d_determiningVersionsOfWorkingWithOrganizations_3 () {
+    @Test //5. Определение версии работы с компаниями
+    public void e_determiningVersionsOfWorkingWithOrganizations () {
         AddingOrganizationsWithExtendedVersion addingOrganization = new AddingOrganizationsWithExtendedVersion ();
         //arrange
         navigationToRegistrationTab();
@@ -145,8 +168,8 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
         System.out.println("Расширенная ли версия работы с компаниями " + versionsOfWorkingWithOrganizationsExtended);
     }
 
-    @Test //5. Определение нужно ли подтверждать регистрацию организации
-    public void e_determiningOfNeedToConfirmOfRegistrationOrganization_4 () {
+    @Test //6. Определение нужно ли подтверждать регистрацию организации
+    public void f_determiningOfNeedToConfirmOfRegistrationOrganization () {
         determineWhetherVersionsOfWorkingWithOrganization();
 
         if (versionsOfWorkingWithOrganizationsExtended){
@@ -222,8 +245,8 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
             System.out.println("Нужно подтверждать регистрацию - " + doNeedToConfirmRegistrationOrganization);
     }
 
-    @Test //6. Создание пользователей для автотестов
-    public void f_creatingUsersForAutomationTests() {
+    @Test //7. Создание пользователей для автотестов
+    public void g_creatingUsersForAutomationTests() {
         //arrange
         RegistrationB2B registr = new RegistrationB2B();
         registr.registrationIPWithManualEntryINN();
@@ -233,6 +256,7 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
         registr.registrationLegalPersonWithManualEntryINN();
         emailEmployee = registr.email;
         passwordEmployee = registr.password;
+
 
         //Запись в файл
         try {

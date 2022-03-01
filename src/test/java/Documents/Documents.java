@@ -10,7 +10,7 @@ public class Documents extends MethodsForDocuments {
         //arrange
         deletingExcelAndJpgFilesFromDownloads();
         registr.registrationIPWithManualEntryINN();
-        registr.tryConfirmRegistration();
+        registr.tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
         //act
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
@@ -30,7 +30,7 @@ public class Documents extends MethodsForDocuments {
         //arrange
         deletingExcelAndJpgFilesFromDownloads();
         registr.registrationIPWithManualEntryINN();
-        registr.tryConfirmRegistration();
+        registr.tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
         //act
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
@@ -70,7 +70,7 @@ public class Documents extends MethodsForDocuments {
         //arrange
         deletingExcelAndJpgFilesFromDownloads();
         registr.registrationIPWithManualEntryINN();
-        registr.tryConfirmRegistration();
+        registr.tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
         //act
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
@@ -87,6 +87,7 @@ public class Documents extends MethodsForDocuments {
         downloadDocument();
         navigationToDetailInformationOfOrganizationFromDocument();
     }
+
     @Test //5. Отображение документа привязонного к заказу
     public void displayingTheDocumentLinkedToTheOrder() {
         //arrange
@@ -113,6 +114,7 @@ public class Documents extends MethodsForDocuments {
         checkingThatLastOrderHaveDocument();
         downloadDocument();
     }
+
     @Test //6. Переход на детальную страницу заказа из раздела "Документы" с помощью привязанного к заказу документа
     public void goToTheDetailedOrderPageFromTheDocumentsSectionUsingTheDocumentLinkedToTheOrder() {
         //arrange
@@ -139,18 +141,21 @@ public class Documents extends MethodsForDocuments {
         navigationToActsOfDocuments();
         navigationToTheLastOrderFromDocumentsPage();
     }
+
     @Test //7. Смена порядка вывода инфоблоков раздела "Документы"
     public void changingTheOrderOutputOfInformationBlocksInTheDocumentsSection() {
         //arrange
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
-        searchSequenceNumberOfActs();
-        openDocumentsTabInAdminPanel();
-        openActSettings();
-        changeTheSequenceNumberForTheActsSectionToTheOpposite();
-        navigationToMeanPageByUrl();
-        resetCache();
-        checkingThatTheSequenceNumberOfTheActsHasChanged();
+        if (themeColorBlack) {
+            searchSequenceNumberOfActs();
+            openDocumentsTabInAdminPanel();
+            openActSettings();
+            changeTheSequenceNumberForTheActsSectionToTheOpposite();
+            navigationToMeanPageByUrl();
+            resetCache();
+            checkingThatTheSequenceNumberOfTheActsHasChanged();
+        }
     }
 }

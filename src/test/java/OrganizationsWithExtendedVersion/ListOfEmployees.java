@@ -13,7 +13,7 @@ public class ListOfEmployees extends MethodsForAddingOrganizationsWithExtendedVe
     public void a_creatingBossesWithOrganizationsAndEmployees () {
         //arrange
         SettingUpAutotestsForB2BSettings createUsers = new SettingUpAutotestsForB2BSettings();
-        createUsers.f_creatingUsersForAutomationTests();
+        createUsers.g_creatingUsersForAutomationTests();
         exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();

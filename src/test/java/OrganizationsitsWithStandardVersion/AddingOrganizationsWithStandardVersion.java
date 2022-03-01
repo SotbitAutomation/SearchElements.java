@@ -191,6 +191,7 @@ public class AddingOrganizationsWithStandardVersion extends MethodsForAddingOrga
         navigationToCatalogTab();
         increaseQuantityOfFirstProduct();
         navigationToCart();
+        scrollToTheElement(buttonMakeOrderInTheCartLocator);
         driver.findElement(buttonMakeOrderInTheCartLocator).click();
         checkingThatDataHasBeenChanged2();
     }

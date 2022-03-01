@@ -72,6 +72,9 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
 
     public void makingOrder(){
         tempShippingCost = Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[@class='text-center'])[11]")).getText()));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='text-center'])[11]")));
+        scrollToTheElement(buttonForMakeOrderLocatorOnTheCheckoutPage);
+        explicitWaiting();
         driver.findElement(buttonForMakeOrderLocatorOnTheCheckoutPage).click();
 //        try{
 //            Assert.assertTrue(driver.findElement(By.cssSelector(".index_order_success")).isDisplayed());
@@ -81,6 +84,7 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
         try{
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".index_order_success")));
         }catch (Exception e){
+            scrollToTheElement(buttonForMakeOrderLocatorOnTheCheckoutPage);
             driver.findElement(buttonForMakeOrderLocatorOnTheCheckoutPage).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".index_order_success")));
         }
@@ -91,6 +95,7 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
         tempInt = 1;
         flag = false;
         while (flag == false){
+            scrollToTheElement("//h4[text()='Заказ']/ following::*["+ tempInt+ "]");
             if (driver.findElement(By.xpath("//h4[text()='Заказ']/ following::*["+ tempInt+ "]")).getText().equals("Сумма")){
                 flag = true;
             }else {
@@ -137,6 +142,7 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
         System.out.println("Сумма добавленных товаров (без доставки) - " + sumOfPricesOfTheAddedProducts);
     }
     public void choicePickupAsADeliveryWay(){
+        scrollToTheElement("//*[contains(text(), 'Самовывоз')]");
         driver.findElement(By.xpath("//*[contains(text(), 'Самовывоз')]")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(text(), 'Сохранить')]")));
     }
@@ -144,6 +150,7 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
         randomNumberUpToDeliveryWays = 1 + (int) (Math.random() * driver.findElements(By.xpath("//*[contains(@class, 'delivery')] //*[@class='uniform-choice']")).size());
         if (driver.findElement(By.xpath("(//*[contains(@class, 'delivery')]) /*[" + randomNumberUpToDeliveryWays + "] //*[@class='index_checkout-radios_title']"))
                 .getText().equals("Самовывоз")){
+            scrollToTheElement("(//*[contains(@class, 'delivery')] //*[@class='uniform-choice'])[" + randomNumberUpToDeliveryWays + "]");
             driver.findElement(By.xpath("(//*[contains(@class, 'delivery')] //*[@class='uniform-choice'])[" + randomNumberUpToDeliveryWays + "]")).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(text(), 'Сохранить')]")));
             driver.findElement(By.xpath("//button[contains(text(), 'Сохранить')]")).click();
@@ -151,6 +158,7 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
             wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("((//*[contains(@class, 'delivery')] //*[@class='uniform-choice'])["
                     + randomNumberUpToDeliveryWays + "])/*[@class='checked']")));
         }else {
+            scrollToTheElement("(//*[contains(@class, 'delivery')] //*[@class='uniform-choice'])[" + randomNumberUpToDeliveryWays + "]");
             driver.findElement(By.xpath("(//*[contains(@class, 'delivery')] //*[@class='uniform-choice'])[" + randomNumberUpToDeliveryWays + "]")).click();
             wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("((//*[contains(@class, 'delivery')] //*[@class='uniform-choice'])["
                     + randomNumberUpToDeliveryWays + "])/*[@class='checked']")));
@@ -250,6 +258,7 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
     }
     public void tryToMakeAnOrderWithoutTheEmailField(){
         driver.findElement(By.xpath("//*[contains(text(), 'ail')] /following::*[2]")).clear();
+        scrollToTheElement(buttonForMakeOrderLocatorOnTheCheckoutPage);
         driver.findElement(buttonForMakeOrderLocatorOnTheCheckoutPage).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".errortext")));
         explicitWaiting();
@@ -260,6 +269,7 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
     }
     public void tryToMakeAnOrderWithoutTheAddressField(){
         driver.findElement(By.xpath("//*[contains(text(), 'доставки')] /following::*[2]")).clear();
+        scrollToTheElement(buttonForMakeOrderLocatorOnTheCheckoutPage);
         driver.findElement(buttonForMakeOrderLocatorOnTheCheckoutPage).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".errortext")));
         explicitWaiting();
