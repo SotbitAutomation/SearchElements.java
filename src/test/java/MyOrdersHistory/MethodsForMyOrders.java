@@ -1,9 +1,10 @@
 package MyOrdersHistory;
 
 import MakingOrders.MethodsForMakingOrders;
-import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 
 import java.util.ArrayList;
 
@@ -30,7 +31,6 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
         Assert.assertTrue(iNNNumberCompanyWhichMadeOrder.equals(driver.findElement(By.xpath("//*[contains(text(), 'ИНН')] /following::*[1]")).getText()));
     }
     public void addingDocumentToTheLastOrder(){
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
@@ -42,7 +42,6 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
         driver.findElement(By.xpath("(//*[text()='Заказ:']/following::*[1] //td)[1] /*")).sendKeys(numberOfOrder);
         driver.findElement(By.cssSelector(".adm-btn-save")).click();
         driver.findElement(By.xpath("//*[@title='Перейти в режим просмотра сайта']")).click();
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
@@ -113,6 +112,8 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
         driver.findElement(By.xpath("(//*[@class='menu-popup-item-text'])")).click();
     }
     public void determinePriceOfRandomOrderWithoutDelivery(){
+        driver.findElement(By.xpath("//*[text()='Общее']")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//dt[contains(text(),'Доставка')] /following::*[1]")));
         sumOfPricesOfTheAddedProducts = Double.valueOf(tempPriceOfOrder)
                 - Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("//dt[contains(text(),'Доставка')] /following::*[1]"))
                 .getText()));
@@ -121,9 +122,8 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
         driver.findElement(By.xpath("//*[@type='button'][contains(@class, 'b2b_detail_order__second__tab__btn')]")).click();
         driver.findElement(By.xpath("//*[@class='dropdown-item'][text()='Повторить заказ']")).click();
         Assert.assertTrue(driver.findElement(By.cssSelector(".basket-page")).isDisplayed());
-        Assert.assertTrue("сумма для сравнения - " + sumOfPricesOfTheAddedProducts,sumOfPricesOfTheAddedProducts
-                == Double.valueOf(replacingSomeSymbols(driver.findElement(By.cssSelector(".basket-page__total-price-value"))
-                .getText())));
+        Assert.assertTrue(sumOfPricesOfTheAddedProducts == Double.valueOf(replacingSomeSymbols(driver.findElement(By.cssSelector(".basket-page__total-price-value"))
+                .getText())), "сумма для сравнения - " + sumOfPricesOfTheAddedProducts);
     }
     public void checkingPriceOfLastedOrder(){
         System.out.println("Сумма=" + sumOfPricesOfTheAddedProducts);
@@ -142,10 +142,13 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
         }
     }
     public void changingWayOfPaymentInOrder(){
+        driver.findElement(By.xpath("//*[text()='Общее']")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".sale-order-detail-payment-options-methods-info-change-link")));
         driver.findElement(By.cssSelector(".sale-order-detail-payment-options-methods-info-change-link")).click();
-
         randomNumberOfPaymentWay = 1 + (int) (Math.random()
                 * driver.findElements(By.cssSelector(".sale-order-payment-change-pp-company")).size());
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='sale-order-payment-change-pp-company-smalltitle'])["
+                + randomNumberOfPaymentWay + "]")));
         paymentWay = driver.findElement(By.xpath("(//*[@class='sale-order-payment-change-pp-company-smalltitle'])["
                 + randomNumberOfPaymentWay + "]")).getText();
         if ((driver.findElement(By.xpath("(//*[@class='sale-order-payment-change-pp-company-smalltitle'])["
@@ -153,7 +156,7 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
                 || driver.findElement(By.xpath("(//*[@class='sale-order-payment-change-pp-company-smalltitle'])["
                 + randomNumberOfPaymentWay + "]")).getText().equals("Банковский перевод")){
             driver.findElement(By.xpath("(//*[@class='sale-order-payment-change-pp-company'])[" + randomNumberOfPaymentWay + "]")).click();
-            explicitWaiting();
+            implicitWaiting();
             ArrayList<String> tabs2 = new ArrayList<String> (driver.getWindowHandles());
             driver.switchTo().window(tabs2.get(1));
             Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'СЧЕТ')]")).isDisplayed());
@@ -184,7 +187,7 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
         tempValue = driver.findElement(By.xpath("//*[@class='main-grid-row main-grid-row-body'] /*[@class='main-grid-cell main-grid-cell-left']//*[@class='main-grid-cell-content']")).getText();
         driver.findElement(By.xpath("//*[@class='main-ui-pagination-page']")).click();
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//*[@class='main-ui-pagination-page main-ui-pagination-active']"), "2"));
-        explicitWaiting();
+        implicitWaiting();
         tempValue2 = driver.findElement(By.xpath("//*[@class='main-grid-row main-grid-row-body'] /*[@class='main-grid-cell main-grid-cell-left']//*[@class='main-grid-cell-content']")).getText();
         Assert.assertFalse(tempValue.equals(tempValue2));
     }
@@ -211,16 +214,21 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
         }
     }
     public void checkingThatAddedProductsAreDisplayed(){
+        driver.findElement(By.xpath("//*[text()='Общее']")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='PRODUCT_LIST_table']//*[text()='" + tempValue1 + "']")));
         Assert.assertTrue(driver.findElement(By.xpath("//*[@id='PRODUCT_LIST_table']//*[text()='" + tempValue1 + "']")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.xpath("//*[@id='PRODUCT_LIST_table']//*[text()='" + tempValue2 + "']")).isDisplayed());
         findTheColumnWithTheQuantityOfTheProduct();
-        Assert.assertTrue("Количество первого товара не равно кол-ву вводимому мной", Double.valueOf(driver.findElement(By.xpath
+        driver.findElement(By.xpath("//*[text()='Общее']")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("((//*[@id='PRODUCT_LIST_table']//*[@class='main-grid-row main-grid-row-body'])[1]//*[@class='main-grid-cell main-grid-cell-left'])[" + count + "]")));
+        Assert.assertTrue( Double.valueOf(driver.findElement(By.xpath
                 ("((//*[@id='PRODUCT_LIST_table']//*[@class='main-grid-row main-grid-row-body'])[1]//*[@class='main-grid-cell main-grid-cell-left'])[" + count + "]")).getText())
-                == tempDouble);
-        Assert.assertTrue("Количество второго товара не равно кол-ву вводимому мной",Double.valueOf(driver.findElement(By.xpath
+                == tempDouble, "Количество первого товара не равно кол-ву вводимому мной");
+        Assert.assertTrue(Double.valueOf(driver.findElement(By.xpath
                 ("((//*[@id='PRODUCT_LIST_table']//*[@class='main-grid-row main-grid-row-body'])[2]//*[@class='main-grid-cell main-grid-cell-left'])[" + count + "]")).getText())
-                == tempDouble2);
-        Assert.assertTrue("ВСЕГО не равен '2'", driver.findElement(By.xpath("//*[@name='form_PRODUCT_LIST'] //*[@class='main-grid-panel-content-text']")).getText().equals("2"));
+                == tempDouble2, "Количество второго товара не равно кол-ву вводимому мной");
+        Assert.assertTrue( driver.findElement(By.xpath("//*[@name='form_PRODUCT_LIST'] //*[@class='main-grid-panel-content-text']")).getText().equals("2")
+                , "ВСЕГО не равен '2'");
 
         Assert.assertTrue(tempDouble3 == Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath
                 ("((//*[@id='PRODUCT_LIST_table']//*[@class='main-grid-row main-grid-row-body'])[1]//*[@class='main-grid-cell main-grid-cell-left'])[last()]")).getText())));
@@ -239,13 +247,15 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
         }
     }
     public void checkingThatOnlyOneProductIsDisplayed(){
-        Assert.assertTrue("Кол-во товаров после поиска по имени не навно '1'",driver.findElements(By.xpath("//*[@id='PRODUCT_LIST_table'] //*[@class='main-grid-row main-grid-row-body']")).size() == 1);
-        Assert.assertTrue("ВСЕГО не равен '1'", driver.findElement(By.xpath("//*[@name='form_PRODUCT_LIST'] //*[@class='main-grid-panel-content-text']")).getText().equals("1"));
+        Assert.assertTrue(driver.findElements(By.xpath("//*[@id='PRODUCT_LIST_table'] //*[@class='main-grid-row main-grid-row-body']")).size() == 1
+                , "Кол-во товаров после поиска по имени не навно '1'");
+        Assert.assertTrue( driver.findElement(By.xpath("//*[@name='form_PRODUCT_LIST'] //*[@class='main-grid-panel-content-text']")).getText().equals("1")
+                , "ВСЕГО не равен '1'");
         Assert.assertTrue(driver.findElement(By.xpath("//*[@id='PRODUCT_LIST_table']//*[text()='" + tempValue1 + "']")).isDisplayed());
         findTheColumnWithTheQuantityOfTheProduct();
-        Assert.assertTrue("Количество первого товара не равно кол-ву вводимому мной", Double.valueOf(driver.findElement(By.xpath
+        Assert.assertTrue(Double.valueOf(driver.findElement(By.xpath
                 ("((//*[@id='PRODUCT_LIST_table']//*[@class='main-grid-row main-grid-row-body'])[1]//*[@class='main-grid-cell main-grid-cell-left'])[" + count + "]")).getText())
-                == tempDouble);
+                == tempDouble, "Количество первого товара не равно кол-ву вводимому мной");
     }
     public void openLastOrder(){
         driver.findElement(By.xpath("//*[@title='Посмотреть подробную информацию о заказе']")).click();
@@ -275,4 +285,26 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
         Assert.assertTrue(driver.findElement(By.xpath("//*[@id='SHIPMENT_LIST_table'] //span[contains(text(), '666')]")).isDisplayed());
         Assert.assertTrue(driver.findElements(By.xpath("//*[@id='SHIPMENT_LIST_table'] //*[@class='main-grid-row main-grid-row-body']")).size() == 2);
     }
+    int numberOfOrders = 0;
+    public void searchForAnOrderByItSNumber(){
+        numberOfOrders = driver.findElements(By.xpath("//*[@id='ORDER_LIST_table'] //*[@class='main-grid-row main-grid-row-body']")).size();
+        driver.findElement(By.cssSelector("#ORDER_LIST_search")).sendKeys(numberOfOrder);
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.xpath("//*[@id='ORDER_LIST_table'] //*[@class='main-grid-row main-grid-row-body']"), 1));
+        Assert.assertEquals(driver.findElements(By.xpath("//*[@id='ORDER_LIST_table'] //*[@class='main-grid-row main-grid-row-body']")).size(), 1);
+        Assert.assertEquals(driver.findElement(By.xpath("//*[@id='ORDER_LIST_table'] //*[@class='main-grid-row main-grid-row-body'] //*[@class= 'main-grid-cell-inner']"))
+                .getText(), numberOfOrder);
+    }
+    public void deletingNumberForSearchUsingCloseIcon(){
+        driver.findElement(By.xpath("//*[@id='ORDER_LIST_search_container']//*[contains(@class, 'delete')]")).click();
+        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//*[@id='ORDER_LIST_table'] //*[@class='main-grid-row main-grid-row-body']"), 1));
+    }
+    public void deletingNumberForSearchUsingFieldForSearch(){
+        driver.findElement(By.cssSelector("#ORDER_LIST_search")).clear();
+        driver.findElement(By.cssSelector("#ORDER_LIST_search")).sendKeys(Keys.ENTER);
+        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//*[@id='ORDER_LIST_table'] //*[@class='main-grid-row main-grid-row-body']"), 1));
+    }
+    public void checkingThatAllOrdersAreDisplayedAgain (){
+        Assert.assertEquals(driver.findElements(By.xpath("//*[@id='ORDER_LIST_table'] //*[@class='main-grid-row main-grid-row-body']")).size(), numberOfOrders);
+    }
 }
+

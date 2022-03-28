@@ -1,13 +1,19 @@
 package Catalog;
 
+import BaseActions.Retry;
 import MakingOrders.MakingOrders;
-import org.junit.Test;
+import SettingUpCabinetForTesting.SettingUpCabinetForTesting;
+import org.testng.annotations.Test;
 
 
 public class Catalog extends MethodsForCatalog {
-    @Test //1. Добавление товара в корзину
+    @Test(retryAnalyzer = Retry.class) //1. Добавление товара в корзину
     public void addingProductToCart() {
         //arrange
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        resetCache();
         navigationToAuthorizationTab();
         //act
         fillingFieldsOnTheLogInTabLikeUser();
@@ -20,7 +26,7 @@ public class Catalog extends MethodsForCatalog {
         checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(numberOfProductsInTheFooter);
     }
 
-    @Test //2. Добавление товара в корзину использую "+"
+    @Test(retryAnalyzer = Retry.class) //2. Добавление товара в корзину использую "+"
     public void addingProductToCartUsingIconPlus() {
         //arrange
         navigationToAuthorizationTab();
@@ -35,7 +41,7 @@ public class Catalog extends MethodsForCatalog {
         checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(numberOfProductsInTheFooter);
     }
 
-    @Test //3. Добавление товаров в корзину
+    @Test(retryAnalyzer = Retry.class) //3. Добавление товаров в корзину
     public void addingProductsToCart() {
         //arrange
         navigationToAuthorizationTab();
@@ -52,7 +58,7 @@ public class Catalog extends MethodsForCatalog {
         checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(numberOfProductsInTheFooter);
     }
 
-    @Test //4. Добавление товаров в корзину
+    @Test(retryAnalyzer = Retry.class) //4. Добавление товаров в корзину
     public void addingProductsToCartUsingIconPlus() {
         //arrange
         navigationToAuthorizationTab();
@@ -69,7 +75,7 @@ public class Catalog extends MethodsForCatalog {
         checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(numberOfProductsInTheFooter);
     }
 
-    @Test //5. Добавление в корзину максимум   (равно наличию) товаров
+    @Test(retryAnalyzer = Retry.class) //5. Добавление в корзину максимум   (равно наличию) товаров
     public void addingTheMaxNumberOfProductsToCart() {
         //arrange
         navigationToAuthorizationTab();
@@ -84,7 +90,7 @@ public class Catalog extends MethodsForCatalog {
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
     }
 
-    @Test //6. Добавление в корзину максимум   (равно наличию) товаров, используя иконки увеличения ("+" "-")
+    @Test(retryAnalyzer = Retry.class) //6. Добавление в корзину максимум   (равно наличию) товаров, используя иконки увеличения ("+" "-")
     public void addingTheMaxNumberOfProductsToCartUsingIconPlus() {
         //arrange
         navigationToAuthorizationTab();
@@ -99,7 +105,7 @@ public class Catalog extends MethodsForCatalog {
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
     }
 
-    @Test //7. Добавление в корзину товаров  на один больше чем есть в наличии
+    @Test(retryAnalyzer = Retry.class) //7. Добавление в корзину товаров  на один больше чем есть в наличии
     public void addingTheMaxNumberPlusOneOfProductsToCart() {
         //arrange
         navigationToAuthorizationTab();
@@ -116,7 +122,7 @@ public class Catalog extends MethodsForCatalog {
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
     }
 
-    @Test //8. Добавление в корзину товаров на один больше чем есть в наличии, используя иконки увеличения ("+" "-")
+    @Test(retryAnalyzer = Retry.class) //8. Добавление в корзину товаров на один больше чем есть в наличии, используя иконки увеличения ("+" "-")
     public void addingTheMaxNumberPlusOneOfProductsToCartUsingIconPlus() {
         //arrange
         navigationToAuthorizationTab();
@@ -133,7 +139,7 @@ public class Catalog extends MethodsForCatalog {
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
     }
 
-    @Test //9. Добавление товаров в корзину с разных страниц
+    @Test(retryAnalyzer = Retry.class) //9. Добавление товаров в корзину с разных страниц
     public void addingProductsToCartFromDifferentPages() {
         //arrange
         navigationToAuthorizationTab();
@@ -150,7 +156,7 @@ public class Catalog extends MethodsForCatalog {
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
     }
 
-    @Test //10. Добавление товаров в корзину с разных страниц, используя иконки увеличения ("+" "-")
+    @Test(retryAnalyzer = Retry.class) //10. Добавление товаров в корзину с разных страниц, используя иконки увеличения ("+" "-")
     public void addingProductsToCartUsingIconPlusFromDifferentPages() {
         //arrange
         navigationToAuthorizationTab();
@@ -167,7 +173,7 @@ public class Catalog extends MethodsForCatalog {
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
     }
 
-    @Test //11. Удаление товаров с раздела "Каталог"
+    @Test(retryAnalyzer = Retry.class) //11. Удаление товаров с раздела "Каталог"
     public void deletingProductFromTheCatalog() {
         //arrange
         navigationToAuthorizationTab();
@@ -183,7 +189,7 @@ public class Catalog extends MethodsForCatalog {
         deletingLastAddedProductFromTheCatalog();
     }
 
-    @Test //12. Удаление товаров с раздела "Каталог", используя иконки увеличения ("+" "-")
+    @Test(retryAnalyzer = Retry.class) //12. Удаление товаров с раздела "Каталог", используя иконки увеличения ("+" "-")
     public void deletingProductFromTheCatalogUsingIconMinus() {
         //arrange
         navigationToAuthorizationTab();
@@ -199,7 +205,7 @@ public class Catalog extends MethodsForCatalog {
         deletingLastAddedProductFromTheCatalogUsingIconMinus();
     }
 
-    @Test //13. Удаление товаров с раздела "Каталог" с разных страниц
+    @Test(retryAnalyzer = Retry.class) //13. Удаление товаров с раздела "Каталог" с разных страниц
     public void deletingProductFromTheCatalogFromTheDifferentPages() {
         //arrange
         navigationToAuthorizationTab();
@@ -218,7 +224,7 @@ public class Catalog extends MethodsForCatalog {
         deletingLastAddedProductFromTheCatalog();
     }
 
-    @Test //14. Удаление товаров из корзины с раздела "Каталог" с разных страниц, используя иконки увеличения ("+" "-")
+    @Test(retryAnalyzer = Retry.class) //14. Удаление товаров из корзины с раздела "Каталог" с разных страниц, используя иконки увеличения ("+" "-")
     public void deletingProductFromTheCatalogFromTheDifferentPagesUsingIconMinus() {
         //arrange
         navigationToAuthorizationTab();
@@ -237,7 +243,7 @@ public class Catalog extends MethodsForCatalog {
         deletingLastAddedProductFromTheCatalogUsingIconMinus();
     }
 
-    @Test //15. Уменьшение кол-ва товаров  из раздела "Каталог" с разных страниц
+    @Test(retryAnalyzer = Retry.class) //15. Уменьшение кол-ва товаров  из раздела "Каталог" с разных страниц
     public void decreaseProductFromTheCatalogFromTheDifferentPages() {
         //arrange
         navigationToAuthorizationTab();
@@ -256,7 +262,7 @@ public class Catalog extends MethodsForCatalog {
         decreaseQuantitiesLastAddedProduct();
     }
 
-    @Test //16. Уменьшение кол-ва товаров из раздела "Каталог" с разных страниц, используя иконки увеличения ("+" "-")
+    @Test(retryAnalyzer = Retry.class) //16. Уменьшение кол-ва товаров из раздела "Каталог" с разных страниц, используя иконки увеличения ("+" "-")
     public void decreaseProductFromTheCatalogFromTheDifferentPagesUsingIconMinus() {
         //arrange
         navigationToAuthorizationTab();
@@ -275,7 +281,7 @@ public class Catalog extends MethodsForCatalog {
         decreaseQuantitiesLastAddedProductUsingIconMinus(); //Не работает ожидание
     }
 
-    @Test //17. Добавление товаров которых нет в наличии в корзину
+    @Test(retryAnalyzer = Retry.class) //17. Добавление товаров которых нет в наличии в корзину
     public void addingProductsWithoutAvailability() {
         //arrange
         navigationToAuthorizationTab();
@@ -287,7 +293,7 @@ public class Catalog extends MethodsForCatalog {
         addingProductsThatAreOutOfStock();
     }
 
-    @Test //18. Добавление товаров которых нет в наличии в корзину, используя иконки увеличения ("+" "-")
+    @Test(retryAnalyzer = Retry.class) //18. Добавление товаров которых нет в наличии в корзину, используя иконки увеличения ("+" "-")
     public void addingProductsWithoutAvailabilityUsingIconPlus() {
         //arrange
         navigationToAuthorizationTab();
@@ -299,7 +305,7 @@ public class Catalog extends MethodsForCatalog {
         addingProductsThatAreOutOfStockUsingIconPlus();
     }
 
-    @Test //19.  Выгрузка каталога в Excel
+    @Test(retryAnalyzer = Retry.class) //19.  Выгрузка каталога в Excel
     public void downloadCatalogToExcel() {
         //arrange
         deletingExcelAndJpgFilesFromDownloads();
@@ -312,7 +318,7 @@ public class Catalog extends MethodsForCatalog {
         downloadingCatalogToYourComputer();
     }
 
-    @Test //20.  Загрузка товаров из Excel
+    @Test(retryAnalyzer = Retry.class) //20.  Загрузка товаров из Excel
     public void uploadCatalogInExcel() {
         //arrange
         deletingExcelAndJpgFilesFromDownloads();
@@ -327,7 +333,7 @@ public class Catalog extends MethodsForCatalog {
         checkingThatThereAreTwoGefestGasStoveInTheCart();
     }
 
-    @Test //21.  Загрузка товаров из Excel без выбора количества товаров
+    @Test(retryAnalyzer = Retry.class) //21.  Загрузка товаров из Excel без выбора количества товаров
     public void uploadCatalogInExcelWithoutSelectingProducts() {
         //arrange
         deletingExcelAndJpgFilesFromDownloads();
@@ -341,7 +347,7 @@ public class Catalog extends MethodsForCatalog {
         checkThatMessageAboutEmptyExcelIsDisplayed();
     }
 
-    @Test //22. Добавление товара в корзину из раздела "Добавить дополнительные товары", используя иконки увеличения ("+" "-")
+    @Test(retryAnalyzer = Retry.class) //22. Добавление товара в корзину из раздела "Добавить дополнительные товары", используя иконки увеличения ("+" "-")
     public void addingProductToCartFromTabAddAnAdditionalProductUsingIconPlus() {
         //arrange
         navigationToAuthorizationTab();
@@ -355,7 +361,7 @@ public class Catalog extends MethodsForCatalog {
         checkThatProductAddedFromTabAddAnAdditional();
     }
 
-    @Test //23. Сортировка товаров по наличию (возрастанию)
+    @Test(retryAnalyzer = Retry.class) //23. Сортировка товаров по наличию (возрастанию)
     public void sortingProductsByIncreaseAvailability() {
         //arrange
         navigationToAuthorizationTab();
@@ -371,7 +377,7 @@ public class Catalog extends MethodsForCatalog {
         checkThatProductsAreSortedByIncreaseAvailability();
     }
 
-    @Test //24. Сортировка товаров по наличию (убыванию)
+    @Test(retryAnalyzer = Retry.class) //24. Сортировка товаров по наличию (убыванию)
     public void sortingProductsByDecreaseAvailability() {
         //arrange
         navigationToAuthorizationTab();
@@ -387,7 +393,7 @@ public class Catalog extends MethodsForCatalog {
         checkThatProductsAreSortedByDecreaseAvailability();
     }
 
-    @Test //25. Сортировка товаров по цене (возрастанию)
+    @Test(retryAnalyzer = Retry.class) //25. Сортировка товаров по цене (возрастанию)
     public void sortingProductsByIncreasePrice() {
         //arrange
         navigationToAuthorizationTab();
@@ -402,7 +408,7 @@ public class Catalog extends MethodsForCatalog {
         changingPageInCatalog();
         checkThatProductsAreSortedByIncreasePrice();
     }
-    @Test //26. Сортировка товаров по цене (убыванию)
+    @Test(retryAnalyzer = Retry.class) //26. Сортировка товаров по цене (убыванию)
     public void sortingProductsByDecreasePrice() {
         //arrange
         navigationToAuthorizationTab();
@@ -417,8 +423,10 @@ public class Catalog extends MethodsForCatalog {
         changingPageInCatalog();
         checkThatProductsAreSortedByDecreasePrice();
     }
-    @Test //27. Поиск названию рандомного товара
+    @Test(retryAnalyzer = Retry.class) //27. Поиск названию рандомного товара
     public void searchingByWord() {
+        SettingUpCabinetForTesting set = new SettingUpCabinetForTesting();
+        set.clearAllCacheForTests();
         //arrange
         navigationToAuthorizationTab();
         //act
@@ -431,7 +439,7 @@ public class Catalog extends MethodsForCatalog {
         searchByWord();
     }
 
-    @Test //28. Поиск по части названия рандомного товара
+    @Test(retryAnalyzer = Retry.class) //28. Поиск по части названия рандомного товара
     public void searchingByPartOfWord() {
         //arrange
         navigationToAuthorizationTab();
@@ -445,7 +453,7 @@ public class Catalog extends MethodsForCatalog {
         searchByWord();
     }
 
-    @Test //29. При выборе "Категории" выводятся соответсвующие товары
+    @Test(retryAnalyzer = Retry.class) //29. При выборе "Категории" выводятся соответсвующие товары
     public void outputOfProductsWhenSelectingACategory() {
         //arrange
         navigationToAuthorizationTab();
@@ -463,7 +471,7 @@ public class Catalog extends MethodsForCatalog {
         checkingThatAllProductsAreDisplayedAgain();
     }
 
-    @Test //30. Фильтрация товаров по цене (максимальной)
+    @Test(retryAnalyzer = Retry.class) //30. Фильтрация товаров по цене (максимальной)
     public void filteringProductsByMaxPrice() {
         //arrange
         navigationToAuthorizationTab();
@@ -488,7 +496,7 @@ public class Catalog extends MethodsForCatalog {
         checkThatProductsAreSortedByDecreasePrice();
     }
 
-    @Test //31. Фильтрация товаров по цене (минимальной)
+    @Test(retryAnalyzer = Retry.class) //31. Фильтрация товаров по цене (минимальной)
     public void filteringProductsByMinPrice() {
         //arrange
         navigationToAuthorizationTab();
@@ -505,12 +513,14 @@ public class Catalog extends MethodsForCatalog {
         checkThatMinPriceHasBeenApplied();
         try {
             changingPageInCatalog();
-        }catch (Exception e){}
+        }catch (Exception e){
+            System.out.println("больше нет страниц");
+        }
         checkThatProductsAreSortedByIncreasePrice();
         checkThatMinPriceHasBeenApplied();
     }
 
-    @Test //32. Открытие детальной информации о товаре
+    @Test(retryAnalyzer = Retry.class) //32. Открытие детальной информации о товаре
     public void openingDetailedProductInformation() {
         //arrange
         navigationToAuthorizationTab();
@@ -528,7 +538,7 @@ public class Catalog extends MethodsForCatalog {
         navigationToMeanPageByUrl();
     }
 
-    @Test //33. Проверка работы "Модели работы" выгрузки каталога
+    @Test(retryAnalyzer = Retry.class) //33. Проверка работы "Модели работы" выгрузки каталога
     public void checkExcelUploadSettings() {
         //arrange
         deletingExcelAndJpgFilesFromDownloads();
@@ -536,6 +546,7 @@ public class Catalog extends MethodsForCatalog {
         //act
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
+        resetCache();
         navigationToCatalogTab();
         enableEditMode();
         navigationToComponentOfUnloadingTheCatalog();
@@ -544,7 +555,7 @@ public class Catalog extends MethodsForCatalog {
         clickTheUploadButton();
         checkingThatCatalogIsDownloaded();
     }
-    @Test //34.  Проверка корректности добавления в корзину после загрузки из EXCEL всего каталога
+    @Test(retryAnalyzer = Retry.class) //34.  Проверка корректности добавления в корзину после загрузки из EXCEL всего каталога
     public void addingAnItemToTheCartAfterDownloadingItFromExcel() {
         //arrange
         deletingExcelAndJpgFilesFromDownloads();
@@ -561,7 +572,7 @@ public class Catalog extends MethodsForCatalog {
         make.navigationToMakingOrderFromCart();
         navigationToMeanPageByUrl();
     }
-    @Test //35. Сортировка товаров по алфавиту (возрастанию)
+    @Test(retryAnalyzer = Retry.class) //35. Сортировка товаров по алфавиту (возрастанию)
     public void sortingOfProductsAlphabeticallyIncrease() {
         //arrange
         navigationToAuthorizationTab();
@@ -579,7 +590,7 @@ public class Catalog extends MethodsForCatalog {
         checkingThatCatalogIsSortedByProductNamesIncrease();
         checkingThatURLContainsSORTAndASC();
     }
-    @Test //36. Сортировка товаров по алфавиту (убыванию)
+    @Test(retryAnalyzer = Retry.class) //36. Сортировка товаров по алфавиту (убыванию)
     public void sortingOfProductsAlphabeticallyDescending() {
         //arrange
         navigationToAuthorizationTab();
@@ -597,7 +608,7 @@ public class Catalog extends MethodsForCatalog {
         checkingThatCatalogIsSortedByProductNamesDecrease();
         checkingThatURLContainsSORTAndDESC();
     }
-    @Test //37. Проверка корректности пагинации
+    @Test(retryAnalyzer = Retry.class) //37. Проверка корректности пагинации
     public void checkingCorrectnessOfPagination() {
         //arrange
         navigationToAuthorizationTab();
@@ -610,7 +621,7 @@ public class Catalog extends MethodsForCatalog {
         changePageOnTheFifth();
         checkingThatSelectedFifthPage();
     }
-    @Test //38. Проверка корректности вывода разделов каталога (проверяя кол-во страниц каталога)
+    @Test(retryAnalyzer = Retry.class) //38. Проверка корректности вывода разделов каталога (проверяя кол-во страниц каталога)
     public void checkingCorrectnessOfTheOutputOfSecondLevelDirectorySections() {
         //arrange
         navigationToAuthorizationTab();
@@ -622,7 +633,7 @@ public class Catalog extends MethodsForCatalog {
         rememberTheNumberOfPages();
         choiceTheSecondLevelCategory();
     }
-    @Test //39. Проверка корректности вывода релевантных свойств фильтра
+    @Test(retryAnalyzer = Retry.class) //39. Проверка корректности вывода релевантных свойств фильтра
     public void checkingCorrectnessOfOutputOfRelevantFilterProperties() {
         //arrange
         navigationToAuthorizationTab();
@@ -634,7 +645,7 @@ public class Catalog extends MethodsForCatalog {
         checkingThatQuantityOfPropertiesIsHadDecreased();
     }
 
-    @Test //40. После удаления всех выбранных подкатегорий выводится весь каталог
+    @Test(retryAnalyzer = Retry.class) //40. После удаления всех выбранных подкатегорий выводится весь каталог
           // (иногда падает, так как у некоторых категорий при удалении всех подкатегорий остаются выбранные подкатегории подкатегорий)
     public void outputOfCatalogCategorySubsections() {
         //arrange
@@ -652,8 +663,10 @@ public class Catalog extends MethodsForCatalog {
         removeOutputOfAllSubcategories();
         checkingThatAllProductsAreDisplayedAgain();
     }
-    @Test //41. Добавление товаров из карточки товара
+    @Test(retryAnalyzer = Retry.class) //41. Добавление товаров из карточки товара
     public void addingProductFromTheProductCard() {
+        SettingUpCabinetForTesting set = new SettingUpCabinetForTesting();
+        set.clearAllCacheForTests();
         //arrange
         navigationToAuthorizationTab();
         //act
@@ -671,7 +684,7 @@ public class Catalog extends MethodsForCatalog {
         navigationToCart();
         checkingThatThereIsSomeProductsInTheBasket();
     }
-    @Test //42. Проверка корректности вывода разделов каталога (проверяя имена и кол-во выводимых товаров)
+    @Test(retryAnalyzer = Retry.class) //42. Проверка корректности вывода разделов каталога (проверяя имена и кол-во выводимых товаров)
     public void checkingCorrectnessOfTheOutputDirectorySectionsUsingTheNamesAndNumberOfProducts() {
         //arrange
         navigationToAuthorizationTab();
@@ -688,7 +701,7 @@ public class Catalog extends MethodsForCatalog {
         selectTheSectionWithGasStoves();
         checkingTheQuantityOfOutputGoodsWhenSelectingSubcategoriesChainsawsAndGasStoves();
     }
-    @Test //43. Добавление товара в корзину из детальной поп-ап страници товара
+    @Test(retryAnalyzer = Retry.class) //43. Добавление товара в корзину из детальной поп-ап страници товара
     public void addingProductToTheCartFromTheDetailedPopUpProductPage() {
         //arrange
         navigationToAuthorizationTab();
@@ -708,7 +721,7 @@ public class Catalog extends MethodsForCatalog {
         navigationToCart();
         checkingThatThereIsProductInTheCartThatWasAddedFromTheDetailedProductPage();
     }
-    @Test //44. Добавление денег на личный счет
+    @Test(retryAnalyzer = Retry.class) //44. Добавление денег на личный счет
     public void addingMoneyToAPersonalAccount() {
         //arrange
         registr.registrationIPWithManualEntryINN();
@@ -720,6 +733,7 @@ public class Catalog extends MethodsForCatalog {
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
+        resetCache();
         navigationToOrdersPageInAdminPart();
         checkingThatTheRequestForReplenishmentOfThePersonalAccountIsDisplayedByTheAdmin(tempValue);
         navigationToPageForAddingPersonalAccountInAdminPart();

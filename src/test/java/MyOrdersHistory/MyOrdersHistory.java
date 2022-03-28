@@ -1,10 +1,11 @@
 package MyOrdersHistory;
 
-import org.junit.Test;
+import BaseActions.Retry;
+import org.testng.annotations.Test;
 
 public class MyOrdersHistory extends MethodsForMyOrders {
 
-    @Test //1 Оформленный заказ отображается
+    @Test (retryAnalyzer = Retry.class) //1 Оформленный заказ отображается
     public void doneOrderIsDisplayedInMyOrdersPage() {
         //arrange
         navigationToAuthorizationTab();
@@ -27,7 +28,7 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         navigationToMyOrdersPage();
         checkingThatLastOrderIsDisplayed();
     }
-    @Test //2 Данные оформленного заказа соответствуют данным вводимым при оформлении заказа
+    @Test (retryAnalyzer = Retry.class)//2 Данные оформленного заказа соответствуют данным вводимым при оформлении заказа
     public void informationOrderEqualsTheOneSpecifiedWhenMadeOrder() {
         //arrange
         navigationToAuthorizationTab();
@@ -55,7 +56,7 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         checkingThatPaymentMethodIsEqualTheOneSpecifiedWhenMadeOrder();
         checkingThatINNIsEqualTheOneSpecifiedWhenMadeOrder();
     }
-    @Test //3 Проверка вкладок с детальной информацией на странице заказа
+    @Test (retryAnalyzer = Retry.class)//3 Проверка вкладок с детальной информацией на странице заказа
     public void checkDetailInformationOnOrderPage() {
         //arrange
         navigationToAuthorizationTab();
@@ -88,7 +89,7 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         navigationToDeliveryTabInOrderPage();
         navigationToSupportServiceTabInOrderPage();
     }
-    @Test //4 Отмена заказа
+    @Test (retryAnalyzer = Retry.class)//4 Отмена заказа
     public void CancelMadeOrder() {
         //arrange
         navigationToAuthorizationTab();
@@ -113,7 +114,7 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         openingLastOrder();
         cancelingLastOrder();
     }
-    @Test //5 Повтор рандомного заказа
+    @Test (retryAnalyzer = Retry.class)//5 Повтор рандомного заказа
     public void reOrderingRandomOrder() {
         //arrange
         navigationToAuthorizationTab();
@@ -146,7 +147,7 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         navigationToMyOrdersPage();
         checkingPriceOfLastedOrder();
     }
-    @Test //6 Смена способа оплаты совершенного заказа
+    @Test (retryAnalyzer = Retry.class)//6 Смена способа оплаты совершенного заказа
     public void ChangingPaymentMethodForCompletedOrder() {
         //arrange
         navigationToAuthorizationTab();
@@ -180,7 +181,7 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         checkingThatPaymentMethodIsChangedInTabOfPayment();
     }
 
-    @Test //7. Настройка кол-ва заказов на странице и проверка пагинации
+    @Test (retryAnalyzer = Retry.class)//7. Настройка кол-ва заказов на странице и проверка пагинации
     public void settingUpTheNumberOfOrdersOnThePageThenCheckingPagination() {
         //arrange
         navigationToAuthorizationTab();
@@ -191,7 +192,6 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         enableEditMode();
         navigationToComponentOfUserOrders();
         selectTheNumberOfDisplayedOrdersOnThePage();
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
@@ -199,7 +199,7 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         navigationToMyOrdersPage();
         creatingOrdersUntilTheSecondPageOfOrdersIsVisible();
         checkingThatPagesAreSwitching();
-        exitFromB2B();
+        navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToMyOrdersPage();
@@ -207,7 +207,7 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         selectTheNumberOfDisplayedOrdersOnThePageIsEquallyThirty();
     }
 
-    @Test //8 Проверка корректности состава товаров на детальной странице оформленного заказа
+    @Test (retryAnalyzer = Retry.class)//8 Проверка корректности состава товаров на детальной странице оформленного заказа
     public void checkingTheCorrectnessOfTheProductsOfTheGoodsOnTheDetailedPageOfTheCompletedOrder() {
         //arrange
         navigationToAuthorizationTab();
@@ -229,7 +229,7 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         openingLastOrder();
         checkingThatAddedProductsAreDisplayed();
     }
-    @Test //9 Поиск по имени добавленного товара на детальной станицы оформленного заказа
+    @Test (retryAnalyzer = Retry.class)//9 Поиск по имени добавленного товара на детальной станицы оформленного заказа
     public void searchForTheAddedProductOnTheDetailedPageOfTheCompletedOrder() {
         //arrange
         navigationToAuthorizationTab();
@@ -251,7 +251,7 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         enteringWordForSearch();
         checkingThatOnlyOneProductIsDisplayed();
     }
-    @Test //10 Добавление второй оплаты за заказ проверка ее отображения на детальной странице заказа
+    @Test (retryAnalyzer = Retry.class)//10 Добавление второй оплаты за заказ проверка ее отображения на детальной странице заказа
     public void addingSecondPaymentForAnOrderCheckingItsDisplayOnTheDetailPage() {
         //arrange
         navigationToAuthorizationTab();
@@ -259,19 +259,17 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         logInToB2B();
         navigationToCatalogTab();
         changeTheQuantityOfRandomProduct();
-        explicitWaiting();
+        implicitWaiting();
         navigationToCart();
         navigationToMakingOrderFromCart();
         trySelectCompany();
         makingOrder();
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToOrdersPageInAdminPart();
         openLastOrder();
         addingSecondPaymentForOrder();
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
@@ -279,7 +277,7 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         openingLastOrder();
         checkingThatThereAreTwoPaymentsThere();
     }
-    @Test //11 Добавление второй отгрузки заказа, проверка ее отображения на детальной странице заказа
+    @Test (retryAnalyzer = Retry.class)//11 Добавление второй отгрузки заказа, проверка ее отображения на детальной странице заказа
     public void addingSecondShipmentOfTheOrderCheckingItsDisplayOnTheDetailedOrderPage() {
         //arrange
         navigationToAuthorizationTab();
@@ -287,19 +285,17 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         logInToB2B();
         navigationToCatalogTab();
         changeTheQuantityOfRandomProduct();
-        explicitWaiting();
+        implicitWaiting();
         navigationToCart();
         navigationToMakingOrderFromCart();
         trySelectCompany();
         makingOrder();
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToOrdersPageInAdminPart();
         openLastOrder();
         addingSecondDeliveryForOrder();
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
@@ -307,31 +303,35 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         openingLastOrder();
         checkingThatThereAreTwoDelivery();
     }
+    @Test (retryAnalyzer = Retry.class)//12 Поиск оформленного заказа по его номеру
+    public void searchForCompletedOrderByItsNumber() {
+        //arrange
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        deletingProductsFromTheCart();
+        navigationToCatalogTab();
+        changeTheQuantityOfRandomProduct();
+        checkingThatThePriceOfTheAddedProductHasBeenCalculated();
+        changeTheQuantityOfRandomProduct();
+        checkingThatThePriceOfTheAddedProductHasBeenCalculated();
+        navigationToCart();
+        rememberingNamesAndQuantityAddedProducts();
+        navigationToMakingOrderFromCart();
+        trySelectCompany();
+        makingOrder();
+        navigationToMyOrdersPage();
+        //act
+        searchForAnOrderByItSNumber();
+        openingLastOrder();
+        navigationToMyOrdersPage();
+        deletingNumberForSearchUsingCloseIcon();
+        checkingThatAllOrdersAreDisplayedAgain();
+        searchForAnOrderByItSNumber();
+        deletingNumberForSearchUsingFieldForSearch();
+        checkingThatAllOrdersAreDisplayedAgain();
 
 
 
-
-
-
-
-
-//    @Test
-//    public void circle() {
-//        for (int i = 0; i < 10; i++) {
-//            informationOrderEqualsTheOneSpecifiedWhenMadeOrder();
-//
-//
-//
-//
-//
-//
-//            productCounterInTheCart = 0;
-//            pricesForAllProductsInTheFooter = 0;
-//            sumOfPricesOfTheAddedProducts = 0;
-//            exitFromB2B();
-//        }
-//    }
-
-
-
+    }
 }

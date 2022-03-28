@@ -4,21 +4,42 @@ import OrganizationsWithExtendedVersion.AddingOrganizationsWithExtendedVersion;
 import OrganizationsWithExtendedVersion.MethodsForAddingOrganizationsWithExtendedVersion;
 import RegistrationAndAuthorization.MethodsForRegistrationAndAuthorization;
 import RegistrationAndAuthorization.RegistrationB2B;
-import org.junit.Assert;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
 import org.openqa.selenium.By;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndAuthorization {
-    @Test //1. Создание локаторов для регистарции
-    public void a_creatingLocatorsForRegistration() {
+    @Test //1. Определение типа шапки
+    public void a_determiningTheTypeOfHeader () {
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        driver.findElement(logInButtonOnTheAuthorizationTabLocator).click();
+        if (driver.findElements(dropdownUserIcon).size()==0){
+            themeColorBlack = true;
+        }else {
+            themeColorBlack = false;
+        }
+
+        //Запись в файл
+        try {
+            outputStream = new ObjectOutputStream(new FileOutputStream(fileNameForB2BThemeColor));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            outputStream.writeObject(this.themeColorBlack);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Темная ли версия шапки " + themeColorBlack);
+    }
+    @Test //2. Создание локаторов для регистарции
+    public void b_creatingLocatorsForRegistration() {
         //arrange
         navigationToRegistrationTab();
         //act
@@ -42,8 +63,8 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
         }catch (Exception e){}
     }
 
-    @Test //2. Определяет есть ли поле "Местоположение" при регистарции (что бы быстрее тесты проходили)
-    public void b_determinesWhetherThereIsLocationField() {
+    @Test //3. Определяет есть ли поле "Местоположение" при регистарции (что бы быстрее тесты проходили)
+    public void c_determinesWhetherThereIsLocationField() {
         navigationToRegistrationTab();
         choiceIP();
         try {
@@ -62,7 +83,7 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
 
         //Запись в файл
         try {
-            outputStream = new ObjectOutputStream(new FileOutputStream("Location"));
+            outputStream = new ObjectOutputStream(new FileOutputStream("doNeedToSpecifyLocation"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -73,30 +94,7 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
         }
         System.out.println(flagForLocation);
     }
-    @Test //3. Определение типа шапки
-    public void c_determiningTheTypeOfHeader () {
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeAdmin();
-        logInToB2B();
-        if (driver.findElements(dropdownUserIcon).size()==0){
-            themeColorBlack = true;
-        }else {
-            themeColorBlack = false;
-        }
 
-        //Запись в файл
-        try {
-            outputStream = new ObjectOutputStream(new FileOutputStream(fileNameForB2BThemeColor));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            outputStream.writeObject(this.themeColorBlack);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Темная ли версия шапки " + themeColorBlack);
-    }
     @Test //4. Определение нужно ли подтверждать регистрацию пользователя
     public void d_determiningOfNeedToConfirmOfRegistrationUser () {
         //arrange
@@ -111,9 +109,9 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
             driver.findElement(registerButtonOnRegistrationTabLocator).click();
             Assert.assertTrue(driver.findElement(By.cssSelector(".navbar")).isDisplayed());
         }catch (Exception e){
+            implicitWaiting(); implicitWaiting();
             driver.findElement(By.cssSelector(".btn.bg-success")).click();
         }
-
         try{
             checkingThatTheBannerIsDisplayed();
             doNeedToConfirmRegistrationUser = false;
@@ -171,9 +169,14 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
     @Test //6. Определение нужно ли подтверждать регистрацию организации
     public void f_determiningOfNeedToConfirmOfRegistrationOrganization () {
         determineWhetherVersionsOfWorkingWithOrganization();
-
         if (versionsOfWorkingWithOrganizationsExtended){
             //arrange
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeAdmin();
+            logInToB2B();
+            navigationToOrganizationTab();
+            MethodsForAddingOrganizationsWithExtendedVersion org = new MethodsForAddingOrganizationsWithExtendedVersion();
+            org.selectingAllColumnsToDisplay();
             navigationToRegistrationTab();
             //act
             choiceIP();
@@ -186,7 +189,7 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
             navigationToOrganizationTab();
 
             try {
-                Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'На модерации')]")).isDisplayed());
+                Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'На модерации')][contains(@class, 'content')]")).isDisplayed());
                 doNeedToConfirmRegistrationOrganization = true;
             }catch (Exception e){
                 try {
@@ -252,7 +255,6 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
         registr.registrationIPWithManualEntryINN();
         emailUser = registr.email;
         passwordUser = registr.password;
-        exitFromB2B();
         registr.registrationLegalPersonWithManualEntryINN();
         emailEmployee = registr.email;
         passwordEmployee = registr.password;

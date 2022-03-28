@@ -1,13 +1,14 @@
 package RegistrationAndAuthorization;
 
 
-import org.junit.Assert;
-import org.junit.Test;
+import BaseActions.Retry;
 import org.openqa.selenium.By;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class RegistrationB2B extends MethodsForRegistrationAndAuthorization {
 
-    @Test //1. Регистрация индивидуального предпринимателся с ручным вводом ИНН
+    @Test (retryAnalyzer = Retry.class) //1. Регистрация индивидуального предпринимателся с ручным вводом ИНН
     public void registrationIPWithManualEntryINN() {
         //arrange
         navigationToRegistrationTab();
@@ -19,7 +20,7 @@ public class RegistrationB2B extends MethodsForRegistrationAndAuthorization {
         entranceToB2BFromRegistrationTab();
     }
 
-    @Test //2. Регистрация индивидуального предпринимателся с выбором ИНН из появляющегося списка
+    @Test(retryAnalyzer = Retry.class) //2. Регистрация индивидуального предпринимателся с выбором ИНН из появляющегося списка
     public void registrationIPWithSelectINNFromList() {
         //arrange
         navigationToRegistrationTab();
@@ -31,7 +32,7 @@ public class RegistrationB2B extends MethodsForRegistrationAndAuthorization {
         entranceToB2BFromRegistrationTab();
     }
 
-    @Test //3. Регистрация юридического лица с ручным вводом ИНН
+    @Test(retryAnalyzer = Retry.class) //3. Регистрация юридического лица с ручным вводом ИНН
     public void registrationLegalPersonWithManualEntryINN() {
         //arrange
         navigationToRegistrationTab();
@@ -43,7 +44,7 @@ public class RegistrationB2B extends MethodsForRegistrationAndAuthorization {
         entranceToB2BFromRegistrationTab();
     }
 
-    @Test //4. Регистрация юридического лица с выбором ИНН из появляющегося списка
+    @Test(retryAnalyzer = Retry.class) //4. Регистрация юридического лица с выбором ИНН из появляющегося списка
     public void registrationLegalPersonWithSelectINNFromList() {
         //arrange
         navigationToRegistrationTab();
@@ -55,7 +56,7 @@ public class RegistrationB2B extends MethodsForRegistrationAndAuthorization {
         entranceToB2BFromRegistrationTab();
     }
 
-    @Test //5. Регистрация пользователя без принятия условий соглашения
+    @Test(retryAnalyzer = Retry.class) //5. Регистрация пользователя без принятия условий соглашения
     public void registrationUserWithoutTermsOfAgreement() {
         //arrange
         navigationToRegistrationTab();
@@ -67,7 +68,7 @@ public class RegistrationB2B extends MethodsForRegistrationAndAuthorization {
         entranceToB2BFromRegistrationTabWithoutPoliticAgree();
     }
 
-    @Test //6. Регистрация пользователя без заполнения обязательных полей (вывод предупреждений)
+    @Test(retryAnalyzer = Retry.class) //6. Регистрация пользователя без заполнения обязательных полей (вывод предупреждений)
     public void registrationUserWithoutRequiredFields() {
         //arrange
         navigationToRegistrationTab();
@@ -78,7 +79,7 @@ public class RegistrationB2B extends MethodsForRegistrationAndAuthorization {
         checkRequiredFields();
     }
 
-    @Test //7. Регистрация пользователя с ошибкой в подтверждении пароля (вывод предупреждения)
+    @Test(retryAnalyzer = Retry.class) //7. Регистрация пользователя с ошибкой в подтверждении пароля (вывод предупреждения)
     public void registrationUserWithWrongConfirmPassword() {
         //arrange
         navigationToRegistrationTab();
@@ -89,11 +90,16 @@ public class RegistrationB2B extends MethodsForRegistrationAndAuthorization {
         enterWrongConfirmPassword();
     }
 
-    @Test //8. Регистрация пользователя с уже существующим Емаил
+    @Test(retryAnalyzer = Retry.class) //8. Регистрация пользователя с уже существующим Емаил
     public void registrationUserWithTheSameEmail() {
         //arrange
-        registrationIPWithManualEntryINN();
-        exitFromB2B();
+        navigationToRegistrationTab();
+        choiceIP();
+        enterINNManually();
+        theSameEmail = null;
+        fillingFieldsOnTheRegistrationTab(arrayWithExistingLocatorsForIP);
+        tryConfirmRegistration();
+        entranceToB2BFromRegistrationTab();
         //act
         navigationToRegistrationTab();
         choiceIP();
@@ -103,11 +109,12 @@ public class RegistrationB2B extends MethodsForRegistrationAndAuthorization {
         checkingMessageAboutExistingEmail();
     }
 
-    @Test //9. Регистрация пользователя с уже существующим  ИНН
+    @Test(retryAnalyzer = Retry.class) //9. Регистрация пользователя с уже существующим  ИНН
     public void registrationUserWithTheSameINN() {
         determineWhetherVersionsOfWorkingWithOrganization();
         determineWhetherRegistrationUserNeedsToBeConfirmed();
-        if(versionsOfWorkingWithOrganizationsExtended == true){
+        if(versionsOfWorkingWithOrganizationsExtended){
+            tempValueForEmail = null;
             navigationToRegistrationTab();
             choiceLegalPerson();
             enterINNManually();
@@ -121,7 +128,7 @@ public class RegistrationB2B extends MethodsForRegistrationAndAuthorization {
             fillingFieldsOnTheRegistrationTab(arrayWithExistingLocatorsForIP);
             enterTheSameINN();
             logInFromAuthorizationTabUseTheSameInn();
-            if (doNeedToConfirmRegistrationUser == false){ exitFromB2B();}
+            if (!doNeedToConfirmRegistrationUser){ exitFromB2B();}
             tryConfirmRegistration();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTab(tempValueForEmail, password);
@@ -140,7 +147,7 @@ public class RegistrationB2B extends MethodsForRegistrationAndAuthorization {
         }
     }
 
-    @Test //10. Переход к авторизации из вкладки "Регистарция"
+    @Test(retryAnalyzer = Retry.class) //10. Переход к авторизации из вкладки "Регистарция"
     public void chekOfButtonAuthorization() {
         //arrange
         navigationToRegistrationTab();
@@ -150,7 +157,7 @@ public class RegistrationB2B extends MethodsForRegistrationAndAuthorization {
         choiceINNFromTheListOnTheRegistrationTab();
         goToAuthorizationTAb();
     }
-    @Test //11. Авторизация без одобрения администратором зарегистрированного пользователя
+    @Test(retryAnalyzer = Retry.class) //11. Авторизация без одобрения администратором зарегистрированного пользователя
     public void authorizationWithoutTheApprovalOfTheAdministratorOfTheRegisteredUser() {
         determineWhetherRegistrationUserNeedsToBeConfirmed();
         if (doNeedToConfirmRegistrationUser){
@@ -167,7 +174,7 @@ public class RegistrationB2B extends MethodsForRegistrationAndAuthorization {
         }
     }
 
-    @Test //12. Регистрация физического лица
+    @Test(retryAnalyzer = Retry.class) //12. Регистрация физического лица
     public void registrationPersonWithManualEntryINN() {
         //arrange
         navigationToRegistrationTab();
@@ -181,7 +188,7 @@ public class RegistrationB2B extends MethodsForRegistrationAndAuthorization {
             System.out.println("НЕТУ типа плательщика Физ. лицо!");
         }
     }
-    @Test //13. Проверка отображается уведомление об отправке на модерацию управляющему компании при выборе ИП
+    @Test(retryAnalyzer = Retry.class) //13. Проверка отображается уведомление об отправке на модерацию управляющему компании при выборе ИП
     public void checkMessageAboutTheConfirmRegistrationForIP() {
         determineWhetherRegistrationUserNeedsToBeConfirmed();
         if (doNeedToConfirmRegistrationUser){
@@ -197,7 +204,7 @@ public class RegistrationB2B extends MethodsForRegistrationAndAuthorization {
             System.out.println("Пользователю не нужно подтверждать регистарцию для авторизации");
         }
     }
-    @Test //14. Отображаение уведомление об отправке на модерацию управляющему компании при выборе Юридического лица
+    @Test(retryAnalyzer = Retry.class) //14. Отображаение уведомление об отправке на модерацию управляющему компании при выборе Юридического лица
     public void checkMessageAboutTheConfirmRegistrationForLegalPerson() {
         determineWhetherRegistrationUserNeedsToBeConfirmed();
         if (doNeedToConfirmRegistrationUser){

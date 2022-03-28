@@ -1,19 +1,35 @@
 package MeanPage;
 
-import org.junit.Test;
+import BaseActions.Retry;
+import org.testng.annotations.Test;
 
 public class MeanPageDesktop extends MethodsForMeanPage {
-
-    @Test //1. Проверка наличия баннера
+    @Test (retryAnalyzer = Retry.class)//0. Удаление всех и добавление всех виджетов
+    public void a_deletingAllAndAddingAllWidgets() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToTheDesktop();
+        deletingAllWidget();
+        addingAllWidget();
+        distributeWidgetsByColumns();
+        navigationToTheDesktop();
+        saveTheSettingForWidgetsOnTheDesktopLikeDefault();
+    }
+    @Test (retryAnalyzer = Retry.class)//1. Проверка наличия баннера
     public void checkThatTheBannerIsVisible() {
         //arrange
         navigationToAuthorizationTab();
         //act
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
+        navigationToTheDesktop();
+
     }
 
-    @Test //2. Редактирование расположения виджетов у админа
+    @Test (retryAnalyzer = Retry.class)//2. Редактирование расположения виджетов у админа
     public void movingWidgetsWithTheAdmin() {
         //arrange
         navigationToAuthorizationTab();
@@ -29,7 +45,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
     }
 
 
-    @Test //3. Редактирование расположения виджетов у пользователя
+    @Test (retryAnalyzer = Retry.class)//3. Редактирование расположения виджетов у пользователя
     public void movingWidgetsWithTheUser() {
         //arrange
         navigationToAuthorizationTab();
@@ -44,7 +60,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         resettingTheCurrentWidgetSettings();
     }
 
-    @Test //4. Редактирование набора виджетов у админа
+    @Test (retryAnalyzer = Retry.class)//4. Редактирование набора виджетов у админа
     public void addingAndRemovingWidgetsFromTheAdmin() {
         //arrange
         navigationToAuthorizationTab();
@@ -57,7 +73,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         resettingTheCurrentWidgetSettings();
     }
 
-    @Test //5. Редактирование набора виджетов у пользователя
+    @Test (retryAnalyzer = Retry.class)//5. Редактирование набора виджетов у пользователя
     public void addingAndRemovingWidgetsFromTheUser() {
         //arrange
         navigationToAuthorizationTab();
@@ -71,7 +87,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         resettingTheCurrentWidgetSettings();
     }
 
-    @Test //6. Редактирование набора виджетов по умолчанию для админа
+    @Test (retryAnalyzer = Retry.class)//6. Редактирование набора виджетов по умолчанию для админа
     public void settingTheDefaultWidgetSetForAdmin() {
         //arrange
         navigationToAuthorizationTab();
@@ -89,7 +105,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         checkingTgeReturnOfSettingsToDefault();
     }
 
-    @Test //7. Редактирование набора виджетов по умолчанию для юзера
+    @Test (retryAnalyzer = Retry.class)//7. Редактирование набора виджетов по умолчанию для юзера
     public void settingTheDefaultWidgetSetForUser() {
         //arrange
         navigationToAuthorizationTab();
@@ -112,7 +128,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         checkingTgeReturnOfSettingsToDefault();
     }
 
-    @Test //8 Проверка выводимых данных виджета  "Мои заказы" у админа
+    @Test (retryAnalyzer = Retry.class)//8 Проверка выводимых данных виджета  "Мои заказы" у админа
     public void checkingTheDataInWidgetOfMyOrdersForAdmin() {
         //arrange
         navigationToAuthorizationTab();
@@ -129,7 +145,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         navigationToTheDesktop();
         goToTheDetailedOrderPageFromTheWidget();
     }
-    @Test //9 Проверка выводимых данных виджета  "Мои заказы" у юзера
+    @Test (retryAnalyzer = Retry.class)//9 Проверка выводимых данных виджета  "Мои заказы" у юзера
     public void checkingTheDataInWidgetOfMyOrdersForUser() {
         //arrange
         navigationToAuthorizationTab();
@@ -147,7 +163,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         goToTheDetailedOrderPageFromTheWidget();
     }
 
-    @Test //10. Проверка выводимых данных виджета "Персональные данные" у админа
+    @Test (retryAnalyzer = Retry.class)//10. Проверка выводимых данных виджета "Персональные данные" у админа
     public void checkingTheDataInWidgetOfPersonalDataForAdmin() {
         //arrange
         navigationToAuthorizationTab();
@@ -164,7 +180,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         navigationToTheDesktop();
     }
 
-    @Test //11. Проверка выводимых данных виджета "Персональные данные" у юзера
+    @Test (retryAnalyzer = Retry.class)//11. Проверка выводимых данных виджета "Персональные данные" у юзера
     public void checkingTheDataInWidgetOfPersonalDataForUser() {
         //arrange
         navigationToAuthorizationTab();
@@ -181,7 +197,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         navigationToTheDesktop();
     }
 
-    @Test //12. Проверка выводимых данных виджета "Моя корзина" у админа
+    @Test (retryAnalyzer = Retry.class)//12. Проверка выводимых данных виджета "Моя корзина" у админа
     public void checkingTheDataInWidgetOfMyCartForAdmin() {
         //arrange
         navigationToAuthorizationTab();
@@ -197,7 +213,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         checkingThatTheNumberOfProductsInTheWidgetAndInTheCartAreEqual();
     }
 
-    @Test //13. Проверка выводимых данных виджета "Моя корзина" у юзера
+    @Test (retryAnalyzer = Retry.class)//13. Проверка выводимых данных виджета "Моя корзина" у юзера
     public void checkingTheDataInWidgetOfMyCartForUser() {
         //arrange
         navigationToAuthorizationTab();
@@ -213,7 +229,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         checkingThatTheNumberOfProductsInTheWidgetAndInTheCartAreEqual();
     }
 
-    @Test //14. Проверка выводимых данных виджета "Организации" у админа
+    @Test (retryAnalyzer = Retry.class)//14. Проверка выводимых данных виджета "Организации" у админа
     public void checkingTheDataInWidgetOfOrganizationsForAdmin() {
         //arrange
         navigationToAuthorizationTab();
@@ -227,7 +243,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         goToTheDetailedOrganizationPageFromTheWidget();
     }
 
-    @Test //15. Проверка выводимых данных виджета "Организации" у юзера
+    @Test (retryAnalyzer = Retry.class)//15. Проверка выводимых данных виджета "Организации" у юзера
     public void checkingTheDataInWidgetOfOrganizationsForUser() {
         //arrange
         navigationToAuthorizationTab();
@@ -240,7 +256,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         checkingThatTheWidgetOfOrganizationsHaveContent();
         goToTheDetailedOrganizationPageFromTheWidget();
     }
-    @Test //16. У пользователя нет кнопки "сохранить как настройки по умолчанию"
+    @Test (retryAnalyzer = Retry.class)//16. У пользователя нет кнопки "сохранить как настройки по умолчанию"
     public void userDoesNotHaveSaveDefaultSettingsButton() {
         //arrange
         navigationToAuthorizationTab();
@@ -250,7 +266,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         navigationToTheDesktop();
         checkingThatThereIsNoButtonToSaveTheDefaultSettings();
     }
-    @Test //17. Проверка выводимых данных виджета "Заметки" у админа и пользователя
+    @Test (retryAnalyzer = Retry.class)//17. Проверка выводимых данных виджета "Заметки" у админа и пользователя
     public void checkingTheOutputDataOfTheNotesWidgetFromTheAdminAndTheUser() {
         //arrange
         navigationToAuthorizationTab();
@@ -278,7 +294,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         deletionJustAddedWidget();
         saveTheSettingForWidgetsOnTheDesktopLikeDefault();
     }
-    @Test //18. Проверка выводимых данных виджета Каталог у админа
+    @Test (retryAnalyzer = Retry.class)//18. Проверка выводимых данных виджета Каталог у админа
     public void checkingTheOutputDataOfTheCatalogWidgetFromTheAdmin() {
         //arrange
         navigationToAuthorizationTab();
@@ -295,7 +311,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         downloadingCatalogToYourComputerFromMeanPage();
         makeOrder.checkingThatCatalogIsDownloaded();
     }
-    @Test //19. Проверка выводимых данных виджета Каталог у юзера
+    @Test (retryAnalyzer = Retry.class)//19. Проверка выводимых данных виджета Каталог у юзера
     public void checkingTheOutputDataOfTheCatalogWidgetFromTheUser() {
         //arrange
         deletingExcelAndJpgFilesFromDownloads();
@@ -313,7 +329,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         downloadingCatalogToYourComputerFromMeanPage();
         makeOrder.checkingThatCatalogIsDownloaded();
     }
-    @Test //20. Проверка выводимых данных виджета пробки
+    @Test (retryAnalyzer = Retry.class)//20. Проверка выводимых данных виджета пробки
     public void checkingTheOutputDataOfTheTrafficJamsWidget() {
         //arrange
         deletingExcelAndJpgFilesFromDownloads();
@@ -333,7 +349,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         addingTheWidgetToDesktop(trafficJamsWidgetLocator);
         checkingThatTheWidgetOfTrafficJamsHaveContent();
     }
-    @Test //21. Добавление избранной ссылки от администратора, отображение этой ссылки для пользователей
+    @Test (retryAnalyzer = Retry.class)//21. Добавление избранной ссылки от администратора, отображение этой ссылки для пользователей
     public void addingFavoriteLinkFromTheAdminDisplayingThisLinkForUsers() {
         //arrange
         navigationToAuthorizationTab();
@@ -361,7 +377,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         deletionJustAddedWidget();
         saveTheSettingForWidgetsOnTheDesktopLikeDefault();
     }
-    @Test //22. Проверка добавления виджета "Погода" у админа
+    @Test (retryAnalyzer = Retry.class)//22. Проверка добавления виджета "Погода" у админа
     public void checkingAddingWidgetOfWeatherForAdmin() {
         //arrange
         navigationToAuthorizationTab();
@@ -373,7 +389,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         addingTheWidgetToDesktop(weatherWidgetLocator);
         checkingThatWeatherWidgetIsDisplayed();
     }
-    @Test //23. Проверка добавления виджета "Погода" у юзера
+    @Test (retryAnalyzer = Retry.class)//23. Проверка добавления виджета "Погода" у юзера
     public void checkingAddingWidgetOfWeatherForUser() {
         //arrange
         navigationToAuthorizationTab();
@@ -385,7 +401,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         addingTheWidgetToDesktop(weatherWidgetLocator);
         checkingThatWeatherWidgetIsDisplayed();
     }
-    @Test //24. Проверка выводимых данных виджета "RSS лента" у админа
+    @Test (retryAnalyzer = Retry.class)//24. Проверка выводимых данных виджета "RSS лента" у админа
     public void checkingAddingWidgetOfRssLentForAdmin() {
         //arrange
         navigationToAuthorizationTab();
@@ -398,7 +414,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         addingRssLentToTheWidget();
         checkingThatThisLentIsAdded();
     }
-    @Test //25. Проверка выводимых данных виджета "RSS лента" у пользователя
+    @Test (retryAnalyzer = Retry.class)//25. Проверка выводимых данных виджета "RSS лента" у пользователя
     public void checkingAddingWidgetOfRssLentForUser() {
         //arrange
         navigationToAuthorizationTab();
@@ -411,7 +427,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         addingRssLentToTheWidget();
         checkingThatThisLentIsAdded();
     }
-    @Test //26. Заказ пополнение личного счета с помощью виджета "Личный кабинет"
+    @Test (retryAnalyzer = Retry.class)//26. Заказ пополнение личного счета с помощью виджета "Личный кабинет"
     public void orderReplenishmentOfThePersonalAccountUsingThePersonalAccountWidget() {
         //arrange
         registr.registrationIPWithManualEntryINN();

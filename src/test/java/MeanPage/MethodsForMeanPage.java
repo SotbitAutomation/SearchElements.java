@@ -4,8 +4,9 @@ import BaseActions.BaseActions;
 import MakingOrders.MethodsForMakingOrders;
 import OrganizationsWithExtendedVersion.MethodsForAddingOrganizationsWithExtendedVersion;
 import RegistrationAndAuthorization.RegistrationB2B;
-import org.junit.Assert;
+import org.testng.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -49,13 +50,18 @@ public class MethodsForMeanPage extends BaseActions {
 
 
     public void movingARandomWidget(int columnNumber) {
+        Actions action = new Actions(driver);
         tempRandomNumber = 1 + (int) (Math.random() * driver.findElements(By.xpath("(//*[contains(@class, 'gd-page-column')])[" + columnNumber + "] //*[contains(@class, 'sotbit-cabinet-gadget')]")).size());
         System.out.println("Рандомный номер виджета в колонке № " + columnNumber + "  =  " + tempRandomNumber);
         By randomWidgetLocator = By.xpath("((//*[contains(@class, 'gd-page-column')])[" + columnNumber + "] //*[contains(@class, 'sotbit-cabinet-gadget')])[" + tempRandomNumber + "] //*[@class='card-title']");
         tempValueOfTitle = driver.findElement(randomWidgetLocator).getText();
         System.out.println("Название виджета который перемещаю - " + tempValueOfTitle);
-        actions.moveToElement(driver.findElement(randomWidgetLocator));
-        actions.clickAndHold();
+        scrollToTheElement(randomWidgetLocator);
+        waitingMilliSecond();
+        action.moveToElement(driver.findElement(randomWidgetLocator));
+        waitingMilliSecond();
+        action.clickAndHold();
+        implicitWaiting();
 
         if (columnNumber != 3) {
             columnNumberWhereToMove = columnNumber + 1;
@@ -63,27 +69,51 @@ public class MethodsForMeanPage extends BaseActions {
             columnNumberWhereToMove = 1;
         }
         randomColumnWhereToMoveLocator = By.xpath("(//*[contains(@class, 'gd-page-column')])[" + columnNumberWhereToMove + "]");
+        action.moveToElement(driver.findElement(randomColumnWhereToMoveLocator));
+        implicitWaiting();
+        action.release().perform();
+        implicitWaiting();
+        try {
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                    By.xpath("(//*[contains(@class, 'gd-page-column')])[" + columnNumber + "] //*[@class='card-title'][text()='" + tempValueOfTitle + "']")));
+        }catch (Exception e){// обрабатываю тупую ошибку
+            System.out.println("тупая ошибка !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            refreshingThisPage();
+            navigationToTheDesktop();
+            action.moveToElement(driver.findElement(randomWidgetLocator));
+            action.clickAndHold();
+            implicitWaiting();
 
-        actions.moveToElement(driver.findElement(randomColumnWhereToMoveLocator));
-        actions.release().perform();
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(
-                By.xpath("(//*[contains(@class, 'gd-page-column')])[" + columnNumber + "] //*[@class='card-title'][text()='" + tempValueOfTitle + "']")));
+            if (columnNumber != 3) {
+                columnNumberWhereToMove = columnNumber + 1;
+            } else {
+                columnNumberWhereToMove = 1;
+            }
+            randomColumnWhereToMoveLocator = By.xpath("(//*[contains(@class, 'gd-page-column')])[" + columnNumberWhereToMove + "]");
+            action.moveToElement(driver.findElement(randomColumnWhereToMoveLocator));
+            implicitWaiting();
+            action.release().perform();
+            implicitWaiting();
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                    By.xpath("(//*[contains(@class, 'gd-page-column')])[" + columnNumber + "] //*[@class='card-title'][text()='" + tempValueOfTitle + "']")));
+        }
         refreshingThisPage();
-        Assert.assertTrue("Виджет отображается в колонке из которой я его перемещал"
-                , driver.findElements(By.xpath("(//*[contains(@class, 'gd-page-column')])[" + columnNumber + "] //*[@class='card-title'][text()='" + tempValueOfTitle + "']")).size() == 0);
+        Assert.assertTrue(driver.findElements(By.xpath("(//*[contains(@class, 'gd-page-column')])[" + columnNumber + "] //*[@class='card-title'][text()='" + tempValueOfTitle + "']")).size() == 0
+                , "Виджет отображается в колонке из которой я его перемещал");
 
-        Assert.assertTrue("Перемещенный виджет не отображается в колонке в которую я его переместил"
-                , driver.findElement(By.xpath("(//*[contains(@class, 'gd-page-column')])[" + columnNumberWhereToMove + "] //*[@class='card-title'][text()='" + tempValueOfTitle + "']")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("(//*[contains(@class, 'gd-page-column')])[" + columnNumberWhereToMove + "] //*[@class='card-title'][text()='" + tempValueOfTitle + "']")).isDisplayed()
+                , "Перемещенный виджет не отображается в колонке в которую я его переместил");
     }
 
     public void showButtonForAddingWidgets() {
         try {
             driver.findElement(By.cssSelector(".fab-menu-absolute")).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".icon-reset")));
-            explicitWaiting();
+            implicitWaiting();
         } catch (Exception e) {
             System.out.println("меню с кнопкой доб. виджета уже раскрыта");
         }
+        waitingMilliSecond();
     }
 
     public void addingRandomWidgetToTheDesktop() {
@@ -93,22 +123,22 @@ public class MethodsForMeanPage extends BaseActions {
         tempRandomNumber = 1 + (int) (Math.random() * driver.findElements(By.xpath("(//div[@class='widgets_cabinet_title'])")).size());
         tempValueOfTitle = driver.findElement(By.xpath("(//div[@class='widgets_cabinet_title'])" + "[" + tempRandomNumber + "]")).getText();
         System.out.println("Название добавленного виджета  - " + tempValueOfTitle);
-        scrollToTheElement("(//div[@class='widgets_cabinet_title'])" + "[" + tempRandomNumber + "]");
+        //scrollDownToTheElement("(//div[@class='widgets_cabinet_title'])" + "[" + tempRandomNumber + "]");
         driver.findElement(By.xpath("(//div[@class='widgets_cabinet_title'])" + "[" + tempRandomNumber + "]")).click();
-        explicitWaiting();
+        implicitWaiting();
         tempLocatorForSearchElementByTextAndColumn = By.xpath("//*[text()='" + tempValueOfTitle + "']");
         System.out.println("Проверяю что виджет с таким заголовком есть " + tempValueOfTitle);
-        Assert.assertTrue("Добавленный виджет не отображается", driver.findElement(tempLocatorForSearchElementByTextAndColumn).isDisplayed());
-        explicitWaiting();
+        Assert.assertTrue(driver.findElement(tempLocatorForSearchElementByTextAndColumn).isDisplayed(), "Добавленный виджет не отображается");
+        implicitWaiting();
         refreshingThisPage();
-        explicitWaiting();
-        Assert.assertTrue("Добавленный виджет не отображается", driver.findElement(tempLocatorForSearchElementByTextAndColumn).isDisplayed());
+        implicitWaiting();
+        Assert.assertTrue(driver.findElement(tempLocatorForSearchElementByTextAndColumn).isDisplayed(), "Добавленный виджет не отображается");
     }
 
     public void deletionJustAddedWidget() {
         tempValueOfId = driver.findElement(By.xpath("(//*[contains(@class, 'data-table-gadget')])[1]")).getAttribute("id");
         driver.findElement(By.xpath("(//*[@data-action='remove'])[1]")).click();
-        explicitWaiting();
+        implicitWaiting();
         Assert.assertNotEquals(driver.findElement(By.xpath("(//*[contains(@class, 'data-table-gadget')])[1]")).getAttribute("id"), tempValueOfId);
         waitingMilliSecond();
         refreshingThisPage();
@@ -118,9 +148,15 @@ public class MethodsForMeanPage extends BaseActions {
 
     public void deletionRandomWidgetFromDesktop() {
         tempRandomNumber = 1 + (int) (Math.random() * driver.findElements(By.xpath("//*[contains(@class, 'sotbit-cabinet-gadget')]//*[@class='card-title']")).size());
-        By randomWidgetInDesktopLocator = By.xpath("(//*[contains(@class, 'sotbit-cabinet-gadget')])" + "[" + tempRandomNumber + "] //*[@data-action = 'remove']");
         tempValueOfId = driver.findElement(By.xpath("(//*[contains(@class, 'sotbit-cabinet-gadget')])[" + tempRandomNumber + "]")).getAttribute("id");
-        driver.findElement(randomWidgetInDesktopLocator).click();
+        try {
+            driver.findElement(By.xpath("(//*[contains(@class, 'sotbit-cabinet-gadget')])" + "[" + tempRandomNumber + "] //*[@data-action = 'remove']")).click();
+        }catch (Exception e){
+            System.out.println("Удалить, не смог кликнуть - "  + tempRandomNumber);
+            refreshingThisPage();
+            scrollToTheElement("(//*[contains(@class, 'sotbit-cabinet-gadget')])" + "[" + tempRandomNumber + "] //*[@data-action = 'remove']");
+            driver.findElement(By.xpath("(//*[contains(@class, 'sotbit-cabinet-gadget')])" + "[" + tempRandomNumber + "] //*[@data-action = 'remove']")).click();
+        }
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[@id='" + tempValueOfId + "']")));
         Assert.assertTrue(driver.findElements(By.xpath("//*[@id='" + tempValueOfId + "']")).size() == 0);
         refreshingThisPage();
@@ -129,14 +165,23 @@ public class MethodsForMeanPage extends BaseActions {
 
     public void resettingTheCurrentWidgetSettings() {
         showButtonForAddingWidgets();
-        driver.findElement(buttonForResetTheCurrentSettings).click();
+        try {
+            driver.findElement(buttonForResetTheCurrentSettings).click();
+        }catch (Exception e){
+            System.out.println("тупая ошибка");
+            navigationToTheDesktop();
+            showButtonForAddingWidgets();
+            driver.findElement(buttonForResetTheCurrentSettings).click();
+
+        }
         new WebDriverWait(driver, 10).until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
-        explicitWaiting();
+        implicitWaiting();
         refreshingThisPage();
     }
 
     public void storingTheLocationOfWidgetsOnTheDesktop() {
+        tempLocationOfWidgetsOnTheDesktop="";
         for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@class, 'sotbit-cabinet-gadget')]//*[@class='card-title']")).size(); i++) {
             tempLocationOfWidgetsOnTheDesktop = tempLocationOfWidgetsOnTheDesktop + driver.findElement(By.xpath("(//*[@class='card-title'])[" + i + "]")).getText();
         }
@@ -144,19 +189,21 @@ public class MethodsForMeanPage extends BaseActions {
 
     public void saveTheSettingForWidgetsOnTheDesktopLikeDefault() {
         showButtonForAddingWidgets();
-        driver.findElement(saveSettingLikeDefaultLocator).click();
+        tryToClickElement(saveSettingLikeDefaultLocator);
+        //driver.findElement(saveSettingLikeDefaultLocator).click();
         new WebDriverWait(driver, 10).until(ExpectedConditions.alertIsPresent());  //сохраннеие настроек по умолчанию метод
         driver.switchTo().alert().accept();
     }
 
     public void checkingTgeReturnOfSettingsToDefault() {
-        //tempValue="";
+        tempValue="";
         for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@class, 'sotbit-cabinet-gadget')]//*[@class='card-title']")).size(); i++) {
             tempValue = tempValue + driver.findElement(By.xpath("(//*[@class='card-title'])[" + i + "]")).getText();
         }
-        Assert.assertEquals(tempValue, tempLocationOfWidgetsOnTheDesktop);
-        System.out.println(tempValue);
-        System.out.println(tempLocationOfWidgetsOnTheDesktop);
+        System.out.println("Фактические виджеты - " + tempValue);
+        System.out.println("Ожидаемые виджеты - " + tempLocationOfWidgetsOnTheDesktop);
+        Assert.assertEquals(tempLocationOfWidgetsOnTheDesktop,tempValue);
+
 
     }
 
@@ -176,7 +223,7 @@ public class MethodsForMeanPage extends BaseActions {
     }
 
     public void checkingThatDataInWidgetOfPersonalIsEqualsSettingInMeanPage() {
-        Assert.assertEquals("данные пользователя не равны", dataFromTheSetting.trim(), dataFromTheWidget.trim());
+        Assert.assertEquals(dataFromTheSetting.trim(), dataFromTheWidget.trim(), "данные пользователя не равны");
         System.out.println("Данные в виджете:");
         System.out.println(dataFromTheWidget);
         System.out.println();
@@ -229,7 +276,13 @@ public class MethodsForMeanPage extends BaseActions {
         showButtonForAddingWidgets();
         driver.findElement(addWidgetButtonLocator).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".widgets_cabinet")));
-        driver.findElement(xpathOfWidget).click();
+        try {
+            driver.findElement(xpathOfWidget).click();
+        }catch (Exception e){
+            System.out.println("Не смог кликнуть так как нужно сначала проскролить до элемента");
+            scrollToTheElement(xpathOfWidget);
+            driver.findElement(xpathOfWidget).click();
+        }
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".sotbit_cabinet")));
     }
 
@@ -240,6 +293,9 @@ public class MethodsForMeanPage extends BaseActions {
     }
 
     public void fillingBasicData() {
+        name = "Name Имя" + randomString(8);
+        lastName = "LastName Фамилия" + randomString(10);
+        appeal = "sir" + randomString(10);
         driver.findElement(By.cssSelector("[placeholder='Введите имя']")).clear();
         driver.findElement(By.cssSelector("[placeholder='Введите имя']")).sendKeys(name);
 
@@ -267,31 +323,31 @@ public class MethodsForMeanPage extends BaseActions {
     }
 
     public void checkThatBasicDataHasBeenSaved() {
-        Assert.assertEquals("Основные данные не сохранились", name
-                , driver.findElement(By.cssSelector("[placeholder='Введите имя']")).getAttribute("value"));
-        Assert.assertEquals("Основные данные не сохранились", lastName
-                , driver.findElement(By.cssSelector("[placeholder='Введите фамилию']")).getAttribute("value"));
-        Assert.assertEquals("Основные данные не сохранились", appeal
-                , driver.findElement(By.cssSelector("[placeholder='Как к Вам обращаться']")).getAttribute("value"));
+        Assert.assertEquals(name, driver.findElement(By.cssSelector("[placeholder='Введите имя']")).getAttribute("value")
+                , "Основные данные не сохранились");
+        Assert.assertEquals(lastName, driver.findElement(By.cssSelector("[placeholder='Введите фамилию']")).getAttribute("value")
+                , "Основные данные не сохранились");
+        Assert.assertEquals(appeal, driver.findElement(By.cssSelector("[placeholder='Как к Вам обращаться']")).getAttribute("value")
+                , "Основные данные не сохранились");
     }
 
     public void checkThatBasicDataDoesNotSaved() {
-        Assert.assertNotEquals("Основные данные сохранились", name
-                , driver.findElement(By.cssSelector("[placeholder='Введите имя']")).getAttribute("value"));
-        Assert.assertNotEquals("Основные данные сохранились", lastName
-                , driver.findElement(By.cssSelector("[placeholder='Введите фамилию']")).getAttribute("value"));
-        Assert.assertNotEquals("Основные данные сохранились", appeal
-                , driver.findElement(By.cssSelector("[placeholder='Как к Вам обращаться']")).getAttribute("value"));
+        Assert.assertNotEquals(name.trim(), driver.findElement(By.cssSelector("[placeholder='Введите имя']")).getAttribute("value").trim()
+                , "Основные данные сохранились");
+        Assert.assertNotEquals(lastName.trim(), driver.findElement(By.cssSelector("[placeholder='Введите фамилию']")).getAttribute("value").trim()
+                , "Основные данные сохранились");
+        Assert.assertNotEquals(appeal.trim(), driver.findElement(By.cssSelector("[placeholder='Как к Вам обращаться']")).getAttribute("value").trim()
+                , "Основные данные сохранились");
     }
 
     public void checkThatPersonalDataHasBeenSaved() {
-        Assert.assertEquals("Телефон не сохранился", phone
-                , driver.findElement(By.cssSelector("[placeholder='Введите телефон']")).getAttribute("value"));
+        Assert.assertEquals(phone, driver.findElement(By.cssSelector("[placeholder='Введите телефон']")).getAttribute("value")
+                , "Телефон не сохранился");
 
-        Assert.assertEquals("Факс не сохранился", phone
-                , driver.findElement(By.cssSelector("[placeholder='Введите факс']")).getAttribute("value"));
-        Assert.assertEquals("личные данные не сохранились", mobilePhone
-                , driver.findElement(By.cssSelector("[placeholder='Введите мобильный']")).getAttribute("value"));
+        Assert.assertEquals(phone, driver.findElement(By.cssSelector("[placeholder='Введите факс']")).getAttribute("value")
+                , "Факс не сохранился");
+        Assert.assertEquals(mobilePhone, driver.findElement(By.cssSelector("[placeholder='Введите мобильный']")).getAttribute("value")
+                , "личные данные не сохранились");
     }
 
     public void fillingNewPassword() {
@@ -314,30 +370,33 @@ public class MethodsForMeanPage extends BaseActions {
         fillingFieldsOnTheLogInTabLikeUser();
         driver.findElement(passwordInputInAuthorizationTanLocator).clear();
         driver.findElement(passwordInputInAuthorizationTanLocator).sendKeys(password);
-        Assert.assertEquals("Пароль не отображается", password,
-                driver.findElement(passwordInputInAuthorizationTanLocator).getAttribute("value"));
+        Assert.assertEquals( password, driver.findElement(passwordInputInAuthorizationTanLocator).getAttribute("value"), "Пароль не отображается");
     }
 
     public void openPrivacyPolicy() {
         driver.findElement(buttonPrivacyPolicyForMainSettings).click();
-        // Store the current window handle
         String winHandleBefore = driver.getWindowHandle();
-        // Perform the click operation that opens new window
-        // Switch to new window opened
         for (String winHandle : driver.getWindowHandles()) {
             driver.switchTo().window(winHandle);
         }
-        Assert.assertTrue(driver.findElement(By.xpath("//h4[contains(text(), 'Конфиденциальность')]")).isDisplayed());
-        // Perform the actions on new window
-        // Close the new window, if that window no more required
+        if (driver.findElements((By.xpath("//*[contains(text(), 'Конфиденциальность')]"))).size() == 1){
+            Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'Конфиденциальность')]")).isDisplayed());
+        }else{
+            Assert.assertTrue(driver.findElement(By.xpath("(//*[contains(text(), 'Конфиденциальность')])[2]")).isDisplayed());
+        }
+
+
         driver.close();
-        // Switch back to original browser (first window)
         driver.switchTo().window(winHandleBefore);
-        // Continue with original browser (first window)
     }
 
     public void checkingThatPhotoIsDisplayed() {
-        Assert.assertTrue(driver.findElement(By.xpath("//*[@class='image_photo']/img")).isDisplayed());
+        determineThemeColor();
+        if (themeColorBlack){
+            Assert.assertTrue(driver.findElement(By.xpath("//*[@class='sidebar-user']//*[contains(@src, 'upload')]")).isDisplayed());
+        }else{
+            Assert.assertTrue(driver.findElements(By.xpath("//img[contains(@src, 'upload/resize_cach')]")).size() >= 2);
+        }
     }
 
     public void checkingThatThereIsNoButtonToSaveTheDefaultSettings() {
@@ -380,7 +439,7 @@ public class MethodsForMeanPage extends BaseActions {
     }
 
     public void checkingThatWeatherWidgetIsDisplayed() {
-        Assert.assertEquals("Прогноз погоды", driver.findElement(By.xpath("(//*[contains(@class, 'sotbit-cabinet-gadget')])[1] //*[@class='card-title']")).getText());
+        Assert.assertEquals(driver.findElement(By.xpath("(//*[contains(@class, 'sotbit-cabinet-gadget')])[1] //*[@class='card-title']")).getText(), "Прогноз погоды");
     }
 
     public void makeOrderForWidget() {
@@ -388,17 +447,15 @@ public class MethodsForMeanPage extends BaseActions {
         navigationToCatalogTab();
         makeOrder.changeTheQuantityOfRandomProduct();
         makeOrder.checkingThatThePriceOfTheAddedProductHasBeenCalculated();
-        //act
         navigationToCart();
         makeOrder.navigationToMakingOrderFromCart();
         makeOrder.trySelectCompany();
-        //checkingPriceOfProductsOnTheMakingOrderPage();
         makeOrder.makingOrder();
         navigationToTheDesktop();
     }
 
     public void rememberingDataOfMyOrdersInTheWidget() {
-        explicitWaiting();
+        implicitWaiting();
         tempValue = driver.findElement(By.xpath("(//*[contains(@class, 'sotbit-cabinet-gadget')])[1] //*[contains(@href, 'orders/detail')]")).getAttribute("title").replaceAll("[^\\d.]", "");
         tempValue2 = driver.findElement(By.xpath("//*[@class='widget_order_information'] /*[contains(text(), 'умма')]")).getText().replaceAll("[^\\d.]", "");
     }
@@ -415,9 +472,24 @@ public class MethodsForMeanPage extends BaseActions {
     }
 
     public void addingRssLentToTheWidget() {
-        driver.findElement(By.xpath("//*[contains(@class, 'icon-pencil')]")).click();
-        driver.findElement(By.xpath("//*[contains(@id, 'RSS_URL')]")).sendKeys("https://news.mail.ru/rss/");
-        driver.findElement(By.cssSelector(".button-ok")).click();
+        try {
+            driver.findElement(By.xpath("//*[contains(@class, 'icon-pencil')]")).click();
+            driver.findElement(By.xpath("//*[contains(@id, 'RSS_URL')]")).sendKeys("https://news.mail.ru/rss/");
+            try {
+                driver.findElement(By.cssSelector(".button-ok")).click();
+            }catch (Exception e2){
+                System.out.println("тупая ошибка, недоскролил до кнопки");
+                scrollToTheElement(".button-ok");
+                driver.findElement(By.cssSelector(".button-ok")).click();
+            }
+        }catch (Exception e){
+            System.out.println("Похоже включен режим правки, выключаю его");
+            refreshingThisPage();
+            ternOffEditMode();
+            driver.findElement(By.xpath("//*[contains(@class, 'icon-pencil')]")).click();
+            driver.findElement(By.xpath("//*[contains(@id, 'RSS_URL')]")).sendKeys("https://news.mail.ru/rss/");
+            driver.findElement(By.cssSelector(".button-ok")).click();
+        }
     }
 
     public void checkingThatThisLentIsAdded() {
@@ -459,6 +531,43 @@ public class MethodsForMeanPage extends BaseActions {
         tempValue = driver.findElement(By.cssSelector(".company-auth-vidget-item-link")).getText();
         driver.findElement(By.cssSelector(".company-auth-vidget-item-link")).click();
         Assert.assertTrue(driver.findElement(By.xpath("//*[@name='NAME']")).getAttribute("value").contains(tempValue));
+    }
+    public void deletingAllWidget (){
+        tempRandomNumber = driver.findElements(By.xpath("//*[@data-action='remove']")).size();
+        for (int i = 1; i <= tempRandomNumber; i++) {
+            driver.findElement(By.xpath("//*[@data-action='remove']")).click();
+            implicitWaiting();
+        }
+    }
+    public void addingAllWidget(){
+        showButtonForAddingWidgets();
+        driver.findElement(addWidgetButtonLocator).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".widgets_cabinet")));
+        tempRandomNumber = driver.findElements(By.xpath("(//div[@class='widgets_cabinet_title'])")).size();
+        navigationToTheDesktop();
+        for (int j = 1; j <= tempRandomNumber; j++) {
+            showButtonForAddingWidgets();
+            driver.findElement(addWidgetButtonLocator).click();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".widgets_cabinet")));
+            tempValueOfTitle = driver.findElement(By.xpath("(//div[@class='widgets_cabinet_title'])" + "[" + j + "]")).getText();
+            try {
+                driver.findElement(By.xpath("(//*[@class='widgets_cabinet_title'])[" + j + "]")).click();
+            }catch (Exception e){
+                scrollToTheElement("(//*[@class='widgets_cabinet_title'])[" + j + "]");
+                driver.findElement(By.xpath("(//*[@class='widgets_cabinet_title'])[" + j + "]")).click();
+            }
+            System.out.println("Добавляю виджет  - " + tempValueOfTitle);
+            implicitWaiting();
+            implicitWaiting();
+        }
+    }
+    public void distributeWidgetsByColumns(){
+        for (int i = 0; i < 6; i++) {
+            movingARandomWidget(1);
+        }
+        for (int i = 0; i < 3; i++) {
+            movingARandomWidget(2);
+        }
     }
 
 

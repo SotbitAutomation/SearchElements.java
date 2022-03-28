@@ -1,15 +1,16 @@
 package DangerousTests;
 
+import BaseActions.Retry;
+import BeforeTest.SettingUpAutotestsForB2BSettings;
 import Catalog.MethodsForCatalog;
 import MyOrdersHistory.MethodsForMyOrders;
 import OrganizationsWithExtendedVersion.MethodsForAddingOrganizationsWithExtendedVersion;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import SettingUpCabinetForTesting.SettingUpCabinetForTesting;
+import org.testng.annotations.Test;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DangerousTests extends MethodsForCatalog {
-    @Test //0. Возвращение настроек назад (количественный учет в каталоге, а в товаре - по умолчанию; откл вывод складов)
+    @Test(retryAnalyzer = Retry.class)
+    //0. Возвращение настроек назад (количественный учет в каталоге, а в товаре - по умолчанию; откл вывод складов)
     public void a_returningSettingsBack() {
         //arrange
         navigationToAuthorizationTab();
@@ -17,6 +18,7 @@ public class DangerousTests extends MethodsForCatalog {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToSystemSettings();
+        disableOutputOfPropertiesInTheDirectory();
         navigationToSettingOfQuantitativeAccountingForTheProduct();
         enableQuantitativeAccountingForTheProductsInCatalog();
         navigationToGasStoveSetting();
@@ -27,8 +29,13 @@ public class DangerousTests extends MethodsForCatalog {
         tryTurnOffShowTheQuantityOfProductsInStorage();
         navigationToComponentOfCatalogSetting();
         choiceStandardCatalog();
+        ternOffEditMode();
+        SettingUpCabinetForTesting set = new SettingUpCabinetForTesting();
+        set.clearAllCacheForTests();
     }
-    @Test //1. Вывод свойст товаров в каталог с помощью "параметра свойств в компонентах и формах"
+
+    @Test(retryAnalyzer = Retry.class)
+    //1. Вывод свойст товаров в каталог с помощью "параметра свойств в компонентах и формах"
     public void checkingDisplaySettingsOfProductPropertiesInTheCatalog() {
         //arrange
         navigationToAuthorizationTab();
@@ -49,7 +56,8 @@ public class DangerousTests extends MethodsForCatalog {
         checkingThatTheColumnWithThisPropertyHasAppearedInTheCatalog();
         checkingThatTheProductHasAPropertyWithThePreviouslyEnteredValue();
     }
-    @Test //2. Проверка настройки отображения свойств товаров в каталоге (колонках)
+
+    @Test(retryAnalyzer = Retry.class) //2. Проверка настройки отображения свойств товаров в каталоге (колонках)
     public void checkingDisplaySettingsOfProductPropertiesInTheList() {
         //arrange
         navigationToAuthorizationTab();
@@ -70,13 +78,16 @@ public class DangerousTests extends MethodsForCatalog {
         selectFewPropertiesToOutputToTheCatalog();
         checkingThatSelectedPropertiesAreDisplayedInTheCatalog();
     }
-    @Test //3. Проверка вывода цен small Opt в каталог, возможность добавления товара по этой цене
+
+    @Test(retryAnalyzer = Retry.class)
+    //3. Проверка вывода цен small Opt в каталог, возможность добавления товара по этой цене
     public void checkingTheDisplaySettingsForThePricesOfProductsInTheCatalog() {
         //arrange
         navigationToAuthorizationTab();
         //act
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
+        returningSettingsBackIfCatalogBroken();
         deletingProductsFromTheCart();
         chooseToDisplaySmallOptPricesForAllUsers();
         navigationToGasStoveSetting();
@@ -88,7 +99,9 @@ public class DangerousTests extends MethodsForCatalog {
         addingGefestGasStoveToTheCart();
         checkingThatThePriceInTheCatalogFooterIsDisplayedAsForSmallOptGroup();
     }
-    @Test //4. Добавление в корзину товаров на один больше чем есть в наличии, c включенными кол-ыми учетоми
+
+    @Test(retryAnalyzer = Retry.class)
+    //4. Добавление в корзину товаров на один больше чем есть в наличии, c включенными кол-ыми учетоми
     public void addingTheMaxNumberPlusOneOfProductsToCartUsingIconPlusExpectedFail() {
         //arrange
         navigationToAuthorizationTab();
@@ -110,7 +123,9 @@ public class DangerousTests extends MethodsForCatalog {
         addThisProductOneMoreTimeManually();
         checkingThatPriceAndQuantityAreTheSame();
     }
-    @Test //5. Добавление в корзину на один больше товара чем есть в наличии (с включенным кол-вым учетом у товара), но выключенным кол-ым учетом у каталога
+
+    @Test(retryAnalyzer = Retry.class)
+    //5. Добавление в корзину на один больше товара чем есть в наличии (с включенным кол-вым учетом у товара), но выключенным кол-ым учетом у каталога
     public void addingTheMaxNumberPlusOneOfProductsToCartUsingIconPlusWithQuantitativeAccountingEnabledNutQuantitativeAccountingEnabledForTheProduct() {
         //arrange
         navigationToAuthorizationTab();
@@ -132,8 +147,10 @@ public class DangerousTests extends MethodsForCatalog {
         addThisProductOneMoreTimeManually();
         checkingThatPriceAndQuantityAreTheSame();
     }
-    @Test //6. Добавление в корзину на один больше товара чем есть в наличии (с включенным кол-вым учетом у товара), но выключенным кол-ым учетом у каталога
-          //, добавление рандомного товара (со значением по умолчанию кол-го учета (включенным))
+
+    @Test(retryAnalyzer = Retry.class)
+    //6. Добавление в корзину на один больше товара чем есть в наличии (с включенным кол-вым учетом у товара), но выключенным кол-ым учетом у каталога
+    //, добавление рандомного товара (со значением по умолчанию кол-го учета (включенным))
     public void addingOneMoreProductToTheCartThanIsAvailableWithQuantitativeAccountingEnabledForTheProductButWthQuantitativeAccountingEnabledForTheCatalogAndAddingRandomProductWithTheDefaultValueOfQuantitativeAccountingExpectedEnabled() {
         //arrange
         navigationToAuthorizationTab();
@@ -163,7 +180,8 @@ public class DangerousTests extends MethodsForCatalog {
     }
 
 
-    @Test //7. Добавление в корзину на один больше товара чем есть в наличии (с выключенным кол-вым учетом у товара), и выключенным кол-ым учетом у каталога
+    @Test(retryAnalyzer = Retry.class)
+    //7. Добавление в корзину на один больше товара чем есть в наличии (с выключенным кол-вым учетом у товара), и выключенным кол-ым учетом у каталога
     public void addingTheMaxNumberPlusOneOfProductsToCartUsingIconPlusExpectedSuccess() {
         //arrange
         navigationToAuthorizationTab();
@@ -186,7 +204,8 @@ public class DangerousTests extends MethodsForCatalog {
         checkingThatPriceAndQuantityHaveIncreasedForGefestGasStove();
     }
 
-    @Test //8. Добавление в корзину на один больше товара чем есть в наличии (с включенным кол-вым учетом у каталога), но выключенным кол-ым учетом у каталога
+    @Test(retryAnalyzer = Retry.class)
+    //8. Добавление в корзину на один больше товара чем есть в наличии (с включенным кол-вым учетом у каталога), но выключенным кол-ым учетом у каталога
     public void addingOneMoreProductToTheCartThanIsAvailableWithTheQuantityOfTheProductTurnedOffButWithTheCatalogAccountingTurnedOn() {
         //arrange
         navigationToAuthorizationTab();
@@ -208,7 +227,9 @@ public class DangerousTests extends MethodsForCatalog {
         addThisProductOneMoreTimeManually();
         checkingThatPriceAndQuantityHaveIncreasedForGefestGasStove();
     }
-    @Test //9. Проверка корректности работы блока добавления / удаления позиций в каталоге [ - | 0 | + ] c дробными значениями
+
+    @Test(retryAnalyzer = Retry.class)
+    //9. Проверка корректности работы блока добавления / удаления позиций в каталоге [ - | 0 | + ] c дробными значениями
     public void checkingTheCorrectnessOfTheOperationOfTheAddRemoveProductsInTheCatalogWithFractionalValues() {
         //arrange
         navigationToAuthorizationTab();
@@ -229,7 +250,7 @@ public class DangerousTests extends MethodsForCatalog {
         settingBackTheMultiplicityForTheGefestGasStove();
     }
 
-    @Test //10. Отображение стандартной заглушки у товаров без изображений
+    @Test(retryAnalyzer = Retry.class) //10. Отображение стандартной заглушки у товаров без изображений
     public void displayingStandardStubForProductsWithoutImages() {
         //arrange
         navigationToAuthorizationTab();
@@ -251,7 +272,8 @@ public class DangerousTests extends MethodsForCatalog {
         navigationToGasStoveSetting();
         returningImagesToTheGefestGasStoveBack();
     }
-    @Test //11. Выводимая скидка равняется введенной в админ части
+
+    @Test(retryAnalyzer = Retry.class) //11. Выводимая скидка равняется введенной в админ части
     public void displayedDiscountInCatalogIsEqualToTheEnteredInTheAdminPart() {
         //arrange
         navigationToAuthorizationTab();
@@ -263,7 +285,7 @@ public class DangerousTests extends MethodsForCatalog {
         navigationToAdminPartFromMeanPage();
         deletingALLDiscounts();
         settingUpRandomDiscountForGefestGasStove();
-        explicitWaiting();
+        implicitWaiting();
         navigationToMeanPageByUrl();
         navigationToCatalogTab();
         selectTheSectionWithGasStoves();
@@ -271,7 +293,8 @@ public class DangerousTests extends MethodsForCatalog {
         memorizingDiscountedAndNonDiscountedPricesForGefest();
         checkingThatTheDiscountEnteredAndDisplayedInTheCatalogAreTheSame();
     }
-    @Test //12. Товар добавляется по цене со скидкой в корзину
+
+    @Test(retryAnalyzer = Retry.class) //12. Товар добавляется по цене со скидкой в корзину
     public void productIsAddingAtDiscountedPriceToTheCart() {
         //arrange
         navigationToAuthorizationTab();
@@ -283,7 +306,7 @@ public class DangerousTests extends MethodsForCatalog {
         navigationToAdminPartFromMeanPage();
         deletingALLDiscounts();
         settingUpRandomDiscountForGefestGasStove();
-        explicitWaiting();
+        implicitWaiting();
         navigationToMeanPageByUrl();
         navigationToCatalogTab();
         selectTheSectionWithGasStoves();
@@ -293,7 +316,8 @@ public class DangerousTests extends MethodsForCatalog {
         checkingThatTheDiscountEnteredAndDisplayedInTheCatalogAreTheSame();
         addingAnItemToTheCartWithPriceChecking();
     }
-    @Test //13. Добавление ТП в корзину
+
+    @Test(retryAnalyzer = Retry.class) //13. Добавление ТП в корзину
     public void addingTPToTheCart() {
         //arrange
         areThereAnyOffers = true;
@@ -305,6 +329,7 @@ public class DangerousTests extends MethodsForCatalog {
         deletingProductsFromTheCart();
         enableEditMode();
         navigationToCatalogTab();
+        ternOnEditMode();
         navigationToComponentOfCatalogSetting();
         choiceCatalogWithOnlyOffers();
         navigationToMeanPageByUrl();
@@ -314,8 +339,10 @@ public class DangerousTests extends MethodsForCatalog {
         navigationToCatalogTab();
         navigationToComponentOfCatalogSetting();
         choiceStandardCatalog();
+        ternOffEditMode();
     }
-    @Test //14. Проверить вывод информации о наличии на складах
+
+    @Test(retryAnalyzer = Retry.class) //14. Проверить вывод информации о наличии на складах
     public void checkTheOutputOfInformationAboutAvailabilityInStorage() {
         //arrange
         navigationToAuthorizationTab();
@@ -341,13 +368,15 @@ public class DangerousTests extends MethodsForCatalog {
         selectTheSectionWithGasStoves();
         enterTheMaximumAvailableQuantityOfThisProduct();
         checkingThatTheTotalNumberOfOutputProductsAndQuantityByIsEqualToThePreviouslyEnteredData();
-        explicitWaiting();explicitWaiting();
+        implicitWaiting();
+        implicitWaiting();
         navigationToComponentOfCatalogSetting();
         turnOffShowingTheQuantityOfProductsInStorage();
     }
 
-    @Test //15. Проверка корректности увеличения количество товаров в корзине
-          // (с включенным кол-вым учетом у каталога, но выключенным кол-ым учетом у одного из товаров, с дробной кратностью товара, ТП)
+    @Test(retryAnalyzer = Retry.class)
+    //15. Проверка корректности увеличения количество товаров в корзине
+    // (с включенным кол-вым учетом у каталога, но выключенным кол-ым учетом у одного из товаров, с дробной кратностью товара, ТП)
     public void checkingCorrectnessOfIncreasingTheNumberOfProductsInTheBasket() {
         //arrange
         areThereAnyOffers = true;
@@ -389,7 +418,8 @@ public class DangerousTests extends MethodsForCatalog {
         navigationToGasStoveSetting();
         returningQuantitativeAccountingAtTheGefestGasStoveByDefault();
     }
-    @Test //16. Изменение кол-ва ТП в корзине
+
+    @Test(retryAnalyzer = Retry.class) //16. Изменение кол-ва ТП в корзине
     public void changingNumberOfTPInTheCart() {
         //arrange
         areThereAnyOffers = true;
@@ -403,11 +433,13 @@ public class DangerousTests extends MethodsForCatalog {
         navigationToComponentOfCatalogSetting();
         choiceCatalogWithOnlyOffers();
         navigationToMeanPageByUrl();
+        ternOffEditMode();
         navigationToCatalogTab();
         changeTheQuantityOfRandomProduct();
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
         navigationToCart();
         //act
+        ternOffEditMode();
         addingMaxQuantityOfProductInTheCartUsingPlusIconOneMoreThanAvailable(quantityFieldOfRandomTPLocator, iconPlusOfRandomTPLocator, quantityOfProductsInStock);
         checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfRandomTPLocator, quantityOfProductsInStock);
         attemptToSelectNegativeQuantityOfProductsInTheCartUsingMinusIcon(quantityFieldOfRandomTPLocator, iconMinusOfRandomTPLocator);
@@ -417,10 +449,14 @@ public class DangerousTests extends MethodsForCatalog {
         addingMaxQuantityOfProductInTheCartUsingInputField(quantityFieldOfRandomTPLocator, quantityOfProductsInStock);
         checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfRandomTPLocator, quantityOfProductsInStock);
         navigationToCatalogTab();
+        ternOnEditMode();
         navigationToComponentOfCatalogSetting();
         choiceStandardCatalog();
+        ternOffEditMode();
     }
-    @Test //17. Изменение кол-ва ТП c дробным коэффициентом, и ТП с отключенным кол-ым учетом в корзине
+
+    @Test(retryAnalyzer = Retry.class)
+    //17. Изменение кол-ва ТП c дробным коэффициентом, и ТП с отключенным кол-ым учетом в корзине
     public void changingNumberOfTPInTheCartWithAFractionalCoefficientAndWithQuantitativeAccountingDisabled() {
         //arrange
         areThereAnyOffers = true;
@@ -428,7 +464,7 @@ public class DangerousTests extends MethodsForCatalog {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         deletingProductsFromTheCart();
-        enableEditMode();
+        ternOnEditMode();
         navigationToCatalogTab();
         navigationToComponentOfCatalogSetting();
         choiceCatalogWithOnlyOffers();
@@ -437,35 +473,39 @@ public class DangerousTests extends MethodsForCatalog {
         configureTheFirstTwoTP("N");
         addingFirstTwoTPToTheCart();
         //act
-        addingMaxQuantityOfProductInTheCartUsingPlusIconOneMoreThanAvailable(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, iconPlusOfTPWithQuantitativeAccountingDisabledLocator, quantityOfProductsInStock);
-        checkingThatQuantityOfThisProductIsOneMoreThanAvailable(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, quantityOfProductsInStock);
+        ternOffEditMode();
+        addingMaxQuantityOfProductInTheCartUsingPlusIconOneMoreThanAvailable(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, iconPlusOfTPWithQuantitativeAccountingDisabledLocator, quantityOfSecondProductsInStock);
+        checkingThatQuantityOfThisProductIsOneMoreThanAvailable(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, quantityOfSecondProductsInStock);
         attemptToSelectNegativeQuantityOfProductsInTheCartUsingMinusIcon(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, iconMinusOfTPWithQuantitativeAccountingDisabledLocator);
         checkingThatQuantityThisProductIsEqualsOne(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator);
         attemptToEnterNegativeQuantityOfProductsInTheCart(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator);
         checkingThatQuantityThisProductIsEqualsOne(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator);
-        addingMaxQuantityOfProductInTheCartUsingInputField(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, quantityOfProductsInStock);
-        checkingThatQuantityOfThisProductIsOneMoreThanAvailable(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, quantityOfProductsInStock);
-        addingMaxQuantityOfProductInTheCartUsingPlusIconOneMoreThanAvailable(quantityFieldOfTPWithAFractionalCoefficientLocator, iconPlusOfTPWithWithAFractionalCoefficientLocator, quantityOfSecondProductsInStock);
-        checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfTPWithAFractionalCoefficientLocator, quantityOfSecondProductsInStock);
+        addingMaxQuantityOfProductInTheCartUsingInputField(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, quantityOfSecondProductsInStock);
+        checkingThatQuantityOfThisProductIsOneMoreThanAvailable(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, quantityOfSecondProductsInStock);
+        addingMaxQuantityOfProductInTheCartUsingPlusIconOneMoreThanAvailable(quantityFieldOfTPWithAFractionalCoefficientLocator, iconPlusOfTPWithAFractionalCoefficientLocator, quantityOfProductsInStock);
+        checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfTPWithAFractionalCoefficientLocator, quantityOfProductsInStock);
         attemptToSelectNegativeQuantityOfProductsInTheCartUsingMinusIcon(quantityFieldOfTPWithAFractionalCoefficientLocator, iconMinusOfTPWithWithAFractionalCoefficientLocator);
         checkingThatQuantityThisProductEqualsOneTenth(quantityFieldOfTPWithAFractionalCoefficientLocator);
         attemptToEnterNegativeQuantityOfProductsInTheCart(quantityFieldOfTPWithAFractionalCoefficientLocator);
         checkingThatQuantityThisProductEqualsOneTenth(quantityFieldOfTPWithAFractionalCoefficientLocator);
-        addingMaxQuantityOfProductInTheCartUsingInputField(quantityFieldOfTPWithAFractionalCoefficientLocator, quantityOfSecondProductsInStock);
-        checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfTPWithAFractionalCoefficientLocator, quantityOfSecondProductsInStock);
+        addingMaxQuantityOfProductInTheCartUsingInputField(quantityFieldOfTPWithAFractionalCoefficientLocator, quantityOfProductsInStock);
+        checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfTPWithAFractionalCoefficientLocator, quantityOfProductsInStock);
         checkingThatTotalPriceOfTheseProductsAreCalculatedRight(priceForFirstProductInCart, priceForSecondProductInCart);
+        ternOnEditMode();
         navigationToCatalogTab();
         configureTheFirstTwoTP("D");
         navigationToCatalogTab();
         navigationToComponentOfCatalogSetting();
         choiceStandardCatalog();
+        ternOffEditMode();
     }
 
-    @Test //18. Организации  ИП не отображаются у пользователя после снятия ИП в доступных типах плательщика
+    @Test(retryAnalyzer = Retry.class)
+    //18. Организации  ИП не отображаются у пользователя после снятия ИП в доступных типах плательщика
     public void organizationsIPAreNotDisplayedInTheUserAfterRemovingTheIPInTheAvailablePayerTypes() {
         determineWhetherVersionsOfWorkingWithOrganization();
         //!!!!!!!!!! Такая логика, клиенты не жалуются на это (админ не может запретить уже созданным типам организаций покупать товары), по этому не проверять на это у расширенной версии
-        if (versionsOfWorkingWithOrganizationsExtended == false){
+        if (!versionsOfWorkingWithOrganizationsExtended) {
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeUser();
             logInToB2B();
@@ -498,7 +538,9 @@ public class DangerousTests extends MethodsForCatalog {
             org.addingBackIPToAvailablePayerTypes();
         }
     }
-    @Test //19. Проверка вывода цен small Opt в корзине в доп.товарах, возможность добавления товара по этой цене
+
+    @Test(retryAnalyzer = Retry.class)
+    //19. Проверка вывода цен small Opt в корзине в доп.товарах, возможность добавления товара по этой цене
     public void checkingOutputOfSmallOptPricesInTheAddProductsTheAbilityToAddProductAtThisPrice() {
         //arrange
         navigationToAuthorizationTab();
@@ -511,11 +553,14 @@ public class DangerousTests extends MethodsForCatalog {
         navigationToGasStoveSetting();
         setPriceForSmallOptForGasStoveGefest();
         navigationToMeanPageByUrl();
+        ternOffEditMode();
         navigationToCart();
         addingToSearchFieldWordForSearchInAdditionalProductsGefestGasStove();
         checkingThatThePricesInTheCartForAdditionalProductsIsDisplayedAsForSmallOptGroup();
     }
-    @Test //20. Отображение размера скидки и минимальной доступной цены без скидки в корзине
+
+    @Test(retryAnalyzer = Retry.class)
+    //20. Отображение размера скидки и минимальной доступной цены без скидки в корзине
     public void displayingTheDiscountAmountAndTheMinimumAvailableWithoutDiscountInTheCart() {
         //arrange
         navigationToAuthorizationTab();
@@ -527,7 +572,7 @@ public class DangerousTests extends MethodsForCatalog {
         navigationToAdminPartFromMeanPage();
         deletingALLDiscounts();
         settingUpRandomDiscountForGefestGasStove();
-        explicitWaiting();
+        implicitWaiting();
         navigationToMeanPageByUrl();
         resetCache();
         navigationToCatalogTab();
@@ -539,7 +584,9 @@ public class DangerousTests extends MethodsForCatalog {
         addingAnItemToTheCartWithPriceChecking();
         checkingTheDiscountAmountAndTheAvailablePriceWithoutDiscount();
     }
-    @Test //21. Проверка корректности состава товаров (ТП) на детальной странице оформленного заказа
+
+    @Test(retryAnalyzer = Retry.class)
+    //21. Проверка корректности состава товаров (ТП) на детальной странице оформленного заказа
     public void checkingTheCorrectnessOfTheProductsOfTheGoodsOnTheDetailedPageOfTheCompletedOrderForTP() {
         //arrange
         areThereAnyOffers = true;
@@ -549,7 +596,7 @@ public class DangerousTests extends MethodsForCatalog {
         logInToB2B();
         returningSettingsBackIfCatalogBroken();
         deletingProductsFromTheCart();
-        enableEditMode();
+        ternOnEditMode();
         navigationToCatalogTab();
         navigationToComponentOfCatalogSetting();
         choiceCatalogWithOnlyOffers();
@@ -559,6 +606,7 @@ public class DangerousTests extends MethodsForCatalog {
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
         changeTheQuantityOfRandomProduct();
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
+        ternOffEditMode();
         navigationToCart();
         MethodsForMyOrders makeOrder = new MethodsForMyOrders();
         makeOrder.rememberingNamesAndQuantityAddedProducts();
@@ -572,8 +620,10 @@ public class DangerousTests extends MethodsForCatalog {
         navigationToCatalogTab();
         navigationToComponentOfCatalogSetting();
         choiceStandardCatalog();
+        ternOffEditMode();
     }
-    @Test //22. Настройока вывода полей в компоненте
+
+    @Test(retryAnalyzer = Retry.class) //22. Настройока вывода полей в компоненте
     public void settingTheOutputOfFieldsInTheComponent() {
         //arrange
         navigationToAuthorizationTab();
@@ -581,7 +631,7 @@ public class DangerousTests extends MethodsForCatalog {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToTheSetting();
-        enableEditMode();
+        ternOnEditMode();
         navigationToComponentOfUserParameters();
         addUserParameterInTheSettingsOnTheMainPage();
         checkingThatNewUserParameterInTheSettingsOnTheMainPageISDisplayed();
@@ -593,10 +643,104 @@ public class DangerousTests extends MethodsForCatalog {
         deletingAddedUserParameterInTheSettingsOnTheMainPage();
     }
 
+    @Test(retryAnalyzer = Retry.class)
+    //23. Модерация после внесения изменений (данные предпринимателя обязательны  для "IP")
+    public void v_moderationAfterMakingChangesEntrepreneurSInformationIsRequiredForIP() {
+        determineWhetherRegistrationOrganizationNeedsToBeConfirmed();
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (doNeedToConfirmRegistrationOrganization && versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
+            navigationToAuthorizationTab();
+            //act
+            fillingFieldsOnTheLogInTabLikeAdmin();
+            logInToB2B();
+            navigationToTheSiteSettings();
+            selectTapForIP();
+            selectGroupsOfOrderPropertiesWhenChangingWhichTheOrganizationGetsToModeration("Данные предпринимателя");
+            unselectGroupsOfOrderPropertiesWhenChangingWhichTheOrganizationGetsToModeration("Контактная информация");
+            driver.findElement(buttonSaveLocator).click();
+            navigationToMeanPageByUrl();
+            navigationToOrganizationTab();
+            creatingIPOrganization();
+            changingDataIPOrganizationWhichNeededConfirmAndNot();
+        } else {
+            System.out.println("Если подтверждать создание орг не нужно или версия работы с орг. не расширенная > то изменения орг подтв. не нужно");
+        }
+    }
 
-    @Test // Тоже самое что и 0 тест, но запускается после автотестов
+    @Test(retryAnalyzer = Retry.class)
+    //24. Модерация после внесения изменений (контактная информация обязательна  для "LP")
+    public void v_moderationAfterMakingChangesContactInformationIsRequiredForLP() {
+        determineWhetherRegistrationOrganizationNeedsToBeConfirmed();
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (doNeedToConfirmRegistrationOrganization && versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
+            navigationToAuthorizationTab();
+            //act
+            fillingFieldsOnTheLogInTabLikeAdmin();
+            logInToB2B();
+            navigationToTheSiteSettings();
+            selectTapForLegalPerson();
+            selectGroupsOfOrderPropertiesWhenChangingWhichTheOrganizationGetsToModeration("Контактная информация");
+            unselectGroupsOfOrderPropertiesWhenChangingWhichTheOrganizationGetsToModeration("Данные компании");
+            driver.findElement(buttonSaveLocator).click();
+            navigationToMeanPageByUrl();
+            navigationToOrganizationTab();
+            creatingLegalPersonOrganization();
+            changingDataLegalPersonOrganizationWhichNeededConfirmAndNot();
+        } else {
+            System.out.println("Если подтверждать создание орг не нужно или версия работы с орг. не расширенная > то изменения орг подтв. не нужно");
+        }
+    }
+
+    @Test(retryAnalyzer = Retry.class) //25. Вывод обязательных полей в административных настройках
+    public void v_outputOfRequiredFieldsInAdministrativeSettings() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToTheSiteSettings();
+        selectTapForIP();
+        deselectAllUserDataForRegisteringAnOrganization();
+        selectAllUserDataForRegisteringAnOrganizationOneAtATimeCheckingThatTheyAppearedInTheRequiredFieldsField();
+        navigationToRegistrationTab();
+        checkingThatAllUserDataForIPSelectedInTheAdminPanelIsDisplayedWhenRegisteringTheOrganization();
+    }
+    @Test(retryAnalyzer = Retry.class) //26. Вывод обязательных полей в форме регистрации
+    public void v_outputOfRequiredFieldsInTheRegistrationForm() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToTheSiteSettings();
+        selectTapForIP();
+        deselectAllUserDataForRegisteringAnOrganization();
+        selectTheFirstTwoProperties();
+        selectARequiredProperty();
+        navigationToRegistrationTab();
+        checkingThatAllUserDataForIPSelectedInTheAdminPanelIsDisplayedWhenRegisteringTheOrganization();
+        checkingThatTheFieldSelectedInTheAdminPanelAsRequiredIsReallyRequired();
+    }
+
+
+    @Test(retryAnalyzer = Retry.class) // Тест №0  + создает заново локаторы для регистрации, + настраивает поля которые должны отправляться на модерацию после изменения
     public void w_returningSettingsBack() {
         a_returningSettingsBack();
+        SettingUpAutotestsForB2BSettings set = new SettingUpAutotestsForB2BSettings();
+        set.b_creatingLocatorsForRegistration();
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended){
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeAdmin();
+            logInToB2B();
+            navigationToTheSiteSettings();
+            selectTapForLegalPerson();
+            selectGroupsOfOrderPropertiesWhenChangingWhichTheOrganizationGetsToModeration("Данные компании");
+            unselectGroupsOfOrderPropertiesWhenChangingWhichTheOrganizationGetsToModeration("Контактная информация");
+            tryToClickStandardButtonForSaveSettings();
+        }
     }
 
 

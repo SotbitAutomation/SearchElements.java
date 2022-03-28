@@ -2,9 +2,9 @@ package Events;
 
 import OrganizationsWithExtendedVersion.MethodsForAddingOrganizationsWithExtendedVersion;
 import RegistrationAndAuthorization.MethodsForRegistrationAndAuthorization;
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 
 public class MethodsForEvents extends MethodsForAddingOrganizationsWithExtendedVersion {
 
@@ -103,6 +103,7 @@ public class MethodsForEvents extends MethodsForAddingOrganizationsWithExtendedV
             System.out.println("!!!!   словил тупую ошибку, сменило само старницу на первую, меняю обратно !!!!! ");
             driver.findElement(By.xpath("//*[@class='adm-nav-page']")).click();
             waitingMilliSecond();
+            System.out.println("УДАЛИТЬ " + nameEvent);
             Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), '" + nameEvent + "')] /following::*[contains(text(), '" + uniqueInformation + "')]"))
                     .isDisplayed());
         }
@@ -244,6 +245,7 @@ public class MethodsForEvents extends MethodsForAddingOrganizationsWithExtendedV
         Assert.assertEquals("1", tempValue);
     }
     public void checkingEventThatEmployeeWasRejected(){
+        System.out.println("УДАЛИТЬ " + nameCompany);
         Assert.assertTrue(driver.findElement(By.xpath("(//*[@class='adm-list-table-row'])[1] //*[contains(text(), '" + nameCompany +"')]")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.xpath("(//*[@class='adm-list-table-row'])[1] //*[contains(text(), 'SOTBIT_AUTH_COMPANY_JOIN_REQUEST_REJECTED')]")).isDisplayed());
     }

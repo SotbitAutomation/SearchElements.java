@@ -1,6 +1,7 @@
 package MeanPage;
 
-import org.junit.Test;
+
+import org.testng.annotations.Test;
 
 public class MeanPageCalendar extends MethodsForMeanPage {
 

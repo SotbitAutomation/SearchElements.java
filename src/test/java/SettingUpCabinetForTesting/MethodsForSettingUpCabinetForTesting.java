@@ -4,6 +4,10 @@ import BaseActions.BaseActions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
 public class MethodsForSettingUpCabinetForTesting extends BaseActions {
     public String[] arrayWithBuyerTypes={
             "Беларусь юр. лицо", "BelarusLegalPerson", "//option[text()='Юридическое лицо']",
@@ -28,6 +32,7 @@ public class MethodsForSettingUpCabinetForTesting extends BaseActions {
     public void navigationToListOfProperties(){
         driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/" , "") + "bitrix/admin/sale_order_props.php?lang=ru");
     }
+
     public void creatingBuyerTypes() {
         System.out.println(arrayWithBuyerTypes.length / 3);
         for (int i = 0; i < arrayWithBuyerTypes.length; i=i+3) {
@@ -127,5 +132,143 @@ public class MethodsForSettingUpCabinetForTesting extends BaseActions {
                 driver.findElement(By.cssSelector(".adm-btn-save")).click();
             }
         }
+    }
+    public void choiceBlackHat(){
+        scrollToTheElement("//*[@id='HEADER_TYPE']");
+        driver.findElement(By.xpath("//*[@id='HEADER_TYPE']")).click();
+        driver.findElement(By.xpath("//*[@id='HEADER_TYPE'] /*[contains(text(), 'Темная')]")).click();
+        driver.findElement(buttonSaveLocator).click();
+        themeColorBlack = true;
+    }
+    public void choiceWhiteHat(){
+        scrollToTheElement("//*[@id='HEADER_TYPE']");
+        driver.findElement(By.xpath("//*[@id='HEADER_TYPE']")).click();
+        driver.findElement(By.xpath("//*[@id='HEADER_TYPE'] /*[contains(text(), 'Светлая')]")).click();
+        driver.findElement(buttonSaveLocator).click();
+        themeColorBlack = false;
+        try {
+            outputStream = new ObjectOutputStream(new FileOutputStream(fileNameForB2BThemeColor));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            outputStream.writeObject(this.themeColorBlack);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Темная ли версия шапки " + themeColorBlack);
+    }
+    public void makeMenuInTheDropDownList(){
+        driver.findElement(By.xpath("//*[contains(@title, 'Каталог ')]")).click();
+        driver.findElement(By.cssSelector("#CATALOG_SHOW_SECTIONS")).click();
+        driver.findElement(By.xpath("//*[@value='MENU']")).click();
+        driver.findElement(buttonSaveLocator).click();
+    }
+    public void makeMenuInTheFilter(){
+        driver.findElement(By.xpath("//*[contains(@title, 'Каталог ')]")).click();
+        driver.findElement(By.cssSelector("#CATALOG_SHOW_SECTIONS")).click();
+        driver.findElement(By.xpath("//*[@value='FILTER']")).click();
+        driver.findElement(buttonSaveLocator).click();
+    }
+    public void enableTheExtendedVersionOfWorkingWithCompanies(){
+        if (driver.findElements(By.xpath("//*[@id='EXTENDED_VERSION_COMPANIES'][@checked]")).size() == 0){
+            driver.findElement(By.cssSelector(".adm-designed-checkbox-label")).click();
+        }
+        driver.findElement(buttonSaveLocator).click();
+        changeTheWayToDetailPageCompany("buyer", "companies");
+    }
+    public void changeTheWayToDetailPageCompany(String oldAddress, String newAddress){
+        navigationToBasicB2BSettings();
+        tempValue = driver.findElement(By.xpath("//*[@name='ADDRESS_COMPANY']")).getAttribute("value");
+        driver.findElement(By.xpath("//*[@name='ADDRESS_COMPANY']")).clear();
+        tempValue = tempValue.replaceAll(oldAddress, newAddress);
+        driver.findElement(By.xpath("//*[@name='ADDRESS_COMPANY']")).sendKeys(tempValue);
+        driver.findElement(buttonSaveLocator).click();
+    }
+    public void disableTheExtendedVersionOfWorkingWithCompanies(){
+        if (driver.findElements(By.xpath("//*[@id='EXTENDED_VERSION_COMPANIES'][@checked]")).size() == 1){
+            driver.findElement(By.cssSelector(".adm-designed-checkbox-label")).click();
+        }
+        driver.findElement(buttonSaveLocator).click();
+        changeTheWayToDetailPageCompany("companies", "buyer");
+    }
+    public void enableUserRegistrationConfirmation(){
+        driver.findElement(By.xpath("//*[contains(@title, 'оптовых ')]")).click();
+        if (driver.findElements(By.xpath("//*[@id='CONFIRM_REGISTER'][@checked]")).size() == 0){
+            scrollToTheElement("//*[@for='CONFIRM_REGISTER']");
+            driver.findElement(By.xpath("//*[@for='CONFIRM_REGISTER']")).click();
+        }
+        driver.findElement(buttonSaveLocator).click();
+    }
+    public void disableUserRegistrationConfirmation(){
+        driver.findElement(By.xpath("//*[contains(@title, 'оптовых ')]")).click();
+        if (driver.findElements(By.xpath("//*[@id='CONFIRM_REGISTER'][@checked]")).size() == 1){
+            //scrollDownToTheElement("//*[@for='CONFIRM_REGISTER']");
+            driver.findElement(By.xpath("//*[@for='CONFIRM_REGISTER']")).click();
+        }
+        driver.findElement(buttonSaveLocator).click();
+    }
+    public void enableCompanyRegistrationConfirmation (){
+        driver.findElement(By.xpath("//*[contains(@title, 'оптовых ')]")).click();
+        if (driver.findElements(By.xpath("//*[@id='CONFIRM_BUYER'][@checked]")).size() == 0){
+            scrollToTheElement("//*[@for='CONFIRM_BUYER']");
+            driver.findElement(By.xpath("//*[@for='CONFIRM_BUYER']")).click();
+        }
+        driver.findElement(buttonSaveLocator).click();
+    }
+    public void disableCompanyRegistrationConfirmation (){
+        driver.findElement(By.xpath("//*[contains(@title, 'оптовых ')]")).click();
+        if (driver.findElements(By.xpath("//*[@id='CONFIRM_BUYER'][@checked]")).size() == 1){
+            scrollToTheElement("//*[@for='CONFIRM_BUYER']");
+            driver.findElement(By.xpath("//*[@for='CONFIRM_BUYER']")).click();
+        }
+        driver.findElement(buttonSaveLocator).click();
+    }
+    public void navigationToPageForClearCache(){
+        driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/" , "") + "bitrix/admin/cache.php?lang=ru");
+    }
+    public void clearCache(){
+        driver.findElement(By.xpath("//*[contains(@title, 'чистка файлов')]")).click();
+        driver.findElement(By.xpath("//*[@class='cache-types'][@value='all']")).click();
+        driver.findElement(By.cssSelector("#start_button")).click();
+        try {
+            waitElementInVisible("//*[@id='wait_window_div']");
+        }catch (Exception e){
+            System.out.println("Не хватило 10 секунд, подожду еще");
+            implicitWaiting();implicitWaiting();implicitWaiting();implicitWaiting();implicitWaiting();implicitWaiting();implicitWaiting();
+            waitElementInVisible("//*[@id='wait_window_div']");
+        }
+        //wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#wait_window_div")));
+    }
+    public void clearAllCache() {
+        //arrange
+        countForThemeColor = 0;
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        driver.findElement(logInButtonOnTheAuthorizationTabLocator).click();
+        resetCache();
+        navigationToPageForClearCache();
+        clearCache();
+        navigationToMeanPageByUrl();
+        resetCache();
+        navigationToCatalogTab();
+        resetCache();
+//        try {
+//            driver.findElement(By.cssSelector(".quantity-selector__increment")).click();
+//            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".b2b-notification__icon")));
+//        }catch (Exception e){
+//            System.out.println("не смог добавить товар в корзину");
+//        }
+//
+//        navigationToCart();
+//        resetCache();
+//        try {
+//            driver.findElement(By.xpath("//*[@class='upselling'] //*[@class='input-group-append']")).click();
+//        }catch (Exception e){
+//            System.out.println("не смог добавить доп товар в корзину");
+//        }
+//        driver.findElement(buttonMakeOrderInTheCartLocator).click();
+//        navigationToMeanPageByUrl();
     }
 }

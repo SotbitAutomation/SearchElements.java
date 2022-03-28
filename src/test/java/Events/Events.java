@@ -1,15 +1,17 @@
 package Events;
 
-import org.junit.Assert;
-import org.junit.Test;
+
+import BaseActions.Retry;
 import org.openqa.selenium.By;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 
 public class Events extends MethodsForEvents{
-    @Test //1. Проверка почтовых событий и их статусов после регистрации пользователя
+    @Test(retryAnalyzer = Retry.class) //1. Проверка почтовых событий и их статусов после регистрации пользователя
     public void checkingMailEventsAndTheirStatusesAfterUserRegistration() {
         //arrange
         navigationToRegistrationTab();
@@ -30,7 +32,7 @@ public class Events extends MethodsForEvents{
         checkingTheStatusEventAboutNeededConfirmUserRegistration();
         checkingTheStatusEventThatYouNeedToConfirmOfTheRegistrationOfTheOrganization(expectedSuccessExec);
     }
-    @Test //2. Проверка таблицы со списком компаний в админ части
+    @Test(retryAnalyzer = Retry.class) //2. Проверка таблицы со списком компаний в админ части
     public void checkingTheTableInTheAdminPartWithAListOfCompanies() {
         determineWhetherVersionsOfWorkingWithOrganization();
         if (versionsOfWorkingWithOrganizationsExtended) {
@@ -62,7 +64,7 @@ public class Events extends MethodsForEvents{
         }else System.out.println("Нет учета списка компаний в обычной версии");
 
     }
-    @Test //3. Отображение подтверждения того, что пользователь является администратором (менеджером) в таблице
+    @Test(retryAnalyzer = Retry.class) //3. Отображение подтверждения того, что пользователь является администратором (менеджером) в таблице
     public void displayingConfirmationThatTheUserIsAnAdministratorInTheTable() {
         determineWhetherVersionsOfWorkingWithOrganization();
         if (versionsOfWorkingWithOrganizationsExtended) {
@@ -81,7 +83,7 @@ public class Events extends MethodsForEvents{
             checkingThatLastCreatedUserIsManager();
         }else System.out.println("Нет сотрудников в нерасширенной версии рабы с компаниями");
     }
-    @Test //4. Уведомление сотруднику об отказе в присоединении к компании
+    @Test(retryAnalyzer = Retry.class) //4. Уведомление сотруднику об отказе в присоединении к компании
     public void notificationToAnEmployeeAboutRefusalToJoinTheCompany() {
         determineWhetherVersionsOfWorkingWithOrganization();
         if (versionsOfWorkingWithOrganizationsExtended) {
@@ -92,14 +94,12 @@ public class Events extends MethodsForEvents{
         requestToJoinTheCompany();
         navigationToPersonsTab();
         checkingThatListOfEmployeeIsEmpty();
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTab(tempValue, tempValueForPassword);
         logInToB2B();
         navigationToPersonsTab();
         checkingThatUserSNameIsDisplayed();
         registr.rejectEmployee();
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
@@ -108,7 +108,7 @@ public class Events extends MethodsForEvents{
         checkingTheStatusLastEvent(expectedSuccessExec);
         }else System.out.println("Нет сотрудников в нерасширенной версии рабы с компаниями");
     }
-    @Test //5. Создание почтового события, после добавления сотрудника управляющим компании.
+    @Test(retryAnalyzer = Retry.class) //5. Создание почтового события, после добавления сотрудника управляющим компании.
     public void creatingAMailEventAfterAddingAnEmployeeToTheCompanySManagement() {
         determineWhetherVersionsOfWorkingWithOrganization();
         if (versionsOfWorkingWithOrganizationsExtended) {
@@ -129,7 +129,6 @@ public class Events extends MethodsForEvents{
         selectionFromTheHeaderOrganization(nameCompany);
         fillingAllFieldsOnTheRegisterNewEmployee();
         registrationUserFromTheEmployeesTab();
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
@@ -138,11 +137,10 @@ public class Events extends MethodsForEvents{
         checkingTheStatusLastEvent(expectedSuccessExec);
         }else System.out.println("Нет сотрудников в нерасширенной версии рабы с компаниями");
     }
-    @Test //6. Создание почтового события, после Удаления сотрудника из текущей компании
+    @Test(retryAnalyzer = Retry.class) //6. Создание почтового события, после Удаления сотрудника из текущей компании
     public void creatingAMailEventAfterDeletingAnEmployeeFromTheCurrentCompany() {
         determineWhetherVersionsOfWorkingWithOrganization();
         if (versionsOfWorkingWithOrganizationsExtended) {
-            //arrange
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeUser();
             logInToB2B();
@@ -157,7 +155,6 @@ public class Events extends MethodsForEvents{
             logInToB2B();
             navigationToOrganizationTab();
             requestToJoinTheCompany();
-            exitFromB2B();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeUser();
             logInToB2B();
@@ -165,7 +162,6 @@ public class Events extends MethodsForEvents{
             confirmEmployeeRequest();
             navigationToPersonsTab();
             deletingEmployee();
-            exitFromB2B();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeAdmin();
             logInToB2B();
@@ -174,7 +170,7 @@ public class Events extends MethodsForEvents{
             checkingTheStatusLastEvent(expectedSuccessExec);
         }else System.out.println("Нет сотрудников в нерасширенной версии рабы с компаниями");
     }
-    @Test //7. Уведомление о прохождении модерации пользователя от администратора
+    @Test(retryAnalyzer = Retry.class) //7. Уведомление о прохождении модерации пользователя от администратора
     public void notificationOfTheUserSModerationFromTheAdministrator() {
         //arrange
         navigationToRegistrationTab();
@@ -203,7 +199,7 @@ public class Events extends MethodsForEvents{
         }
     }
 
-    @Test //8. Уведомление подтверждения регистрации компании от админа
+    @Test(retryAnalyzer = Retry.class) //8. Уведомление подтверждения регистрации компании от админа
     public void eventAboutCompanyRegistrationConfirmationFromTheAdmin() {
         determineWhetherRegistrationOrganizationNeedsToBeConfirmed();
         if (doNeedToConfirmRegistrationOrganization){
@@ -221,7 +217,7 @@ public class Events extends MethodsForEvents{
             checkingTheStatusEventThatTheOrganizationSRegistrationHasBeenConfirmedByTheAdministrator(expectedSuccessExec);
         } else System.out.println("Подтверждать рег. компании не нужно");
     }
-    @Test //9. Уведомление об отклонении регистрации пользователя
+    @Test(retryAnalyzer = Retry.class) //9. Уведомление об отклонении регистрации пользователя
     public void eventAboutUserRegistrationRejection() {
         //arrange
         navigationToRegistrationTab();
@@ -246,7 +242,7 @@ public class Events extends MethodsForEvents{
             System.out.println("Если подтверждать регистрацию пользователя не нужно, то нельзя отменить его регистарцию");
         }
     }
-    @Test //10. Уведомление отклонения регистрации компании
+    @Test(retryAnalyzer = Retry.class) //10. Уведомление отклонения регистрации компании
     public void eventAboutRejectionOfCompanyRegistration() {
         //arrange
         determineWhetherRegistrationOrganizationNeedsToBeConfirmed();
@@ -267,7 +263,7 @@ public class Events extends MethodsForEvents{
             System.out.println("Если подтверждать регистрацию организации не нужно, то никакие события об организации не создаются");
         }
     }
-    @Test //11. Уведомление управляющему компании о новой заявке в сотрудники
+    @Test(retryAnalyzer = Retry.class) //11. Уведомление управляющему компании о новой заявке в сотрудники
     public void eventAboutRequestToJoinTheCompanyFromAnEmployee() {
         determineWhetherVersionsOfWorkingWithOrganization();
         if (versionsOfWorkingWithOrganizationsExtended) {
@@ -296,7 +292,7 @@ public class Events extends MethodsForEvents{
         checkingTheStatusEventAboutRequestToJoinTheCompanyFromAnEmployee(expectedSuccessExec);
         }else System.out.println("Нет сотрудников в нерасширенной версии рабы с компаниями");
     }
-    @Test //12. Уведомление сотруднику о присоединении к компании
+    @Test(retryAnalyzer = Retry.class) //12. Уведомление сотруднику о присоединении к компании
     public void eventThatTheEmployeeHasBeenConfirmedToJoinTheCompany() {
         determineWhetherVersionsOfWorkingWithOrganization();
         if (versionsOfWorkingWithOrganizationsExtended) {
@@ -316,12 +312,10 @@ public class Events extends MethodsForEvents{
         logInToB2B();
         navigationToOrganizationTab();
         requestToJoinTheCompany();
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         confirmEmployeeRequest();
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
@@ -330,7 +324,7 @@ public class Events extends MethodsForEvents{
         checkingStatusEventAboutConfirmJoiningToTheCompanyFromAnEmployee(expectedSuccessExec);
         }else System.out.println("Нет сотрудников в нерасширенной версии рабы с компаниями");
     }
-    @Test //13. Уведомление сотруднику об отказе в присоединении к компании
+    @Test(retryAnalyzer = Retry.class) //13. Уведомление сотруднику об отказе в присоединении к компании
     public void eventAboutRefusalToJoinTheCompanyToAnEmployee () {
         determineWhetherVersionsOfWorkingWithOrganization();
         if (versionsOfWorkingWithOrganizationsExtended) {
@@ -349,12 +343,10 @@ public class Events extends MethodsForEvents{
         logInToB2B();
         navigationToOrganizationTab();
         requestToJoinTheCompany();
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         rejectEmployeeRequest();
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
@@ -365,7 +357,7 @@ public class Events extends MethodsForEvents{
         }else System.out.println("Нет сотрудников в нерасширенной версии рабы с компаниями");
 
 }
-    @Test //14. Изменение данных созданной организациии у юзера
+    @Test(retryAnalyzer = Retry.class) //14. Изменение данных созданной организациии у юзера
     public void checkAvailableActionsWithOrganizationsFromTheUser() {
         determineWhetherVersionsOfWorkingWithOrganization();
         determineWhetherRegistrationOrganizationNeedsToBeConfirmed();
@@ -378,7 +370,6 @@ public class Events extends MethodsForEvents{
             navigationToOrganizationTab();
             checkingThatOrganizationIsConfirmed();
         }catch (Exception e){ //Если нет одобренной организации для проверки > создать ее
-            exitFromB2B();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeUser();
             logInToB2B();
@@ -398,7 +389,6 @@ public class Events extends MethodsForEvents{
         sortingOrganizationByDecrease();
         checkingAvailableActionsWithOrganization(false);
         //act
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
@@ -409,7 +399,7 @@ public class Events extends MethodsForEvents{
         checkingStatusOfEventAboutConfirmTheCompanyAfterChanging(expectedSuccessExec);
         }else System.out.println("Нет событий о изменении компаний в нерасширенной версии");
     }
-    @Test //15. Уведомление, что администратор не подтвердил изменение данных организации
+    @Test(retryAnalyzer = Retry.class) //15. Уведомление, что администратор не подтвердил изменение данных организации
     public void eventThatTheAdministratorHasNotConfirmedTheChangeOfTheOrganizationSData() {
         determineWhetherVersionsOfWorkingWithOrganization();
         determineWhetherRegistrationOrganizationNeedsToBeConfirmed();
@@ -422,7 +412,6 @@ public class Events extends MethodsForEvents{
             navigationToOrganizationTab();
             checkingThatOrganizationIsConfirmed();
         }catch (Exception e){ //Если нет одобренной организации для проверки > создать ее
-            exitFromB2B();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeUser();
             logInToB2B();

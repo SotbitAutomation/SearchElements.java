@@ -1,8 +1,7 @@
 package Documents;
 
 
-import org.junit.Test;
-
+import org.testng.annotations.Test;
 
 public class Documents extends MethodsForDocuments {
     @Test //1. Добавление существующего документа пользователю
@@ -16,9 +15,8 @@ public class Documents extends MethodsForDocuments {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         addingExistingDocumentToJustCreatedUser();
-        exitFromB2B();
         navigationToAuthorizationTab();
-        registr.fillingFieldsOnTheLogInTab();
+        fillingFieldsOnTheLogInTab(registr.theSameEmail, registr.password);
         logInToB2B();
         navigationToActsOfDocuments();
         checkingThatDocumentIsDisplayed();
@@ -36,7 +34,6 @@ public class Documents extends MethodsForDocuments {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         addingExistingDocumentWithOrganizationToJustCreatedUser();
-        exitFromB2B();
         navigationToAuthorizationTab();
         registr.fillingFieldsOnTheLogInTab();
         logInToB2B();
@@ -56,7 +53,6 @@ public class Documents extends MethodsForDocuments {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         addingDocumentToJustCreatedUser();
-        exitFromB2B();
         navigationToAuthorizationTab();
         registr.fillingFieldsOnTheLogInTab();
         logInToB2B();
@@ -76,9 +72,8 @@ public class Documents extends MethodsForDocuments {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         System.out.println(registr.theSameEmail);
-        addingDocumentWithOrganizationToJustCreatedUser(registr.theSameInnManual, registr.theSameEmail);
+        addingDocumentWithOrganizationToJustCreatedUser(registr.theSameInnManual, registr.email);
         driver.findElement(buttonForSaveDocumentForUserLocator).click();
-        exitFromB2B();
         navigationToAuthorizationTab();
         registr.fillingFieldsOnTheLogInTab();
         logInToB2B();
@@ -101,12 +96,10 @@ public class Documents extends MethodsForDocuments {
         ordering.checkingThatThePriceOfTheAddedProductHasBeenCalculated();
         navigationToCart();
         makingAnOrderAndStoringNumberOfOrderForBindingADocument();
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         addingDocumentForUserWithNumberOfOrder(emailUser, makingOrder.numberOfOrder);
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
@@ -128,13 +121,11 @@ public class Documents extends MethodsForDocuments {
         ordering.checkingThatThePriceOfTheAddedProductHasBeenCalculated();
         navigationToCart();
         makingAnOrderAndStoringNumberOfOrderForBindingADocument();
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         resetCache();
         addingDocumentForUserWithNumberOfOrder(emailUser, makingOrder.numberOfOrder);
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();

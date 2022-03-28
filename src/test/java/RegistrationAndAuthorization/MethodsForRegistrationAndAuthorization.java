@@ -1,16 +1,15 @@
 package RegistrationAndAuthorization;
 
 import BaseActions.BaseActions;
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import java.io.*;
 import java.util.Arrays;
 
 public class MethodsForRegistrationAndAuthorization extends BaseActions {
-
     //arrange
     public By registerButtonOnRegistrationTabLocator = By.cssSelector(".js_person_type_block:not([style='display: none;']) [type='submit']");
     By inputINNLocator = By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='ИНН']");
@@ -21,7 +20,7 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
     By authorizationButtonOnRegistrationTabLocator = By.cssSelector(".js_person_type_block:not([style='display: none;']) .btnBlock__authToLink");
     By windowOfRegisterLocator = By.cssSelector(".bx-authform");
     public String tempLocator;
-    public boolean  locationFieldIsPresent = false;
+    public boolean locationFieldIsPresent = false;
     public String fileNameForIP = "arrayWithLocatorsForIP";
     public String[] arrayWithExistingLocatorsForIP;
     public String fileNameForLegalPerson = "arrayWithLocatorsForLegalPerson";
@@ -35,12 +34,10 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
     public boolean DoNeedToConfirmRegistration;
     long tempIntForInn;
 
-    String[] arrayWithAllPossibleLocators={
-            "E-Mail", email,
+    String[] arrayWithAllPossibleLocators = {
             "Название", nameCompany,
             "Название компании", nameCompany,
             "Адрес доставки", address,
-            "Контактное лицо", lastName,
             "Город", "Сызрань",
             "Индекс", index,
             "Факс", index,
@@ -52,13 +49,11 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
             "КПП", iNNManual,
             "Фактический адрес", address,
             "Юридический адрес", address,
-            "Название компании", nameCompany,
             "Должность", appeal,
             "Контактное лицо", name + lastName,
             "Корреспондентский счет", iNNManual,
             "Расчетный счет", iNNManual,
             "Наименование банка", name + lastName,
-            "E-Mail (логин)", email,
             "Мобильный", mobilePhone,
             "БСН", iNNManual,
             "Наименование КРП", index,
@@ -69,61 +64,56 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
             "Отчество", "Батькович",
             "ФИО", name + lastName,
             "Юридический адрес", address,
-            "Название компании", nameCompany,
             "Название организации", nameCompany,
             "Профессия", "Тестировщик",
             "УНП", nameCompany,
             "Сокращенное название компании", nameCompany,
             "Область", "Сызраньская",
             "Адрес", nameCompany,
-            "Город", nameCompany,
             "УНП", nameCompany,
             "Расчётный счёт", randomNumber(12),
             "Корреспондентский счёт", randomNumber(12),
             "ОКВЭД", randomNumber(12),
-            "Login", email,
             "Телефон организации", mobilePhone,
+            "Обращение", appeal,
+            "WWW-страница", "google.com",
+            "ICQ", randomNumber(5),
+            "Пол", "Мужской",
+            "Дата рождения", "25.08.1993",
+            "Фотография", "тут поле для ввода",
+            "Пейджер", randomNumber(12),
+            "Улица, дом", address,
+            "Почтовый ящик", address,
+            "Область / край", address,
+            "Страна", "Нарния",
+            "Дополнительные заметки", address,
+            "Департамент / Отдел", address,
+            "WWW-страница (работа)", "google.com",
+            "Телефон (работа)", address,
+            "Факс (работа)", address,
+            "Пейджер (работа)", address,
+            "Улица, дом (работа)", address,
+            "Почтовый ящик (работа)", address,
+            "Город (работа)", address,
+            "Область / край (работа)", address,
+            "Почтовый индекс (работа)", randomData,
+            "Страна (работа)", randomData,
+            "Направления деятельности", randomData,
+            "Логотип компании", randomData,
+            "Дополнительные заметки (работа)", randomData,
     };
-//    String[] arrayWithAllPossibleLocators={
-//            "//*[@placeholder='Ф.И.О.'][not(ancestor-or-self::*[@style = 'display: none;'])]", name + lastName,
-//            "//*[@placeholder='ФИО'][not(ancestor-or-self::*[@style = 'display: none;'])]", name + lastName,
-//            "//*[@placeholder='Юридический адрес'][not(ancestor-or-self::*[@style = 'display: none;'])]", address,
-//            "//*[@placeholder='Контактное лицо'][not(ancestor-or-self::*[@style = 'display: none;'])]", lastName,
-//            "//*[@placeholder='ОГРНИП'][not(ancestor-or-self::*[@style = 'display: none;'])]", iNNManual + "000",
-//            "//*[@placeholder='ОГРН'][not(ancestor-or-self::*[@style = 'display: none;'])]", iNNManual + "000",
-//            "//*[@placeholder='КПП'][not(ancestor-or-self::*[@style = 'display: none;'])]", iNNManual + "000",
-//            "//*[@placeholder='Должность'][not(ancestor-or-self::*[@style = 'display: none;'])]", appeal,
-//            "//*[@placeholder='Телефон'][not(ancestor-or-self::*[@style = 'display: none;'])]", mobilePhone,
-//            "//*[@placeholder='Индекс'][not(ancestor-or-self::*[@style = 'display: none;'])]", index,
-//            "//*[@placeholder='Адрес доставки'][not(ancestor-or-self::*[@style = 'display: none;'])]", address,
-//            "//*[contains(text(), 'Должность:')][not(ancestor-or-self::*[@style = 'display: none;'])]/following::input[1]", appeal,
-//            "//*[contains(text(), 'Мобильный:')][not(ancestor-or-self::*[@style = 'display: none;'])]/following::input[1]", mobilePhone,
-//            "//*[@placeholder='E-Mail'][not(ancestor-or-self::*[@style = 'display: none;'])]", email,
-//            "//*[@placeholder='Должность'][not(ancestor-or-self::*[@style = 'display: none;'])]", email,
-//            "//*[@placeholder='Название компании'][not(ancestor-or-self::*[@style = 'display: none;'])]", nameCompany,
-//            "//*[@placeholder='Название организации'][not(ancestor-or-self::*[@style = 'display: none;'])]", nameCompany,
-//            "//*[@placeholder='Местоположение'][not(ancestor-or-self::*[@style = 'display: none;'])]", "Россия",
-//            "//*[@placeholder='Выберите местоположение ...'][not(ancestor-or-self::*[@style = 'display: none;'])]", "Россия",
-//            "//*[@placeholder='Город'][not(ancestor-or-self::*[@style = 'display: none;'])]", "Сызрань",
-//            "//*[contains(text(), 'Отчество: ')][not(ancestor-or-self::*[@style = 'display: none;'])]/following::input[1]", "Батькович",
-//            "//*[@placeholder='Факс'][not(ancestor-or-self::*[@style = 'display: none;'])]", phone,
-//            "//*[contains(text(), 'Профессия: ')][not(ancestor-or-self::*[@style = 'display: none;'])]/following::input[1]", "ТЕСТИРОВЩИК",
-//            "//*[@placeholder='УНП'][not(ancestor-or-self::*[@style = 'display: none;'])]", name + lastName,
-//            "//*[contains(text(), 'Телефон:')][not(ancestor-or-self::*[@style = 'display: none;'])]/following::input[1]", mobilePhone,
-//            "//*[contains(text(), 'Город')][not(ancestor-or-self::*[@style = 'display: none;'])]/following::input[1]", "Батькович",
-//            "//*[contains(text(), 'Наименование компании')][not(ancestor-or-self::*[@style = 'display: none;'])]/following::input[1]", "Рога И Копыта",
-//
-//    };
-    public void entranceToB2BFromRegistrationTabWithoutConfirm(){
+
+    public void entranceToB2BFromRegistrationTabWithoutConfirm() {
         driver.findElement(registerButtonOnRegistrationTabLocator).click();
-        if (doNeedToConfirmRegistrationUser == true){
+        if (doNeedToConfirmRegistrationUser == true) {
             try {
                 driver.findElement(By.cssSelector(".btn.bg-success")).click();
-            }catch (Exception e){}
+            } catch (Exception e) {
+            }
         }
     }
-  
-    public void entranceToB2BFromRegistrationTab () {
+
+    public void entranceToB2BFromRegistrationTab() {
         determineWhetherRegistrationUserNeedsToBeConfirmed();
         if (doNeedToConfirmRegistrationUser) {
             fillingFieldsOnTheLogInTab();
@@ -133,7 +123,8 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
                 driver.findElement(registerButtonOnRegistrationTabLocator).click();
                 try {
                     driver.findElement(By.cssSelector(".btn.bg-success")).click();
-                }catch (Exception e){}
+                } catch (Exception e) {
+                }
                 Assert.assertTrue(driver.findElement(By.cssSelector(".navbar")).isDisplayed());
             } catch (Exception e) {
                 driver.findElement(By.cssSelector(".btn.bg-success")).click();
@@ -142,248 +133,235 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
         }
     }
 
-    public void removingCheckboxFromThePrivacyPolicy (){
+    public void removingCheckboxFromThePrivacyPolicy() {
         driver.findElement(By.xpath("//*[@class='label-confidential'][not(ancestor-or-self::*[@style = 'display: none;'])]")).click();
-        explicitWaiting();
+        implicitWaiting();
         driver.findElement(By.xpath("//span[contains(text(), 'Не принимаю')]")).click();
-        explicitWaiting();
+        implicitWaiting();
     }
-    public void entranceToB2BFromRegistrationTabWithoutPoliticAgree (){
+
+    public void entranceToB2BFromRegistrationTabWithoutPoliticAgree() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(registerButtonOnRegistrationTabLocator));
         driver.findElement(registerButtonOnRegistrationTabLocator).click();
         Assert.assertTrue(driver.findElement(By.cssSelector(".main-user-consent-request-popup-cont")).isDisplayed());
-            }
+    }
 
-
-//        if (doNeedToConfirmRegistration == true){
-//            fillingFieldsOnTheLogInTab();
-//            logInFromAuthorizationTab();
-//        }else {
-//            driver.findElement(registerButtonOnRegistrationTabLocator).click();
-//            if(versionsOfWorkingWithOrganizationsExtended == false){
-//                try {
-//                    Assert.assertTrue(driver.findElement(By.cssSelector(".navbar")).isDisplayed());
-//                }catch (Exception e){}
-//            }
-//            try {
-//                driver.findElement(By.cssSelector(".btn.bg-success")).click();
-//                Assert.assertTrue(driver.findElement(By.cssSelector(".navbar")).isDisplayed());
-//            }catch (Exception e){}
-//        }
-
-    public void checkingThatTheBannerIsDisplayed(){
+    public void checkingThatTheBannerIsDisplayed() {
         driver.navigate().to(b2bUrl);
         Assert.assertTrue(driver.findElement(By.cssSelector(".navbar")).isDisplayed());
     }
 
-    public void fillingFieldsOnTheRegistrationTab (String[] array){
-        for (int i = 0; i < array.length; i=i+2) {
-                driver.findElement(By.xpath("//*[contains(text(), '" + array[i] + "')][not(ancestor-or-self::*[@style = 'display: none;'])] /following::*[2]")).sendKeys(array[i+1]);
-                if (array[i].equals("Название компании")){
-                    driver.findElement(By.xpath("//*[contains(text(), '" + array[i] + "')][not(ancestor-or-self::*[@style = 'display: none;'])] /following::*[2]")).clear();
-                    nameCompany = "NameCompany ИмяКомпании" + randomString(10);
-                    driver.findElement(By.xpath("//*[contains(text(), '" + array[i] + "')][not(ancestor-or-self::*[@style = 'display: none;'])] /following::*[2]")).sendKeys(nameCompany);
-                }
+    public void fillingFieldsOnTheRegistrationTab(String[] array) {
+        for (int i = 0; i < array.length; i = i + 2) {
+            driver.findElement(By.xpath("//*[contains(text(), '" + array[i] + "')][not(ancestor-or-self::*[@style = 'display: none;'])] /following::*[2][@class='form-control']")).sendKeys(array[i + 1]);
+            if (array[i].equals("Название компании")) {
+                driver.findElement(By.xpath("//*[contains(text(), '" + array[i] + "')][not(ancestor-or-self::*[@style = 'display: none;'])] /following::*[2]")).clear();
+                nameCompany = "NameCompany ИмяКомпании" + randomString(10);
+                driver.findElement(By.xpath("//*[contains(text(), '" + array[i] + "')][not(ancestor-or-self::*[@style = 'display: none;'])] /following::*[2]")).sendKeys(nameCompany);
+            }
         }
         email = "test_EMail" + randomString(12) + "@mail.ru";
-        if(tempValueForEmail == null){
+        if (tempValueForEmail == null) {
             tempValueForEmail = email;
         }
-        driver.findElement(By.xpath("//*[@placeholder='Введите e-mail'][not(ancestor-or-self::*[@style = 'display: none;'])]")).sendKeys(email);
+        for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@placeholder,'ail')][not(ancestor-or-self::*[@style = 'display: none;'])]")).size() ; i++) {
+            driver.findElement(By.xpath("(//*[contains(@placeholder,'ail')][not(ancestor-or-self::*[@style = 'display: none;'])])[" + i + "]")).sendKeys(email);
+        }
+//        // Если есть логин
+//        try {
+//            randomData = "Рамдомный логин" + randomString(10) + randomNumberUpToFife;
+//            driver.findElement(By.xpath("//*[contains(text(), 'Login')][not(ancestor-or-self::*[@style = 'display: none;'])] /following::*[2]")).sendKeys(randomData);
+//        }catch (Exception e){
+//            System.out.println("Поля для логина нету");
+//        }
+
         driver.findElement(By.xpath("//*[@placeholder='Введите имя'][not(ancestor-or-self::*[@style = 'display: none;'])]")).sendKeys(name);
         driver.findElement(By.xpath("//*[@placeholder='Введите фамилию'][not(ancestor-or-self::*[@style = 'display: none;'])]")).sendKeys(lastName);
         driver.findElement(By.xpath("//*[@placeholder='Создать пароль'][not(ancestor-or-self::*[@style = 'display: none;'])]")).sendKeys(password);
         driver.findElement(By.xpath("//*[@placeholder='Повторите пароль'][not(ancestor-or-self::*[@style = 'display: none;'])]")).sendKeys(password);
-
+        determineWhetherLocationWhileRegistration();
+        if (flagForLocation) {
+            try {
+                scrollToTheElement("//*[contains(@placeholder, 'естоположение ...')][not(ancestor-or-self::*[@style = 'display: none;'])]");
+                driver.findElement(By.xpath("//*[contains(@placeholder, 'естоположение ...')][not(ancestor-or-self::*[@style = 'display: none;'])]")).sendKeys("Росси");
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@class,'combobox-variant-active')]")));
+                driver.findElement(By.xpath("//*[contains(@class,'combobox-variant-active')]")).click();
+            } catch (Exception e) {
+            }
+        }
 //        try {
 //            driver.findElement(By.xpath("//*[contains(@placeholder, 'естоположение ...')][not(ancestor-or-self::*[@style = 'display: none;'])]")).sendKeys("Россия");
 //            driver.findElement(By.xpath("//*[contains(@class,'combobox-variant-active')]")).click();
 //        }catch (Exception e){}
-        determineWhetherLocationWhileRegistration();
-        if (flagForLocation == true){
-            try {
-            driver.findElement(By.xpath("//*[contains(@placeholder, 'естоположение ...')][not(ancestor-or-self::*[@style = 'display: none;'])]")).sendKeys("Россия");
-            driver.findElement(By.xpath("//*[contains(@class,'combobox-variant-active')]")).click();
-        }catch (Exception e){}
-        }
 
-        Assert.assertEquals("Емаил не отображается"
-                ,email, driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='Введите e-mail']")).getAttribute("value"));
-        Assert.assertEquals("Имя не отображается"
-                ,name, driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='Введите имя']")).getAttribute("value"));
-        Assert.assertEquals("Фамилия не отображается"
-                ,lastName, driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='Введите фамилию']")).getAttribute("value"));
-        Assert.assertEquals("Пароль не отображается"
-                ,password, driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='Создать пароль']")).getAttribute("value"));
-        Assert.assertEquals("Подтвержденый пароль не отображается"
-                ,password, driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='Повторите пароль']")).getAttribute("value"));
-        if(theSameEmail == null){
+        Assert.assertEquals(email, driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='Введите e-mail']")).getAttribute("value")
+                , "Емаил не отображается");
+        Assert.assertEquals(name, driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='Введите имя']")).getAttribute("value")
+                , "Имя не отображается");
+        Assert.assertEquals(lastName, driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='Введите фамилию']")).getAttribute("value")
+                , "Фамилия не отображается");
+        Assert.assertEquals(password, driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='Создать пароль']")).getAttribute("value")
+                , "Пароль не отображается");
+        Assert.assertEquals(password, driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='Повторите пароль']")).getAttribute("value")
+                , "Подтвержденый пароль не отображается");
+        if (theSameEmail == null) {
             theSameEmail = email;
         }
         System.out.println(email);
         System.out.println(password);
     }
 
-    public void enterINNManually(){
-        try{
+    public void enterINNManually() {
+        try {
             iNNManual = randomNumber(14);
-            if (theSameInnManual == null){
-                theSameInnManual = iNNManual;
-            }
+            theSameInnManual = iNNManual;
             enterNumberByDigit(iNNManual, inputINNLocator);
             iNNManual = driver.findElement(By.xpath("//*[@placeholder='ИНН'][not(ancestor-or-self::*[@style = 'display: none;'])]")).getAttribute("value");
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Поле для ИНН не найдено!");
         }
     }
 
-    public void choiceINNFromTheListOnTheRegistrationTab (){
+    public void choiceINNFromTheListOnTheRegistrationTab() {
         driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='ИНН']")).clear();
         driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='ИНН']")).sendKeys(randomNumber(3));
-        wait.until( ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='checkcompany-list']")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='checkcompany-list']")));
         Assert.assertTrue(driver.findElement(By.xpath("//*[@id='checkcompany-list']")).isDisplayed());
         driver.findElement(By.xpath("(//*[@id='checkcompany-list'] /*)[2]")).click();
-        explicitWaiting();
+        implicitWaiting();
 
-        if (driver.findElements(By.xpath("//*[@placeholder='Название компании'][not(ancestor-or-self::*[@style = 'display: none;'])]")).size() > 0){
-            Assert.assertTrue("Название компании не автозаполнилось после выбора ИНН из списка ИННов"
-                    ,driver.findElement(By.xpath("//*[@placeholder='Название компании'][not(ancestor-or-self::*[@style = 'display: none;'])]")).getAttribute("value").length() > 0);
+        if (driver.findElements(By.xpath("//*[@placeholder='Название компании'][not(ancestor-or-self::*[@style = 'display: none;'])]")).size() > 0) {
+            Assert.assertTrue(driver.findElement(By.xpath("//*[@placeholder='Название компании'][not(ancestor-or-self::*[@style = 'display: none;'])]")).getAttribute("value").length() > 0
+                    , "Название компании не автозаполнилось после выбора ИНН из списка ИННов");
         }
-        if (driver.findElements(By.xpath("//*[@placeholder='Юридический адрес'][not(ancestor-or-self::*[@style = 'display: none;'])]")).size() > 0){
-            Assert.assertTrue("Адрес не автозаполнился после выбора ИНН из списка ИННов"
-                    ,driver.findElement(By.xpath("//*[@placeholder='Юридический адрес'][not(ancestor-or-self::*[@style = 'display: none;'])]")).getAttribute("value").length() > 0);
+        if (driver.findElements(By.xpath("//*[@placeholder='Юридический адрес'][not(ancestor-or-self::*[@style = 'display: none;'])]")).size() > 0) {
+            Assert.assertTrue(driver.findElement(By.xpath("//*[@placeholder='Юридический адрес'][not(ancestor-or-self::*[@style = 'display: none;'])]")).getAttribute("value").length() > 0
+                    , "Адрес не автозаполнился после выбора ИНН из списка ИННов");
         }
     }
 
-//    public void entranceToB2BWithTheSameINN (){
-//
-//        try {
-//            driver.findElement(registerButtonOnRegistrationTabLocator).click();
-//            Assert.assertTrue("ИНН уже существует", driver.findElement(
-//                    By.xpath("//*[contains(text(), 'Пользователь с таким ИНН')]")).isDisplayed());
-//        }catch (Exception e){
-//            driver.findElement(By.xpath("//html")).click();
-//            driver.findElement(registerButtonOnRegistrationTabLocator).click();
-//            Assert.assertTrue("ИНН уже существует", driver.findElement(
-//                    By.xpath("//*[contains(text(), 'Пользователь с таким ИНН')]")).isDisplayed());
-//        }
-//    }
-    public void determineRadioButton(){
+    public void determineRadioButton() {
         count = 0;
         counterOfUserType = driver.findElements(By.xpath("//*[@class='chouse-company'] /* /following::*[1]")).size();
         for (int i = 1; i < counterOfUserType; i++) {
             if (driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])[" + i + "]"))
-                    .getText().equals("Физическое лицо")){
+                    .getText().equals("Физическое лицо")) {
                 radioButtonForPerson = i;
                 count++;
-            }else if (driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])[" + i + "]"))
+            } else if (driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])[" + i + "]"))
                     .getText().equals("Индивидуальный предприниматель") || driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])[" + i + "]"))
-                    .getText().equals("ИП Россия") ){
+                    .getText().equals("ИП Россия")) {
                 radioButtonForIP = i;
                 count++;
-            }else if (driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])[" + i + "]"))
+            } else if (driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])[" + i + "]"))
                     .getText().equals("Юридическое лицо") || driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])[" + i + "]"))
-                    .getText().equals("Юридическое лицо Россия")){
+                    .getText().equals("Юридическое лицо Россия")) {
                 radioButtonForLegalPerson = i;
                 count++;
             }
         }
-        if(radioButtonForIP == 0){
+        if (radioButtonForIP == 0) {
             radioButtonForIP = 6;
         }
-        if (radioButtonForLegalPerson == 0){
+        if (radioButtonForLegalPerson == 0) {
             radioButtonForLegalPerson = 5;
         }
     }
 
-    public void choicePerson (){
+    public void choicePerson() {
         determineRadioButton();
-        driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])["+ radioButtonForPerson + "]")).click();
+        driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])[" + radioButtonForPerson + "]")).click();
         readBackLocatorsForPerson();
     }
-    public void choiceIP (){
+
+    public void choiceIP() {
         determineRadioButton();
-        driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])["+ radioButtonForIP + "]")).click();
-        driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])["+ radioButtonForIP + "]")).isSelected();
+        driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])[" + radioButtonForIP + "]")).click();
+        driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])[" + radioButtonForIP + "]")).isSelected();
         readBackLocatorsForIP();
     }
-    public void choiceLegalPerson (){
+
+    public void choiceLegalPerson() {
         determineRadioButton();
-        driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])["+ radioButtonForLegalPerson + "]")).click();
+        driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])[" + radioButtonForLegalPerson + "]")).click();
         readBackLocatorsForLegalPerson();
     }
-    public void choicePersonForCreatingLocators (){
-        driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])["+ radioButtonForPerson + "]")).click();
+
+    public void choicePersonForCreatingLocators() {
+        driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])[" + radioButtonForPerson + "]")).click();
     }
-    public void choiceIPForCreatingLocators (){
-        driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])["+ radioButtonForIP + "]")).click();
+
+    public void choiceIPForCreatingLocators() {
+        driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])[" + radioButtonForIP + "]")).click();
     }
-    public void choiceLegalPersonForCreatingLocators (){
-        driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])["+ radioButtonForLegalPerson + "]")).click();
+
+    public void choiceLegalPersonForCreatingLocators() {
+        driver.findElement(By.xpath("(//*[@class='chouse-company'] /* /following::*[1])[" + radioButtonForLegalPerson + "]")).click();
     }
-    public void checkRequiredFields(){
+
+    public void checkRequiredFields() {
         driver.findElement(By.xpath("//*[@placeholder='Введите e-mail'][not(ancestor-or-self::*[@style = 'display: none;'])]")).clear();
-        Assert.assertTrue("Поле емаил не обязательно", driver.findElement(By.cssSelector
-                (".js_person_type_block:not([style='display: none;']) [required][type='email']")).isDisplayed());
-        Assert.assertTrue("Поле имя не обязательно", driver.findElement(By.cssSelector
-                (".js_person_type_block:not([style='display: none;']) [required][placeholder='Введите имя']")).isDisplayed());
-        Assert.assertTrue("Поле фамилия не обязательно", driver.findElement(By.cssSelector
-                (".js_person_type_block:not([style='display: none;']) [required][placeholder='Введите фамилию']")).isDisplayed());
-        Assert.assertTrue("Поле Создать пароль не обязательно", driver.findElement(By.cssSelector
-                (".js_person_type_block:not([style='display: none;']) [required][placeholder='Создать пароль']")).isDisplayed());
-        Assert.assertTrue("Поле Повторите пароль не обязательно", driver.findElement(By.cssSelector
-                (".js_person_type_block:not([style='display: none;']) [required][placeholder='Повторите пароль']")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [required][type='email']")).isDisplayed()
+                , "Поле емаил не обязательно");
+        Assert.assertTrue(driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [required][placeholder='Введите имя']")).isDisplayed()
+                , "Поле имя не обязательно");
+        Assert.assertTrue(driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [required][placeholder='Введите фамилию']")).isDisplayed()
+        , "Поле фамилия не обязательно");
+        Assert.assertTrue( driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [required][placeholder='Создать пароль']")).isDisplayed()
+        , "Поле Создать пароль не обязательно");
+        Assert.assertTrue(driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [required][placeholder='Повторите пароль']")).isDisplayed()
+        , "Поле Повторите пароль не обязательно");
         driver.findElement(registerButtonOnRegistrationTabLocator).click();
-        Assert.assertEquals("Вкладка Создать учетную запись не открылась"
-                , "Создать учетную запись", driver.findElement(registrationTabLocator).getText());
+        Assert.assertEquals("Создать учетную запись", driver.findElement(registrationTabLocator).getText(), "Вкладка Создать учетную запись не открылась");
     }
-    public void enterWrongConfirmPassword(){
+
+    public void enterWrongConfirmPassword() {
         driver.findElement(confirmPasswordInputLocator).sendKeys("password");
         driver.findElement(registerButtonOnRegistrationTabLocator).click();
-        Assert.assertTrue("Сообщение Пароли не совпадают не отобразилось", driver.findElement(
-                By.xpath("//*[.='Пароли не совпадают. Введите корректный подтверждающий пароль.']")).isDisplayed());
+        Assert.assertTrue( driver.findElement(By.xpath("//*[.='Пароли не совпадают. Введите корректный подтверждающий пароль.']")).isDisplayed()
+        , "Сообщение Пароли не совпадают не отобразилось");
     }
-    public void checkingMessageAboutExistingEmail(){
+
+    public void checkingMessageAboutExistingEmail() {
         driver.findElement(registerButtonOnRegistrationTabLocator).click();
-        Assert.assertTrue("Email уже существует", driver.findElement(
-                By.xpath("//*[contains(text(), 'Пользователь с таким e-mail')]")).isDisplayed());
+        Assert.assertTrue( driver.findElement(By.xpath("//*[contains(text(), 'Пользователь с таким e-mail')]")).isDisplayed(), "Email уже существует");
     }
 
-    public void goToAuthorizationTAb(){
+    public void goToAuthorizationTAb() {
         driver.findElement(authorizationButtonOnRegistrationTabLocator).click();
-        Assert.assertTrue("Окно авторизации не открылось"
-                ,driver.findElement(windowOfRegisterLocator).isDisplayed());
+        Assert.assertTrue(driver.findElement(windowOfRegisterLocator).isDisplayed(), "Окно авторизации не открылось");
     }
-    public void changeINNonTheSame(){
-        driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='ИНН']")).clear();
 
-        driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='ИНН']")).sendKeys(iNN);
+//    public void changeINNonTheSame() {
+//        driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='ИНН']")).clear();
+//        driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='ИНН']")).sendKeys(iNN);
+//    }
 
-    }
-    public int getCountsOfDigits(long number) {
-        int count = (number == 0) ? 1 : 0;
-        while (number != 0) {
-            count++;
-            number /= 10;
-        }
-        return count;
-    }
-    public void enterTheSameINN(){
+//    public int getCountsOfDigits(long number) {
+//        int count = (number == 0) ? 1 : 0;
+//        while (number != 0) {
+//            count++;
+//            number /= 10;
+//        }
+//        return count;
+//    }
 
+    public void enterTheSameINN() {
         driver.findElement(inputINNLocator).clear();
         enterNumberByDigit(theSameInnManual, inputINNLocator);
     }
-    public void enterNumberByDigit(String stringNumber, By locator){
-        for (int i = 0; i < stringNumber.length() ; i++) {
+
+    public void enterNumberByDigit(String stringNumber, By locator) {
+        for (int i = 0; i < stringNumber.length(); i++) {
             driver.findElement(locator).sendKeys(String.valueOf(stringNumber.charAt(i)));
             waitingMilliSecond();
         }
         driver.findElement(locator).sendKeys("a");
-        explicitWaiting();
+        implicitWaiting();
         driver.findElement(locator).sendKeys("\u0008");
     }
 
-    public void changeEmailOnTheSame(){
+    public void changeEmailOnTheSame() {
         driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='Введите e-mail']")).clear();
         driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='Введите e-mail']"))
                 .sendKeys(theSameEmail);
@@ -395,14 +373,14 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
     By choiceOfActionForRejectLocator = By.xpath("//*[@value = 'unapprove']");
     By applyApprovalLocator = By.xpath("//*[@value = 'Применить']");
 
-    public void confirmUserRegistration(){
-        try{
+    public void confirmUserRegistration() {
+        try {
             driver.findElement(registerButtonOnRegistrationTabLocator).click();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Подтвердаю регистрацию юзера не со страницы регистрации");
             try {
                 exitFromB2B();
-            }catch (Exception e2){
+            } catch (Exception e2) {
                 System.out.println("Подтвердаю регистрацию юзера не со страницы регистрации и не с главной страницы");
             }
         }
@@ -412,49 +390,60 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
         exitFromB2B();
         navigationToAuthorizationTab();
     }
-    public void approveTheRegistrationOfTheLastUser(){
+
+    public void approveTheRegistrationOfTheLastUser() {
         driver.findElement(chekBoxForUserSelectionLocator).click();
         driver.findElement(choiceOfActionForApproveLocator).click();
         driver.findElement(applyApprovalLocator).click();
     }
-    public void rejectTheRegistrationOfTheLastUser(){
+
+    public void rejectTheRegistrationOfTheLastUser() {
         driver.findElement(chekBoxForUserSelectionLocator).click();
         driver.findElement(choiceOfActionForRejectLocator).click();
         driver.findElement(applyApprovalLocator).click();
     }
-    public void rejectTheRegistrationOfTheLasOrOrganization(){
+
+    public void rejectTheRegistrationOfTheLasOrOrganization() {
         rejectTheRegistrationOfTheLastUser();
     }
-    public void navigationToPageForConfirmUserRegistration(){
+
+    public void navigationToPageForConfirmUserRegistration() {
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInFromAuthorizationTab();
         navigationToAdminPartFromMeanPage();
         driver.findElement(sotbitTabLocator).click();
-        if (driver.findElements(organizationsForConfirmRegistrationLocator).size()>0){
+
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(organizationsForConfirmRegistrationLocator));
             driver.findElement(organizationsForConfirmRegistrationLocator).click();
-        }else {
-            if (driver.findElements(By.xpath("(//*[text()='птовые покупатели'])")).size() == 0){
-                driver.findElement(By.xpath("//*[contains(text(), 'асширенная авторизация')]")).click();
-            }else {
-                driver.findElement(By.xpath("(//*[text()='птовые покупатели'])")).click();
+        }catch (Exception e) {
+            System.out.println("нужно раскрвать...");
+            try {
+                driver.findElement(By.xpath("(//*[text()='Оптовые покупатели'])")).click();
+                driver.findElement(organizationsForConfirmRegistrationLocator).click();
+            }catch (Exception e2){
+                driver.findElement(By.xpath("(//*[text()='Расширенная авторизация'])")).click();
+                driver.findElement(By.xpath("(//*[text()='Оптовые покупатели'])")).click();
+                driver.findElement(organizationsForConfirmRegistrationLocator).click();
             }
-            driver.findElement(organizationsForConfirmRegistrationLocator).click();
         }
+
     }
 
-    public void tryConfirmRegistration(){
+    public void tryConfirmRegistration() {
         determineWhetherRegistrationUserNeedsToBeConfirmed();
-        if (doNeedToConfirmRegistrationUser){
+        if (doNeedToConfirmRegistrationUser) {
             confirmUserRegistration();
         }
     }
-    public void tryRejectRegistration(){
+
+    public void tryRejectRegistration() {
         determineWhetherRegistrationUserNeedsToBeConfirmed();
-        if (doNeedToConfirmRegistrationUser){
-            try{
+        if (doNeedToConfirmRegistrationUser) {
+            try {
                 driver.findElement(registerButtonOnRegistrationTabLocator).click();
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("Я уже нажал кнопку 'зарегистироваться'");
             }
             navigationToPageForConfirmUserRegistration();
@@ -465,8 +454,7 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
     }
 
 
-
-                                     //FOR AUTHORIZATION
+    //FOR AUTHORIZATION
 
 
     By loginButtonLocator = By.xpath("//*[contains(@class,'btn')][text()='Войти ']");
@@ -478,132 +466,142 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
     By sendButtonLocator = By.xpath("//*[contains(@class,'btn')][text()='Выслать']");
     By authorizationButtonOnPasswordRecoveryPageLocator = By.xpath("//*[contains(@class,'btn')][text()='Авторизация']");
 
-    public void fillingFieldsOnTheLogInTab (){
+    public void fillingFieldsOnTheLogInTab() {
         System.out.println(email);
         System.out.println(password);
         try {
             driver.findElement(loginInputLocator).sendKeys(email);
-        }catch (Exception e){
+        } catch (Exception e) {
             navigationToAuthorizationTab();
             driver.findElement(loginInputLocator).sendKeys(email);
         }
-        Assert.assertEquals("Емаил не отображается"
-                , email, driver.findElement(loginInputLocator).getAttribute("value"));
+        Assert.assertEquals(email, driver.findElement(loginInputLocator).getAttribute("value"), "Емаил не отображается");
         driver.findElement(passwordInputInAuthorizationTanLocator).sendKeys(password);
-        Assert.assertEquals("Пароль не отображается", password, driver.findElement(passwordInputInAuthorizationTanLocator).getAttribute("value"));
+        Assert.assertEquals( password, driver.findElement(passwordInputInAuthorizationTanLocator).getAttribute("value"), "Пароль не отображается");
     }
-    public void logInFromAuthorizationTab(){
+
+    public void logInFromAuthorizationTab() {
         driver.findElement(loginButtonLocator).click();
         Assert.assertTrue(driver.findElement(By.cssSelector(".navbar")).isDisplayed());
     }
-    public void logInFromAuthorizationTabWithRejectedStatus(){
+
+    public void logInFromAuthorizationTabWithRejectedStatus() {
         driver.findElement(loginButtonLocator).click();
         Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
     }
-    public void logInExistingUserWithoutConfirm(){
+
+    public void logInExistingUserWithoutConfirm() {
         driver.findElement(loginButtonLocator).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".validation-invalid-label")));
         Assert.assertTrue(driver.findElement(By.cssSelector(".validation-invalid-label")).isDisplayed());
         try {
             Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Ваш логин заблокирован.']")).isDisplayed());
-        }catch (Exception e){
+        } catch (Exception e) {
             Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Неверный логин или пароль.']")).isDisplayed());
         }
     }
-    public void ligInExistingUserWithWrongPassword(){
+
+    public void ligInExistingUserWithWrongPassword() {
         driver.findElement(passwordInputInAuthorizationTanLocator).clear();
         driver.findElement(passwordInputInAuthorizationTanLocator).sendKeys("Qwer1234!");
-        Assert.assertEquals("Пароль не отображается", "Qwer1234!", driver.findElement(passwordInputInAuthorizationTanLocator).getAttribute("value"));
+        Assert.assertEquals("Qwer1234!", driver.findElement(passwordInputInAuthorizationTanLocator).getAttribute("value"), "Пароль не отображается");
         driver.findElement(loginButtonLocator).click();
-        Assert.assertTrue("Нет сообщения о неверном пароле"
-                ,driver.findElement(By.xpath("//*[@class='validation-invalid-label']")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@class='validation-invalid-label']")).isDisplayed(), "Нет сообщения о неверном пароле");
     }
-    public void passwordRequired(){
+
+    public void passwordRequired() {
         driver.findElement(forgetPasswordButtonLocator).click();
         driver.findElement(emailInputForRequestingPassword).clear();
         driver.findElement(emailInputForRequestingPassword).sendKeys(email);
-        Assert.assertEquals("Емаил не отображается"
-                , email, driver.findElement(emailInputForRequestingPassword).getAttribute("value"));
+        Assert.assertEquals(email, driver.findElement(emailInputForRequestingPassword).getAttribute("value"), "Емаил не отображается");
         driver.findElement(sendButtonLocator).click();
-        Assert.assertTrue("Нет сообщения о отправке ваших данных"
-                , driver.findElement(By.xpath("//*[contains(text(), 'Контрольная строка, а также ваши регистрационные данные " +
-                        "были высланы на email. Пожалуйста, дождитесь письма, так как контрольная строка изменяется при каждом запросе.')]")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'Контрольная строка, а также ваши регистрационные данные " +
+                        "были высланы на email. Пожалуйста, дождитесь письма, так как контрольная строка изменяется при каждом запросе.')]")).isDisplayed()
+        ,"Нет сообщения о отправке ваших данных");
         System.out.println(email);
         System.out.println(password);
     }
-    public void passwordRequiredForUnregisteredUser(){
+
+    public void passwordRequiredForUnregisteredUser() {
         driver.findElement(forgetPasswordButtonLocator).click();
         driver.findElement(emailInputForRequestingPassword).clear();
+        email = "test_EMail" + randomString(12) + "@mail.ru";
         driver.findElement(emailInputForRequestingPassword).sendKeys(email);
-        Assert.assertEquals("Емаил не отображается"
-                , email, driver.findElement(emailInputForRequestingPassword).getAttribute("value"));
+        Assert.assertEquals(email, driver.findElement(emailInputForRequestingPassword).getAttribute("value"), "Емаил не отображается");
         driver.findElement(sendButtonLocator).click();
-        Assert.assertTrue("Нет сообщения что пользователь с таким email не зарегестрирван"
-                ,driver.findElement(By.xpath("//*[contains(text(), 'Пользователь с таким email не зарегистрирован.')]")).isDisplayed());
-    }
-    public void goToAuthorizationTAbFromPasswordRequiredWindow(){
-        driver.findElement(authorizationButtonOnPasswordRecoveryPageLocator).click();
-        Assert.assertTrue("Окно авторизации не открылось"
-                ,driver.findElement(windowOfRegisterLocator).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'Пользователь с таким email не зарегистрирован.')]")).isDisplayed()
+                , "Нет сообщения что пользователь с таким email не зарегестрирван");
     }
 
-    public void logInFromAuthorizationTabUseTheSameInn(){
+    public void goToAuthorizationTAbFromPasswordRequiredWindow() {
+        driver.findElement(authorizationButtonOnPasswordRecoveryPageLocator).click();
+        Assert.assertTrue(driver.findElement(windowOfRegisterLocator).isDisplayed(), "Окно авторизации не открылось");
+    }
+
+    public void logInFromAuthorizationTabUseTheSameInn() {
         driver.findElement(registerButtonOnRegistrationTabLocator).click();
         new WebDriverWait(driver, 10).until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
         driver.findElement(By.cssSelector(".btn.bg-success")).click();
     }
-    public void acceptEmployee(){
+
+    public void acceptEmployee() {
         driver.findElement(By.xpath("//*[contains(text(), 'Заявки' )]")).click();
         driver.findElement(By.xpath("//*[contains(@class, 'active')] //*[@class = 'main-grid-row-action-button']")).click();
         driver.findElement(By.xpath("//*[contains(text(), 'Принять')]")).click();
+        driver.findElement(By.xpath("//*[@type='button'][text()='OK']")).click();
     }
-    public void rejectEmployee(){
+
+    public void rejectEmployee() {
         driver.findElement(By.xpath("//*[contains(text(), 'Заявки' )]")).click();
         driver.findElement(By.xpath("//*[contains(@class, 'active')] //*[@class = 'main-grid-row-action-button']")).click();
         driver.findElement(By.xpath("//*[contains(text(), 'Отклонить')]")).click();
+        driver.findElement(By.xpath("//*[@type='button'][text()='OK']")).click(); //новое попап окно что сотр отклонен
         driver.findElement(By.xpath("//*[contains(@class, 'nav-item')] /*[contains(text(), 'Сотрудники' )]")).click();
         driver.findElement(By.xpath("//*[@name='show-all-users']")).click();
         Assert.assertTrue(driver.findElement(By.cssSelector(".main-grid-empty-text")).isDisplayed());
     }
-    public void checkThatEmployeeIsDisplayedFromTheManager(){
+
+    public void checkThatEmployeeIsDisplayedFromTheManager() {
         driver.findElement(By.xpath("//*[contains(@class, 'nav-item')] /*[contains(text(), 'Сотрудники' )]")).click();
         driver.findElement(By.xpath("//*[@name='show-all-users']")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".staff-list__companies-list")));
-        try{
+        try {
             Assert.assertTrue(driver.findElement(By.cssSelector(".staff-list__companies-list")).isDisplayed());
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Здесь плавающая ОШИБКА");
         }
     }
-    public void changeToTheEmployeeSEmailOnAuthorizationTab(){
+
+    public void changeToTheEmployeeSEmailOnAuthorizationTab() {
         driver.findElement(By.name("USER_LOGIN")).clear();
         driver.findElement(By.name("USER_LOGIN")).sendKeys("differentEmail" + email);
     }
-    public void chekThatTheOrganizationIsDisplayedByTheEmployee(){
+
+    public void chekThatTheOrganizationIsDisplayedByTheEmployee() {
         Assert.assertTrue(driver.findElement(By.cssSelector(".staff-list__companies-list")).isDisplayed());
-        try{
+        try {
             Assert.assertTrue(driver.findElement(By.cssSelector(".auth-company-change__current")).isDisplayed());
-        }catch (Exception e){
+        } catch (Exception e) {
             Assert.assertTrue(driver.findElement(By.cssSelector(".staff-personal-photo")).isDisplayed());
         }
     }
 
-    public void creatingArrayWithExistingLocatorsForIP(){
+    public void creatingArrayWithExistingLocatorsForIP() {
         counterOfExistingLocators = 0;
         arrayWithExistingLocatorsForIP = new String[driver.findElements(By.xpath("//*[@class='form-control'][not(ancestor-or-self::*[@style = 'display: none;'])]")).size() * 2];
         for (int i = 0; i < driver.findElements(By.xpath("//*[@class='form-control'][not(ancestor-or-self::*[@style = 'display: none;'])]")).size(); i++) {
-            for (int j = 0; j < arrayWithAllPossibleLocators.length; j=j+2) {
+            for (int j = 0; j < arrayWithAllPossibleLocators.length; j = j + 2) {
 
-                if(driver.findElement(By.xpath("(//*[@class='form-control'][not(ancestor-or-self::*[@style = 'display: none;'])])[" + (i+1) + "]/preceding::label[1]"))
-                        .getText().replaceAll("[*,:]", "").trim().equals(arrayWithAllPossibleLocators[j])){
+                if (driver.findElement(By.xpath("(//*[@class='form-control'][not(ancestor-or-self::*[@style = 'display: none;'])])[" + (i + 1) + "]/preceding::label[1]"))
+                        .getText().replaceAll("[*,:]", "").trim().equals(arrayWithAllPossibleLocators[j])) {
                     arrayWithExistingLocatorsForIP[counterOfExistingLocators] = arrayWithAllPossibleLocators[j];
-                    arrayWithExistingLocatorsForIP[counterOfExistingLocators+1] = arrayWithAllPossibleLocators[j+1];
+                    arrayWithExistingLocatorsForIP[counterOfExistingLocators + 1] = arrayWithAllPossibleLocators[j + 1];
                     driver.findElement(By.xpath("//*[contains(text(), '" + arrayWithExistingLocatorsForIP[counterOfExistingLocators]
-                            + "')][not(ancestor-or-self::*[@style = 'display: none;'])] /following::*[2]")).sendKeys(arrayWithExistingLocatorsForIP[counterOfExistingLocators+1]);
+                            + "')][not(ancestor-or-self::*[@style = 'display: none;'])] /following::*[2][@class='form-control']")).sendKeys(arrayWithExistingLocatorsForIP[counterOfExistingLocators + 1]);
                     System.out.print(arrayWithExistingLocatorsForIP[counterOfExistingLocators] + "_____");
-                    System.out.println(arrayWithExistingLocatorsForIP[counterOfExistingLocators+1]);
-                    counterOfExistingLocators = counterOfExistingLocators+2;
+                    System.out.println(arrayWithExistingLocatorsForIP[counterOfExistingLocators + 1]);
+                    counterOfExistingLocators = counterOfExistingLocators + 2;
                     break;
                 }
 
@@ -612,8 +610,7 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
         arrayWithExistingLocatorsForIP = Arrays.stream(arrayWithExistingLocatorsForIP)
                 .filter(s -> (s != null && s.length() > 0))
                 .toArray(String[]::new);
-        explicitWaiting();
-
+        implicitWaiting();
 
 
 //        counterOfExistingLocators =0;
@@ -635,18 +632,19 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
 //                .toArray(String[]::new);
 //        explicitWaiting();
     }
-    public void creatingArrayWithExistingLocatorsForLegalPerson(){
-        counterOfExistingLocators =0;
-        arrayWithExistingLocatorsForLegalPerson = new String[driver.findElements(By.xpath("//*[@class='form-control'][not(ancestor-or-self::*[@style = 'display: none;'])]")).size() *2];
-        for (int i = 0; i < driver.findElements(By.xpath("//*[@class='form-control'][not(ancestor-or-self::*[@style = 'display: none;'])]")).size(); i++) {
-            for (int j = 0; j < arrayWithAllPossibleLocators.length; j=j+2) {
 
-                if(driver.findElement(By.xpath("(//*[@class='form-control'][not(ancestor-or-self::*[@style = 'display: none;'])])[" + (i+1) + "]/preceding::label[1]"))
+    public void creatingArrayWithExistingLocatorsForLegalPerson() {
+        counterOfExistingLocators = 0;
+        arrayWithExistingLocatorsForLegalPerson = new String[driver.findElements(By.xpath("//*[@class='form-control'][not(ancestor-or-self::*[@style = 'display: none;'])]")).size() * 2];
+        for (int i = 0; i < driver.findElements(By.xpath("//*[@class='form-control'][not(ancestor-or-self::*[@style = 'display: none;'])]")).size(); i++) {
+            for (int j = 0; j < arrayWithAllPossibleLocators.length; j = j + 2) {
+
+                if (driver.findElement(By.xpath("(//*[@class='form-control'][not(ancestor-or-self::*[@style = 'display: none;'])])[" + (i + 1) + "]/preceding::label[1]"))
                         .getText().replaceAll("[*,:]", "").trim().equals(arrayWithAllPossibleLocators[j])) {
                     arrayWithExistingLocatorsForLegalPerson[counterOfExistingLocators] = arrayWithAllPossibleLocators[j];
                     arrayWithExistingLocatorsForLegalPerson[counterOfExistingLocators + 1] = arrayWithAllPossibleLocators[j + 1];
                     driver.findElement(By.xpath("//*[contains(text(), '" + arrayWithExistingLocatorsForLegalPerson[counterOfExistingLocators]
-                            + "')][not(ancestor-or-self::*[@style = 'display: none;'])] /following::*[2]")).sendKeys(arrayWithExistingLocatorsForLegalPerson[counterOfExistingLocators + 1]);
+                            + "')][not(ancestor-or-self::*[@style = 'display: none;'])] /following::*[2][@class='form-control']")).sendKeys(arrayWithExistingLocatorsForLegalPerson[counterOfExistingLocators + 1]);
                     System.out.print(arrayWithExistingLocatorsForLegalPerson[counterOfExistingLocators] + "_____");
                     System.out.println(arrayWithExistingLocatorsForLegalPerson[counterOfExistingLocators + 1]);
                     counterOfExistingLocators = counterOfExistingLocators + 2;
@@ -657,7 +655,7 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
         arrayWithExistingLocatorsForLegalPerson = Arrays.stream(arrayWithExistingLocatorsForLegalPerson)
                 .filter(s -> (s != null && s.length() > 0))
                 .toArray(String[]::new);
-        explicitWaiting();
+        implicitWaiting();
 
 //        counterOfExistingLocators =0;
 //        arrayWithExistingLocatorsForLegalPerson = new String[arrayWithAllPossibleLocators.length];
@@ -677,22 +675,22 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
 //                .toArray(String[]::new);
     }
 
-    public void creatingArrayWithExistingLocatorsForPerson(){
-        counterOfExistingLocators =0;
+    public void creatingArrayWithExistingLocatorsForPerson() {
+        counterOfExistingLocators = 0;
         arrayWithExistingLocatorsForPerson = new String[driver.findElements(By.xpath("//*[@class='form-control'][not(ancestor-or-self::*[@style = 'display: none;'])]")).size() * 2];
         driver.findElement(By.xpath("(//*[@class='form-control'][not(ancestor-or-self::*[@style = 'display: none;'])])[4]/preceding::label[1]"))
                 .getText().replaceAll("[*, :]", "").trim();
         for (int i = 0; i < driver.findElements(By.xpath("//*[@class='form-control'][not(ancestor-or-self::*[@style = 'display: none;'])]")).size(); i++) {
-            for (int j = 0; j < arrayWithAllPossibleLocators.length; j=j+2) {
-                if(driver.findElement(By.xpath("(//*[@class='form-control'][not(ancestor-or-self::*[@style = 'display: none;'])])[" + (i+1) + "]/preceding::label[1]"))
-                        .getText().replaceAll("[*,:]", "").trim().equals(arrayWithAllPossibleLocators[j])){
+            for (int j = 0; j < arrayWithAllPossibleLocators.length; j = j + 2) {
+                if (driver.findElement(By.xpath("(//*[@class='form-control'][not(ancestor-or-self::*[@style = 'display: none;'])])[" + (i + 1) + "]/preceding::label[1]"))
+                        .getText().replaceAll("[*,:]", "").trim().equals(arrayWithAllPossibleLocators[j])) {
                     arrayWithExistingLocatorsForPerson[counterOfExistingLocators] = arrayWithAllPossibleLocators[j];
-                    arrayWithExistingLocatorsForPerson[counterOfExistingLocators+1]=arrayWithAllPossibleLocators[j+1];
+                    arrayWithExistingLocatorsForPerson[counterOfExistingLocators + 1] = arrayWithAllPossibleLocators[j + 1];
                     driver.findElement(By.xpath("//*[contains(text(), '" + arrayWithExistingLocatorsForPerson[counterOfExistingLocators]
-                            + "')][not(ancestor-or-self::*[@style = 'display: none;'])] /following::*[2]")).sendKeys(arrayWithExistingLocatorsForPerson[counterOfExistingLocators+1]);
+                            + "')][not(ancestor-or-self::*[@style = 'display: none;'])] /following::*[2]")).sendKeys(arrayWithExistingLocatorsForPerson[counterOfExistingLocators + 1]);
                     System.out.print(arrayWithExistingLocatorsForPerson[counterOfExistingLocators] + "_____");
-                    System.out.println(arrayWithExistingLocatorsForPerson[counterOfExistingLocators+1]);
-                    counterOfExistingLocators = counterOfExistingLocators+2;
+                    System.out.println(arrayWithExistingLocatorsForPerson[counterOfExistingLocators + 1]);
+                    counterOfExistingLocators = counterOfExistingLocators + 2;
                     break;
                 }
             }
@@ -700,7 +698,7 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
         arrayWithExistingLocatorsForPerson = Arrays.stream(arrayWithExistingLocatorsForPerson)
                 .filter(s -> (s != null && s.length() > 0))
                 .toArray(String[]::new);
-        explicitWaiting();
+        implicitWaiting();
 //        counterOfExistingLocators =0;
 //        arrayWithExistingLocatorsForPerson = new String[arrayWithAllPossibleLocators.length];
 //
@@ -719,7 +717,8 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
 //                .filter(s -> (s != null && s.length() > 0))
 //                .toArray(String[]::new);
     }
-    public  void writingArrayWithLocatorsForIPOnComputer() {
+
+    public void writingArrayWithLocatorsForIPOnComputer() {
         //Запись в файл
         try {
             outputStream = new ObjectOutputStream(new FileOutputStream(fileNameForIP));
@@ -740,14 +739,15 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
             e.printStackTrace();
         }
         try {
-            arrayWithExistingLocatorsForIP = (String[])inputStream.readObject();
+            arrayWithExistingLocatorsForIP = (String[]) inputStream.readObject();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
-    public  void writingArrayWithLocatorsForLegalPersonOnComputer() {
+
+    public void writingArrayWithLocatorsForLegalPersonOnComputer() {
         //Запись в файл
         try {
             outputStream = new ObjectOutputStream(new FileOutputStream(fileNameForLegalPerson));
@@ -760,7 +760,8 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
             e.printStackTrace();
         }
     }
-    public  void writingArrayWithLocatorsForPersonOnComputer() {
+
+    public void writingArrayWithLocatorsForPersonOnComputer() {
         //Запись в файл
         try {
             outputStream = new ObjectOutputStream(new FileOutputStream(fileNameForPerson));
@@ -781,13 +782,14 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
             e.printStackTrace();
         }
         try {
-            arrayWithExistingLocatorsForLegalPerson = (String[])inputStream.readObject();
+            arrayWithExistingLocatorsForLegalPerson = (String[]) inputStream.readObject();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
+
     public void readBackLocatorsForPerson() {
         try {
             inputStream = new ObjectInputStream(new FileInputStream(fileNameForPerson));
@@ -795,33 +797,34 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
             e.printStackTrace();
         }
         try {
-            arrayWithExistingLocatorsForPerson = (String[])inputStream.readObject();
+            arrayWithExistingLocatorsForPerson = (String[]) inputStream.readObject();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
-    public void checkingStatusOfOrganizationWithoutConfirm(){
+
+    public void checkingStatusOfOrganizationWithoutConfirm() {
         determineWhetherRegistrationOrganizationNeedsToBeConfirmed();
-        if (doNeedToConfirmRegistrationOrganization == true){
+        if (doNeedToConfirmRegistrationOrganization == true) {
             Assert.assertTrue(driver.findElement(By.xpath("//*[text()='На модерации']")).isDisplayed());
-        }else {
+        } else {
             Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Одобрена']")).isDisplayed());
         }
     }
-    public void checkingThatEventAboutChangePasswordIsSuccessful(){
+
+    public void checkingThatEventAboutChangePasswordIsSuccessful() {
         Assert.assertTrue(driver.findElement(By.xpath("(//*[@class='adm-list-table-row'])[1] //*[contains(text(), 'SUCCESS_CHANGE_PASSWORD')]")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.xpath("(//*[@class='adm-list-table-row'])[1] //*[contains(text(), '" + email + "')]")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.xpath("((//*[@class='adm-list-table-row'])[1] //* [@class = 'adm-list-table-cell'])[5] [text()= 'Y']")).isDisplayed());
     }
-    public void checkingThatYouCantLogInWithoutConfirm(){
+
+    public void checkingThatYouCantLogInWithoutConfirm() {
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(),'Ожидайте подтверждение модератором.')]")).isDisplayed());
         navigationToMeanPageByUrl();
         Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
     }
-
-
 
 
 }

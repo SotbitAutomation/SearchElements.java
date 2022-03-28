@@ -1,9 +1,10 @@
 package TechnicalSupport;
 
-import org.junit.Test;
+import BaseActions.Retry;
+import org.testng.annotations.Test;
 
 public class TechnicalSupport extends MethodsForTechnicalSupport {
-    @Test //1. Обращение в службу поддержки
+    @Test(retryAnalyzer = Retry.class) //1. Обращение в службу поддержки
     public void contactingTheSupportService() {
         //arrange
         navigationToAuthorizationTab();
@@ -17,7 +18,7 @@ public class TechnicalSupport extends MethodsForTechnicalSupport {
         sendingRequest();
         checkingThatRequestIsDisplayedForTheUser();
     }
-    @Test //2. Отправка обращения в службу поддержки с загрузкой файла
+    @Test(retryAnalyzer = Retry.class) //2. Отправка обращения в службу поддержки с загрузкой файла
     public void contactingTheSupportServiceWithAddedFile() {
         //arrange
         navigationToAuthorizationTab();
@@ -32,7 +33,7 @@ public class TechnicalSupport extends MethodsForTechnicalSupport {
         sendingRequest();
         checkingThatRequestIsDisplayedForTheUser();
     }
-    @Test //3. Проверка что отправленное обращение отображается в админ части
+    @Test(retryAnalyzer = Retry.class) //3. Проверка что отправленное обращение отображается в админ части
     public void checkingRequestAtAdmin() {
         //arrange
         contactingTheSupportService();
@@ -45,7 +46,7 @@ public class TechnicalSupport extends MethodsForTechnicalSupport {
         navigationToSupportRequests();
         checkingThatRequestIsDisplayed();
     }
-    @Test //4. Проверка что отправленное обращение c файлом отображается в админ части
+    @Test(retryAnalyzer = Retry.class) //4. Проверка что отправленное обращение c файлом отображается в админ части
     public void checkingRequestWithFileAtAdmin() {
         //arrange
         deletingExcelAndJpgFilesFromDownloads();
@@ -64,14 +65,13 @@ public class TechnicalSupport extends MethodsForTechnicalSupport {
         checkingThatFileIsDownload();
         deletingExcelAndJpgFilesFromDownloads();
     }
-    @Test //5. Ответ на обращения клиента из админ части
+    @Test(retryAnalyzer = Retry.class) //5. Ответ на обращения клиента из админ части
     public void answerToRequestFromAdmin() {
         //arrange
         checkingRequestAtAdmin();
         sortingRequestsById();
         openingLastRequestInAdminPart();
         //act
-        scrollDown();
         answeringToRequest();
         sendingAnsweringToRequest();
         exitFromB2B();
@@ -82,7 +82,7 @@ public class TechnicalSupport extends MethodsForTechnicalSupport {
         sortingUserRequests();
         checkingThatTheResponseToTheLastRequestIsDisplayed();
     }
-    @Test //6. Отправка сообщения в службу поддержки из детальной страницы оформленного заказа
+    @Test(retryAnalyzer = Retry.class) //6. Отправка сообщения в службу поддержки из детальной страницы оформленного заказа
     public void sendingMessageToTheSupportServiceFromTheDetailedPageOfTheCompletedOrder() {
         //arrange
         navigationToAuthorizationTab();
@@ -103,7 +103,7 @@ public class TechnicalSupport extends MethodsForTechnicalSupport {
         openingLastRequestOnTheTechnicalSupportPage();
         checkingDisplayingRequestByMessage();
     }
-    @Test //7. Обращения пользователя в ТП выводятся только у пользователя отправившего эти обращения
+    @Test(retryAnalyzer = Retry.class) //7. Обращения пользователя в ТП выводятся только у пользователя отправившего эти обращения
     public void theUserSRequestsToTheTPAreDisplayedOnlyFromTheUserWhoSentTheseRequests() {
         //arrange
         navigationToAuthorizationTab();
@@ -129,7 +129,7 @@ public class TechnicalSupport extends MethodsForTechnicalSupport {
         checkingThatRequestIsDisplayedForTheUser();
         checkThatTheSecondUserDoesNotHaveTheFirstRequest();
     }
-    @Test //8. Переход к детальной странице обращения
+    @Test(retryAnalyzer = Retry.class) //8. Переход к детальной странице обращения
     public void goToTheDetailedPageOfTheRequest () {
         //arrange
         navigationToAuthorizationTab();
@@ -151,7 +151,7 @@ public class TechnicalSupport extends MethodsForTechnicalSupport {
         checkingDisplayingRequestByMessage();
         checkingThatURLContainsIDOfRequest();
     }
-    @Test //9. Вывод сообщений об ошибке при отправке обращения без заполнения обязытельных полей
+    @Test(retryAnalyzer = Retry.class) //9. Вывод сообщений об ошибке при отправке обращения без заполнения обязытельных полей
     public void displayingErrorMessagesWhenSendingARequestWithoutFillingTheRequiredFields() {
         //arrange
         navigationToAuthorizationTab();

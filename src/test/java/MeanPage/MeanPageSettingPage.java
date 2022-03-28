@@ -1,9 +1,11 @@
 package MeanPage;
 
-import org.junit.Test;
+
+import BaseActions.Retry;
+import org.testng.annotations.Test;
 
 public class MeanPageSettingPage extends MethodsForMeanPage {
-    @Test //1. Изменения основных данных у юзера
+    @Test (retryAnalyzer = Retry.class)//1. Изменения основных данных у юзера
     public void changeTheBasicDataForUser() {
         //arrange
         navigationToAuthorizationTab();
@@ -17,7 +19,7 @@ public class MeanPageSettingPage extends MethodsForMeanPage {
         navigationToTheSetting();
         checkThatBasicDataHasBeenSaved();
     }
-    @Test //2. Смена пароля, авторизация под новым
+    @Test (retryAnalyzer = Retry.class)//2. Смена пароля, авторизация под новым
     public void changeThePasswordAndLogInWithNewOneForUser() {
         //arrange
         navigationToAuthorizationTab();
@@ -35,7 +37,7 @@ public class MeanPageSettingPage extends MethodsForMeanPage {
         saveBasicData(1);
     }
 
-    @Test //3. Проверка отображения политики конфиденциальности
+    @Test (retryAnalyzer = Retry.class)//3. Проверка отображения политики конфиденциальности
     public void checkTheDisplayOfThePrivacyPolicy() {
         //arrange
         navigationToAuthorizationTab();
@@ -46,7 +48,7 @@ public class MeanPageSettingPage extends MethodsForMeanPage {
         makeSureThatTheCheckboxForThePrivacyPolicyIsMandatory();
         openPrivacyPolicy();
     }
-    @Test //4. Изменения личных данных у юзера
+    @Test (retryAnalyzer = Retry.class)//4. Изменения личных данных у юзера
     public void changeThePersonalDataForUser() {
         //arrange
         navigationToAuthorizationTab();
@@ -60,7 +62,7 @@ public class MeanPageSettingPage extends MethodsForMeanPage {
         navigationToTheSetting();
         checkThatPersonalDataHasBeenSaved();
     }
-    @Test //5. Изменения основных данных у юзера без соглашения с политикой конфиденциальности
+    @Test (retryAnalyzer = Retry.class)//5. Изменения основных данных у юзера без соглашения с политикой конфиденциальности
     public void changeTheBasicDataForUserWithoutAgreement() {
         //arrange
         navigationToAuthorizationTab();
@@ -76,7 +78,7 @@ public class MeanPageSettingPage extends MethodsForMeanPage {
         checkThatBasicDataDoesNotSaved();
     }
 
-    @Test //6. Изменения личных данных и фотоу юзера
+    @Test (retryAnalyzer = Retry.class)//6. Изменения личных данных и фото у юзера
     public void changeThePersonalDataWithPhotoForUser() {
         //arrange
         navigationToAuthorizationTab();

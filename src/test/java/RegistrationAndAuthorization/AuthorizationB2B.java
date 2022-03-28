@@ -1,13 +1,13 @@
 package RegistrationAndAuthorization;
 
-
-import org.junit.Assert;
-import org.junit.Test;
+import BaseActions.Retry;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 import org.openqa.selenium.By;
 
 public class AuthorizationB2B extends MethodsForRegistrationAndAuthorization {
 
-    @Test //1. Авторизация зарегистрированного пользователя
+    @Test(retryAnalyzer = Retry.class) //1. Авторизация зарегистрированного пользователя
     public void authorizationUser() {
         //arrange
         navigationToRegistrationTab();
@@ -23,7 +23,7 @@ public class AuthorizationB2B extends MethodsForRegistrationAndAuthorization {
         logInFromAuthorizationTab();
     }
 
-    @Test //2. Авторизация зарегистрированного пользователя без чекбокса "Запомнить"
+    @Test(retryAnalyzer = Retry.class) //2. Авторизация зарегистрированного пользователя без чекбокса "Запомнить"
     public void authorizationUserWithoutCheckboxRememberMe() {
         //arrange
         navigationToRegistrationTab();
@@ -40,7 +40,7 @@ public class AuthorizationB2B extends MethodsForRegistrationAndAuthorization {
         logInFromAuthorizationTab();
     }
 
-    @Test //3. Авторизация зарегистрированного пользователя под неверным паролем
+    @Test(retryAnalyzer = Retry.class) //3. Авторизация зарегистрированного пользователя под неверным паролем
     public void authorizationUserWithWrongPassword() {
         //arrange
         navigationToRegistrationTab();
@@ -56,7 +56,7 @@ public class AuthorizationB2B extends MethodsForRegistrationAndAuthorization {
         ligInExistingUserWithWrongPassword();
     }
 
-    @Test //4. Запрос нового пароля зарегистрированного пользователя
+    @Test(retryAnalyzer = Retry.class) //4. Запрос нового пароля зарегистрированного пользователя
     public void requestingNewPassword() {
         //arrange
         navigationToRegistrationTab();
@@ -70,26 +70,26 @@ public class AuthorizationB2B extends MethodsForRegistrationAndAuthorization {
         passwordRequired();
     }
 
-    @Test //5. Запрос нового пароля незарегистрированного пользователя
+    @Test(retryAnalyzer = Retry.class)  //5. Запрос нового пароля незарегистрированного пользователя
     public void requestingNewPasswordUnregisteredUser() {
         navigationToAuthorizationTab();
         passwordRequiredForUnregisteredUser();
     }
 
-    @Test //6. Возращение к окну авторизации после запроса пароля
+    @Test(retryAnalyzer = Retry.class) //6. Возращение к окну авторизации после запроса пароля
     public void goBackToAuthorizationAfterSendingData() {
         //arrange
         requestingNewPassword();
         //act
         goToAuthorizationTAbFromPasswordRequiredWindow();
     }
-    @Test //7. Авторизация без одобрения администратором зарегистрированного пользователя
+    @Test(retryAnalyzer = Retry.class) //7. Авторизация без одобрения администратором зарегистрированного пользователя
     public void authorizationWithoutConfirmInAdminPart() {
         //arrange
         navigationToRegistrationTab();
         determineWhetherRegistrationUserNeedsToBeConfirmed();
         //act
-        if (doNeedToConfirmRegistrationUser == true){
+        if (doNeedToConfirmRegistrationUser){
             choiceIP();
             enterINNManually();
             fillingFieldsOnTheRegistrationTab(arrayWithExistingLocatorsForIP);
@@ -99,10 +99,10 @@ public class AuthorizationB2B extends MethodsForRegistrationAndAuthorization {
             logInExistingUserWithoutConfirm();
         }
     }
-    @Test //8. Авторнизация пользователя с неподтверждённой компанией
+    @Test(retryAnalyzer = Retry.class) //8. Авторнизация пользователя с неподтверждённой компанией
     public void authorizationUserWithoutConfirmCompany() {
         determineWhetherVersionsOfWorkingWithOrganization();
-        if (versionsOfWorkingWithOrganizationsExtended == true){
+        if (versionsOfWorkingWithOrganizationsExtended){
             //arrange
             navigationToRegistrationTab();
             choiceIP();
@@ -119,18 +119,18 @@ public class AuthorizationB2B extends MethodsForRegistrationAndAuthorization {
             checkingStatusOfOrganizationWithoutConfirm();
         }
     }
-    @Test //9. Регистрация пользователя с уже существующим  ИНН
+    @Test(retryAnalyzer = Retry.class) //9. Регистрация пользователя с уже существующим  ИНН
     public void registrationUserWithTheSameINN() {
         determineWhetherVersionsOfWorkingWithOrganization();
         determineWhetherRegistrationUserNeedsToBeConfirmed();
-        if(versionsOfWorkingWithOrganizationsExtended == true){
+        if(versionsOfWorkingWithOrganizationsExtended){
+            tempValueForEmail = null;
             navigationToRegistrationTab();
             choiceLegalPerson();
             enterINNManually();
             fillingFieldsOnTheRegistrationTab(arrayWithExistingLocatorsForLegalPerson);
             tryConfirmRegistration();
             entranceToB2BFromRegistrationTab();
-            //exitFromB2B();
             tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
             //act
             navigationToRegistrationTab();
@@ -138,14 +138,13 @@ public class AuthorizationB2B extends MethodsForRegistrationAndAuthorization {
             fillingFieldsOnTheRegistrationTab(arrayWithExistingLocatorsForIP);
             enterTheSameINN();
             logInFromAuthorizationTabUseTheSameInn();
-            if (doNeedToConfirmRegistrationUser == false){ exitFromB2B();}
+            if (!doNeedToConfirmRegistrationUser){ exitFromB2B();}
             tryConfirmRegistration();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTab(tempValueForEmail, password);
             logInFromAuthorizationTab();
             navigationToEmployeesTab();
             rejectEmployee();
-            exitFromB2B();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTab();
             logInFromAuthorizationTab();
@@ -155,7 +154,7 @@ public class AuthorizationB2B extends MethodsForRegistrationAndAuthorization {
             System.out.println("В обычной версии работы с организациями нет проверки по ИНН");
         }
     }
-    @Test //10. Проверка, что пользователю отправлено уведомление о смене пароля
+    @Test(retryAnalyzer = Retry.class) //10. Проверка, что пользователю отправлено уведомление о смене пароля
     public void checkingEventAboutChangePassword() {
         //arrange
         navigationToRegistrationTab();

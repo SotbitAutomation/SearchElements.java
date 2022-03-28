@@ -2,9 +2,9 @@ package TechnicalSupport;
 
 import BaseActions.BaseActions;
 import MyOrdersHistory.MethodsForMyOrders;
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 
 import java.io.File;
 
@@ -19,7 +19,12 @@ public class MethodsForTechnicalSupport extends BaseActions {
 
     public void openingPageOfCreateRequest(){
         driver.findElement(By.xpath("//*[contains(@href, 'support')][contains(@class, 'btn_b2b')]")).click();
-        Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@class,'page-title')]//*[contains(text(),'Новое обращение')]")).isDisplayed());
+        determineThemeColor();
+        if (themeColorBlack){
+            Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@class, 'page-title')][contains(text(),'Новое обращение')]")).isDisplayed());
+        }else {
+            Assert.assertTrue(driver.findElement(By.xpath("//h4[contains(text(),'Новое обращение')]")).isDisplayed());
+        }
     }
     public void fillingTheHeadForTechnicalSupport(){
         driver.findElement(By.cssSelector("#TITLE")).sendKeys(heading);
@@ -46,11 +51,16 @@ public class MethodsForTechnicalSupport extends BaseActions {
         driver.findElement(By.xpath("(//*[contains(@class, 'results__option')][contains(@id,'results')] /*)[" + randomNumberOfEvaluationOfResponse + "]")).click();
     }
     public void sendingRequest(){
-        driver.findElement(buttonSaveLocator).click();
+        tryToClickElement("//*[@name='save']");
     }
     public void checkingThatRequestIsDisplayedForTheUser(){
         Assert.assertTrue(driver.findElement(By.xpath("//*[text()='" + heading + "']")).isDisplayed());
-        Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@class,'page-title')]//*[contains(text(), 'Список обращений')]")).isDisplayed());
+        determineThemeColor();
+        if (themeColorBlack){
+            Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@class, 'page-title')][contains(text(), 'Список обращений')]")).isDisplayed());
+        }else {
+            Assert.assertTrue(driver.findElement(By.xpath("//h4[contains(text(), 'Список обращений')]")).isDisplayed());
+        }
     }
     public void navigationToAdminPart(){
         driver.findElement(By.cssSelector("#bx-panel-admin-tab")).click();
@@ -67,21 +77,23 @@ public class MethodsForTechnicalSupport extends BaseActions {
     public void checkingThatRequestIsDisplayed(){
         //driver.findElement(By.xpath("//*[@class='adm-select']/*[@selected='selected']")).click();
         driver.findElement(By.xpath("//*[@class='adm-select']/*[@value='500']")).click();
-        explicitWaiting();
+        implicitWaiting();
         Assert.assertTrue(driver.findElement(By.xpath("//*[text()='" + headingForCheck + "']")).isDisplayed());
     }
 
     public void sortingRequestsById(){
-        scrollUp();
+        scrollToTheElement("//*[contains(@title,  'ID')]");
         try {
             driver.findElement(By.xpath("//*[@class='adm-list-table-cell-inner'][text()='ID']")).click();
         }catch (Exception e){}
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@title='Сортировка: ID  (упорядочено по возрастанию)']")));
-        //explicitWaiting();
-        if (driver.findElement(By.xpath("//*[@class='adm-list-table-cell adm-list-table-cell-sort-up']"))
-                .getAttribute("title").equals("Сортировка: ID  (упорядочено по возрастанию)")){
-            driver.findElement(By.xpath("//*[@class='adm-list-table-cell-inner'][text()='ID']")).click();
+        implicitWaiting();implicitWaiting();
+        try {
+            driver.findElement(By.xpath("//*[@title='Сортировка: ID  (упорядочено по возрастанию)']")).click();
+        }catch (Exception e){
+            System.out.println("уже отсортипровано по убыванию");
         }
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@title='Сортировка: ID  (упорядочено по убыванию)']")));
+
     }
     public void openingLastRequestInAdminPart(){
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//*[@class='adm-list-table-cell'])[1]"), headingForCheck));
@@ -93,11 +105,13 @@ public class MethodsForTechnicalSupport extends BaseActions {
         driver.findElement(By.xpath("//*[@title='Скачать файл \"palms.jpg\"']")).click();
     }
     public void checkingThatFileIsDownload(){
-        explicitWaiting();
+        implicitWaiting();
         File[] files = dir.listFiles();
         Assert.assertTrue(files[1].getName().equals("palms.jpg"));
     }
     public void answeringToRequest(){
+        scrollToTheElement("//*[@value='ответ']");
+        scrollUp();
         driver.findElement(By.xpath("//*[@value='ответ']")).click();
         driver.findElement(By.cssSelector("#MESSAGE")).sendKeys("ОТВЕТ НА " + randomMessage);
     }

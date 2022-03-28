@@ -1,506 +1,589 @@
 package OrganizationsWithExtendedVersion;
 
-import org.junit.Test;
+import BaseActions.Retry;
 import org.openqa.selenium.By;
+import org.testng.annotations.Test;
 
 
 public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrganizationsWithExtendedVersion {
-    @Test //1. Добавление организация (ИП) у админа
+    @Test(retryAnalyzer = Retry.class) //1. Добавление организация (ИП) у админа
     public void addOrganizationIPFromTheAdmin() {
-        //arrange
-        navigationToAuthorizationTab();
-        //act
-        fillingFieldsOnTheLogInTabLikeAdmin();
-        logInToB2B();
-        navigationToOrganizationTab();
-        navigationToAddOrganizationTab();
-        selectionFromDropDownListIndividualBusinessman();
-        fillingFieldsForCreatingOrganization();
-        creatingOrganization();
-        confirmRegistrationOfOrganizationFromAdmin();
-        checkingThatOrganizationIsConfirmed();
-    }
-
-    @Test //2. Добавление организация (ИП) у юзера
-    public void addOrganizationIPFromTheUser() {
-        //arrange
-        navigationToAuthorizationTab();
-        //act
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        navigationToOrganizationTab();
-        navigationToAddOrganizationTab();
-        selectionFromDropDownListIndividualBusinessman();
-        fillingFieldsForCreatingOrganization();
-        creatingOrganization();
-        tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        checkingThatOrganizationIsConfirmed();
-    }
-
-    @Test //3. Добавление организация (ЮР) у админа
-    public void addOrganizationLegalPersonFromTheAdmin() {
-        //arrange
-        navigationToAuthorizationTab();
-        //act
-        fillingFieldsOnTheLogInTabLikeAdmin();
-        logInToB2B();
-        navigationToOrganizationTab();
-        navigationToAddOrganizationTab();
-        selectionFromDropDownListLegalPerson();
-        fillingFieldsForCreatingOrganization();
-        creatingOrganization();
-        confirmRegistrationOfOrganizationFromAdmin();
-        checkingThatOrganizationIsConfirmed();
-    }
-
-    @Test //4. Добавление организация (ЮР) у юзера
-    public void addOrganizationLegalPersonFromTheUser() {
-        //arrange
-        navigationToAuthorizationTab();
-        //act
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        navigationToOrganizationTab();
-        navigationToAddOrganizationTab();
-        selectionFromDropDownListLegalPerson();
-        fillingFieldsForCreatingOrganization();
-        creatingOrganization();
-        tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        checkingThatOrganizationIsConfirmed();
-    }
-
-    @Test //5. Проверка полей (обязательные / не обязательные)
-    public void checkFieldsRequiredOrOptionalFromTheUser() {
-        //arrange
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        navigationToOrganizationTab();
-        navigationToAddOrganizationTab();
-        //act
-        checkingThatTheFieldsAreRequired();
-    }
-
-    @Test //6. Изменение данных созданной организации у админа
-    public void checkAvailableActionsWithOrganizationsFromTheAdmin() {
-        //arrange
-        try{
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
             navigationToAuthorizationTab();
+            //act
             fillingFieldsOnTheLogInTabLikeAdmin();
             logInToB2B();
             navigationToOrganizationTab();
-            checkingThatOrganizationsIsDisplayed();
-            checkingThatOrganizationIsConfirmed();
-        }catch (Exception e){ //Если нет одобренной организации для проверки > создать ее
-            exitFromB2B();
-            addOrganizationIPFromTheAdmin();
-            navigationToOrganizationTab();
+            navigationToAddOrganizationTab();
+            selectionFromDropDownListIndividualBusinessman();
+            fillingFieldsForCreatingOrganization();
+            creatingOrganization();
+            confirmRegistrationOfOrganizationFromAdmin();
             checkingThatOrganizationIsConfirmed();
         }
-        //act
-        addOrganizationIPFromTheAdmin();
-        checkingAvailableActionsWithOrganization(true);
     }
 
-    @Test //7. Изменение данных созданной организациии у юзера
-    public void checkAvailableActionsWithOrganizationsFromTheUser() {
-        //arrange
-        try{
+    @Test(retryAnalyzer = Retry.class) //2. Добавление организация (ИП) у юзера
+    public void addOrganizationIPFromTheUser() {
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
+            navigationToAuthorizationTab();
+            //act
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            navigationToOrganizationTab();
+            navigationToAddOrganizationTab();
+            selectionFromDropDownListIndividualBusinessman();
+            fillingFieldsForCreatingOrganization();
+            creatingOrganization();
+            tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            checkingThatOrganizationIsConfirmed();
+        }
+    }
+
+    @Test(retryAnalyzer = Retry.class) //3. Добавление организация (ЮР) у админа
+    public void addOrganizationLegalPersonFromTheAdmin() {
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
+            navigationToAuthorizationTab();
+            //act
+            fillingFieldsOnTheLogInTabLikeAdmin();
+            logInToB2B();
+            navigationToOrganizationTab();
+            navigationToAddOrganizationTab();
+            selectionFromDropDownListLegalPerson();
+            fillingFieldsForCreatingOrganization();
+            creatingOrganization();
+            confirmRegistrationOfOrganizationFromAdmin();
+            checkingThatOrganizationIsConfirmed();
+        }
+    }
+
+    @Test(retryAnalyzer = Retry.class) //4. Добавление организация (ЮР) у юзера
+    public void addOrganizationLegalPersonFromTheUser() {
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
+            navigationToAuthorizationTab();
+            //act
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            navigationToOrganizationTab();
+            navigationToAddOrganizationTab();
+            selectionFromDropDownListLegalPerson();
+            fillingFieldsForCreatingOrganization();
+            creatingOrganization();
+            tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            checkingThatOrganizationIsConfirmed();
+        }
+    }
+
+    @Test(retryAnalyzer = Retry.class) //5. Проверка полей (обязательные / не обязательные)
+    public void checkFieldsRequiredOrOptionalFromTheUser() {
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeUser();
             logInToB2B();
             navigationToOrganizationTab();
-            checkingThatOrganizationIsConfirmed();
-        }catch (Exception e){ //Если нет одобренной организации для проверки > создать ее
-            exitFromB2B();
-            addOrganizationIPFromTheUser();
-            navigationToOrganizationTab();
-            checkingThatOrganizationIsConfirmed();
+            navigationToAddOrganizationTab();
+            //act
+            checkingThatTheFieldsAreRequired();
         }
-        //act
-        sortingOrganizationByDecrease();
-        checkingAvailableActionsWithOrganization(false);
     }
 
-    @Test //8. Присоединиться к организации (ИП) которую создал другой пользователь
+    @Test(retryAnalyzer = Retry.class)//6. Изменение данных созданной организации у админа
+    public void checkAvailableActionsWithOrganizationsFromTheAdmin() {
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
+            try {
+                navigationToAuthorizationTab();
+                fillingFieldsOnTheLogInTabLikeAdmin();
+                logInToB2B();
+                navigationToOrganizationTab();
+                checkingThatOrganizationsIsDisplayed();
+                checkingThatOrganizationIsConfirmed();
+            } catch (Exception e) { //Если нет одобренной организации для проверки > создать ее
+                exitFromB2B();
+                addOrganizationIPFromTheAdmin();
+                navigationToOrganizationTab();
+                checkingThatOrganizationIsConfirmed();
+            }
+            //act
+            addOrganizationIPFromTheAdmin();
+            checkingAvailableActionsWithOrganization(true);
+        }
+    }
+
+    @Test(retryAnalyzer = Retry.class)//7. Изменение данных созданной организациии у юзера
+    public void checkAvailableActionsWithOrganizationsFromTheUser() {
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
+            try {
+                navigationToAuthorizationTab();
+                fillingFieldsOnTheLogInTabLikeUser();
+                logInToB2B();
+                navigationToOrganizationTab();
+                checkingThatOrganizationIsConfirmed();
+            } catch (Exception e) { //Если нет одобренной организации для проверки > создать ее
+                exitFromB2B();
+                nameCompany = "NameCompany ИмяКомпании" + randomString(10);
+                iNNManual = randomNumber(14);
+                addOrganizationIPFromTheUser();
+                navigationToOrganizationTab();
+                checkingThatOrganizationIsConfirmed();
+            }
+            //act
+            sortingOrganizationByDecrease();
+            checkingAvailableActionsWithOrganization(false);
+        }
+    }
+
+    @Test(retryAnalyzer = Retry.class)//8. Присоединиться к организации (ИП) которую создал другой пользователь
     public void checkOfJoiningAnOrganizationIP() {
-        //arrange
-        navigationToAuthorizationTab();
-        //act
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        navigationToOrganizationTab();
-        navigationToAddOrganizationTab();
-        selectionFromDropDownListIndividualBusinessman();
-        fillingFieldsForCreatingOrganization();
-        creatingOrganization();
-        tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeEmployee();
-        logInToB2B();
-        navigationToOrganizationTab();
-        requestToJoinTheCompany();
-        exitFromB2B();
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        confirmEmployeeRequest();
-        exitFromB2B();
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeEmployee();
-        logInToB2B();
-        selectionFromTheHeaderOrganization(nameCompany);
-        checkingThatTheEmployeeOfCompanyIsDisplayed();
-    }
-
-    @Test //9. Присоединиться к организации (ЮР) которую создал другой пользователь
-    public void checkOfJoiningAnOrganizationLP() {
-        //arrange
-        navigationToAuthorizationTab();
-        //act
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        navigationToOrganizationTab();
-        navigationToAddOrganizationTab();
-        selectionFromDropDownListLegalPerson();
-        fillingFieldsForCreatingOrganization();
-        creatingOrganization();
-        tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeEmployee();
-        logInToB2B();
-        navigationToOrganizationTab();
-        requestToJoinTheCompany();
-        exitFromB2B();
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        confirmEmployeeRequest();
-        exitFromB2B();
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeEmployee();
-        logInToB2B();
-        selectionFromTheHeaderOrganization(nameCompany);
-        checkingThatTheEmployeeOfCompanyIsDisplayed();
-    }
-
-    @Test //10. Добавление существующего  сотрудника к организации
-    public void addingAnEmployeeToAnOrganization() {
-        //arrange
-        navigationToAuthorizationTab();
-        //act
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        navigationToOrganizationTab();
-        navigationToAddOrganizationTab();
-        selectionFromDropDownListLegalPerson();
-        fillingFieldsForCreatingOrganization();
-        creatingOrganization();
-        tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        selectionFromTheHeaderOrganization(nameCompany);
-        fillingFieldForCreatingEmployeeUsingReferralLink();
-        addingAnEmployeeToAnOrganizationUsingByReferralLink();
-        exitFromB2B();
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeEmployee();
-        logInToB2B();
-        checkingTheCompanyNameInHeader();
-        checkingThatCompanyIsDisplayed();
-    }
-
-    @Test //11. Добавление  существующего  сотрудника к организации который уже является сотрудником компании
-    public void addingReExistingEmployeeToAnOrganization() {
-        //arrange
-        addingAnEmployeeToAnOrganization();
-        exitFromB2B();
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        //arrange
-        addingTheSameEmployeeToAnOrganizationFromAnotherUser();
-    }
-
-    @Test //12. Регистрация сотрудника компании из раздела сотрудники
-    public void registrationOfEmployeeFromTheEmployeesSection() {
-        //arrange
-        navigationToAuthorizationTab();
-        //act
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        navigationToOrganizationTab();
-        navigationToAddOrganizationTab();
-        selectionFromDropDownListLegalPerson();
-        fillingFieldsForCreatingOrganization();
-        creatingOrganization();
-        tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        selectionFromTheHeaderOrganization(nameCompany);
-        fillingAllFieldsOnTheRegisterNewEmployee();
-        registrationUserFromTheEmployeesTab();
-        exitFromB2B();
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeEmployeeJustNowRegistered();
-        logInToB2B();
-        checkingTheCompanyNameInHeader();
-    }
-
-    @Test //13. Регистрация руководителя компании из раздела сотрудники
-    public void registrationOfBossFromTheEmployeesSection() {
-        //arrange
-        navigationToAuthorizationTab();
-        //act
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        navigationToOrganizationTab();
-        navigationToAddOrganizationTab();
-        selectionFromDropDownListLegalPerson();
-        fillingFieldsForCreatingOrganization();
-        creatingOrganization();
-        tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        selectionFromTheHeaderOrganization(nameCompany);
-        fillingAllFieldsOnTheRegisterNewEmployee();
-        choosingBossRole();
-        registrationUserFromTheEmployeesTab();
-        exitFromB2B();
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeEmployeeJustNowRegistered();
-        logInToB2B();
-        checkingTheCompanyNameInHeader();
-    }
-
-    @Test //14. Регистрация сотрудника компании из раздела сотрудники с существующим email
-    public void registrationEmployeeFromTheEmployeesSectionWithExistingEmail() {
-        //arrange
-        navigationToAuthorizationTab();
-        //act
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        navigationToOrganizationTab();
-        navigationToAddOrganizationTab();
-        selectionFromDropDownListLegalPerson();
-        fillingFieldsForCreatingOrganization();
-        creatingOrganization();
-        tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        selectionFromTheHeaderOrganization(nameCompany);
-        fillingAllFieldsOnTheRegisterNewEmployee();
-        registrationTheSameUserFromTheEmployeesTab();
-    }
-
-    @Test //15. Добавление существующего Руководителя к организации
-    public void addingAnBossToAnOrganizationUsingReferralLink() {
-        //arrange
-        navigationToAuthorizationTab();
-        //act
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        navigationToOrganizationTab();
-        navigationToAddOrganizationTab();
-        selectionFromDropDownListLegalPerson();
-        fillingFieldsForCreatingOrganization();
-        creatingOrganization();
-        tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        selectionFromTheHeaderOrganization(nameCompany);
-        fillingFieldForCreatingEmployeeUsingReferralLink();
-        choosingBossRole();
-        addingAnEmployeeToAnOrganizationUsingByReferralLink();
-        exitFromB2B();
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeEmployee();
-        logInToB2B();
-        checkingTheCompanyNameInHeader();
-        checkingThatCompanyIsDisplayed();
-        navigationToPersonsTab();
-        checkingThatThereAreButtonForAddEmployee();
-    }
-
-    @Test //16. Регистрация пользователя через реферальную ссылку
-    public void registeringUserUsingReferralLink() {
-        //arrange
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        //arrange
-        navigationToPersonsTab();
-        try {   //Если у пользователя еще нет организации то создать ему организацию
-            driver.findElement(By.xpath("//*[contains(text(), 'Добавить нового сотрудника')]")).click();
-        }catch (Exception e){
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
+            navigationToAuthorizationTab();
+            //act
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            navigationToOrganizationTab();
+            navigationToAddOrganizationTab();
+            selectionFromDropDownListIndividualBusinessman();
+            fillingFieldsForCreatingOrganization();
+            creatingOrganization();
+            tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeEmployee();
+            logInToB2B();
+            navigationToOrganizationTab();
+            requestToJoinTheCompany();
             exitFromB2B();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            confirmEmployeeRequest();
+            exitFromB2B();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeEmployee();
+            logInToB2B();
+            selectionFromTheHeaderOrganization(nameCompany);
+            checkingThatTheEmployeeOfCompanyIsDisplayed();
+        }
+    }
+
+    @Test(retryAnalyzer = Retry.class)//9. Присоединиться к организации (ЮР) которую создал другой пользователь
+    public void checkOfJoiningAnOrganizationLP() {
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
+            navigationToAuthorizationTab();
+            //act
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            navigationToOrganizationTab();
+            navigationToAddOrganizationTab();
+            selectionFromDropDownListLegalPerson();
+            fillingFieldsForCreatingOrganization();
+            creatingOrganization();
+            tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeEmployee();
+            logInToB2B();
+            navigationToOrganizationTab();
+            requestToJoinTheCompany();
+            exitFromB2B();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            confirmEmployeeRequest();
+            exitFromB2B();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeEmployee();
+            logInToB2B();
+            selectionFromTheHeaderOrganization(nameCompany);
+            checkingThatTheEmployeeOfCompanyIsDisplayed();
+        }
+    }
+
+    @Test(retryAnalyzer = Retry.class)//10. Добавление существующего  сотрудника к организации
+    public void addingAnEmployeeToAnOrganization() {
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
+            navigationToAuthorizationTab();
+            //act
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            navigationToOrganizationTab();
+            navigationToAddOrganizationTab();
+            selectionFromDropDownListLegalPerson();
+            fillingFieldsForCreatingOrganization();
+            creatingOrganization();
+            tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            selectionFromTheHeaderOrganization(nameCompany);
+            fillingFieldForCreatingEmployeeUsingReferralLink();
+            addingAnEmployeeToAnOrganizationUsingByReferralLink();
+            exitFromB2B();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeEmployee();
+            logInToB2B();
+            checkingTheCompanyNameInHeader();
+            checkingThatCompanyIsDisplayed();
+        }
+    }
+
+    @Test(retryAnalyzer = Retry.class)
+    //11. Добавление  существующего  сотрудника к организации который уже является сотрудником компании
+    public void addingReExistingEmployeeToAnOrganization() {
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
             addingAnEmployeeToAnOrganization();
             exitFromB2B();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeUser();
             logInToB2B();
-            navigationToPersonsTab();
-            driver.findElement(By.xpath("//*[contains(text(), 'Добавить нового сотрудника')]")).click();
+            //arrange
+            addingTheSameEmployeeToAnOrganizationFromAnotherUser();
         }
-        registrationNewUserUsingReferralLink();
-        checkingSuccessfulRegistrationMessage();
     }
 
-    @Test //17 Проверка почтового события после добавления пользователя управляющим компании
+    @Test(retryAnalyzer = Retry.class)//12. Регистрация сотрудника компании из раздела сотрудники
+    public void registrationOfEmployeeFromTheEmployeesSection() {
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
+            navigationToAuthorizationTab();
+            //act
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            navigationToOrganizationTab();
+            navigationToAddOrganizationTab();
+            selectionFromDropDownListLegalPerson();
+            fillingFieldsForCreatingOrganization();
+            creatingOrganization();
+            tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            selectionFromTheHeaderOrganization(nameCompany);
+            fillingAllFieldsOnTheRegisterNewEmployee();
+            registrationUserFromTheEmployeesTab();
+            exitFromB2B();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeEmployeeJustNowRegistered();
+            logInToB2B();
+            checkingTheCompanyNameInHeader();
+        }
+    }
+
+    @Test(retryAnalyzer = Retry.class)//13. Регистрация руководителя компании из раздела сотрудники
+    public void registrationOfBossFromTheEmployeesSection() {
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
+            navigationToAuthorizationTab();
+            //act
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            navigationToOrganizationTab();
+            navigationToAddOrganizationTab();
+            selectionFromDropDownListLegalPerson();
+            fillingFieldsForCreatingOrganization();
+            creatingOrganization();
+            tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            selectionFromTheHeaderOrganization(nameCompany);
+            fillingAllFieldsOnTheRegisterNewEmployee();
+            choosingBossRole();
+            registrationUserFromTheEmployeesTab();
+            exitFromB2B();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeEmployeeJustNowRegistered();
+            logInToB2B();
+            checkingTheCompanyNameInHeader();
+        }
+    }
+
+    @Test(retryAnalyzer = Retry.class)//14. Регистрация сотрудника компании из раздела сотрудники с существующим email
+    public void registrationEmployeeFromTheEmployeesSectionWithExistingEmail() {
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
+            navigationToAuthorizationTab();
+            //act
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            navigationToOrganizationTab();
+            navigationToAddOrganizationTab();
+            selectionFromDropDownListLegalPerson();
+            fillingFieldsForCreatingOrganization();
+            creatingOrganization();
+            tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            selectionFromTheHeaderOrganization(nameCompany);
+            fillingAllFieldsOnTheRegisterNewEmployee();
+            registrationTheSameUserFromTheEmployeesTab();
+        }
+    }
+
+    @Test(retryAnalyzer = Retry.class)//15. Добавление существующего Руководителя к организации
+    public void addingAnBossToAnOrganizationUsingReferralLink() {
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
+            navigationToAuthorizationTab();
+            //act
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            navigationToOrganizationTab();
+            navigationToAddOrganizationTab();
+            selectionFromDropDownListLegalPerson();
+            fillingFieldsForCreatingOrganization();
+            creatingOrganization();
+            tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            selectionFromTheHeaderOrganization(nameCompany);
+            fillingFieldForCreatingEmployeeUsingReferralLink();
+            choosingBossRole();
+            addingAnEmployeeToAnOrganizationUsingByReferralLink();
+            exitFromB2B();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeEmployee();
+            logInToB2B();
+            checkingTheCompanyNameInHeader();
+            checkingThatCompanyIsDisplayed();
+            navigationToPersonsTab();
+            checkingThatThereAreButtonForAddEmployee();
+        }
+    }
+
+    @Test(retryAnalyzer = Retry.class)//16. Регистрация пользователя через реферальную ссылку
+    public void registeringUserUsingReferralLink() {
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            //arrange
+            navigationToPersonsTab();
+            try {   //Если у пользователя еще нет организации то создать ему организацию
+                driver.findElement(By.xpath("//*[contains(text(), 'Добавить нового сотрудника')]")).click();
+            } catch (Exception e) {
+                exitFromB2B();
+                addingAnEmployeeToAnOrganization();
+                exitFromB2B();
+                navigationToAuthorizationTab();
+                fillingFieldsOnTheLogInTabLikeUser();
+                logInToB2B();
+                navigationToPersonsTab();
+                driver.findElement(By.xpath("//*[contains(text(), 'Добавить нового сотрудника')]")).click();
+            }
+            registrationNewUserUsingReferralLink();
+            checkingSuccessfulRegistrationMessage();
+        }
+    }
+
+    @Test(retryAnalyzer = Retry.class)//17 Проверка почтового события после добавления пользователя управляющим компании
     public void checkingEvent() {
-        //arrange
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        navigationToOrganizationTab();
-        navigationToAddOrganizationTab();
-        selectionFromDropDownListLegalPerson();
-        fillingFieldsForCreatingOrganization();
-        creatingOrganization();
-        tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        selectionFromTheHeaderOrganization(nameCompany);
-        fillingFieldForCreatingEmployeeUsingReferralLink();
-        choosingBossRole();
-        addingAnEmployeeToAnOrganizationUsingByReferralLink();
-        exitFromB2B();
-        //act
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeAdmin();
-        logInToB2B();
-        navigationToTheEventTableFromAdminMeanPage();
-        checkingThatEventAboutInviteBossIsDisplayed();
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            navigationToOrganizationTab();
+            navigationToAddOrganizationTab();
+            selectionFromDropDownListLegalPerson();
+            fillingFieldsForCreatingOrganization();
+            creatingOrganization();
+            tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            selectionFromTheHeaderOrganization(nameCompany);
+            fillingFieldForCreatingEmployeeUsingReferralLink();
+            choosingBossRole();
+            addingAnEmployeeToAnOrganizationUsingByReferralLink();
+            exitFromB2B();
+            //act
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeAdmin();
+            logInToB2B();
+            navigationToTheEventTableFromAdminMeanPage();
+            checkingThatEventAboutInviteBossIsDisplayed();
+        }
     }
 
-    @Test //18. Проверка того что сотрудник не может выбрать оргнаизацию для оформления заказа из которой он был удален
+    @Test(retryAnalyzer = Retry.class)
+    //18. Проверка того что сотрудник не может выбрать оргнаизацию для оформления заказа из которой он был удален
     public void checkingThatEmployeeCannotSelectOrganizationToPlaceOrderFromWhichHeWasRemoved() {
-        //arrange
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        navigationToOrganizationTab();
-        navigationToAddOrganizationTab();
-        selectionFromDropDownListIndividualBusinessman();
-        fillingFieldsForCreatingOrganization();
-        creatingOrganization();
-        tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeEmployee();
-        logInToB2B();
-        navigationToOrganizationTab();
-        requestToJoinTheCompany();
-        exitFromB2B();
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        selectionFromTheHeaderOrganization(nameCompany);
-        confirmEmployeeRequest();
-        navigationToPersonsTab();
-        deletingEmployee();
-        exitFromB2B();
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeEmployee();
-        logInToB2B();
-        checkingThatEmployeeCantChoiceCompanyFromWhichHeWasDeleted();
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            navigationToOrganizationTab();
+            navigationToAddOrganizationTab();
+            selectionFromDropDownListIndividualBusinessman();
+            fillingFieldsForCreatingOrganization();
+            creatingOrganization();
+            tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeEmployee();
+            logInToB2B();
+            navigationToOrganizationTab();
+            requestToJoinTheCompany();
+            exitFromB2B();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            selectionFromTheHeaderOrganization(nameCompany);
+            confirmEmployeeRequest();
+            navigationToPersonsTab();
+            deletingEmployee();
+            exitFromB2B();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeEmployee();
+            logInToB2B();
+            checkingThatEmployeeCantChoiceCompanyFromWhichHeWasDeleted();
+        }
     }
 
-    @Test //19. Отображение уведомления о добавлении уже существующей компании
+    @Test(retryAnalyzer = Retry.class)//19. Отображение уведомления о добавлении уже существующей компании
     public void registrationTheSameOrganization() {
-        //arrange
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        navigationToOrganizationTab();
-        navigationToAddOrganizationTab();
-        selectionFromDropDownListLegalPerson();
-        fillingFieldsForCreatingOrganization();
-        creatingOrganization();
-        tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        checkingThatOrganizationIsConfirmed();
-        exitFromB2B();
-        //act
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeEmployee();
-        logInToB2B();
-        navigationToOrganizationTab();
-        navigationToAddOrganizationTab();
-        selectionFromDropDownListLegalPerson();
-        fillingFieldsForCreatingOrganization();
-        checkingMessageAboutExistOrganization();
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            navigationToOrganizationTab();
+            navigationToAddOrganizationTab();
+            selectionFromDropDownListLegalPerson();
+            fillingFieldsForCreatingOrganization();
+            creatingOrganization();
+            tryConfirmRegistrationOfOrganizationInB2bFromTheUser();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            checkingThatOrganizationIsConfirmed();
+            exitFromB2B();
+            //act
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeEmployee();
+            logInToB2B();
+            navigationToOrganizationTab();
+            navigationToAddOrganizationTab();
+            selectionFromDropDownListLegalPerson();
+            fillingFieldsWithTheSameINNAndNameOrganizationForCreatingOrganization();
+            checkingMessageAboutExistOrganization();
+        }
     }
 
-    @Test //20. Закрытие поп-ап окна "Присоедениться к организации", после нажатия "Отмена"
+    @Test(retryAnalyzer = Retry.class)//20. Закрытие поп-ап окна "Присоедениться к организации", после нажатия "Отмена"
     public void closingPopUpWindowJoinOrganizationAfterClickingCancel() {
-        //arrange
-        navigationToAuthorizationTab();
-        //act
-        fillingFieldsOnTheLogInTabLikeEmployee();
-        logInToB2B();
-        navigationToOrganizationTab();
-        checkingThatPopUpWindowJoinToOrganizationIsClosedAfterClickCancel();
-        checkingThatDataWasDeletedAfterClickCancel();
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
+            navigationToAuthorizationTab();
+            //act
+            fillingFieldsOnTheLogInTabLikeEmployee();
+            logInToB2B();
+            navigationToOrganizationTab();
+            checkingThatPopUpWindowJoinToOrganizationIsClosedAfterClickCancel();
+            checkingThatDataWasDeletedAfterClickCancel();
+        }
     }
-    @Test //21. Отображение введённых данных, после ввода данных и повторного открытия поп-ап окна "Присоедениться к организации"
+
+    @Test(retryAnalyzer = Retry.class)
+    //21. Отображение введённых данных, после ввода данных и повторного открытия поп-ап окна "Присоедениться к организации"
     public void displayingEnteredDataAfterEnteringTheDataAndReOpeningThePopUpWindowJoinOrganization() {
-        //arrange
-        navigationToAuthorizationTab();
-        //act
-        fillingFieldsOnTheLogInTabLikeEmployee();
-        logInToB2B();
-        navigationToOrganizationTab();
-        checkingThatEnteredDataIsDisplayedAfterReopeningPopUpWindowJoinToOrganization();
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
+            navigationToAuthorizationTab();
+            //act
+            fillingFieldsOnTheLogInTabLikeEmployee();
+            logInToB2B();
+            navigationToOrganizationTab();
+            checkingThatEnteredDataIsDisplayedAfterReopeningPopUpWindowJoinToOrganization();
+        }
     }
-    @Test //22. Вывод списка заказов в табе "Заказы" (на детальной странице организации)
+
+    @Test(retryAnalyzer = Retry.class)//22. Вывод списка заказов в табе "Заказы" (на детальной странице организации)
     public void checkThatListOfOrdersIsDisplayedInTheOrdersTab() {
-        //arrange
-        addOrganizationIPFromTheUser();
-        selectionFromTheHeaderOrganization(nameCompany);
-        exitFromB2B();
-        addingTwoOrder();
-        //act
-        navigationToOrganizationTab();
-        sortingOrganizationByDecrease();
-        checkingThatOrdersIsDisplayedInOrganization();
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
+            addOrganizationIPFromTheUser();
+            selectionFromTheHeaderOrganization(nameCompany);
+            exitFromB2B();
+            addingTwoOrder();
+            //act
+            navigationToOrganizationTab();
+            sortingOrganizationByDecrease();
+            checkingThatOrdersIsDisplayedInOrganization();
+        }
     }
-    @Test //23. Переход к детальной информации совершенного заказа из таба "Заказы" организации совершившей этот заказ
+
+    @Test(retryAnalyzer = Retry.class)
+    //23. Переход к детальной информации совершенного заказа из таба "Заказы" организации совершившей этот заказ
     public void goToTheCompletedOrderFromTheOrdersTabOfTheOrganizationSDetailedPage() {
-        //arrange
-        addOrganizationIPFromTheUser();
-        selectionFromTheHeaderOrganization(nameCompany);
-        exitFromB2B();
-        addingTwoOrder();
-        //act
-        navigationToOrganizationTab();
-        sortingOrganizationByDecrease();
-        checkingThatOrdersIsDisplayedInOrganization();
-        goToDetailPageAboutOrder();
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
+            addOrganizationIPFromTheUser();
+            selectionFromTheHeaderOrganization(nameCompany);
+            exitFromB2B();
+            addingTwoOrder();
+            //act
+            navigationToOrganizationTab();
+            sortingOrganizationByDecrease();
+            checkingThatOrdersIsDisplayedInOrganization();
+            goToDetailPageAboutOrder();
+        }
     }
-
-
-
-
-
-
-
-
-
-
+    @Test(retryAnalyzer = Retry.class)
+    //24. Вывод количества элементов в счетчике "Всего"
+    public void outputOfTheNumberOfItemsInTheTotalCounter() {
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
+            navigationToAuthorizationTab();
+            //act
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            navigationToOrganizationTab();
+            checkingTheNumberOfOrganizationsInTheTotalCounter();
+        }
+    }
 
 
 
