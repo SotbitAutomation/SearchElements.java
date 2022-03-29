@@ -10,7 +10,7 @@ public class AddingOrganizationsWithStandardVersion extends MethodsForAddingOrga
     @Test(retryAnalyzer = Retry.class) //1. Добавление организация (ИП) у админа
     public void addOrganizationIPFromTheAdmin() {
         determineWhetherVersionsOfWorkingWithOrganization();
-        if (!versionsOfWorkingWithOrganizationsExtended){
+        if (!versionsOfWorkingWithOrganizationsExtended) {
             //arrange
             navigationToAuthorizationTab();
             //act
@@ -27,17 +27,17 @@ public class AddingOrganizationsWithStandardVersion extends MethodsForAddingOrga
     @Test(retryAnalyzer = Retry.class) //2. Добавление организация (ИП) у юзера
     public void addOrganizationIPFromTheUser() {
         determineWhetherVersionsOfWorkingWithOrganization();
-        if (!versionsOfWorkingWithOrganizationsExtended){
-        //arrange
-        navigationToAuthorizationTab();
-        //act
-        fillingFieldsOnTheLogInTabLikeUser();
-        logInToB2B();
-        navigationToOrganizationTab();
-        navigationToAddOrganizationTab();
-        selectionFromDropDownListIndividualBusinessman();
-        fillingFieldsForCreatingOrganization();
-        creatingOrganization();
+        if (!versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
+            navigationToAuthorizationTab();
+            //act
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            navigationToOrganizationTab();
+            navigationToAddOrganizationTab();
+            selectionFromDropDownListIndividualBusinessman();
+            fillingFieldsForCreatingOrganization();
+            creatingOrganization();
         }
     }
 
@@ -118,6 +118,7 @@ public class AddingOrganizationsWithStandardVersion extends MethodsForAddingOrga
             checkingAvailableActionsWithOrganizationInStandardVersion();
         }
     }
+
     @Test(retryAnalyzer = Retry.class) //8. Проверка корректности вывода профилей покупателя (организаций)
     public void checkingCorrectnessOfTheOutputOfCustomerProfiles() {
         determineWhetherVersionsOfWorkingWithOrganization();
@@ -131,8 +132,10 @@ public class AddingOrganizationsWithStandardVersion extends MethodsForAddingOrga
             checkingThatNeededProfilesOfBuyersIsSelected();
         }
     }
-    @Test(retryAnalyzer = Retry.class) //9. Проверить валидацию полей формы заданных в настройках свойств (настроить максимальную длину символов)
-    public void checkValidationOfFormFieldsSpecifiedInThePropertiesSettings () {
+
+    @Test(retryAnalyzer = Retry.class)
+    //9. Проверить валидацию полей формы заданных в настройках свойств (настроить максимальную длину символов)
+    public void checkValidationOfFormFieldsSpecifiedInThePropertiesSettings() {
         determineWhetherVersionsOfWorkingWithOrganization();
         if (!versionsOfWorkingWithOrganizationsExtended) {
             //arrange
@@ -154,8 +157,9 @@ public class AddingOrganizationsWithStandardVersion extends MethodsForAddingOrga
             checkingMinimumAndMaximumStringLength();
         }
     }
+
     @Test(retryAnalyzer = Retry.class) //10. Проверить соответствия набора полей заявленным в настройках системы
-    public void checkThatCreatedPropertiesIsOutputIn2b2 () {
+    public void checkThatCreatedPropertiesIsOutputIn2b2() {
         determineWhetherVersionsOfWorkingWithOrganization();
         if (!versionsOfWorkingWithOrganizationsExtended) {
             //arrange
@@ -173,6 +177,7 @@ public class AddingOrganizationsWithStandardVersion extends MethodsForAddingOrga
             checkingThatAllFieldsForIndividualBusinessman();
         }
     }
+
     @Test(retryAnalyzer = Retry.class) //11. Проверить корректность автоподстановки данных при заполнении ИНН
     public void checkCorrectnessOfAutomaticDataSubstitutionWhenFillingInTheTIN() {
         determineWhetherVersionsOfWorkingWithOrganization();
@@ -191,6 +196,7 @@ public class AddingOrganizationsWithStandardVersion extends MethodsForAddingOrga
             creatingOrganization();
         }
     }
+
     @Test //12. Проверить корректность сохранения данных существующей организации
     public void checkCorrectnessOfDataSavingExistingOrganization() {
         determineWhetherVersionsOfWorkingWithOrganization();
@@ -211,8 +217,10 @@ public class AddingOrganizationsWithStandardVersion extends MethodsForAddingOrga
             checkingThatDataHasBeenChanged(); //ошибка b2b, название радиобаттана не меняется после изменения названия комании (как и название орг. в списке орг-й)
         }
     }
-    @Test(retryAnalyzer = Retry.class) //12.1. !!!Пока ошибка в 12 (клиенты не жалуются, поэтому пока исправляться не будет), выполнять этот!
-          // Проверить корректность сохранения данных существующей организации
+
+    @Test(retryAnalyzer = Retry.class)
+    //12.1. !!!Пока ошибка в 12 (клиенты не жалуются, поэтому пока исправляться не будет), выполнять этот!
+    // Проверить корректность сохранения данных существующей организации
     public void checkCorrectnessOfDataSavingExistingOrganization2() {
         determineWhetherVersionsOfWorkingWithOrganization();
         if (!versionsOfWorkingWithOrganizationsExtended) {
@@ -233,6 +241,7 @@ public class AddingOrganizationsWithStandardVersion extends MethodsForAddingOrga
             checkingThatDataHasBeenChanged2();
         }
     }
+
     @Test(retryAnalyzer = Retry.class) //13. Проверка работы настройки списка организаций (для всех)
     public void checkingOperationOfTheOrganizationListSettingsForAll() {
         determineWhetherVersionsOfWorkingWithOrganization();
@@ -256,6 +265,7 @@ public class AddingOrganizationsWithStandardVersion extends MethodsForAddingOrga
             selectingAllColumnsToDisplay();
         }
     }
+
     @Test(retryAnalyzer = Retry.class) //14. Проверка работы настройки списка организаций (по умолчанию)
     public void checkingOperationOfTheOrganizationListSettingsByDefault() {
         determineWhetherVersionsOfWorkingWithOrganization();
@@ -279,21 +289,35 @@ public class AddingOrganizationsWithStandardVersion extends MethodsForAddingOrga
             selectingByDefaultSetting();
         }
     }
+
     @Test(retryAnalyzer = Retry.class)
     //15. Вывод количества элементов в счетчике "Всего"
     public void outputOfTheNumberOfItemsInTheTotalCounter() {
-        determineWhetherVersionsOfWorkingWithOrganization();
-        if (versionsOfWorkingWithOrganizationsExtended) {
-            //arrange
-            navigationToAuthorizationTab();
-            //act
-            fillingFieldsOnTheLogInTabLikeUser();
-            logInToB2B();
-            navigationToOrganizationTab();
-            checkingTheNumberOfOrganizationsInTheTotalCounter();
-        }
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToOrganizationTab();
+        checkingTheNumberOfOrganizationsInTheTotalCounter();
     }
 
+    @Test(retryAnalyzer = Retry.class)
+    //16. Поиск организации в разделе "Мои организации"
+    public void searchForAnOrganizationInTheMyOrganizationsSection() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToOrganizationTab();
+        searchForRandomOneFromTheUserSExistingOrganizations();
+        deletingNumberForSearchOrganizationUsingCloseIcon();
+        openDetailPageFirstOrganization();
+        navigationToOrganizationTab();
+        //searchForRandomOneFromTheUserSExistingOrganizations();
+        deletingNameForSearchOrganizationUsingFieldForSearch();
+    }
 
 
 //    @Test //Удаление организаций))

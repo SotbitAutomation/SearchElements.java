@@ -67,7 +67,8 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
     public void selectCompanyByItSNumber(int companyNumber) {
         determineWhetherVersionsOfWorkingWithOrganization();
         if (!versionsOfWorkingWithOrganizationsExtended) {
-            driver.findElement(By.xpath("(//input[@name='PROFILE_ID'])[" + companyNumber + "]")).click();
+            tryToClickElement("(//input[@name='PROFILE_ID'])[" + companyNumber + "]");
+            //driver.findElement(By.xpath("(//input[@name='PROFILE_ID'])[" + companyNumber + "]")).click();
             wait.until(ExpectedConditions.elementToBeSelected(By.xpath("(//input[@name='PROFILE_ID'])[" + companyNumber + "]")));
         } else {
             if (themeColorBlack){

@@ -92,7 +92,7 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(flagForLocation);
+        System.out.println("Есть ли поле 'Местоположение' - " + flagForLocation);
     }
 
     @Test //4. Определение нужно ли подтверждать регистрацию пользователя
@@ -193,7 +193,7 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
                 doNeedToConfirmRegistrationOrganization = true;
             }catch (Exception e){
                 try {
-                    Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'Одобрена')]")).isDisplayed());
+                    Assert.assertTrue(driver.findElement(By.xpath("//span[contains(text(), 'Одобрена')]")).isDisplayed());
                     doNeedToConfirmRegistrationOrganization = false;
                 }catch (Exception exception){
                     AddingOrganizationsWithExtendedVersion addOrganization = new AddingOrganizationsWithExtendedVersion();

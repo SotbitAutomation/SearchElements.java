@@ -4,13 +4,13 @@ import BaseActions.BaseActions;
 import MakingOrders.MakingOrders;
 import RegistrationAndAuthorization.MethodsForRegistrationAndAuthorization;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
 public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseActions {
     MethodsForRegistrationAndAuthorization registr = new MethodsForRegistrationAndAuthorization();
     public By saveButtonOnTheOrganizationTabLocator = By.xpath("//*[@name='save']");
-    By addOrganizationButtonLocator = By.xpath("//*[contains(@class,'add_organization-button')]");
     By joinToOrganizationButtonLocator = By.cssSelector(".btn.index_company-join_organization-button");
     By dropDownListForSelectingTypeOfOrganizationLocator = By.cssSelector("#select2-person-type-container");
     By individualBusinessmanFromDropDownListLocator = By.xpath("//*[contains(@class, 'select2-results__option')][contains(text(),'Индивидуальный предприниматель')]");
@@ -149,15 +149,6 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         } catch (Exception e) {
             Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@title, 'ИП')]")).isDisplayed());
         }
-    }
-
-    public void navigationToAddOrganizationTab() {
-        determineWhetherVersionsOfWorkingWithOrganization();
-        if (versionsOfWorkingWithOrganizationsExtended) {
-            driver.findElement(By.cssSelector(".card__footer__actions-toggler")).click();
-        }
-        driver.findElement(addOrganizationButtonLocator).click();
-        Assert.assertTrue(driver.findElement(By.cssSelector(".row.add-company__wrapper")).isDisplayed());
     }
 
     public void navigationToJoinOrganizationTab() {
@@ -841,10 +832,19 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         tempValue2 = replacingSomeSymbols(driver.findElement(By.xpath("//*[contains(text(), 'Ваш заказ')] /*")).getText());
     }
 
+    public void openDetailPageFirstOrganization(){
+        driver.findElement(firstHamburgerMenuOnTheOrganizationTabLocator).click();
+        try {
+            driver.findElement(By.xpath("//*[text()='Просмотр']")).click();
+        }catch (Exception e){
+            System.out.println("В обычной версии нет просмотра");
+            driver.findElement(By.xpath("//*[text()='Изменить']")).click();
+        }
+        Assert.assertTrue(driver.findElement(By.cssSelector(".blank_detail-menu")).isDisplayed());
+    }
     public void checkingThatOrdersIsDisplayedInOrganization() {
         implicitWaiting();
-        driver.findElement(firstHamburgerMenuOnTheOrganizationTabLocator).click();
-        driver.findElement(By.xpath("//*[text()='Просмотр']")).click();
+        openDetailPageFirstOrganization();
         driver.findElement(ordersTabInTheOrganization).click();
         Assert.assertTrue(tempValue2.equals(driver.findElement(By.xpath("((//*[@class='main-grid-row main-grid-row-body'])[1]//*[@class='main-grid-cell main-grid-cell-left'])[1]")).getText()));
         Assert.assertTrue(tempValue.equals(driver.findElement(By.xpath("((//*[@class='main-grid-row main-grid-row-body'])[2]//*[@class='main-grid-cell main-grid-cell-left'])[1]")).getText()));
@@ -1236,7 +1236,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
 
     public void creatingThreeOrganizations() {
         determineWhetherVersionsOfWorkingWithOrganization();
-        if (versionsOfWorkingWithOrganizationsExtended == true) {
+        if (versionsOfWorkingWithOrganizationsExtended) {
             creatingThreeOrganizationForExtendedVersion();
         } else {
             creatingThreeOrganizationForStandardVersion();
@@ -1399,5 +1399,32 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         tempIntValue2 = driver.findElements(By.xpath("//*[@class='main-grid-row main-grid-row-body']")).size();
         Assert.assertEquals(tempIntValue, tempIntValue2, "Количество организаций фактически отображаемых не равно кол-ву организаций подсчитаных в 'ВСЕГО:'");
     }
+    int numberOfUserSOrganizations;
+    public void searchForRandomOneFromTheUserSExistingOrganizations(){
+        numberOfUserSOrganizations = driver.findElements(By.xpath("//*[@id='PERSONAL_PROFILE_LIST_table']//*[@class='main-grid-row main-grid-row-body']")).size();
+        if (numberOfUserSOrganizations < 3){
+            creatingThreeOrganizations();
+            numberOfUserSOrganizations = driver.findElements(By.xpath("(//*[@id='PERSONAL_PROFILE_LIST_table']//*[@class='main-grid-row main-grid-row-body'] )")).size();
+        }
+        tempRandomNumber = 1 + (int) (Math.random() * numberOfUserSOrganizations);
+        tempValue = driver.findElement(By.xpath(
+                        "((//*[@id='PERSONAL_PROFILE_LIST_table']//*[@class='main-grid-row main-grid-row-body'])[" + tempRandomNumber + "] //*[@class='main-grid-cell-content'])[3]"))
+                .getText();
+        driver.findElement(By.xpath("//*[@name='FIND']")).sendKeys(tempValue);
+        driver.findElement(By.xpath("//*[@name='FIND']")).sendKeys(Keys.ENTER);
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.xpath("//*[@id='PERSONAL_PROFILE_LIST_table']//*[@class='main-grid-row main-grid-row-body']"), 1));
+        Assert.assertEquals(driver.findElement(By.xpath("(//*[@id='PERSONAL_PROFILE_LIST_table']//*[@class='main-grid-row main-grid-row-body'] //*[@class='main-grid-cell-content'])[3]"))
+                .getText(), tempValue);
+    }
+    public void deletingNumberForSearchOrganizationUsingCloseIcon (){
+        driver.findElement(By.xpath("//*[contains(@class, 'delete')]")).click();
+        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//*[@id='PERSONAL_PROFILE_LIST_table']//*[@class='main-grid-row main-grid-row-body']"), 1));
+    }
+    public void deletingNameForSearchOrganizationUsingFieldForSearch(){
+        driver.findElement(By.xpath("//*[@name='FIND']")).clear();
+        driver.findElement(By.xpath("//*[@name='FIND']")).sendKeys(Keys.ENTER);
+        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//*[@id='PERSONAL_PROFILE_LIST_table']//*[@class='main-grid-row main-grid-row-body']"), 1));
+    }
+
 }
 

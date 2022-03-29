@@ -584,6 +584,25 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
             checkingTheNumberOfOrganizationsInTheTotalCounter();
         }
     }
+    @Test(retryAnalyzer = Retry.class)
+    //25. Поиск организации в разделе "Мои организации"
+    public void searchForAnOrganizationInTheMyOrganizationsSection() {
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            //arrange
+            navigationToAuthorizationTab();
+            //act
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
+            navigationToOrganizationTab();
+            searchForRandomOneFromTheUserSExistingOrganizations();
+            deletingNumberForSearchOrganizationUsingCloseIcon();
+            searchForRandomOneFromTheUserSExistingOrganizations();
+            deletingNameForSearchOrganizationUsingFieldForSearch();
+            searchForRandomOneFromTheUserSExistingOrganizations();
+            openDetailPageFirstOrganization();
+        }
+    }
 
 
 

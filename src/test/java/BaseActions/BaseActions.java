@@ -71,6 +71,8 @@ public class BaseActions extends CustomizingForYourself {
     public By ordersTabInTheOrganization = By.xpath("//a[contains(text(), 'Заказы')]");
     public By firstNameOfOrganizationOnTheOrganizationTabOrEmployeeTab = By.xpath("((//*[@class='main-grid-row main-grid-row-body'])[1] //*[@class='main-grid-cell-content'])[3]");
     public By sotbitTabLocator = By.cssSelector("#global_menu_sotbit");
+    By addOrganizationButtonLocator = By.xpath("//*[contains(@class,'add_organization-button')]");
+
 
 
     public String name = "Name Имя" + randomString(8);
@@ -331,7 +333,14 @@ public class BaseActions extends CustomizingForYourself {
         } catch (Exception e) {
             Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Список организаций пуст']")).isDisplayed());
         }
-
+    }
+    public void navigationToAddOrganizationTab() {
+        determineWhetherVersionsOfWorkingWithOrganization();
+        if (versionsOfWorkingWithOrganizationsExtended) {
+            driver.findElement(By.cssSelector(".card__footer__actions-toggler")).click();
+        }
+        driver.findElement(addOrganizationButtonLocator).click();
+        Assert.assertTrue(driver.findElement(By.cssSelector(".row.add-company__wrapper")).isDisplayed());
     }
 
     public void navigationToDeliveryWayByUrl() {
@@ -824,7 +833,7 @@ public class BaseActions extends CustomizingForYourself {
 
     public void determineWhetherLocationWhileRegistration() {
         try {
-            inputStream = new ObjectInputStream(new FileInputStream("Location")); //Имя файла с массивом
+            inputStream = new ObjectInputStream(new FileInputStream("doNeedToSpecifyLocation")); //Имя файла с массивом
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -13,7 +13,7 @@ public class ListOfEmployees extends MethodsForAddingOrganizationsWithExtendedVe
         if (versionsOfWorkingWithOrganizationsExtended) {
             //arrange
             SettingUpAutotestsForB2BSettings createUsers = new SettingUpAutotestsForB2BSettings();
-//            createUsers.g_creatingUsersForAutomationTests();
+            createUsers.g_creatingUsersForAutomationTests();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeUser();
             logInToB2B();
