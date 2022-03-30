@@ -4,17 +4,12 @@ import BaseActions.BaseActions;
 import Documents.MethodsForDocuments;
 import OrganizationsWithExtendedVersion.MethodsForAddingOrganizationsWithExtendedVersion;
 import RegistrationAndAuthorization.RegistrationB2B;
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -1297,34 +1292,6 @@ public class MethodsForCatalog extends BaseActions {
         } else {
             choiceRandomCategoryInMenuCatalog();
         }
-
-
-//            if (themeColorBlack) {
-//                if (driver.findElements(By.xpath("//*[contains(@class, 'categorie')]")).size() > 0) {
-//                    tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(By.xpath("//*[contains(@class, 'catalog_section')]")).size()));
-//                    driver.findElement(By.xpath("(//*[contains(@class, 'catalog_section')])[" + tempRandomNumber + "]//*[@class='form-check']")).click();
-//                } else {
-//                    //<Удалить
-//                    var nameScreen = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-//                    try {
-//                        FileUtils.copyFile(nameScreen, new File(System.getProperty("user.dir") + "\\screen\\screenshot.png"));
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    //>Удалить
-//                    driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][@title='Каталог']")).click();
-//                    implicitWaiting();
-//                    tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(By.xpath("//*[contains(@class, 'nav-item-open')]/*[contains(@class, 'nav-group-sub')] /li /a /span")).size()));
-//                    driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]")).click();
-//                }
-//            } else {
-//                driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][contains(@class, 'navbar-nav-link')]")).click();
-//                tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(
-//                        By.xpath("//*[contains(@class ,'show')]/*[contains(@class ,'dropdown-menu')]/*[contains(@class ,'dropdown-submenu')]")).size()));
-//                driver.findElement(
-//                        By.xpath("(//*[contains(@class ,'show')]/*[contains(@class ,'dropdown-menu')]/*[contains(@class ,'dropdown-submenu')] /*[1] /span)["
-//                                + tempRandomNumber + "]")).click();
-//            }
     }
 
     public void checkingThatQuantityOfPropertiesIsHadDecreased() {
@@ -1514,7 +1481,8 @@ public class MethodsForCatalog extends BaseActions {
                 implicitWaiting();
             }
         }
-        driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
+        tryToClickElement(buttonToSaveTheComponentSettingsForTheCatalog);
+        //driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
     }
 
     public void selectFewPropertiesToOutputToTheCatalog() {
@@ -1526,7 +1494,8 @@ public class MethodsForCatalog extends BaseActions {
                 implicitWaiting();
             }
         }
-        driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
+        tryToClickElement(buttonToSaveTheComponentSettingsForTheCatalog);
+        //driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
     }
 
     public void checkingThatSelectedPropertiesAreDisplayedInTheCatalog() {
@@ -1985,7 +1954,8 @@ public class MethodsForCatalog extends BaseActions {
         }
         wait.until(ExpectedConditions.visibilityOfElementLocated(buttonToSaveTheComponentSettingsForTheCatalog));
         implicitWaiting();
-        driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
+        tryToClickElement(buttonToSaveTheComponentSettingsForTheCatalog);
+        //driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".catalog")));
         implicitWaiting();
     }
@@ -1997,7 +1967,8 @@ public class MethodsForCatalog extends BaseActions {
         driver.findElement(By.xpath("//select[@data-bx-property-id = 'IBLOCK_ID'] //*[contains(text(), 'Каталог товаров')]")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(buttonToSaveTheComponentSettingsForTheCatalog));
         implicitWaiting();
-        driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
+        tryToClickElement(buttonToSaveTheComponentSettingsForTheCatalog);
+        //driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
     }
 
     public void checkingTheNamesOfTheOutputGasStoves() {
@@ -2037,7 +2008,8 @@ public class MethodsForCatalog extends BaseActions {
             driver.findElement(By.xpath("//*[contains(@for, 'USE_STORE')][contains(@class, 'checkbox')]")).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(buttonToSaveTheComponentSettingsForTheCatalog));
             implicitWaiting();
-            driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
+            tryToClickElement(buttonToSaveTheComponentSettingsForTheCatalog);
+            //driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".catalog")));
             implicitWaiting();
         }
@@ -2053,7 +2025,8 @@ public class MethodsForCatalog extends BaseActions {
             }
             wait.until(ExpectedConditions.visibilityOfElementLocated(buttonToSaveTheComponentSettingsForTheCatalog));
             implicitWaiting();
-            driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
+            tryToClickElement(buttonToSaveTheComponentSettingsForTheCatalog);
+            //driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".catalog")));
             implicitWaiting();
         }
@@ -2065,7 +2038,8 @@ public class MethodsForCatalog extends BaseActions {
             driver.findElement(By.xpath("//*[contains(@for, 'USE_STORE')][contains(@class, 'checkbox')]")).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(buttonToSaveTheComponentSettingsForTheCatalog));
             implicitWaiting();
-            driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
+            tryToClickElement(buttonToSaveTheComponentSettingsForTheCatalog);
+            //driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".catalog")));
             implicitWaiting();
         }
@@ -2075,7 +2049,8 @@ public class MethodsForCatalog extends BaseActions {
         driver.findElement(By.xpath("//*[contains(@for, 'USE_STORE')][contains(@class, 'checkbox')]")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(buttonToSaveTheComponentSettingsForTheCatalog));
         implicitWaiting();
-        driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
+        tryToClickElement(buttonToSaveTheComponentSettingsForTheCatalog);
+        //driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".catalog")));
         implicitWaiting();
     }
@@ -2128,7 +2103,8 @@ public class MethodsForCatalog extends BaseActions {
                 driver.findElement(By.xpath("(//select[@data-bx-property-id = 'STORES'] /option)[" + i + "]")).click();
             }
         }
-        driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
+        tryToClickElement(buttonToSaveTheComponentSettingsForTheCatalog);
+        //driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
     }
 
     public void checkingThatTheTotalNumberOfOutputProductsAndQuantityByIsEqualToThePreviouslyEnteredData() {
@@ -2456,14 +2432,6 @@ public class MethodsForCatalog extends BaseActions {
         for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@id, 'basket-item-quantity')]")).size(); i++) {
             tempDouble = tempDouble + Double.valueOf(driver.findElement(By.xpath("(//*[contains(@id, 'basket-item-quantity')])[" + i + "]")).getAttribute("value"));
         }
-        //Удалить
-        var nameScreen = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        try {
-            FileUtils.copyFile(nameScreen, new File(System.getProperty("user.dir") + "\\screen\\screenshot.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        //Удалить
         for (int i = 1; i <= 10; i++) {
             tempRandomNumber = 1 + (int) (Math.random() * driver.findElements(By.xpath("//*[@class='catalog-list__body'] //*[@class='input-group-append']")).size());
             if (driver.findElement(By.xpath("(//*[@class='catalog-list__body'] //*[@class='input-group-append'])[" + tempRandomNumber + "]")).isDisplayed()){
@@ -2611,9 +2579,9 @@ public class MethodsForCatalog extends BaseActions {
             }
         }
         tempDouble2 = Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@class, 'basket__item')] //*[contains(@class, 'basket__column ')])[" + count + "]")).getText()));
-        System.out.println("Доступная пользователю цена - " + basePriceRandomProduct);
-        System.out.println("Доступная пользователю цена БЕЗ учета скидки - " + tempDouble);
+        System.out.println("Доступная пользователю цена - " + basePriceRandomProduct/coefficientForQuantityOfProducts);
         System.out.println("Размер скидки - " + tempDouble2);
+        System.out.println("Доступная пользователю цена БЕЗ учета скидки - " + tempDouble);
         Assert.assertTrue(basePriceRandomProduct + tempDouble2 == tempDouble);
     }
 

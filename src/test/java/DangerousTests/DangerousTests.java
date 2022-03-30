@@ -658,7 +658,7 @@ public class DangerousTests extends MethodsForCatalog {
             selectTapForIP();
             selectGroupsOfOrderPropertiesWhenChangingWhichTheOrganizationGetsToModeration("Данные предпринимателя");
             unselectGroupsOfOrderPropertiesWhenChangingWhichTheOrganizationGetsToModeration("Контактная информация");
-            driver.findElement(buttonSaveLocator).click();
+            tryToClickElement(buttonSaveLocator);
             navigationToMeanPageByUrl();
             navigationToOrganizationTab();
             creatingIPOrganization();

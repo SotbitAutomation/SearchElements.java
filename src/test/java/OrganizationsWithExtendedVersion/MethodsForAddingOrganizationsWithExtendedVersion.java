@@ -1401,6 +1401,12 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
     }
     int numberOfUserSOrganizations;
     public void searchForRandomOneFromTheUserSExistingOrganizations(){
+        System.out.println(driver.findElement(By.xpath("//*[@name='FIND']")).getAttribute("value"));
+        System.out.println(driver.findElement(By.xpath("//*[@name='FIND']")).getAttribute("value").length());
+        if (driver.findElement(By.xpath("//*[@name='FIND']")).getAttribute("value").length()>0){
+            driver.findElement(By.xpath("//*[@name='FIND']")).clear();
+            driver.findElement(By.xpath("//*[@name='FIND']")).sendKeys(Keys.ENTER);
+        }
         numberOfUserSOrganizations = driver.findElements(By.xpath("//*[@id='PERSONAL_PROFILE_LIST_table']//*[@class='main-grid-row main-grid-row-body']")).size();
         if (numberOfUserSOrganizations < 3){
             creatingThreeOrganizations();
