@@ -667,6 +667,7 @@ public class DangerousTests extends MethodsForDangerousTests {
             unselectGroupsOfOrderPropertiesWhenChangingWhichTheOrganizationGetsToModeration("Контактная информация");
             tryToClickElement(buttonSaveLocator);
             navigationToMeanPageByUrl();
+            resetCache();
             navigationToOrganizationTab();
             creatingIPOrganization();
             changingDataIPOrganizationWhichNeededConfirmAndNot();
