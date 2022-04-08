@@ -569,6 +569,9 @@ public class MethodsForMeanPage extends BaseActions {
             movingARandomWidget(2);
         }
     }
+    public void rememberingLastOrderForCalendar(){
+        tempValue = driver.findElement(By.xpath("//*[@class='main-grid-row main-grid-row-body'] //*[contains(@class, 'main-grid-cell-left')]")).getText();
+    }
 
 
 }

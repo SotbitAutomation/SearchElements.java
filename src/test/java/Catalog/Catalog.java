@@ -425,8 +425,6 @@ public class Catalog extends MethodsForCatalog {
     }
     @Test(retryAnalyzer = Retry.class) //27. Поиск названию рандомного товара
     public void searchingByWord() {
-        SettingUpCabinetForTesting set = new SettingUpCabinetForTesting();
-        set.clearAllCacheForTests();
         //arrange
         navigationToAuthorizationTab();
         //act
@@ -436,6 +434,7 @@ public class Catalog extends MethodsForCatalog {
         changingPageInCatalog();
         determineRandomProductOnPge();
         choiceWordForSearch();
+        enterNameInTheSearchFieldOnTheCatalogTab(fieldForSearchInCatalogLocator, wordForSearch);
         searchByWord();
     }
 
@@ -450,6 +449,7 @@ public class Catalog extends MethodsForCatalog {
         changingPageInCatalog();
         determineRandomProductOnPge();
         choicePartOfWordForSearch();
+        enterPartOfNameInTheSearchFieldOnTheCatalogTab(fieldForSearchInCatalogLocator, wordForSearch);
         searchByWord();
     }
 
@@ -631,7 +631,7 @@ public class Catalog extends MethodsForCatalog {
         navigationToCatalogTab();
         goToTheLastPage();
         rememberTheNumberOfPages();
-        choiceTheSecondLevelCategory();
+        choiceTheSecondLevelCategoryInABlackHatOrTheFirstLevelInAWhiteHat();
     }
     @Test(retryAnalyzer = Retry.class) //39. Проверка корректности вывода релевантных свойств фильтра
     public void checkingCorrectnessOfOutputOfRelevantFilterProperties() {
@@ -746,25 +746,36 @@ public class Catalog extends MethodsForCatalog {
         checkingThatTheUserHasBeenAddedMoneyToHisPersonalAccount();
     }
 
+    @Test(retryAnalyzer = Retry.class) //45. Добавление товара в корзину из поисковой подсказки
+    public void addingAnItemToTheShoppingCartFromASearchHint() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        deletingProductsFromTheCart();
+        navigationToCatalogTab();
+        changingPageInCatalog();
+        determineRandomProductOnPge();
+        choiceWordForSearch();
+        enterNameInTheSearchFieldOnTheCatalogTab(wordForSearch);
+        addingThisProductFromPopUpWindowToTheCart();
+        navigationToCart();
+        checkingThatThisProductWasAddedToTheCart();
+    }
 
-
-
-//    @Test //1.asd
-//    public void asd() {
-//        //arrange
-//        driver.navigate().to("http://b2b-gospod-10.0.2.devsotbit.ru/");
-//        //act
-//        fillingFieldsOnTheLogInTabLikeUser();
-//        driver.findElement(logInButtonOnTheAuthorizationTabLocator).click();
-//
-//        driver.findElement(By.xpath("//*[contains(@href, 'blank_zakaza')][contains(@class, 'navbar-nav-link')]")).click();
-//
-//        actions.moveToElement(driver.findElement(By.cssSelector(".show > .dropdown-menu > .dropdown-submenu:first-child ")));
-//        actions.perform();
-//        explicitWaiting();explicitWaiting();
-//        disclosureOfASubcategories("//*[contains(@class ,'show')]/*[contains(@class ,'dropdown-menu')]/*[contains(@class ,'dropdown-submenu')]");
-//        //driver.findElement(By.cssSelector(".show > .dropdown-menu > .dropdown-submenu:first-child  ")).click();
-//    }
+    @Test(retryAnalyzer = Retry.class) //46. Добавление товара в корзину из поисковой подсказки с доступным количеством 0 (кол-ый учет у каталога - выкл)
+    public void addingAnItemToTheCartFromASearchHintWithAnAvailableQuantityOfZeroAndTheNumberOfCatalogAccountsIsOn() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        deletingProductsFromTheCart();
+        navigationToCatalogTab();
+        enterNameInTheSearchFieldOnTheCatalogTab("Городской велосипед STELS Navigator");
+        checkingThatThereAreNoCartIconInPupOpWindow();
+    }
 
 
 

@@ -118,7 +118,7 @@ public class MenuInTheCatalog extends MethodsForCatalog {
         logInToB2B();
         choiceRandomCategoryInMenuCatalog();
         choiceRandomUnderCategoryOfTheSelectedCategory();
-        determineMinPriceForFilteringAThousandMoreThanThePriceOfTheMostCheapProductInThisSection();
+        determineMinPriceForFilteringAThousandMoreThanThePriceOfTheMostCheapProductInThisSection(); //возможно падает из-за того что в выбранном разделе нет товаров в наличии
         enteringTheMinPriceIntoTheFilter();
         checkThatTheMinimumPriceIsAppliedOnAllPages();
     }

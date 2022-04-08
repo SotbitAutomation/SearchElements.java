@@ -362,15 +362,13 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingTheDataForTheFavoriteLinksWidget();
         saveTheSettingForWidgetsOnTheDesktopLikeDefault();
         checkingThatTheLinkInTheFavoriteLinksWidgetWorks();
-        navigationToMeanPageByUrl();
-        exitFromB2B();
+        navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToTheDesktop();
         resettingTheCurrentWidgetSettings();
         checkingThatTheLinkInTheFavoriteLinksWidgetWorks();
-        navigationToMeanPageByUrl();
-        exitFromB2B();
+        navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToTheDesktop();

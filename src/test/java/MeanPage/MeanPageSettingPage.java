@@ -29,7 +29,7 @@ public class MeanPageSettingPage extends MethodsForMeanPage {
         navigationToTheSetting();
         fillingNewPassword();
         saveBasicData(1);
-        exitFromB2B();
+        navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUserWithNewPassword();
         logInToB2B();
         navigationToTheSetting();

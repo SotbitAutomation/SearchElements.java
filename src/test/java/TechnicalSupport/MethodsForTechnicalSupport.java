@@ -204,6 +204,20 @@ public class MethodsForTechnicalSupport extends BaseActions {
         driver.findElement(By.xpath("//*[@id='MESSAGE'][@required]")).sendKeys(randomMessage);
         fillingTheHeadForTechnicalSupport();
     }
+    public void rememberingLastOrder() {
+        try {
+            tempValue = driver.findElement(By.xpath("//*[@class='main-grid-row main-grid-row-body'] //*[contains(@class, 'main-grid-cell-left')]")).getText();
+        }catch (Exception e){
+            navigationToCatalogTab();
+            orderHistory.changeTheQuantityOfRandomProduct();
+            navigationToCart();
+            orderHistory.navigationToMakingOrderFromCart();
+            orderHistory.trySelectCompany();
+            orderHistory.makingOrder();
+            navigationToMyOrdersPage();
+            tempValue = driver.findElement(By.xpath("//*[@class='main-grid-row main-grid-row-body'] //*[contains(@class, 'main-grid-cell-left')]")).getText();
+        }
+    }
 
 
 }

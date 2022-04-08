@@ -67,6 +67,7 @@ public class AuthorizationB2B extends MethodsForRegistrationAndAuthorization {
         entranceToB2BFromRegistrationTab();
         exitFromB2B();
         //act
+        navigationToAuthorizationTab();
         passwordRequired();
     }
 

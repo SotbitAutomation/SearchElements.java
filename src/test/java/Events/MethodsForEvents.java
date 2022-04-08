@@ -41,7 +41,7 @@ public class MethodsForEvents extends MethodsForAddingOrganizationsWithExtendedV
                 System.out.println("Проверяю событие о необходимости подтвержить  рег. юзера с таким email   "  + registr.email);
                 checkingThatThereIsThisEvent("SOTBIT_AUTH_CONFIRM_REGISTRATION", registr.email);
             }else {
-                System.out.println("Проверяю событие что пользователь зарегистирровался (без подтверждения)"  + registr.email);
+                System.out.println("Проверяю событие что пользователь зарегистирровался (без подтверждения)  "  + registr.email);
                 checkingThatThereIsThisEvent("SOTBIT_AUTH_WHOLESALER_NOTICE", registr.email);
             }
         }

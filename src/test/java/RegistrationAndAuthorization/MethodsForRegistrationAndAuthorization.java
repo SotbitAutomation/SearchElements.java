@@ -146,9 +146,10 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
         Assert.assertTrue(driver.findElement(By.cssSelector(".main-user-consent-request-popup-cont")).isDisplayed());
     }
 
-    public void checkingThatTheBannerIsDisplayed() {
+    public void checkingThatUserIsLoggedIn() {
         driver.navigate().to(b2bUrl);
-        Assert.assertTrue(driver.findElement(By.cssSelector(".navbar")).isDisplayed());
+        //Assert.assertTrue(driver.findElement(By.cssSelector(".navbar")).isDisplayed());
+        Assert.assertTrue(driver.findElements(By.xpath("//*[@href='/auth/']")).size()==0);
     }
 
     public void fillingFieldsOnTheRegistrationTab(String[] array) {
@@ -167,13 +168,13 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
         for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@placeholder,'ail')][not(ancestor-or-self::*[@style = 'display: none;'])]")).size() ; i++) {
             driver.findElement(By.xpath("(//*[contains(@placeholder,'ail')][not(ancestor-or-self::*[@style = 'display: none;'])])[" + i + "]")).sendKeys(email);
         }
-//        // Если есть логин
-//        try {
-//            randomData = "Рамдомный логин" + randomString(10) + randomNumberUpToFife;
-//            driver.findElement(By.xpath("//*[contains(text(), 'Login')][not(ancestor-or-self::*[@style = 'display: none;'])] /following::*[2]")).sendKeys(randomData);
-//        }catch (Exception e){
-//            System.out.println("Поля для логина нету");
-//        }
+        // Если есть логин
+        try {
+            randomData = "Рамдомный логин" + randomString(10) + randomNumberUpToFife;
+            driver.findElement(By.xpath("//*[contains(text(), 'Login')][not(ancestor-or-self::*[@style = 'display: none;'])] /following::*[2]")).sendKeys(randomData);
+        }catch (Exception e){
+            System.out.println("Поля для логина нету");
+        }
 
         driver.findElement(By.xpath("//*[@placeholder='Введите имя'][not(ancestor-or-self::*[@style = 'display: none;'])]")).sendKeys(name);
         driver.findElement(By.xpath("//*[@placeholder='Введите фамилию'][not(ancestor-or-self::*[@style = 'display: none;'])]")).sendKeys(lastName);
@@ -823,7 +824,8 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
     public void checkingThatYouCantLogInWithoutConfirm() {
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(),'Ожидайте подтверждение модератором.')]")).isDisplayed());
         navigationToMeanPageByUrl();
-        Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
+        //Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@href='/auth/']")).isDisplayed());
     }
 
 

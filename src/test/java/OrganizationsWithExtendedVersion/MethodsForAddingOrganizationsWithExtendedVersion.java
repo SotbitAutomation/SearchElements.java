@@ -943,7 +943,6 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
                 tempValue = replacingBracketsAndNumbers(driver.findElement(By.xpath("(//*[contains(@id, 'BUYER_PERSONAL_TYPE')] /option)[" + i + "]")).getText()).trim();
                 System.out.println("Этот тип плательщика выбран в админке  " + tempValue);
                 exitFromB2B();
-                navigationToMeanPageByUrl();
                 navigationToRegistrationTab();
                 tempIntValue2 = driver.findElements(By.xpath("//*[@class='chouse-company'] /* /following::*[1]")).size();
                 flag = false;
@@ -954,7 +953,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
                     }
                 }
                 Assert.assertTrue(flag == true, "Этого  " + tempValue + " типа плательщика нет на вкладке Регистраниии (хотя в админке он выбран)");
-                navigationToMeanPageByUrl();
+                navigationToAuthorizationTab();
                 fillingFieldsOnTheLogInTabLikeAdmin();
                 logInToB2B();
                 navigationToProfilesOfBuyers();
@@ -1122,7 +1121,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
             System.out.println("Имя радиобаттона не соответствует названию компании");
             count = 0;
             for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@class, 'index_checkout-payer_type')] //*[@class='form-check-label']")).size(); i++) {
-                driver.findElement(By.xpath("(//*[contains(@class, 'index_checkout-payer_type')] //*[@class='form-check-label'])[" + i + "]")).click();
+                driver.findElement(By.xpath("(//*[contains(@class, 'index_checkout-payer_type')] //*[@class='form-check-label'])[" + i + "]//*[@type='radio']")).click();
                 implicitWaiting();
                 if (driver.findElement(By.xpath("//*[contains(text(), 'ИНН')] /following::*[1] /input")).getAttribute("value").equals(iNN)) {
                     Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'ИНН')] /following::*[1] /input")).getAttribute("value").equals(iNN));

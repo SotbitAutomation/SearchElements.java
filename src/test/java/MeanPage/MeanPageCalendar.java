@@ -22,7 +22,7 @@ public class MeanPageCalendar extends MethodsForMeanPage {
         makeOrder.checkingPriceOfProductsOnTheMakingOrderPage();
         makeOrder.makingOrder();
         navigationToMyOrdersPage();
-        rememberingLastOrder();
+        rememberingLastOrderForCalendar();
         navigationToTheCalendar();
         checkThatTheOrdersAreDisplayInTheCalendarTab();
     }
@@ -43,7 +43,7 @@ public class MeanPageCalendar extends MethodsForMeanPage {
         makeOrder.checkingPriceOfProductsOnTheMakingOrderPage();
         makeOrder.makingOrder();
         navigationToMyOrdersPage();
-        rememberingLastOrder();
+        rememberingLastOrderForCalendar();
         navigationToTheCalendar();
         checkThatTheOrdersAreDisplayInTheCalendarTab();
     }

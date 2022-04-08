@@ -125,9 +125,9 @@ public class AddingOrganizationsWithStandardVersion extends MethodsForAddingOrga
         if (!versionsOfWorkingWithOrganizationsExtended) {
             //arrange
             navigationToAuthorizationTab();
-            //act
             fillingFieldsOnTheLogInTabLikeAdmin();
             logInToB2B();
+            //act
             navigationToProfilesOfBuyers();
             checkingThatNeededProfilesOfBuyersIsSelected();
         }

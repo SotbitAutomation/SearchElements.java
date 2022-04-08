@@ -2,13 +2,12 @@ package DangerousTests;
 
 import BaseActions.Retry;
 import BeforeTest.SettingUpAutotestsForB2BSettings;
-import Catalog.MethodsForCatalog;
 import MyOrdersHistory.MethodsForMyOrders;
 import OrganizationsWithExtendedVersion.MethodsForAddingOrganizationsWithExtendedVersion;
 import SettingUpCabinetForTesting.SettingUpCabinetForTesting;
 import org.testng.annotations.Test;
 
-public class DangerousTests extends MethodsForCatalog {
+public class DangerousTests extends MethodsForDangerousTests {
     @Test(retryAnalyzer = Retry.class)
     //0. Возвращение настроек назад (количественный учет в каталоге, а в товаре - по умолчанию; откл вывод складов)
     public void a_returningSettingsBack() {
@@ -20,6 +19,7 @@ public class DangerousTests extends MethodsForCatalog {
         navigationToSystemSettings();
         disableOutputOfPropertiesInTheDirectory();
         navigationToSettingOfQuantitativeAccountingForTheProduct();
+        turnOnStoreAccounting();
         enableQuantitativeAccountingForTheProductsInCatalog();
         navigationToGasStoveSetting();
         returningQuantitativeAccountingAtTheGefestGasStoveByDefault();
@@ -42,7 +42,7 @@ public class DangerousTests extends MethodsForCatalog {
         //act
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
-        //returningSettingsBackIfCatalogBroken();
+        returningSettingsBackIfCatalogBroken();
         navigationToSystemSettings();
         enableOutputOfPropertiesInTheDirectory();
         navigationToGasStoveSetting();
@@ -68,7 +68,7 @@ public class DangerousTests extends MethodsForCatalog {
         navigationToSystemSettings();
         disableOutputOfPropertiesInTheDirectory();
         navigationToMeanPageByUrl();
-        enableEditMode();
+        ternOnEditMode();
         navigationToCatalogTab();
         navigationToComponentOfCatalogSetting();
         removeAllColumnsWithPropertiesFromTheCatalog();
@@ -111,6 +111,7 @@ public class DangerousTests extends MethodsForCatalog {
         returningSettingsBackIfCatalogBroken();
         deletingProductsFromTheCart();
         navigationToSettingOfQuantitativeAccountingForTheProduct();
+        turnOffStoreAccounting();
         enableQuantitativeAccountingForTheProductsInCatalog();
         navigationToGasStoveSetting();
         enableQuantitativeAccountingAtTheGefestGasStove();
@@ -135,6 +136,7 @@ public class DangerousTests extends MethodsForCatalog {
         returningSettingsBackIfCatalogBroken();
         deletingProductsFromTheCart();
         navigationToSettingOfQuantitativeAccountingForTheProduct();
+        turnOffStoreAccounting();
         turnOffQuantitativeAccountingForTheProductsInCatalog();
         navigationToGasStoveSetting();
         enableQuantitativeAccountingAtTheGefestGasStove();
@@ -161,6 +163,7 @@ public class DangerousTests extends MethodsForCatalog {
         returningSettingsBackIfCatalogBroken();
         deletingProductsFromTheCart();
         navigationToSettingOfQuantitativeAccountingForTheProduct();
+        turnOffStoreAccounting();
         turnOffQuantitativeAccountingForTheProductsInCatalog();
         navigationToGasStoveSetting();
         enableQuantitativeAccountingAtTheGefestGasStove();
@@ -191,6 +194,7 @@ public class DangerousTests extends MethodsForCatalog {
         returningSettingsBackIfCatalogBroken();
         deletingProductsFromTheCart();
         navigationToSettingOfQuantitativeAccountingForTheProduct();
+        turnOffStoreAccounting();
         turnOffQuantitativeAccountingForTheProductsInCatalog();
         navigationToGasStoveSetting();
         turnOffQuantitativeAccountingAtTheGefestGasStove();
@@ -202,6 +206,7 @@ public class DangerousTests extends MethodsForCatalog {
         checkingThatPriceAndQuantityHaveIncreasedForGefestGasStove();
         addThisProductOneMoreTimeManually();
         checkingThatPriceAndQuantityHaveIncreasedForGefestGasStove();
+        returningSettingsBack();
     }
 
     @Test(retryAnalyzer = Retry.class)
@@ -215,6 +220,7 @@ public class DangerousTests extends MethodsForCatalog {
         returningSettingsBackIfCatalogBroken();
         deletingProductsFromTheCart();
         navigationToSettingOfQuantitativeAccountingForTheProduct();
+        turnOffStoreAccounting();
         enableQuantitativeAccountingForTheProductsInCatalog();
         navigationToGasStoveSetting();
         turnOffQuantitativeAccountingAtTheGefestGasStove();
@@ -386,6 +392,7 @@ public class DangerousTests extends MethodsForCatalog {
         returningSettingsBackIfCatalogBroken();
         deletingProductsFromTheCart();
         navigationToSettingOfQuantitativeAccountingForTheProduct();
+        turnOffStoreAccounting();
         enableQuantitativeAccountingForTheProductsInCatalog();
         navigationToGasStoveSetting();
         turnOffQuantitativeAccountingAtTheGefestGasStove();
@@ -395,14 +402,14 @@ public class DangerousTests extends MethodsForCatalog {
         selectTheSectionWithGasStoves();
         addingGefestGasStoveToCartUsingPlusIcon();
         addingKaiserGasStoveToCartUsingPlusIcon();
-        navigationToCart();
+        navigationToCart();        ternOffEditMode();
         //act
         addingMaxQuantityOfProductInTheCartUsingPlusIconOneMoreThanAvailable(quantityFieldOfGefestLocator, iconPlusOfGefestLocator, numberOfAvailableGefestGasStove);
         checkingThatQuantityOfGefestGasStoveIsOneMoreThanAvailable();
         attemptToSelectNegativeQuantityOfProductsInTheCartUsingMinusIcon(quantityFieldOfGefestLocator, iconMinusOfGefestLocator);
-        checkingThatQuantityThisProductIsEqualsOne(quantityFieldOfGefestLocator);
+        checkingThatQuantityThisProductIsNotNegative(quantityFieldOfGefestLocator);
         attemptToEnterNegativeQuantityOfProductsInTheCart(quantityFieldOfGefestLocator);
-        checkingThatQuantityThisProductIsEqualsOne(quantityFieldOfGefestLocator);
+        checkingThatQuantityThisProductIsNotNegative(quantityFieldOfGefestLocator);
         addingMaxQuantityOfProductInTheCartUsingInputField(quantityFieldOfGefestLocator, numberOfAvailableGefestGasStove);
         checkingThatQuantityOfGefestGasStoveIsOneMoreThanAvailable();
         addingMaxQuantityOfProductInTheCartUsingPlusIconOneMoreThanAvailable(quantityFieldOfKaiserLocator, iconPlusOfKaiserLocator, numberOfAvailableKaiserGasStove);
@@ -410,7 +417,7 @@ public class DangerousTests extends MethodsForCatalog {
         attemptToSelectNegativeQuantityOfProductsInTheCartUsingMinusIcon(quantityFieldOfKaiserLocator, iconMinusOfKaiserLocator);
         checkingThatQuantityOfKaiserGasStoveEqualsOneTenth();
         attemptToEnterNegativeQuantityOfProductsInTheCart(quantityFieldOfKaiserLocator);
-        checkingThatQuantityOfKaiserGasStoveEqualsOneTenth();
+        checkingThatQuantityThisProductIsNotNegative(quantityFieldOfKaiserLocator);
         addingMaxQuantityOfProductInTheCartUsingInputField(quantityFieldOfKaiserLocator, numberOfAvailableKaiserGasStove);
         checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfKaiserLocator, numberOfAvailableKaiserGasStove);
         checkingThatTotalPriceAreCalculatedRight();
@@ -445,7 +452,7 @@ public class DangerousTests extends MethodsForCatalog {
         attemptToSelectNegativeQuantityOfProductsInTheCartUsingMinusIcon(quantityFieldOfRandomTPLocator, iconMinusOfRandomTPLocator);
         checkingThatQuantityThisProductIsEqualsOne(quantityFieldOfRandomTPLocator);
         attemptToEnterNegativeQuantityOfProductsInTheCart(quantityFieldOfRandomTPLocator);
-        checkingThatQuantityThisProductIsEqualsOne(quantityFieldOfRandomTPLocator);
+        checkingThatQuantityThisProductIsNotNegative(quantityFieldOfRandomTPLocator);
         addingMaxQuantityOfProductInTheCartUsingInputField(quantityFieldOfRandomTPLocator, quantityOfProductsInStock);
         checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfRandomTPLocator, quantityOfProductsInStock);
         navigationToCatalogTab();
@@ -479,15 +486,15 @@ public class DangerousTests extends MethodsForCatalog {
         attemptToSelectNegativeQuantityOfProductsInTheCartUsingMinusIcon(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, iconMinusOfTPWithQuantitativeAccountingDisabledLocator);
         checkingThatQuantityThisProductIsEqualsOne(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator);
         attemptToEnterNegativeQuantityOfProductsInTheCart(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator);
-        checkingThatQuantityThisProductIsEqualsOne(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator);
+        checkingThatQuantityThisProductIsNotNegative(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator);
         addingMaxQuantityOfProductInTheCartUsingInputField(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, quantityOfSecondProductsInStock);
         checkingThatQuantityOfThisProductIsOneMoreThanAvailable(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, quantityOfSecondProductsInStock);
         addingMaxQuantityOfProductInTheCartUsingPlusIconOneMoreThanAvailable(quantityFieldOfTPWithAFractionalCoefficientLocator, iconPlusOfTPWithAFractionalCoefficientLocator, quantityOfProductsInStock);
         checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfTPWithAFractionalCoefficientLocator, quantityOfProductsInStock);
         attemptToSelectNegativeQuantityOfProductsInTheCartUsingMinusIcon(quantityFieldOfTPWithAFractionalCoefficientLocator, iconMinusOfTPWithWithAFractionalCoefficientLocator);
-        checkingThatQuantityThisProductEqualsOneTenth(quantityFieldOfTPWithAFractionalCoefficientLocator);
+        checkingThatQuantityThisProductIsNotNegative(quantityFieldOfTPWithAFractionalCoefficientLocator);
         attemptToEnterNegativeQuantityOfProductsInTheCart(quantityFieldOfTPWithAFractionalCoefficientLocator);
-        checkingThatQuantityThisProductEqualsOneTenth(quantityFieldOfTPWithAFractionalCoefficientLocator);
+        checkingThatQuantityThisProductIsNotNegative(quantityFieldOfTPWithAFractionalCoefficientLocator);
         addingMaxQuantityOfProductInTheCartUsingInputField(quantityFieldOfTPWithAFractionalCoefficientLocator, quantityOfProductsInStock);
         checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfTPWithAFractionalCoefficientLocator, quantityOfProductsInStock);
         checkingThatTotalPriceOfTheseProductsAreCalculatedRight(priceForFirstProductInCart, priceForSecondProductInCart);
@@ -723,6 +730,97 @@ public class DangerousTests extends MethodsForCatalog {
         checkingThatAllUserDataForIPSelectedInTheAdminPanelIsDisplayedWhenRegisteringTheOrganization();
         checkingThatTheFieldSelectedInTheAdminPanelAsRequiredIsReallyRequired();
     }
+
+    @Test(retryAnalyzer = Retry.class) //27. Вывод разделов в поисковой подсказке по части названия
+    public void outputOfSectionsInTheSearchHintByPartOfTheName() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        enableTheIndexSectionsForTheSearchModuleSetting();
+        navigationToMeanPageByUrl();
+        navigationToCatalogTab();
+        choiceTheSecondLevelCategoryInABlackHatOrTheFirstLevelInAWhiteHat();
+        navigationToCatalogTab();
+        enterPartOfNameRandomCategoryInTheSearchFieldOnTheCatalogTabAndDeleteOne(fieldForSearchInCatalogLocator, tempString);
+        choiceCategoryFromPopApWindow();
+        checkingThatBreadCrumbsContainTheNameOfTheSection();
+        checkingThatURLContainsChosenCategory();
+        checkingThatAllProductsHaveSimilarIdToTheSectionId();
+    }
+    @Test(retryAnalyzer = Retry.class) //28. Вывод разделов в поисковой подсказке по целому названию
+    public void outputOfSectionsInTheSearchHintByWholeOfTheWord() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        enableTheIndexSectionsForTheSearchModuleSetting();
+        navigationToMeanPageByUrl();
+        navigationToCatalogTab();
+        choiceTheSecondLevelCategoryInABlackHatOrTheFirstLevelInAWhiteHat();
+        navigationToCatalogTab();
+        enterNameInTheSearchFieldOnTheCatalogTab(tempString);
+        choiceCategoryFromPopApWindow();
+        checkingThatBreadCrumbsContainTheNameOfTheSection();
+        checkingThatURLContainsChosenCategory();
+        checkingThatAllProductsHaveSimilarIdToTheSectionId();
+    }
+    @Test(retryAnalyzer = Retry.class)
+    //29. Вывод минимальной цены в поисковой подсказке
+    public void outputOfTheMinimumPriceInTheSearchHint() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        returningSettingsBackIfCatalogBroken();
+        deletingProductsFromTheCart();
+        chooseToDisplaySmallOptPricesForAllUsers();
+        navigationToGasStoveSetting();
+        setPriceForSmallOptForGasStoveGefest();
+        navigationToMeanPageByUrl();
+        navigationToCatalogTab();
+        enterNameInTheSearchFieldOnTheCatalogTab("Плита GEFEST");
+        checkingTheSmallOptPriceInPopUpSearchWindow();
+    }
+
+    @Test(retryAnalyzer = Retry.class)
+    //30. Добавление товара в корзину из поисковой подсказки с доступным количеством 0 (кол-ый учет у каталога - выкл)
+    public void addingAnItemToTheCartFromASearchHintWithAnAvailableQuantityOfZeroAndTheNumberOfCatalogAccountsIsOff() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        returningSettingsBackIfCatalogBroken();
+        deletingProductsFromTheCart();
+        navigationToSettingOfQuantitativeAccountingForTheProduct();
+        turnOffStoreAccounting();
+        turnOffQuantitativeAccountingForTheProductsInCatalog();
+        navigationToGasStoveSetting();
+        setTheNumberOfGasStoveGefestEqualToZero();
+        navigationToMeanPageByUrl();
+        navigationToCatalogTab();
+        wordForSearch = "Плита GEFEST";
+        enterNameInTheSearchFieldOnTheCatalogTab(wordForSearch);
+        addingThisProductFromPopUpWindowToTheCart();
+        navigationToCart();
+        checkingThatThisProductWasAddedToTheCart();
+        returningSettingsBack();
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
     @Test(retryAnalyzer = Retry.class) // Тест №0  + создает заново локаторы для регистрации, + настраивает поля которые должны отправляться на модерацию после изменения

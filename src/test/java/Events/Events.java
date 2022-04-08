@@ -232,7 +232,7 @@ public class Events extends MethodsForEvents{
             registr.fillingFieldsOnTheLogInTab();
             registr.logInFromAuthorizationTabWithRejectedStatus();
             Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@class, 'validation-invalid-label')][contains(text(), 'заблокирован')]")).isDisplayed());
-            navigationToMeanPageByUrl();
+            navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeAdmin();
             logInToB2B();
             navigationToTheEventTableFromAdminMeanPage();

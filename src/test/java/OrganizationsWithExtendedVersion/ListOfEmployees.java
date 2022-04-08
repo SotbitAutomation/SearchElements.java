@@ -208,7 +208,7 @@ public class ListOfEmployees extends MethodsForAddingOrganizationsWithExtendedVe
             logInToB2B();
             navigationToPersonsTab();
             confirmEmployeeRequest();
-            exitFromB2B();
+            navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTab(tempValue2, tempValueForPassword);
             logInToB2B();
             navigationToPersonsTab();

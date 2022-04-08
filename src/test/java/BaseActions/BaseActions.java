@@ -134,30 +134,60 @@ public class BaseActions extends CustomizingForYourself {
     By settingIconLocator = By.cssSelector(".icon-cog.mr-2");
     By buttonOfHomeLocator = By.xpath("//*[@title='Главная']");
     By calendarIconLocator = By.cssSelector(".icon-calendar2.mr-2");
-    By desktopIconLocator = By.xpath("//*[contains(@href, 'desktop')][contains(@class, 'link ')] /*[1]");
+    By desktopIconLocator = By.xpath("//*[@href='#desktop']");
     public By dropdownUserIcon = By.cssSelector(".dropdown-user");
     public ObjectInputStream inputStream = null;
     public String fileNameForB2BThemeColor = "fileNameForColor";  //Имя создаваемого файла в папке с проектом
     public boolean themeColorBlack = true;
 
-
+    boolean flagForCloseWarning = false;
     public void navigationToAuthorizationTab() {
         driver.navigate().to(b2bUrl);
+        if (!flagForCloseWarning){
+            flagForCloseWarning=true;
+            try {
+                driver.findElement(By.cssSelector(".brighttheme-icon-closer")).click();
+            }catch (Exception e){
+                System.out.println("0 катч - При первом запуске предупреждения что нужно авторизовтаься не было!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            }
+        }
         try {
             exitFromB2B();
+            driver.findElement(By.xpath("//*[@href='/auth/']")).click();
             Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
-        } catch (Exception e) {
+        }catch (Exception e){
             try {
-//               driver.findElement(By.cssSelector("#details-button")).click();
-//               driver.findElement(By.cssSelector("#proceed-link")).click();
-//               System.out.println("Обошел предупреждение что подключение защищено");
-                Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
-            } catch (Exception e1) {
-                exitFromB2B();
+                System.out.println("1 катч -  Я и так не авторизован");
                 driver.navigate().to(b2bUrl);
+                driver.findElement(By.xpath("//*[@href='/auth/']")).click();
+                Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
+            }catch (Exception e2){
+                System.out.println("2 катч - Кнопку входа перекрывает предупреждение");
+                driver.findElement(By.cssSelector(".brighttheme-icon-closer")).click();
+                driver.findElement(By.xpath("//*[@href='/auth/']")).click();
                 Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
             }
         }
+
+
+//            try {
+//                exitFromB2B();
+//                driver.findElement(By.cssSelector(".header_logout")).click();
+//                Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
+//            } catch (Exception e2) {
+//                try {
+////               driver.findElement(By.cssSelector("#details-button")).click();
+////               driver.findElement(By.cssSelector("#proceed-link")).click();
+////               System.out.println("Обошел предупреждение что подключение защищено");
+//                    Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
+//                } catch (Exception e1) {
+//                    exitFromB2B();
+//                    driver.navigate().to(b2bUrl);
+//                    Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
+//                }
+//            }
+
+        Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
     }
 
     public void navigationToTheSetting() {
@@ -307,7 +337,7 @@ public class BaseActions extends CustomizingForYourself {
             try {
                 driver.findElement(dropdownUserIcon).click();
             } catch (Exception e) {
-                System.out.println("Я не в публичной части, походу");
+                System.out.println("1 катч -  Я и не смог выйти, значит не авторизован, походу");
             }
         }
         wait.until(ExpectedConditions.visibilityOfElementLocated(exitButtonInb2bCabinetLocator));
@@ -433,7 +463,7 @@ public class BaseActions extends CustomizingForYourself {
     public void navigationToCart() {
         determineThemeColor();
         if (!themeColorBlack) {
-            implicitWaiting();
+            //implicitWaiting();
             flag = false;
             while (!flag) {
                 if (driver.findElements(By.cssSelector(".b2b-notification__content")).size() > 0) {
@@ -868,9 +898,7 @@ public class BaseActions extends CustomizingForYourself {
         }
     }
 
-    public void rememberingLastOrder() {
-        tempValue = driver.findElement(By.xpath("//*[@class='main-grid-row main-grid-row-body'] //*[contains(@class, 'main-grid-cell-left')]")).getText();
-    }
+
 
     public void saveBasicData(int numberOfSetting) {
         System.out.println(numberOfSetting);

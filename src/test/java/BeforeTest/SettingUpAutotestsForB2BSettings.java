@@ -15,13 +15,13 @@ import java.io.ObjectOutputStream;
 
 public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndAuthorization {
     @Test //1. Определение типа шапки
-    public void a_determiningTheTypeOfHeader () {
+    public void a_determiningTheTypeOfHeader() {
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         driver.findElement(logInButtonOnTheAuthorizationTabLocator).click();
-        if (driver.findElements(dropdownUserIcon).size()==0){
+        if (driver.findElements(dropdownUserIcon).size() == 0) {
             themeColorBlack = true;
-        }else {
+        } else {
             themeColorBlack = false;
         }
 
@@ -38,6 +38,7 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
         }
         System.out.println("Темная ли версия шапки " + themeColorBlack);
     }
+
     @Test //2. Создание локаторов для регистарции
     public void b_creatingLocatorsForRegistration() {
         //arrange
@@ -45,22 +46,25 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
         //act
         determineRadioButton();
         choiceIPForCreatingLocators();
-        try{
+        try {
             enterINNManually();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         creatingArrayWithExistingLocatorsForIP();
         writingArrayWithLocatorsForIPOnComputer();
         choiceLegalPersonForCreatingLocators();
-        try{
+        try {
             enterINNManually();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         creatingArrayWithExistingLocatorsForLegalPerson();
         writingArrayWithLocatorsForLegalPersonOnComputer();
-        try{
+        try {
             choicePersonForCreatingLocators();
             creatingArrayWithExistingLocatorsForPerson();
             writingArrayWithLocatorsForPersonOnComputer();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
     }
 
     @Test //3. Определяет есть ли поле "Местоположение" при регистарции (что бы быстрее тесты проходили)
@@ -71,14 +75,16 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
             driver.findElement(By.xpath("//*[contains(@placeholder, 'естоположение ...')][not(ancestor-or-self::*[@style = 'display: none;'])]")).sendKeys("Россия");
             driver.findElement(By.xpath("//*[contains(@class,'combobox-variant-active')]")).click();
             flagForLocation = true;
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         choiceLegalPerson();
-        if (!flagForLocation){
+        if (!flagForLocation) {
             try {
                 driver.findElement(By.xpath("//*[contains(@placeholder, 'естоположение ...')][not(ancestor-or-self::*[@style = 'display: none;'])]")).sendKeys("Россия");
                 driver.findElement(By.xpath("//*[contains(@class,'combobox-variant-active')]")).click();
                 flagForLocation = true;
-            }catch (Exception e){}
+            } catch (Exception e) {
+            }
         }
 
         //Запись в файл
@@ -96,26 +102,29 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
     }
 
     @Test //4. Определение нужно ли подтверждать регистрацию пользователя
-    public void d_determiningOfNeedToConfirmOfRegistrationUser () {
+    public void d_determiningOfNeedToConfirmOfRegistrationUser() {
         //arrange
         navigationToRegistrationTab();
         //act
         choiceIP();
-        try{
+        try {
             enterINNManually();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         fillingFieldsOnTheRegistrationTab(arrayWithExistingLocatorsForIP);
         try {
             driver.findElement(registerButtonOnRegistrationTabLocator).click();
             Assert.assertTrue(driver.findElement(By.cssSelector(".navbar")).isDisplayed());
-        }catch (Exception e){
-            implicitWaiting(); implicitWaiting();
+        } catch (Exception e) {
+            implicitWaiting();
+            implicitWaiting();
             driver.findElement(By.cssSelector(".btn.bg-success")).click();
         }
-        try{
-            checkingThatTheBannerIsDisplayed();
+
+        driver.navigate().to(b2bUrl);
+        if (driver.findElements(By.xpath("//*[@href='/auth/']")).size() == 0) {
             doNeedToConfirmRegistrationUser = false;
-        }catch (Exception e){
+        } else {
             doNeedToConfirmRegistrationUser = true;
         }
         //Запись в файл
@@ -133,22 +142,23 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
     }
 
     @Test //5. Определение версии работы с компаниями
-    public void e_determiningVersionsOfWorkingWithOrganizations () {
-        AddingOrganizationsWithExtendedVersion addingOrganization = new AddingOrganizationsWithExtendedVersion ();
+    public void e_determiningVersionsOfWorkingWithOrganizations() {
+        AddingOrganizationsWithExtendedVersion addingOrganization = new AddingOrganizationsWithExtendedVersion();
         //arrange
         navigationToRegistrationTab();
         //act
         choiceIP();
-        try{
+        try {
             enterINNManually();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         fillingFieldsOnTheRegistrationTab(arrayWithExistingLocatorsForIP);
         tryConfirmRegistration();
         entranceToB2BFromRegistrationTab();
         try {
             addingOrganization.navigationToEmployeesTab();
             versionsOfWorkingWithOrganizationsExtended = true;
-        }catch (Exception e){
+        } catch (Exception e) {
             versionsOfWorkingWithOrganizationsExtended = false;
         }
 
@@ -167,9 +177,9 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
     }
 
     @Test //6. Определение нужно ли подтверждать регистрацию организации
-    public void f_determiningOfNeedToConfirmOfRegistrationOrganization () {
+    public void f_determiningOfNeedToConfirmOfRegistrationOrganization() {
         determineWhetherVersionsOfWorkingWithOrganization();
-        if (versionsOfWorkingWithOrganizationsExtended){
+        if (versionsOfWorkingWithOrganizationsExtended) {
             //arrange
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeAdmin();
@@ -180,9 +190,10 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
             navigationToRegistrationTab();
             //act
             choiceIP();
-            try{
+            try {
                 enterINNManually();
-            }catch (Exception e){}
+            } catch (Exception e) {
+            }
             fillingFieldsOnTheRegistrationTab(arrayWithExistingLocatorsForIP);
             tryConfirmRegistration();
             entranceToB2BFromRegistrationTab();
@@ -191,11 +202,11 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
             try {
                 Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'На модерации')][contains(@class, 'content')]")).isDisplayed());
                 doNeedToConfirmRegistrationOrganization = true;
-            }catch (Exception e){
+            } catch (Exception e) {
                 try {
                     Assert.assertTrue(driver.findElement(By.xpath("//span[contains(text(), 'Одобрена')]")).isDisplayed());
                     doNeedToConfirmRegistrationOrganization = false;
-                }catch (Exception exception){
+                } catch (Exception exception) {
                     AddingOrganizationsWithExtendedVersion addOrganization = new AddingOrganizationsWithExtendedVersion();
                     addOrganization.navigationToAddOrganizationTab();
                     addOrganization.selectionFromDropDownListIndividualBusinessman();
@@ -205,47 +216,48 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
                     try {
                         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'На модерации')]")).isDisplayed());
                         doNeedToConfirmRegistrationOrganization = true;
-                    }catch (Exception exception1){}
+                    } catch (Exception exception1) {
+                    }
 
-                        try {
-                            Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'Одобрена')]")).isDisplayed());
-                            doNeedToConfirmRegistrationOrganization = false;
-                        }catch (Exception exception2){
-                            MethodsForAddingOrganizationsWithExtendedVersion addOrg = new MethodsForAddingOrganizationsWithExtendedVersion();
-                            exitFromB2B();
-                            navigationToAuthorizationTab();
-                            fillingFieldsOnTheLogInTabLikeAdmin();
-                            logInToB2B();
-                            navigationToOrganizationTab();
-                            addOrg.selectingAllColumnsToDisplay();
-                            exitFromB2B();
-                            navigationToAuthorizationTab();
-                            fillingFieldsOnTheLogInTab(email, password);
-                            logInToB2B();
-                            navigationToOrganizationTab();
-                        }
-                        try {
-                            Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'На модерации')]")).isDisplayed());
-                            doNeedToConfirmRegistrationOrganization = true;
-                        }catch (Exception exception3){
-                            Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'Одобрена')]")).isDisplayed());
-                            doNeedToConfirmRegistrationOrganization = false;
-                        }
+                    try {
+                        Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'Одобрена')]")).isDisplayed());
+                        doNeedToConfirmRegistrationOrganization = false;
+                    } catch (Exception exception2) {
+                        MethodsForAddingOrganizationsWithExtendedVersion addOrg = new MethodsForAddingOrganizationsWithExtendedVersion();
+                        exitFromB2B();
+                        navigationToAuthorizationTab();
+                        fillingFieldsOnTheLogInTabLikeAdmin();
+                        logInToB2B();
+                        navigationToOrganizationTab();
+                        addOrg.selectingAllColumnsToDisplay();
+                        exitFromB2B();
+                        navigationToAuthorizationTab();
+                        fillingFieldsOnTheLogInTab(email, password);
+                        logInToB2B();
+                        navigationToOrganizationTab();
+                    }
+                    try {
+                        Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'На модерации')]")).isDisplayed());
+                        doNeedToConfirmRegistrationOrganization = true;
+                    } catch (Exception exception3) {
+                        Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'Одобрена')]")).isDisplayed());
+                        doNeedToConfirmRegistrationOrganization = false;
+                    }
                 }
             }
         }
-            //Запись в файл
-            try {
-                outputStream = new ObjectOutputStream(new FileOutputStream(fileNameForConfirmRegistrationOrganization));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                outputStream.writeObject(this.doNeedToConfirmRegistrationOrganization);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Нужно подтверждать регистрацию - " + doNeedToConfirmRegistrationOrganization);
+        //Запись в файл
+        try {
+            outputStream = new ObjectOutputStream(new FileOutputStream(fileNameForConfirmRegistrationOrganization));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            outputStream.writeObject(this.doNeedToConfirmRegistrationOrganization);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Нужно подтверждать регистрацию - " + doNeedToConfirmRegistrationOrganization);
     }
 
     @Test //7. Создание пользователей для автотестов
@@ -258,7 +270,6 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
         registr.registrationLegalPersonWithManualEntryINN();
         emailEmployee = registr.email;
         passwordEmployee = registr.password;
-
 
         //Запись в файл
         try {

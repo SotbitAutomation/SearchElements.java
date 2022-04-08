@@ -95,7 +95,7 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
     public void checkingPriceOfProductsOnTheMakingOrderPage() {
         tempInt = 1;
         flag = false;
-        while (flag == false) {
+        while (!flag) {
             scrollToTheElement("//h4[text()='Заказ']/ following::*[" + tempInt + "]");
             if (driver.findElement(By.xpath("//h4[text()='Заказ']/ following::*[" + tempInt + "]")).getText().equals("Сумма")) {
                 flag = true;
@@ -117,7 +117,7 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
 
         tempInt = 1;
         flag = false;
-        while (flag == false) {
+        while (!flag) {
             try {
                 tempValue = driver.findElement(By.xpath("//h4[text()='Заказ']/ following::*[" + tempInt + "]")).getText();
             } catch (Exception e) {
@@ -156,34 +156,15 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
 
     public void choiceRandomDeliveryWay() {
         randomNumberUpToDeliveryWays = 1 + (int) (Math.random() * driver.findElements(By.xpath("//*[contains(@class, 'delivery')] //*[@class='uniform-choice']")).size());
-        if (driver.findElement(By.xpath("(//*[contains(@class, 'delivery')]) /*[" + randomNumberUpToDeliveryWays + "] //*[@class='index_checkout-radios_title']"))
+        if (driver.findElement(By.xpath("(//*[contains(@class, 'card-delivery')]//*[@class='index_checkout-radios_title'])[" + randomNumberUpToDeliveryWays + "]"))
                 .getText().equals("Самовывоз")) {
-            //scrollDownToTheElement("(//*[contains(@class, 'delivery')] //*[@class='uniform-choice'])[" + randomNumberUpToDeliveryWays + "]");
-            try {
-                driver.findElement(By.xpath("(//*[contains(@class, 'delivery')] //*[@class='uniform-choice'])[" + randomNumberUpToDeliveryWays + "]")).click();
-            }catch (Exception e){
-                System.out.println("ТУпая ошибка, проскроливает в самый низ страницы и не видит способы доставки");
-                scrollUp();
-                driver.findElement(By.xpath("(//*[contains(@class, 'delivery')] //*[@class='uniform-choice'])[" + randomNumberUpToDeliveryWays + "]")).click();
-            }
-            try {
-                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(text(), 'Сохранить')]")));
-            }catch (Exception e){
-                scrollToTheElement("//button[contains(text(), 'Сохранить')]");
-            }
+            tryToClickElement("(//*[contains(@class, 'delivery')] //*[@class='uniform-choice'])[" + randomNumberUpToDeliveryWays + "]");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(text(), 'Сохранить')]")));
             driver.findElement(By.xpath("//button[contains(text(), 'Сохранить')]")).click();
-
             wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("((//*[contains(@class, 'delivery')] //*[@class='uniform-choice'])["
                     + randomNumberUpToDeliveryWays + "])/*[@class='checked']")));
         } else {
-            //scrollDownToTheElement("(//*[contains(@class, 'delivery')] //*[@class='uniform-choice'])[" + randomNumberUpToDeliveryWays + "]");
-            try {
-                driver.findElement(By.xpath("(//*[contains(@class, 'delivery')] //*[@class='uniform-choice'])[" + randomNumberUpToDeliveryWays + "]")).click();
-            }catch (Exception e){
-                System.out.println("ТУпая ошибка, проскроливает в самый низ страницы и не видит способы доставки");
-                scrollUp();
-                driver.findElement(By.xpath("(//*[contains(@class, 'delivery')] //*[@class='uniform-choice'])[" + randomNumberUpToDeliveryWays + "]")).click();
-            }
+            tryToClickElement("(//*[contains(@class, 'delivery')] //*[@class='uniform-choice'])[" + randomNumberUpToDeliveryWays + "]");
             wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("((//*[contains(@class, 'delivery')] //*[@class='uniform-choice'])["
                     + randomNumberUpToDeliveryWays + "])/*[@class='checked']")));
         }
@@ -275,9 +256,6 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
         tempValue2 = "12345@mail.ru";
         driver.findElement(By.xpath("//*[contains(text(), 'ail')] /following::*[2]")).clear();
         driver.findElement(By.xpath("//*[contains(text(), 'ail')] /following::*[2]")).sendKeys(tempValue2);
-        tempValue3 = driver.findElement(By.xpath("//*[contains(text(), 'елефон')] /following::*[2]")).getAttribute("value");
-        tempValue4 = driver.findElement(By.xpath("//*[contains(text(), 'ндекс')] /following::*[2]")).getAttribute("value");
-        tempValue5 = driver.findElement(By.xpath("//*[contains(text(), 'доставк')] /following::*[2]")).getAttribute("value");
     }
 
     public void checkingThatTheFieldsOfThisOrganizationAreNotEqualToThePreviousOrganization() {
@@ -285,19 +263,10 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
             Assert.assertFalse(driver.findElement(By.xpath("//*[contains(text(), 'Название компании')] /following::*[2]")).getAttribute("value").equals(tempValue));
         }
         if (tempValue1 != null && !tempValue.trim().isEmpty()) {
-            Assert.assertFalse(driver.findElement(By.xpath("//*[contains(text(), 'ИНН')] /following::*[2]")).getAttribute("value").equals(tempValue));
+            Assert.assertFalse(driver.findElement(By.xpath("//*[contains(text(), 'ИНН')] /following::*[2]")).getAttribute("value").equals(tempValue1));
         }
         if (tempValue2 != null && !tempValue.trim().isEmpty()) {
-            Assert.assertFalse(driver.findElement(By.xpath("//*[contains(text(), 'ail')] /following::*[2]")).getAttribute("value").equals(tempValue));
-        }
-        if (tempValue3 != null && !tempValue.trim().isEmpty()) {
-            Assert.assertFalse(driver.findElement(By.xpath("//*[contains(text(), 'елефон')] /following::*[2]")).getAttribute("value").equals(tempValue));
-        }
-        if (tempValue4 != null && !tempValue.trim().isEmpty()) {
-            Assert.assertFalse(driver.findElement(By.xpath("//*[contains(text(), 'ндекс')] /following::*[2]")).getAttribute("value").equals(tempValue));
-        }
-        if (tempValue5 != null && !tempValue.trim().isEmpty()) {
-            Assert.assertFalse(driver.findElement(By.xpath("//*[contains(text(), 'доставк')] /following::*[2]")).getAttribute("value").equals(tempValue));
+            Assert.assertFalse(driver.findElement(By.xpath("//*[contains(text(), 'ail')] /following::*[2]")).getAttribute("value").equals(tempValue2));
         }
     }
 
@@ -320,7 +289,7 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
     }
 
     public void tryToMakeAnOrderWithoutTheAddressField() {
-        driver.findElement(By.xpath("//*[contains(text(), 'доставки')] /following::*[2]")).clear();
+        driver.findElement(By.xpath("//*[contains(text(), 'доставки')] /following::*[2][@class='form-control']")).clear();
         scrollToTheElement(buttonForMakeOrderLocatorOnTheCheckoutPage);
         driver.findElement(buttonForMakeOrderLocatorOnTheCheckoutPage).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".errortext")));

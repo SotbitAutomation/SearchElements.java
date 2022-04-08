@@ -37,7 +37,6 @@ public class TechnicalSupport extends MethodsForTechnicalSupport {
     public void checkingRequestAtAdmin() {
         //arrange
         contactingTheSupportService();
-        exitFromB2B();
         navigationToAuthorizationTab();
         //act
         fillingFieldsOnTheLogInTabLikeAdmin();
@@ -51,7 +50,6 @@ public class TechnicalSupport extends MethodsForTechnicalSupport {
         //arrange
         deletingExcelAndJpgFilesFromDownloads();
         contactingTheSupportServiceWithAddedFile();
-        exitFromB2B();
         navigationToAuthorizationTab();
         //act
         fillingFieldsOnTheLogInTabLikeAdmin();
@@ -74,7 +72,6 @@ public class TechnicalSupport extends MethodsForTechnicalSupport {
         //act
         answeringToRequest();
         sendingAnsweringToRequest();
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
@@ -98,7 +95,6 @@ public class TechnicalSupport extends MethodsForTechnicalSupport {
         checkingThatLastRequestIsDisplayedOnTheDetailOrderPageInSupportTab();
         navigationToMeanPageByUrl();
         navigationToTechnicalSupportTab();
-        System.out.println(tempValue);
         checkingThatTheLastRequestIsDisplayedOnTheTechnicalSupportPage();
         openingLastRequestOnTheTechnicalSupportPage();
         checkingDisplayingRequestByMessage();
@@ -117,7 +113,6 @@ public class TechnicalSupport extends MethodsForTechnicalSupport {
         sendingRequest();
         checkingThatRequestIsDisplayedForTheUser();
         memorizingNumberOfLastRequest();
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeEmployee();
         logInToB2B();
