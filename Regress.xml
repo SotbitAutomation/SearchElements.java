@@ -8,7 +8,7 @@
                         <include name="configureTheBlackHeaderInTheCabinetAndTheCatalogSectionsInTheFilter"/>
                         <include name="enableExtendedModeAndConfirmRegistrations"/>
                     </methods>
-                </class>111
+                </class>
                 <class name="BeforeTest.SettingUpAutotestsForB2BSettings"></class>
                 <class name="RegistrationAndAuthorization.AuthorizationB2B"></class>
                 <class name="RegistrationAndAuthorization.RegistrationB2B"></class>
