@@ -162,10 +162,15 @@ public class BaseActions extends CustomizingForYourself {
                 driver.findElement(By.xpath("//*[@href='/auth/']")).click();
                 Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
             }catch (Exception e2){
-                System.out.println("2 катч - Кнопку входа перекрывает предупреждение");
-                driver.findElement(By.cssSelector(".brighttheme-icon-closer")).click();
-                driver.findElement(By.xpath("//*[@href='/auth/']")).click();
-                Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
+                try {
+                    System.out.println("2 катч - Кнопку входа перекрывает предупреждение");
+                    driver.findElement(By.cssSelector(".brighttheme-icon-closer")).click();
+                    driver.findElement(By.xpath("//*[@href='/auth/']")).click();
+                    Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
+                }catch (Exception e3){
+                    System.out.println("Доступ закрыт, потом оптимизирую для быстрой работы");
+                    Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
+                }
             }
         }
 
