@@ -10,7 +10,7 @@
                     </methods>
                 </class>
                 <class name="BeforeTest.SettingUpAutotestsForB2BSettings"></class>
-<!--                <class name="RegistrationAndAuthorization.AuthorizationB2B"></class>--> 222
+                <class name="RegistrationAndAuthorization.AuthorizationB2B"></class>
                 <class name="RegistrationAndAuthorization.RegistrationB2B"></class>
                 <class name="OrganizationsWithExtendedVersion.AddingOrganizationsWithExtendedVersion"></class>
                 <class name="OrganizationsWithExtendedVersion.ListOfEmployees"></class>
