@@ -85,32 +85,32 @@
     </test>
 
 
-    <test name="Regression4 with white type of hat, catalog in filter and extended version">
-        <classes>
-            <class name="SettingUpCabinetForTesting.SettingUpCabinetForTesting">
-                <methods>
-                    <include name="configureTheWhiteHeaderInTheCabinetAndTheCatalogSectionsInTheFilter"/>
-                    <include name="enableExtendedModeAndConfirmRegistrations"/>
-                </methods>
-            </class>
-            <class name="BeforeTest.SettingUpAutotestsForB2BSettings"></class>
-            <class name="RegistrationAndAuthorization.AuthorizationB2B"></class>
-            <class name="RegistrationAndAuthorization.RegistrationB2B"></class>
-            <class name="OrganizationsWithExtendedVersion.AddingOrganizationsWithExtendedVersion"></class>
-            <class name="OrganizationsWithExtendedVersion.ListOfEmployees"></class>
-            <class name="Catalog.Catalog"></class>
-            <class name="Basket.Basket"></class>
-            <class name="MakingOrders.MakingOrders"></class>
-            <class name="MyOrdersHistory.MyOrdersHistory"></class>
-            <class name="Documents.Documents"></class>
-            <class name="Events.Events"></class>
-            <class name="MeanPage.MeanPageCalendar"></class>
-            <class name="MeanPage.MeanPageDesktop"></class>
-            <class name="MeanPage.MeanPageSettingPage"></class>
-            <class name="TechnicalSupport.TechnicalSupport"></class>
-            <class name="DangerousTests.DangerousTests"></class>
-        </classes>
-    </test>
+<!--    <test name="Regression4 with white type of hat, catalog in filter and extended version">-->
+<!--        <classes>-->
+<!--            <class name="SettingUpCabinetForTesting.SettingUpCabinetForTesting">-->
+<!--                <methods>-->
+<!--                    <include name="configureTheWhiteHeaderInTheCabinetAndTheCatalogSectionsInTheFilter"/>-->
+<!--                    <include name="enableExtendedModeAndConfirmRegistrations"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--            <class name="BeforeTest.SettingUpAutotestsForB2BSettings"></class>-->
+<!--            <class name="RegistrationAndAuthorization.AuthorizationB2B"></class>-->
+<!--            <class name="RegistrationAndAuthorization.RegistrationB2B"></class>-->
+<!--            <class name="OrganizationsWithExtendedVersion.AddingOrganizationsWithExtendedVersion"></class>-->
+<!--            <class name="OrganizationsWithExtendedVersion.ListOfEmployees"></class>-->
+<!--            <class name="Catalog.Catalog"></class>-->
+<!--            <class name="Basket.Basket"></class>-->
+<!--            <class name="MakingOrders.MakingOrders"></class>-->
+<!--            <class name="MyOrdersHistory.MyOrdersHistory"></class>-->
+<!--            <class name="Documents.Documents"></class>-->
+<!--            <class name="Events.Events"></class>-->
+<!--            <class name="MeanPage.MeanPageCalendar"></class>-->
+<!--            <class name="MeanPage.MeanPageDesktop"></class>-->
+<!--            <class name="MeanPage.MeanPageSettingPage"></class>-->
+<!--            <class name="TechnicalSupport.TechnicalSupport"></class>-->
+<!--            <class name="DangerousTests.DangerousTests"></class>-->
+<!--        </classes>-->
+<!--    </test>-->
 
     <!--            <class name="SettingUpCabinetForTesting.SettingUpCabinetForTesting">-->
     <!--                <methods>-->
