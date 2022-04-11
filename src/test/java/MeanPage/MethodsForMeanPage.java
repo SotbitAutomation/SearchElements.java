@@ -189,7 +189,7 @@ public class MethodsForMeanPage extends BaseActions {
 
     public void saveTheSettingForWidgetsOnTheDesktopLikeDefault() {
         showButtonForAddingWidgets();
-        tryToClickElement(saveSettingLikeDefaultLocator);
+        clickElement(saveSettingLikeDefaultLocator);
         //driver.findElement(saveSettingLikeDefaultLocator).click();
         new WebDriverWait(driver, 10).until(ExpectedConditions.alertIsPresent());  //сохраннеие настроек по умолчанию метод
         driver.switchTo().alert().accept();

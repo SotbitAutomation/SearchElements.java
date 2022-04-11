@@ -104,7 +104,7 @@ public class MethodsForDocuments extends BaseActions {
     public void goToPageForChoiceUser(){
         //driver.findElement(By.xpath("//*[contains(@id, 'SELECTPROP')]")).click();
         //driver.findElement(By.xpath("//*[contains(@id, 'SELECTPROP')] //*[text()='Выбрать']")).click();
-        tryToClickElementByItsCssSelector(".tablebodybutton");
+        clickElementByItsCssSelector(".tablebodybutton");
     }
     public void choiceUserFromJustOpenedPage(String emailUserForDoc) {
         Set<String> handles = driver.getWindowHandles();

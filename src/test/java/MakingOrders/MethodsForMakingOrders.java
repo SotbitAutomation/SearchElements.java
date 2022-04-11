@@ -67,7 +67,7 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
     public void selectCompanyByItSNumber(int companyNumber) {
         determineWhetherVersionsOfWorkingWithOrganization();
         if (!versionsOfWorkingWithOrganizationsExtended) {
-            tryToClickElement("(//input[@name='PROFILE_ID'])[" + companyNumber + "]");
+            clickElement("(//input[@name='PROFILE_ID'])[" + companyNumber + "]");
             //driver.findElement(By.xpath("(//input[@name='PROFILE_ID'])[" + companyNumber + "]")).click();
             wait.until(ExpectedConditions.elementToBeSelected(By.xpath("(//input[@name='PROFILE_ID'])[" + companyNumber + "]")));
         } else {
@@ -85,7 +85,7 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
     public void makingOrder() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='text-center'])[11]")));
         tempShippingCost = Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[@class='text-center'])[11]")).getText()));
-        tryToClickElement(buttonForMakeOrderLocatorOnTheCheckoutPage);
+        clickElement(buttonForMakeOrderLocatorOnTheCheckoutPage);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".index_order_success")));
         Assert.assertTrue(driver.findElement(By.cssSelector(".index_order_success")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'Ваш заказ')]")).isDisplayed());
@@ -158,13 +158,13 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
         randomNumberUpToDeliveryWays = 1 + (int) (Math.random() * driver.findElements(By.xpath("//*[contains(@class, 'delivery')] //*[@class='uniform-choice']")).size());
         if (driver.findElement(By.xpath("(//*[contains(@class, 'card-delivery')]//*[@class='index_checkout-radios_title'])[" + randomNumberUpToDeliveryWays + "]"))
                 .getText().equals("Самовывоз")) {
-            tryToClickElement("(//*[contains(@class, 'delivery')] //*[@class='uniform-choice'])[" + randomNumberUpToDeliveryWays + "]");
+            clickElement("(//*[contains(@class, 'delivery')] //*[@class='uniform-choice'])[" + randomNumberUpToDeliveryWays + "]");
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(text(), 'Сохранить')]")));
             driver.findElement(By.xpath("//button[contains(text(), 'Сохранить')]")).click();
             wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("((//*[contains(@class, 'delivery')] //*[@class='uniform-choice'])["
                     + randomNumberUpToDeliveryWays + "])/*[@class='checked']")));
         } else {
-            tryToClickElement("(//*[contains(@class, 'delivery')] //*[@class='uniform-choice'])[" + randomNumberUpToDeliveryWays + "]");
+            clickElement("(//*[contains(@class, 'delivery')] //*[@class='uniform-choice'])[" + randomNumberUpToDeliveryWays + "]");
             wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("((//*[contains(@class, 'delivery')] //*[@class='uniform-choice'])["
                     + randomNumberUpToDeliveryWays + "])/*[@class='checked']")));
         }

@@ -9,17 +9,7 @@
                     <include name="enableExtendedModeAndConfirmRegistrations"/>
                 </methods>
             </class>
-            <class name="BeforeTest.SettingUpAutotestsForB2BSettings">
-                <methods>
-                    <include name="a_determiningTheTypeOfHeader"/>
-                    <include name="b_creatingLocatorsForRegistration"/>
-                    <include name="c_determinesWhetherThereIsLocationField"/>
-                    <include name="d_determiningOfNeedToConfirmOfRegistrationUser"/>
-                    <include name="e_determiningVersionsOfWorkingWithOrganizations"/>
-                    <include name="f_determiningOfNeedToConfirmOfRegistrationOrganization"/>
-                    <include name="g_creatingUsersForAutomationTests"/>
-                </methods>
-            </class>
+            <class name="BeforeTest.SettingUpAutotestsForB2BSettings"></class>
             <class name="RegistrationAndAuthorization.AuthorizationB2B">
                 <methods>
                     <include name="authorizationUser"/>
@@ -102,13 +92,6 @@
     </test>
 
 
-
-
-
-
-
-
-
     <test name="Smoke2 with black type of hat, dropDown catalog  and Standard version with confirm user">
         <classes>
             <class name="SettingUpCabinetForTesting.SettingUpCabinetForTesting">
@@ -117,18 +100,8 @@
                     <include name="enableStandardModeAndConfirmRegistrationUser"/>
                 </methods>
             </class>
-           
-            <class name="BeforeTest.SettingUpAutotestsForB2BSettings">
-                <methods>
-                    <include name="a_determiningTheTypeOfHeader"/>
-                    <include name="b_creatingLocatorsForRegistration"/>
-                    <include name="c_determinesWhetherThereIsLocationField"/>
-                    <include name="d_determiningOfNeedToConfirmOfRegistrationUser"/>
-                    <include name="e_determiningVersionsOfWorkingWithOrganizations"/>
-                    <include name="f_determiningOfNeedToConfirmOfRegistrationOrganization"/>
-                    <include name="g_creatingUsersForAutomationTests"/>
-                </methods>
-            </class>
+
+            <class name="BeforeTest.SettingUpAutotestsForB2BSettings"></class>
 
             <class name="RegistrationAndAuthorization.AuthorizationB2B">
                 <methods>
@@ -204,12 +177,6 @@
             </class>
         </classes>
     </test>
-
-
-
-
-
-
 
 
     <test name="Smoke3 with white type of hat, dropDown catalog  and Standard version without confirms">
@@ -222,18 +189,8 @@
                 </methods>
             </class>
 
-            <class name="BeforeTest.SettingUpAutotestsForB2BSettings">
-                <methods>
-                    <include name="a_determiningTheTypeOfHeader"/>
-                    <include name="b_creatingLocatorsForRegistration"/>
-                    <include name="c_determinesWhetherThereIsLocationField"/>
-                    <include name="d_determiningOfNeedToConfirmOfRegistrationUser"/>
-                    <include name="e_determiningVersionsOfWorkingWithOrganizations"/>
-                    <include name="f_determiningOfNeedToConfirmOfRegistrationOrganization"/>
-                    <include name="g_creatingUsersForAutomationTests"/>
-                </methods>
-            </class>
-            
+            <class name="BeforeTest.SettingUpAutotestsForB2BSettings"></class>
+
             <class name="RegistrationAndAuthorization.AuthorizationB2B">
                 <methods>
                     <include name="authorizationUser"/>
@@ -310,13 +267,6 @@
     </test>
 
 
-
-
-
-
-
-
-
     <test name="Smoke4 with white type of hat, catalog in filter and extended version">
         <classes>
 
@@ -327,17 +277,7 @@
                 </methods>
             </class>
 
-            <class name="BeforeTest.SettingUpAutotestsForB2BSettings">
-                <methods>
-                    <include name="a_determiningTheTypeOfHeader"/>
-                    <include name="b_creatingLocatorsForRegistration"/>
-                    <include name="c_determinesWhetherThereIsLocationField"/>
-                    <include name="d_determiningOfNeedToConfirmOfRegistrationUser"/>
-                    <include name="e_determiningVersionsOfWorkingWithOrganizations"/>
-                    <include name="f_determiningOfNeedToConfirmOfRegistrationOrganization"/>
-                    <include name="g_creatingUsersForAutomationTests"/>
-                </methods>
-            </class>
+            <class name="BeforeTest.SettingUpAutotestsForB2BSettings"></class>
 
             <class name="RegistrationAndAuthorization.AuthorizationB2B">
                 <methods>

@@ -979,7 +979,7 @@ public class BaseActions extends CustomizingForYourself {
     public void navigationToTheSiteSettings() {
         driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/", "") + "bitrix/admin/sotbit.auth_settings.php?lang=ru&site=s1");
     }
-    public void tryToClickStandardButtonForSaveSettings(){
+    public void clickStandardButtonForSaveSettings(){
         try {
             driver.findElement(buttonSaveLocator).click();
         }catch (Exception e){
@@ -988,7 +988,7 @@ public class BaseActions extends CustomizingForYourself {
             driver.findElement(buttonSaveLocator).click();
         }
     }
-    public void tryToClickElement(String elementXpath){
+    public void clickElement(String elementXpath){
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(elementXpath)));
             driver.findElement(By.xpath(elementXpath)).click();
@@ -1012,7 +1012,7 @@ public class BaseActions extends CustomizingForYourself {
             }
         }
     }
-    public void tryToClickElement (By elementLocator){
+    public void clickElement(By elementLocator){
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(elementLocator));
             driver.findElement(elementLocator).click();
@@ -1036,7 +1036,7 @@ public class BaseActions extends CustomizingForYourself {
             }
         }
     }
-    public void tryToClickElementByItsCssSelector (String cssSelector){
+    public void clickElementByItsCssSelector(String cssSelector){
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(cssSelector)));
             driver.findElement(By.cssSelector(cssSelector)).click();

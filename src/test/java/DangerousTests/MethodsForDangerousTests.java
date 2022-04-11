@@ -41,15 +41,23 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
     public void enableTheIndexSectionsForTheSearchModuleSetting (){
         driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/", "") + "/bitrix/admin/iblock_edit.php?type=sotbit_b2bcabinet_type_catalog&lang=ru&ID=1&admin=Y&return_url=iblock_list_admin.php%3FIBLOCK_ID%3D1%26type%3Dsotbit_b2bcabinet_type_catalog%26lang%3Dru%26find_section_section%3D0");
         if (driver.findElements(By.xpath("//*[@id='INDEX_SECTION'][@checked]")).size()==0){
-            tryToClickElement("//*[@for='INDEX_SECTION'][contains(@class, 'label')]");
+            clickElement("//*[@for='INDEX_SECTION'][contains(@class, 'label')]");
             driver.findElement(By.xpath("//*[@id='tabControl_buttons_div']//*[@name='save']")).click();
         }
     }
     public void checkingTheSmallOptPriceInPopUpSearchWindow(){
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".search-title-result-item-current-price")));
+        implicitWaiting();
         String priceInPupOpSearchWindow = driver.findElement(By.cssSelector(".search-title-result-item-current-price")).getText();
         priceInPupOpSearchWindow = replacingSomeSymbols(priceInPupOpSearchWindow);
-        Assert.assertTrue(tempDouble == Double.valueOf(priceInPupOpSearchWindow));
+        try {
+            Assert.assertTrue(tempDouble == Double.valueOf(priceInPupOpSearchWindow));
+        }catch (Exception e){
+            System.out.println(priceInPupOpSearchWindow);
+            System.out.println(tempDouble);
+            System.out.println(Double.valueOf(priceInPupOpSearchWindow));
+            Assert.assertTrue(tempDouble == Double.valueOf(priceInPupOpSearchWindow));
+        }
     }
     public void returningSettingsBackIfCatalogBroken() {
         navigationToCatalogTab();
@@ -135,13 +143,13 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         if (driver.findElements(By.xpath("//*[@id='use_store_control_y'][@checked]")).size()>0){
             driver.findElement(By.xpath("//*[@id='use_store_control_y']/following::*[1]")).click();
         }
-        tryToClickElement("//*[@value='Сохранить']");
+        clickElement("//*[@value='Сохранить']");
     }
     public void turnOnStoreAccounting(){
         if (driver.findElements(By.xpath("//*[@id='use_store_control_y'][@checked]")).size()==0){
             driver.findElement(By.xpath("//*[@id='use_store_control_y']/following::*[1]")).click();
         }
-        tryToClickElement("//*[@value='Сохранить']");
+        clickElement("//*[@value='Сохранить']");
     }
     public void checkingThatThereIsAWordFrom(){
         Assert.assertTrue(driver.findElement(By.cssSelector(".search-title-result-item-current-price")).getText().contains("от"));

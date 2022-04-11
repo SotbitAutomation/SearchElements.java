@@ -211,7 +211,7 @@ public class MethodsForCatalog extends BaseActions {
 
     public void calculationOfTheCoefficientForNonPieceProducts() {
         numberOfProductsInTheFooter = Integer.parseInt(driver.findElement(By.id("catalog__basket-quantity-value")).getText());
-        tryToClickElement("(//*[@class='quantity-selector__increment'])[" + randomNumberOfProductsPerPage + "]");
+        clickElement("(//*[@class='quantity-selector__increment'])[" + randomNumberOfProductsPerPage + "]");
         try {
             wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter + 1)));
         } catch (Exception e) {
@@ -1192,7 +1192,7 @@ public class MethodsForCatalog extends BaseActions {
             driver.findElement(By.xpath("//*[contains(@class, 'popup-menu-item-text')][text()='Каталог']")).click();
         }
         implicitWaiting();
-        tryToClickElement("//*[@title='Развернуть']");
+        clickElement("//*[@title='Развернуть']");
         //driver.findElement(By.xpath("//*[@title='Развернуть']")).click();
     }
 
@@ -1520,7 +1520,7 @@ public class MethodsForCatalog extends BaseActions {
                 implicitWaiting();
             }
         }
-        tryToClickElement(buttonToSaveTheComponentSettingsForTheCatalog);
+        clickElement(buttonToSaveTheComponentSettingsForTheCatalog);
         //driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
     }
 
@@ -1533,7 +1533,7 @@ public class MethodsForCatalog extends BaseActions {
                 implicitWaiting();
             }
         }
-        tryToClickElement(buttonToSaveTheComponentSettingsForTheCatalog);
+        clickElement(buttonToSaveTheComponentSettingsForTheCatalog);
         //driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
     }
 
@@ -1561,7 +1561,7 @@ public class MethodsForCatalog extends BaseActions {
         driver.findElement(By.xpath("//td[contains(text(), 'SMALL_OPT')] /following::input[1][not(ancestor-or-self::*[@style = 'display: none;'])]")).clear();
         tempDouble = Double.parseDouble(driver.findElement(By.xpath("//input[contains(@id, 'BASE_PRICE')][not(ancestor-or-self::*[@style = 'display: none;'])]")).getAttribute("value")) - 1;
         driver.findElement(By.xpath("//td[contains(text(), 'SMALL_OPT')] /following::input[1][not(ancestor-or-self::*[@style = 'display: none;'])]")).sendKeys(String.valueOf(tempDouble));
-        tryToClickElement("//*[@title='Управление скидками']");
+        clickElement("//*[@title='Управление скидками']");
         if (driver.findElements(By.xpath("//td[text()='ID']")).size() > 0) {
             tempDouble2 = tempDouble * Double.valueOf(driver.findElement(By.xpath("(//td[contains(@style, 'text-align:')])[5]")).getText().replaceAll("%", "")) / 100;
             tempDouble = tempDouble - tempDouble2;
@@ -1675,25 +1675,25 @@ public class MethodsForCatalog extends BaseActions {
 
     public void enableQuantitativeAccountingForTheProductsInCatalog() {
         if (driver.findElement(By.cssSelector("#default_quantity_trace")).getText().equals("Нет")) {
-            tryToClickElementByItsCssSelector("#product_settings");
+            clickElementByItsCssSelector("#product_settings");
             //driver.findElement(By.cssSelector("#product_settings")).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@for='quantity_trace']")));
             driver.findElement(By.xpath("//*[@for='quantity_trace']")).click();
             driver.findElement(By.cssSelector("#product_settings_start_button")).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@value='Сохранить']")));
-            tryToClickElement("//*[@value='Сохранить']");
+            clickElement("//*[@value='Сохранить']");
         }
     }
 
     public void turnOffQuantitativeAccountingForTheProductsInCatalog() {
         if (driver.findElement(By.cssSelector("#default_quantity_trace")).getText().equals("Да")) {
-            tryToClickElementByItsCssSelector("#product_settings");
+            clickElementByItsCssSelector("#product_settings");
             //driver.findElement(By.cssSelector("#product_settings")).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@for='quantity_trace']")));
             driver.findElement(By.xpath("//*[@for='quantity_trace']")).click();
             driver.findElement(By.cssSelector("#product_settings_start_button")).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@value='Сохранить']")));
-            tryToClickElement("//*[@value='Сохранить']");
+            clickElement("//*[@value='Сохранить']");
         }
     }
 
@@ -1936,7 +1936,7 @@ public class MethodsForCatalog extends BaseActions {
         }
         wait.until(ExpectedConditions.visibilityOfElementLocated(buttonToSaveTheComponentSettingsForTheCatalog));
         implicitWaiting();
-        tryToClickElement(buttonToSaveTheComponentSettingsForTheCatalog);
+        clickElement(buttonToSaveTheComponentSettingsForTheCatalog);
         //driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".catalog")));
         implicitWaiting();
@@ -1949,7 +1949,7 @@ public class MethodsForCatalog extends BaseActions {
         driver.findElement(By.xpath("//select[@data-bx-property-id = 'IBLOCK_ID'] //*[contains(text(), 'Каталог товаров')]")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(buttonToSaveTheComponentSettingsForTheCatalog));
         implicitWaiting();
-        tryToClickElement(buttonToSaveTheComponentSettingsForTheCatalog);
+        clickElement(buttonToSaveTheComponentSettingsForTheCatalog);
         //driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
     }
 
@@ -1990,7 +1990,7 @@ public class MethodsForCatalog extends BaseActions {
             driver.findElement(By.xpath("//*[contains(@for, 'USE_STORE')][contains(@class, 'checkbox')]")).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(buttonToSaveTheComponentSettingsForTheCatalog));
             implicitWaiting();
-            tryToClickElement(buttonToSaveTheComponentSettingsForTheCatalog);
+            clickElement(buttonToSaveTheComponentSettingsForTheCatalog);
             //driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".catalog")));
             implicitWaiting();
@@ -2007,7 +2007,7 @@ public class MethodsForCatalog extends BaseActions {
             }
             wait.until(ExpectedConditions.visibilityOfElementLocated(buttonToSaveTheComponentSettingsForTheCatalog));
             implicitWaiting();
-            tryToClickElement(buttonToSaveTheComponentSettingsForTheCatalog);
+            clickElement(buttonToSaveTheComponentSettingsForTheCatalog);
             //driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".catalog")));
             implicitWaiting();
@@ -2020,7 +2020,7 @@ public class MethodsForCatalog extends BaseActions {
             driver.findElement(By.xpath("//*[contains(@for, 'USE_STORE')][contains(@class, 'checkbox')]")).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(buttonToSaveTheComponentSettingsForTheCatalog));
             implicitWaiting();
-            tryToClickElement(buttonToSaveTheComponentSettingsForTheCatalog);
+            clickElement(buttonToSaveTheComponentSettingsForTheCatalog);
             //driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".catalog")));
             implicitWaiting();
@@ -2031,7 +2031,7 @@ public class MethodsForCatalog extends BaseActions {
         driver.findElement(By.xpath("//*[contains(@for, 'USE_STORE')][contains(@class, 'checkbox')]")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(buttonToSaveTheComponentSettingsForTheCatalog));
         implicitWaiting();
-        tryToClickElement(buttonToSaveTheComponentSettingsForTheCatalog);
+        clickElement(buttonToSaveTheComponentSettingsForTheCatalog);
         //driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".catalog")));
         implicitWaiting();
@@ -2085,7 +2085,7 @@ public class MethodsForCatalog extends BaseActions {
                 driver.findElement(By.xpath("(//select[@data-bx-property-id = 'STORES'] /option)[" + i + "]")).click();
             }
         }
-        tryToClickElement(buttonToSaveTheComponentSettingsForTheCatalog);
+        clickElement(buttonToSaveTheComponentSettingsForTheCatalog);
         //driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
     }
 
@@ -2811,6 +2811,7 @@ public class MethodsForCatalog extends BaseActions {
         }
     }
     public void changeINNOnTheOrganizationPage(){
+        iNNManual = randomNumber(14);
         driver.findElement(By.xpath("//*[contains(text(),'ИНН:')]/following::*[1]")).clear();
         driver.findElement(By.xpath("//*[contains(text(),'ИНН:')]/following::*[1]")).sendKeys(iNNManual);
         nameCompany = driver.findElement(By.xpath("//*[contains(text(), 'азвание компании')] /following::input[1]")).getAttribute("value");
@@ -2845,25 +2846,25 @@ public class MethodsForCatalog extends BaseActions {
     public void changingDataLegalPersonOrganizationWhichNeededConfirmAndNot(){
         org.openFirstOrganizationOnTheOrganizationTabForChange();
         changeEmailOnTheOrganizationPage();
-        tryToClickStandardButtonForSaveSettings();
+        clickStandardButtonForSaveSettings();
         standardConfirmationOfTheActionOnThePage();
         confirmRegistrationOfOrganizationFromAdmin();
         navigationToOrganizationTab();
         org.openFirstOrganizationOnTheOrganizationTabForChange();
         changeINNOnTheOrganizationPage();
-        tryToClickStandardButtonForSaveSettings();
+        clickStandardButtonForSaveSettings();
         checkingThatDataWasChangedWithoutModeration();
     }
     public void changingDataIPOrganizationWhichNeededConfirmAndNot(){
         org.openFirstOrganizationOnTheOrganizationTabForChange();
         changeINNOnTheOrganizationPage();
-        tryToClickStandardButtonForSaveSettings();
+        clickStandardButtonForSaveSettings();
         standardConfirmationOfTheActionOnThePage();
         confirmRegistrationOfOrganizationFromAdmin();
         navigationToOrganizationTab();
         org.openFirstOrganizationOnTheOrganizationTabForChange();
         changeEmailOnTheOrganizationPage();
-        tryToClickStandardButtonForSaveSettings();
+        clickStandardButtonForSaveSettings();
         checkingThatDataWasChangedWithoutModeration();
     }
     By UserDataWhenRegisteringAnOrganizationAsIPLocator = By.xpath("//*[contains(text(), 'Индивидуальный предприниматель')][@class = 'adm-detail-title']/following::*[1] //*[contains(@id, 'GROUP_FIELDS')] /*[@value]");

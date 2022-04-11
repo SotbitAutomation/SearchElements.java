@@ -51,7 +51,7 @@ public class MethodsForTechnicalSupport extends BaseActions {
         driver.findElement(By.xpath("(//*[contains(@class, 'results__option')][contains(@id,'results')] /*)[" + randomNumberOfEvaluationOfResponse + "]")).click();
     }
     public void sendingRequest(){
-        tryToClickElement("//*[@name='save']");
+        clickElement("//*[@name='save']");
     }
     public void checkingThatRequestIsDisplayedForTheUser(){
         Assert.assertTrue(driver.findElement(By.xpath("//*[text()='" + heading + "']")).isDisplayed());

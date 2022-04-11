@@ -170,13 +170,27 @@ public class MethodsForSettingUpCabinetForTesting extends BaseActions {
         driver.findElement(By.xpath("//*[@value='FILTER']")).click();
         driver.findElement(buttonSaveLocator).click();
     }
+    public boolean whetherExtendedModeIsEnabled;
+    public void checkingWhetherAdvancedModeIsEnabled(){
+        whetherExtendedModeIsEnabled = driver.findElements(By.xpath("//*[@id='EXTENDED_VERSION_COMPANIES'][@checked]")).size() > 0;
+    }
     public void enableTheExtendedVersionOfWorkingWithCompanies(){
-        if (driver.findElements(By.xpath("//*[@id='EXTENDED_VERSION_COMPANIES'][@checked]")).size() == 0){
+        checkingWhetherAdvancedModeIsEnabled();
+        if (!whetherExtendedModeIsEnabled){
             driver.findElement(By.cssSelector(".adm-designed-checkbox-label")).click();
         }
         driver.findElement(buttonSaveLocator).click();
         changeTheWayToDetailPageCompany("buyer", "companies");
     }
+    public void disableTheExtendedVersionOfWorkingWithCompanies(){
+        checkingWhetherAdvancedModeIsEnabled();
+        if (whetherExtendedModeIsEnabled){
+            driver.findElement(By.cssSelector(".adm-designed-checkbox-label")).click();
+        }
+        driver.findElement(buttonSaveLocator).click();
+        changeTheWayToDetailPageCompany("companies", "buyer");
+    }
+
     public void changeTheWayToDetailPageCompany(String oldAddress, String newAddress){
         navigationToBasicB2BSettings();
         tempValue = driver.findElement(By.xpath("//*[@name='ADDRESS_COMPANY']")).getAttribute("value");
@@ -185,42 +199,42 @@ public class MethodsForSettingUpCabinetForTesting extends BaseActions {
         driver.findElement(By.xpath("//*[@name='ADDRESS_COMPANY']")).sendKeys(tempValue);
         driver.findElement(buttonSaveLocator).click();
     }
-    public void disableTheExtendedVersionOfWorkingWithCompanies(){
-        if (driver.findElements(By.xpath("//*[@id='EXTENDED_VERSION_COMPANIES'][@checked]")).size() == 1){
-            driver.findElement(By.cssSelector(".adm-designed-checkbox-label")).click();
-        }
-        driver.findElement(buttonSaveLocator).click();
-        changeTheWayToDetailPageCompany("companies", "buyer");
+
+    public boolean userRegistrationNeedsToBeConfirmed;
+    public void checkingWhetherTheUserRegistrationNeedsToBeConfirmed(){
+        driver.findElement(By.xpath("//*[contains(@title, 'оптовых ')]")).click();
+        userRegistrationNeedsToBeConfirmed = driver.findElements(By.xpath("//*[@id='CONFIRM_REGISTER'][@checked]")).size() > 0;
     }
     public void enableUserRegistrationConfirmation(){
-        driver.findElement(By.xpath("//*[contains(@title, 'оптовых ')]")).click();
-        if (driver.findElements(By.xpath("//*[@id='CONFIRM_REGISTER'][@checked]")).size() == 0){
-            scrollToTheElement("//*[@for='CONFIRM_REGISTER']");
-            driver.findElement(By.xpath("//*[@for='CONFIRM_REGISTER']")).click();
+        checkingWhetherTheUserRegistrationNeedsToBeConfirmed();
+        if (!userRegistrationNeedsToBeConfirmed){
+        clickElement("//*[@for='CONFIRM_REGISTER']");
         }
         driver.findElement(buttonSaveLocator).click();
     }
     public void disableUserRegistrationConfirmation(){
-        driver.findElement(By.xpath("//*[contains(@title, 'оптовых ')]")).click();
-        if (driver.findElements(By.xpath("//*[@id='CONFIRM_REGISTER'][@checked]")).size() == 1){
-            //scrollDownToTheElement("//*[@for='CONFIRM_REGISTER']");
-            driver.findElement(By.xpath("//*[@for='CONFIRM_REGISTER']")).click();
+        checkingWhetherTheUserRegistrationNeedsToBeConfirmed();
+        if (userRegistrationNeedsToBeConfirmed){
+            clickElement("//*[@for='CONFIRM_REGISTER']");
         }
         driver.findElement(buttonSaveLocator).click();
     }
-    public void enableCompanyRegistrationConfirmation (){
+    public boolean companyRegistrationNeedsToBeConfirmed;
+    public void checkingWhetherTheCompanyRegistrationNeedsToBeConfirmed(){
         driver.findElement(By.xpath("//*[contains(@title, 'оптовых ')]")).click();
-        if (driver.findElements(By.xpath("//*[@id='CONFIRM_BUYER'][@checked]")).size() == 0){
-            scrollToTheElement("//*[@for='CONFIRM_BUYER']");
-            driver.findElement(By.xpath("//*[@for='CONFIRM_BUYER']")).click();
+        companyRegistrationNeedsToBeConfirmed = driver.findElements(By.xpath("//*[@id='CONFIRM_BUYER'][@checked]")).size() > 0;
+    }
+    public void enableCompanyRegistrationConfirmation (){
+        checkingWhetherTheCompanyRegistrationNeedsToBeConfirmed();
+        if (!companyRegistrationNeedsToBeConfirmed){
+            clickElement("//*[@for='CONFIRM_BUYER']");
         }
         driver.findElement(buttonSaveLocator).click();
     }
     public void disableCompanyRegistrationConfirmation (){
-        driver.findElement(By.xpath("//*[contains(@title, 'оптовых ')]")).click();
-        if (driver.findElements(By.xpath("//*[@id='CONFIRM_BUYER'][@checked]")).size() == 1){
-            scrollToTheElement("//*[@for='CONFIRM_BUYER']");
-            driver.findElement(By.xpath("//*[@for='CONFIRM_BUYER']")).click();
+        checkingWhetherTheCompanyRegistrationNeedsToBeConfirmed();
+        if (companyRegistrationNeedsToBeConfirmed){
+            clickElement("//*[@for='CONFIRM_BUYER']");
         }
         driver.findElement(buttonSaveLocator).click();
     }

@@ -664,7 +664,7 @@ public class DangerousTests extends MethodsForDangerousTests {
             selectTapForIP();
             selectGroupsOfOrderPropertiesWhenChangingWhichTheOrganizationGetsToModeration("Данные предпринимателя");
             unselectGroupsOfOrderPropertiesWhenChangingWhichTheOrganizationGetsToModeration("Контактная информация");
-            tryToClickElement(buttonSaveLocator);
+            clickElement(buttonSaveLocator);
             navigationToMeanPageByUrl();
             resetCache();
             navigationToOrganizationTab();
@@ -860,7 +860,7 @@ public class DangerousTests extends MethodsForDangerousTests {
             selectTapForLegalPerson();
             selectGroupsOfOrderPropertiesWhenChangingWhichTheOrganizationGetsToModeration("Данные компании");
             unselectGroupsOfOrderPropertiesWhenChangingWhichTheOrganizationGetsToModeration("Контактная информация");
-            tryToClickStandardButtonForSaveSettings();
+            clickStandardButtonForSaveSettings();
         }
     }
 
