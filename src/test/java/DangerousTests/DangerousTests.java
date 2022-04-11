@@ -333,9 +333,8 @@ public class DangerousTests extends MethodsForDangerousTests {
         logInToB2B();
         returningSettingsBackIfCatalogBroken();
         deletingProductsFromTheCart();
-        enableEditMode();
-        navigationToCatalogTab();
         ternOnEditMode();
+        navigationToCatalogTab();
         navigationToComponentOfCatalogSetting();
         choiceCatalogWithOnlyOffers();
         navigationToMeanPageByUrl();
@@ -787,8 +786,31 @@ public class DangerousTests extends MethodsForDangerousTests {
         checkingTheSmallOptPriceInPopUpSearchWindow();
     }
 
+    @Test(retryAnalyzer = Retry.class) //30. Вывод цен в поисковой подсказке дял ТП
+    public void outputOfPricesInTheSearchHintForTheTP() {
+        //arrange
+        areThereAnyOffers = true;
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        returningSettingsBackIfCatalogBroken();
+        deletingProductsFromTheCart();
+        ternOnEditMode();
+        navigationToCatalogTab();
+        navigationToComponentOfCatalogSetting();
+        choiceCatalogWithOnlyOffers();
+        navigationToMeanPageByUrl();
+        ternOffEditMode();
+        navigationToCatalogTab();
+        enterNameInTheSearchFieldOnTheCatalogTab("любим");
+        checkingThatThereAreNoCartIconInPupOpWindow();
+        checkingThatThereIsAWordFrom();
+        returningSettingsBack();
+    }
+
     @Test(retryAnalyzer = Retry.class)
-    //30. Добавление товара в корзину из поисковой подсказки с доступным количеством 0 (кол-ый учет у каталога - выкл)
+    //31. Добавление товара в корзину из поисковой подсказки с доступным количеством 0 (кол-ый учет у каталога - выкл)
     public void addingAnItemToTheCartFromASearchHintWithAnAvailableQuantityOfZeroAndTheNumberOfCatalogAccountsIsOff() {
         //arrange
         navigationToAuthorizationTab();

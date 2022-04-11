@@ -143,4 +143,8 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         }
         tryToClickElement("//*[@value='Сохранить']");
     }
+    public void checkingThatThereIsAWordFrom(){
+        Assert.assertTrue(driver.findElement(By.cssSelector(".search-title-result-item-current-price")).getText().contains("от"));
+
+    }
 }

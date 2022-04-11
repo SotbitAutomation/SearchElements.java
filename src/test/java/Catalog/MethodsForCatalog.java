@@ -1933,7 +1933,6 @@ public class MethodsForCatalog extends BaseActions {
             driver.findElement(By.xpath("//select[@data-bx-property-id = 'IBLOCK_ID'] //*[contains(text(), 'дежда')]")).click();
         }catch (Exception e){ //каталог с ТП имеет не стандартное название
             driver.findElement(By.xpath("//select[@data-bx-property-id = 'IBLOCK_ID'] //*[contains(text(), 'buyer')]")).click();
-
         }
         wait.until(ExpectedConditions.visibilityOfElementLocated(buttonToSaveTheComponentSettingsForTheCatalog));
         implicitWaiting();
@@ -2972,7 +2971,7 @@ public class MethodsForCatalog extends BaseActions {
         driver.findElement(fieldForSearchInCatalogLocator).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".icon-checkmark3")));
         Assert.assertTrue(driver.findElement(By.cssSelector(".icon-checkmark3")).isDisplayed()); //галка которая вресто корзинки в поп-ап окне отображается
-        Assert.assertTrue(driver.findElements(By.cssSelector(".btn_search__product-add")).size() == 0); //корзинка которая в поп-ап окне отображается до добавления товара пропала
+        checkingThatThereAreNoCartIconInPupOpWindow(); //корзинка которая в поп-ап окне отображается до добавления товара пропала
     }
     public void checkingThatThisProductWasAddedToTheCart(){
         Assert.assertTrue(driver.findElement(By.cssSelector(".basket__product-discrioption")).getText().contains(wordForSearch));
