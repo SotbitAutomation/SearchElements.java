@@ -47,6 +47,7 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
         try {
             enterINNManually();
         } catch (Exception e) {
+            System.out.println("Поле для ИНН отсутсвует");
         }
         creatingArrayWithExistingLocatorsForIP();
         writingArrayWithLocatorsForIPOnComputer();
@@ -54,6 +55,7 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
         try {
             enterINNManually();
         } catch (Exception e) {
+            System.out.println("Поле для ИНН отсутсвует");
         }
         creatingArrayWithExistingLocatorsForLegalPerson();
         writingArrayWithLocatorsForLegalPersonOnComputer();
@@ -62,6 +64,7 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
             creatingArrayWithExistingLocatorsForPerson();
             writingArrayWithLocatorsForPersonOnComputer();
         } catch (Exception e) {
+            System.out.println("Тип плательщака 'Физ. лицо' отсутсвует");
         }
     }
 
@@ -74,6 +77,7 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
             driver.findElement(By.xpath("//*[contains(@class,'combobox-variant-active')]")).click();
             flagForLocation = true;
         } catch (Exception e) {
+            System.out.println("Поле 'Местоположение' отсутствует");
         }
         choiceLegalPerson();
         if (!flagForLocation) {
@@ -82,6 +86,7 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
                 driver.findElement(By.xpath("//*[contains(@class,'combobox-variant-active')]")).click();
                 flagForLocation = true;
             } catch (Exception e) {
+                System.out.println("Поле 'Местоположение' отсутствует");
             }
         }
 
