@@ -13,3 +13,4 @@
 /Regress.xml
 /Smoke.xml
 /Critical.xml
+/src/test/java/BaseActions/Retry.java
