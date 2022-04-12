@@ -386,6 +386,8 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         resettingTheCurrentWidgetSettings();
         addingTheWidgetToDesktop(weatherWidgetLocator);
         checkingThatWeatherWidgetIsDisplayed();
+        checkingThatWeatherWidgetHaveContent();
+        checkingThatInTheWeatherWidgetTheDefaultCityIsMoscow();
     }
     @Test (retryAnalyzer = Retry.class)//23. Проверка добавления виджета "Погода" у юзера
     public void checkingAddingWidgetOfWeatherForUser() {
@@ -398,6 +400,8 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         resettingTheCurrentWidgetSettings();
         addingTheWidgetToDesktop(weatherWidgetLocator);
         checkingThatWeatherWidgetIsDisplayed();
+        checkingThatWeatherWidgetHaveContent();
+        checkingThatInTheWeatherWidgetTheDefaultCityIsMoscow();
     }
     @Test (retryAnalyzer = Retry.class)//24. Проверка выводимых данных виджета "RSS лента" у админа
     public void checkingAddingWidgetOfRssLentForAdmin() {

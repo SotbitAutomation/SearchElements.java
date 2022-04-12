@@ -442,6 +442,14 @@ public class MethodsForMeanPage extends BaseActions {
     public void checkingThatWeatherWidgetIsDisplayed() {
         Assert.assertEquals(driver.findElement(By.xpath("(//*[contains(@class, 'sotbit-cabinet-gadget')])[1] //*[@class='card-title']")).getText(), "Прогноз погоды");
     }
+    public void checkingThatWeatherWidgetHaveContent(){
+        Assert.assertTrue(driver.findElement(By.cssSelector(".widget_weather-content > .widget_weather-temp")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.cssSelector(".widget_weather-content > .widget_weather-icons")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.cssSelector(".widget_weather-content > .widget_weather-text")).isDisplayed());
+    }
+    public void checkingThatInTheWeatherWidgetTheDefaultCityIsMoscow(){
+        Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@id, 'WEATHER')]")).getText().contains("Москва"));
+    }
 
     public void makeOrderForWidget() {
         makeOrder.deletingProductsFromTheCart();

@@ -781,8 +781,14 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         Assert.assertFalse(driver.findElement(By.xpath("//*[@id='modal_company_join-dialog']")).isDisplayed());
         navigationToJoinOrganizationTab();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@id, 'modal_company_join')] //*[contains(@class, 'close')]")));
-        driver.findElement(By.xpath("//*[contains(@id, 'modal_company_join')] //*[contains(@class, 'close')]")).click();
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[@id='modal_company_join-dialog']")));
+        try {
+            driver.findElement(By.xpath("//*[contains(@id, 'modal_company_join')] //*[contains(@class, 'close')]")).click();
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[@id='modal_company_join-dialog']")));
+        }catch (Exception e){
+            System.out.println("С первого раза поп-ап окно не закрылось");
+            driver.findElement(By.xpath("//*[contains(@id, 'modal_company_join')] //*[contains(@class, 'close')]")).click();
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[@id='modal_company_join-dialog']")));
+        }
         Assert.assertFalse(driver.findElement(By.xpath("//*[@id='modal_company_join-dialog']")).isDisplayed());
     }
 
