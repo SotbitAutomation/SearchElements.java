@@ -116,7 +116,6 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
                 checkingThatOrganizationsIsDisplayed();
                 checkingThatOrganizationIsConfirmed();
             } catch (Exception e) { //Если нет одобренной организации для проверки > создать ее
-                exitFromB2B();
                 addOrganizationIPFromTheAdmin();
                 navigationToOrganizationTab();
                 checkingThatOrganizationIsConfirmed();
@@ -139,7 +138,6 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
                 navigationToOrganizationTab();
                 checkingThatOrganizationIsConfirmed();
             } catch (Exception e) { //Если нет одобренной организации для проверки > создать ее
-                exitFromB2B();
                 nameCompany = "NameCompany ИмяКомпании" + randomString(10);
                 iNNManual = randomNumber(14);
                 addOrganizationIPFromTheUser();
@@ -172,12 +170,10 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
             logInToB2B();
             navigationToOrganizationTab();
             requestToJoinTheCompany();
-            exitFromB2B();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeUser();
             logInToB2B();
             confirmEmployeeRequest();
-            exitFromB2B();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeEmployee();
             logInToB2B();
@@ -206,12 +202,10 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
             logInToB2B();
             navigationToOrganizationTab();
             requestToJoinTheCompany();
-            exitFromB2B();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeUser();
             logInToB2B();
             confirmEmployeeRequest();
-            exitFromB2B();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeEmployee();
             logInToB2B();
@@ -241,7 +235,6 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
             selectionFromTheHeaderOrganization(nameCompany);
             fillingFieldForCreatingEmployeeUsingReferralLink();
             addingAnEmployeeToAnOrganizationUsingByReferralLink();
-            exitFromB2B();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeEmployee();
             logInToB2B();
@@ -257,7 +250,6 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
         if (versionsOfWorkingWithOrganizationsExtended) {
             //arrange
             addingAnEmployeeToAnOrganization();
-            exitFromB2B();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeUser();
             logInToB2B();
@@ -287,7 +279,6 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
             selectionFromTheHeaderOrganization(nameCompany);
             fillingAllFieldsOnTheRegisterNewEmployee();
             registrationUserFromTheEmployeesTab();
-            exitFromB2B();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeEmployeeJustNowRegistered();
             logInToB2B();
@@ -317,7 +308,6 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
             fillingAllFieldsOnTheRegisterNewEmployee();
             choosingBossRole();
             registrationUserFromTheEmployeesTab();
-            exitFromB2B();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeEmployeeJustNowRegistered();
             logInToB2B();
@@ -371,7 +361,6 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
             fillingFieldForCreatingEmployeeUsingReferralLink();
             choosingBossRole();
             addingAnEmployeeToAnOrganizationUsingByReferralLink();
-            exitFromB2B();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeEmployee();
             logInToB2B();
@@ -395,9 +384,7 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
             try {   //Если у пользователя еще нет организации то создать ему организацию
                 driver.findElement(By.xpath("//*[contains(text(), 'Добавить нового сотрудника')]")).click();
             } catch (Exception e) {
-                exitFromB2B();
                 addingAnEmployeeToAnOrganization();
-                exitFromB2B();
                 navigationToAuthorizationTab();
                 fillingFieldsOnTheLogInTabLikeUser();
                 logInToB2B();
@@ -430,7 +417,6 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
             fillingFieldForCreatingEmployeeUsingReferralLink();
             choosingBossRole();
             addingAnEmployeeToAnOrganizationUsingByReferralLink();
-            exitFromB2B();
             //act
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeAdmin();
@@ -460,7 +446,6 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
             logInToB2B();
             navigationToOrganizationTab();
             requestToJoinTheCompany();
-            exitFromB2B();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeUser();
             logInToB2B();
@@ -468,7 +453,6 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
             confirmEmployeeRequest();
             navigationToPersonsTab();
             deletingEmployee();
-            exitFromB2B();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeEmployee();
             logInToB2B();
@@ -494,7 +478,6 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
             fillingFieldsOnTheLogInTabLikeUser();
             logInToB2B();
             checkingThatOrganizationIsConfirmed();
-            exitFromB2B();
             //act
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeEmployee();
@@ -544,7 +527,6 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
             //arrange
             addOrganizationIPFromTheUser();
             selectionFromTheHeaderOrganization(nameCompany);
-            exitFromB2B();
             addingTwoOrder();
             //act
             navigationToOrganizationTab();
@@ -561,7 +543,6 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
             //arrange
             addOrganizationIPFromTheUser();
             selectionFromTheHeaderOrganization(nameCompany);
-            exitFromB2B();
             addingTwoOrder();
             //act
             navigationToOrganizationTab();

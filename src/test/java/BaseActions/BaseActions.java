@@ -16,7 +16,6 @@ import java.util.Collection;
 
 public class BaseActions extends CustomizingForYourself {
 
-    //public JavascriptExecutor jse = (JavascriptExecutor) driver;
     public File dir = new File(System.getProperty("user.home") + "/Downloads/");
     static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_______________";
     static SecureRandom rnd = new SecureRandom();

@@ -8,11 +8,13 @@ import org.testng.Assert;
 public class MethodsForDangerousTests extends MethodsForCatalog {
 
     public void enterPartOfNameRandomCategoryInTheSearchFieldOnTheCatalogTabAndDeleteOne(By searchField, String wordForSearch){
+        clickElement(searchField);
         enterPartOfNameInTheSearchFieldOnTheCatalogTab(searchField, wordForSearch);
         driver.findElement(searchField).sendKeys("\b");
     }
 
     public void choiceCategoryFromPopApWindow(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".media-body >*> .media-title")));
         driver.findElement(By.cssSelector(".media-body >*> .media-title")).click();
     }
 

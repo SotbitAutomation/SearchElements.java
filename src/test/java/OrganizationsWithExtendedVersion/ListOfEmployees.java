@@ -13,7 +13,7 @@ public class ListOfEmployees extends MethodsForAddingOrganizationsWithExtendedVe
         if (versionsOfWorkingWithOrganizationsExtended) {
             //arrange
             SettingUpAutotestsForB2BSettings createUsers = new SettingUpAutotestsForB2BSettings();
-            createUsers.g_creatingUsersForAutomationTests();
+            createUsers.e_creatingUsersForAutomationTests();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeUser();
             logInToB2B();
@@ -28,7 +28,7 @@ public class ListOfEmployees extends MethodsForAddingOrganizationsWithExtendedVe
                 creatingNewEmployeeForBoss();
             }
             navigationToAuthorizationTab();
-            //act
+
             fillingFieldsOnTheLogInTabLikeEmployee();
             logInToB2B();
             if (themeColorBlack){

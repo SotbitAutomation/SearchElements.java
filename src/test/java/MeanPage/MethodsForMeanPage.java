@@ -289,6 +289,7 @@ public class MethodsForMeanPage extends BaseActions {
     public void checkThatTheOrdersAreDisplayInTheCalendarTab() {
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'Создан заказ')]")).isDisplayed());
         System.out.println(tempValue);
+        clickElement("//*[@class='fc-event-title'][text()='Создан заказ №" + tempValue + "']");
         Assert.assertTrue(driver.findElement(By.xpath("//*[@class='fc-event-title'][text()='Создан заказ №" + tempValue + "']")).isDisplayed());
     }
 

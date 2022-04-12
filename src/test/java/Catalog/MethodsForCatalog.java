@@ -361,6 +361,7 @@ public class MethodsForCatalog extends BaseActions {
         driver.navigate().refresh();
         if (driver.findElements(By.xpath("//*[contains(@class, 'disabled')]")).size() == 0) {
             driver.findElement(checkboxThatHighlightsAllProductsInTheCartLocator).click();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".basket__checkbox_content.state-checked")));
             driver.findElement(buttonForDeletingProductsInCartLocator).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@data-entity='basket-item-restore-button']")));
             driver.navigate().refresh();
@@ -831,6 +832,7 @@ public class MethodsForCatalog extends BaseActions {
         driver.findElement(searchField).sendKeys(wordForSearch);
     }
     public void enterNameInTheSearchFieldOnTheCatalogTab(String nameForSearch){
+        clickElement(fieldForSearchInCatalogLocator);
         driver.findElement(fieldForSearchInCatalogLocator).sendKeys(nameForSearch);
         driver.findElement(fieldForSearchInCatalogLocator).sendKeys(nameForSearch.substring(0, 1));
         driver.findElement(fieldForSearchInCatalogLocator).sendKeys("\b");

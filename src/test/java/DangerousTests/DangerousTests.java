@@ -513,9 +513,12 @@ public class DangerousTests extends MethodsForDangerousTests {
         //!!!!!!!!!! Такая логика, клиенты не жалуются на это (админ не может запретить уже созданным типам организаций покупать товары), по этому не проверять на это у расширенной версии
         if (!versionsOfWorkingWithOrganizationsExtended) {
             navigationToAuthorizationTab();
-            fillingFieldsOnTheLogInTabLikeUser();
+            fillingFieldsOnTheLogInTabLikeAdmin();
             logInToB2B();
             returningSettingsBackIfCatalogBroken();
+            navigationToAuthorizationTab();
+            fillingFieldsOnTheLogInTabLikeUser();
+            logInToB2B();
             navigationToOrganizationTab();
             MethodsForAddingOrganizationsWithExtendedVersion org = new MethodsForAddingOrganizationsWithExtendedVersion();
             org.creatingThreeOrganizations();
@@ -607,6 +610,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         navigationToComponentOfCatalogSetting();
         choiceCatalogWithOnlyOffers();
         navigationToMeanPageByUrl();
+        ternOffEditMode();
         navigationToCatalogTab();
         changeTheQuantityOfRandomProduct();
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
@@ -742,6 +746,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         navigationToMeanPageByUrl();
         navigationToCatalogTab();
         choiceTheSecondLevelCategoryInABlackHatOrTheFirstLevelInAWhiteHat();
+        ternOffEditMode();
         navigationToCatalogTab();
         enterPartOfNameRandomCategoryInTheSearchFieldOnTheCatalogTabAndDeleteOne(fieldForSearchInCatalogLocator, tempString);
         choiceCategoryFromPopApWindow();
@@ -786,7 +791,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         checkingTheSmallOptPriceInPopUpSearchWindow();
     }
 
-    @Test(retryAnalyzer = Retry.class) //30. Вывод цен в поисковой подсказке дял ТП
+    @Test(retryAnalyzer = Retry.class) //30. Вывод цен в поисковой подсказке для ТП
     public void outputOfPricesInTheSearchHintForTheTP() {
         //arrange
         areThereAnyOffers = true;

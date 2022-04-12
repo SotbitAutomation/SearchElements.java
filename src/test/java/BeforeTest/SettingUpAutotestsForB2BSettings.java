@@ -17,6 +17,7 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         driver.findElement(logInButtonOnTheAuthorizationTabLocator).click();
+        implicitWaiting();
         if (driver.findElements(dropdownUserIcon).size() == 0) {
             themeColorBlack = true;
         } else {
@@ -104,8 +105,8 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
         System.out.println("Есть ли поле 'Местоположение' - " + flagForLocation);
     }
 
-    @Test //4. Определение нужно ли подтверждать регистрацию пользователя
-    public void d_determiningOfNeedToConfirmOfRegistrationUser() {
+    @Test //4. Определение нужно ли подтверждать регистрацию пользователя и оргнаизации, какая версия работы
+    public void d_determiningOfNeedToConfirmOfRegistrationsAndWorkVersion() {
         //arrange
         MethodsForSettingUpCabinetForTesting set = new MethodsForSettingUpCabinetForTesting();
         navigationToAuthorizationTab();
@@ -294,7 +295,7 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
 //    }
 
     @Test //5. Создание пользователей для автотестов
-    public void g_creatingUsersForAutomationTests() {
+    public void e_creatingUsersForAutomationTests() {
         //arrange
         RegistrationB2B registr = new RegistrationB2B();
         registr.registrationIPWithManualEntryINN();

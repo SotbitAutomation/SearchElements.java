@@ -360,6 +360,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         driver.findElement(By.xpath("//input[contains(@placeholder,'Введите название')]")).sendKeys(nameCompany);
         System.out.println("Отправил запрос на присоединение к этой компании - " + nameCompany);
         implicitWaiting();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), '" + nameCompany + "')]")));
         driver.findElement(By.xpath("//*[contains(text(), '" + nameCompany + "')]")).click();
         driver.findElement(By.xpath("//*[@name = 'company-join-send']")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='Ваш запрос успешно отправлен!']")));
