@@ -18,7 +18,7 @@ public class MethodsForCatalog extends BaseActions {
 
     RegistrationB2B registr = new RegistrationB2B();
     int numberOfProductsPerPage = 0;
-    public int randomNumberOfProductsPerPage = 0;
+    public int randomProductNumberOnThePage = 0;
     public int randomNumberPage = 0;
     public double quantityOfProductsInStock = 0;
     public double quantityOfSecondProductsInStock = 0;
@@ -80,16 +80,14 @@ public class MethodsForCatalog extends BaseActions {
 
 
     public void changeTheQuantityOfRandomProduct() {
-        //openingAllOffers(); в 11 тесте закрывает уже открытые офферы
         determiningNumberOfProductsOnThePage();
         determiningRandomNumberOfProducts();
         calculationOfTheCoefficientForNonPieceProducts();
         determiningRandomNumberUpToMAxQuantityThisProducts();
         numberOfProductsInTheFooter = Integer.parseInt(driver.findElement(By.id("catalog__basket-quantity-value")).getText());
-        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]"))
+        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]"))
                 .sendKeys(String.valueOf(randomNumberUpToMAxQuantityThisProducts));
         numberOfProductsInTheFooter++;
-        System.out.println("Удалить вставляю такое кол-во товара - " + randomNumberUpToMAxQuantityThisProducts);
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
         waitingMilliSecond();
         waitingMilliSecond();
@@ -103,10 +101,10 @@ public class MethodsForCatalog extends BaseActions {
         numberOfProductsInTheFooter = Integer.parseInt(driver.findElement(By.id("catalog__basket-quantity-value")).getText());
         for (int i = 0; i < randomNumberUpToMAxQuantityThisProducts; i++) {
             if (quantityOfProductsInStock * coefficientForQuantityOfProducts < 30) {
-                driver.findElement(By.xpath("(//*[contains(@id, 'quantity-increment')])[" + randomNumberOfProductsPerPage + "]")).click();
+                driver.findElement(By.xpath("(//*[contains(@id, 'quantity-increment')])[" + randomProductNumberOnThePage + "]")).click();
                 waitingMilliSecond();
             } else {
-                driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]"))
+                driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]"))
                         .sendKeys(String.valueOf(randomNumberUpToMAxQuantityThisProducts));
                 i = (int) (randomNumberUpToMAxQuantityThisProducts * coefficientForQuantityOfProducts) + 1;
                 break;
@@ -122,7 +120,7 @@ public class MethodsForCatalog extends BaseActions {
         calculationOfTheCoefficientForNonPieceProducts();
         determiningRandomNumberUpToMAxQuantityThisProducts();
         numberOfProductsInTheFooter = Integer.parseInt(driver.findElement(By.id("catalog__basket-quantity-value")).getText());
-        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]"))
+        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]"))
                 .sendKeys(String.valueOf(quantityOfProductsInStock));
         priceForNewlyAddedProducts = basePriceRandomProduct * quantityOfProductsInStock;
         randomNumberUpToMAxQuantityThisProducts = quantityOfProductsInStock;
@@ -141,11 +139,11 @@ public class MethodsForCatalog extends BaseActions {
         numberOfProductsInTheFooter = Integer.parseInt(driver.findElement(By.id("catalog__basket-quantity-value")).getText());
         for (int i = 0; i < quantityOfProductsInStock * coefficientForQuantityOfProducts; i++) {
             if (quantityOfProductsInStock * coefficientForQuantityOfProducts < 500) {
-                driver.findElement(By.xpath("(//*[contains(@id, 'quantity-increment')])[" + randomNumberOfProductsPerPage + "]")).click();
+                driver.findElement(By.xpath("(//*[contains(@id, 'quantity-increment')])[" + randomProductNumberOnThePage + "]")).click();
                 waitingMilliSecond();
                 waitingMilliSecond();
             } else {
-                driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]"))
+                driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]"))
                         .sendKeys(String.valueOf(quantityOfProductsInStock));
                 i = (int) (quantityOfProductsInStock * coefficientForQuantityOfProducts) + 1;
                 break;
@@ -189,17 +187,17 @@ public class MethodsForCatalog extends BaseActions {
             }
         }
 
-        if (randomNumberOfProductsPerPage == tempInt) {
-            randomNumberOfProductsPerPage = tempInt + 1;
+        if (randomProductNumberOnThePage == tempInt) {
+            randomProductNumberOnThePage = tempInt + 1;
         } else {
-            randomNumberOfProductsPerPage = tempInt;
+            randomProductNumberOnThePage = tempInt;
         }
-        if (randomNumberOfProductsPerPage == numberOfProductsPerPage + 1) {
-            randomNumberOfProductsPerPage = randomNumberOfProductsPerPage - 2;
+        if (randomProductNumberOnThePage == numberOfProductsPerPage + 1) {
+            randomProductNumberOnThePage = randomProductNumberOnThePage - 2;
             System.out.println("Кол-во доступных товаров взято у предыдущего товара, ошибка из-за этого бывает редко, по этому не обрабатываю этот случай");
         }            //Рандомной номер от 1 до (кол-во продуктов на странице), но не равный предыдущему рандомному продукту
 
-        System.out.println("Выбран товар №_" + randomNumberOfProductsPerPage);
+        System.out.println("Выбран товар №_" + randomProductNumberOnThePage);
     }
 
     public void determiningRandomNumberUpToMAxQuantityThisProducts() {
@@ -211,27 +209,27 @@ public class MethodsForCatalog extends BaseActions {
 
     public void calculationOfTheCoefficientForNonPieceProducts() {
         numberOfProductsInTheFooter = Integer.parseInt(driver.findElement(By.id("catalog__basket-quantity-value")).getText());
-        clickElement("(//*[@class='quantity-selector__increment'])[" + randomNumberOfProductsPerPage + "]");
+        clickElement("(//*[@class='quantity-selector__increment'])[" + randomProductNumberOnThePage + "]");
         try {
             wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter + 1)));
         } catch (Exception e) {
             System.out.println("C первого раза не кликнулось");
-            driver.findElement(By.xpath("(//*[@class='quantity-selector__increment'])[" + randomNumberOfProductsPerPage + "]")).click();
+            driver.findElement(By.xpath("(//*[@class='quantity-selector__increment'])[" + randomProductNumberOnThePage + "]")).click();
             System.out.println("Ожидаю кол-во позицый в футере каталога - " + (numberOfProductsInTheFooter + 1));
             wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter + 1)));
         }
         implicitWaiting();
 
-        if (Double.valueOf(driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]")).getAttribute("value"))
+        if (Double.valueOf(driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]")).getAttribute("value"))
                 == 0.1) {
             unitsOfMeasurement = 0.1;
         } else {
             unitsOfMeasurement = 1;
         }
 
-        driver.findElement(By.xpath("(//*[@class='quantity-selector__decrement'])[" + randomNumberOfProductsPerPage + "]")).click();
+        driver.findElement(By.xpath("(//*[@class='quantity-selector__decrement'])[" + randomProductNumberOnThePage + "]")).click();
         coefficientForQuantityOfProducts = 1 / unitsOfMeasurement;
-        driver.findElement(By.xpath("(//*[@class='quantity-selector__decrement'])[" + randomNumberOfProductsPerPage + "]")).click();
+        driver.findElement(By.xpath("(//*[@class='quantity-selector__decrement'])[" + randomProductNumberOnThePage + "]")).click();
 //        try {
 //            wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
 //        }catch (Exception e){
@@ -239,8 +237,8 @@ public class MethodsForCatalog extends BaseActions {
 //            driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]")).sendKeys("0");
 //            wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
 //        } //было так, но долго сделал как снизу
-        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]")).clear();
-        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]")).sendKeys("0");
+        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]")).clear();
+        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]")).sendKeys("0");
         implicitWaiting();
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
         waitingMilliSecond();
@@ -261,18 +259,18 @@ public class MethodsForCatalog extends BaseActions {
         }
         if (countColumnForMinPrice > 0) {
             tempString = driver.findElement(
-                            By.xpath("(((//*[@class='quantity-selector'])[" + randomNumberOfProductsPerPage + "] /preceding::*[@class='product__property product__property--image'])[last()] /following::*[contains(@class, 'product__property product__property')])[" + (countColumnForMinPrice - 1) + "]"))
+                            By.xpath("(((//*[@class='quantity-selector'])[" + randomProductNumberOnThePage + "] /preceding::*[@class='product__property product__property--image'])[last()] /following::*[contains(@class, 'product__property product__property')])[" + (countColumnForMinPrice - 1) + "]"))
                     .getText();
             basePriceRandomProduct = Double.valueOf(replacingSomeSymbols(tempString));
         } else {
             System.out.println("Я не нашел колонку с минимальной ценой!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            tempString = driver.findElement(By.xpath("(//*[contains(@id, 'price_BASE')])[" + randomNumberOfProductsPerPage + "]")).getText();
+            tempString = driver.findElement(By.xpath("(//*[contains(@id, 'price_BASE')])[" + randomProductNumberOnThePage + "]")).getText();
             basePriceRandomProduct = Double.valueOf(replacingSomeSymbols(tempString));
             if (IsThereASmallOptPrice) {
                 try {
-                    if (basePriceRandomProduct > Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'SMALL_OPT')])[" + randomNumberOfProductsPerPage + "]"))
+                    if (basePriceRandomProduct > Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'SMALL_OPT')])[" + randomProductNumberOnThePage + "]"))
                             .getText()))) {
-                        basePriceRandomProduct = Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'SMALL_OPT')])[" + randomNumberOfProductsPerPage + "]"))
+                        basePriceRandomProduct = Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'SMALL_OPT')])[" + randomProductNumberOnThePage + "]"))
                                 .getText()));
                     }
                 } catch (Exception e) {
@@ -280,9 +278,9 @@ public class MethodsForCatalog extends BaseActions {
             }
             if (IsThereAOptPrice) {
                 try {
-                    if (basePriceRandomProduct > Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_OPT')])[" + randomNumberOfProductsPerPage + "]"))
+                    if (basePriceRandomProduct > Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_OPT')])[" + randomProductNumberOnThePage + "]"))
                             .getText()))) {
-                        basePriceRandomProduct = Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_OPT')])[" + randomNumberOfProductsPerPage + "]"))
+                        basePriceRandomProduct = Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_OPT')])[" + randomProductNumberOnThePage + "]"))
                                 .getText()));
                     }
                 } catch (Exception e) {
@@ -290,9 +288,9 @@ public class MethodsForCatalog extends BaseActions {
             }
             if (IsThereATestPrice) {
                 try {
-                    if (basePriceRandomProduct > Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_TEST')])[" + randomNumberOfProductsPerPage + "]"))
+                    if (basePriceRandomProduct > Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_TEST')])[" + randomProductNumberOnThePage + "]"))
                             .getText()))) {
-                        basePriceRandomProduct = Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_TEST')])[" + randomNumberOfProductsPerPage + "]"))
+                        basePriceRandomProduct = Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_TEST')])[" + randomProductNumberOnThePage + "]"))
                                 .getText()));
                     }
                 } catch (Exception e) {
@@ -302,9 +300,9 @@ public class MethodsForCatalog extends BaseActions {
             if (
                     IsThereAnIndividualPrice) {
                 try {
-                    if (basePriceRandomProduct > Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'PRIVATE_PRICE')])[" + randomNumberOfProductsPerPage + "]"))
+                    if (basePriceRandomProduct > Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'PRIVATE_PRICE')])[" + randomProductNumberOnThePage + "]"))
                             .getText()))) {
-                        basePriceRandomProduct = Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'PRIVATE_PRICE')])[" + randomNumberOfProductsPerPage + "]"))
+                        basePriceRandomProduct = Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'PRIVATE_PRICE')])[" + randomProductNumberOnThePage + "]"))
                                 .getText()));
                     }
                 } catch (Exception e) {
@@ -352,7 +350,7 @@ public class MethodsForCatalog extends BaseActions {
         count = 0;
         countColumnForMinPrice = 0;
         numberOfProductsInTheFooter = 0;
-        randomNumberOfProductsPerPage = 0;
+        randomProductNumberOnThePage = 0;
 
         navigationToCart();
         driver.findElement(checkboxThatHighlightsAllProductsInTheCartLocator).click();
@@ -386,9 +384,9 @@ public class MethodsForCatalog extends BaseActions {
     }
 
     public void deletingLastAddedProductFromTheCatalog() {
-        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]"))
+        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]"))
                 .clear();
-        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]"))
+        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]"))
                 .sendKeys(String.valueOf("0"));
         numberOfProductsInTheFooter--;
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
@@ -412,11 +410,11 @@ public class MethodsForCatalog extends BaseActions {
     public void deletingLastAddedProductFromTheCatalogUsingIconMinus() {
         for (double i = 0; i < quantityOfProductsInStock * coefficientForQuantityOfProducts; i++) {
             if (quantityOfProductsInStock * coefficientForQuantityOfProducts < 50) {
-                driver.findElement(By.xpath("(//*[contains(@id, 'quantity-decrement')])[" + randomNumberOfProductsPerPage + "]")).click();
+                driver.findElement(By.xpath("(//*[contains(@id, 'quantity-decrement')])[" + randomProductNumberOnThePage + "]")).click();
             } else {
-                driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]"))
+                driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]"))
                         .clear();
-                driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]"))
+                driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]"))
                         .sendKeys(String.valueOf("0"));
                 i = quantityOfProductsInStock * coefficientForQuantityOfProducts + 1;
                 break;
@@ -443,9 +441,9 @@ public class MethodsForCatalog extends BaseActions {
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
         waitingMilliSecond();
         waitingMilliSecond();
-        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]"))
+        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]"))
                 .clear();
-        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]"))
+        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]"))
                 .sendKeys(String.valueOf(quantityOfProductsInStock + 1));
     }
 
@@ -465,7 +463,7 @@ public class MethodsForCatalog extends BaseActions {
 //        }else {
 //            driver.findElement(By.xpath("(//*[contains(@id, 'quantity-increment')])[" + randomNumberOfProductsPerPage + "]")).click();
 //        }
-        driver.findElement(By.xpath("(//*[contains(@id, 'quantity-increment')])[" + randomNumberOfProductsPerPage + "]")).click();
+        driver.findElement(By.xpath("(//*[contains(@id, 'quantity-increment')])[" + randomProductNumberOnThePage + "]")).click();
         implicitWaiting();
 
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
@@ -489,12 +487,12 @@ public class MethodsForCatalog extends BaseActions {
     public void decreaseQuantitiesLastAddedProduct() {
         if (randomNumberUpToMAxQuantityThisProducts > 1) {
             System.out.println(numberOfProductsInTheFooter);
-            driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]"))
+            driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]"))
                     .clear();
-            driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]"))
+            driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]"))
                     .sendKeys("0");
             wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter - 1)));
-            driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]"))
+            driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]"))
                     .sendKeys(String.valueOf(randomNumberUpToMAxQuantityThisProducts - 1));
             wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
             waitingMilliSecond();
@@ -523,7 +521,7 @@ public class MethodsForCatalog extends BaseActions {
     public void decreaseQuantitiesLastAddedProductUsingIconMinus() {
         System.out.println(randomNumberUpToMAxQuantityThisProducts);
         if (randomNumberUpToMAxQuantityThisProducts > 1) {
-            driver.findElement(By.xpath("(//*[contains(@id, 'quantity-decrement')])[" + randomNumberOfProductsPerPage + "]")).click();
+            driver.findElement(By.xpath("(//*[contains(@id, 'quantity-decrement')])[" + randomProductNumberOnThePage + "]")).click();
             sumOfPricesOfTheAddedProducts = sumOfPricesOfTheAddedProducts - priceForNewlyAddedProducts;
             sumOfPricesOfTheAddedProducts = sumOfPricesOfTheAddedProducts + basePriceRandomProduct * (randomNumberUpToMAxQuantityThisProducts - 1);
             implicitWaiting();
@@ -679,11 +677,11 @@ public class MethodsForCatalog extends BaseActions {
     public void determineRandomProductOnPge() {
         determiningNumberOfProductsOnThePage();
         determiningRandomNumberOfProducts();
-        if (randomNumberOfProductsPerPage == 1) {
-            randomNumberOfProductsPerPage++;
+        if (randomProductNumberOnThePage == 1) {
+            randomProductNumberOnThePage++;
         }
-        if (randomNumberOfProductsPerPage == numberOfProductsPerPage) {
-            randomNumberOfProductsPerPage--;
+        if (randomProductNumberOnThePage == numberOfProductsPerPage) {
+            randomProductNumberOnThePage--;
         }
     }
 
@@ -714,7 +712,7 @@ public class MethodsForCatalog extends BaseActions {
                     .getText();
             tempValue3 = replacingSomeSymbols(tempValue3);
             tempValue3 = tempValue3.replaceAll("[^0-9.]", "");
-            if (areThereAnyOffers == true) {
+            if (areThereAnyOffers) {
                 if (tempValue2 != null && !tempValue2.trim().isEmpty() && tempValue3 != null && !tempValue3.trim().isEmpty()) {
                     Assert.assertTrue(Double.valueOf(tempValue2) <= Double.valueOf(tempValue3));
                 }
@@ -814,7 +812,7 @@ public class MethodsForCatalog extends BaseActions {
 
 
     public void choicePartOfWordForSearch() {
-        wordForSearch = driver.findElement(By.xpath("(//*[@class='product__link'])[" + randomNumberOfProductsPerPage + "]")).getText();
+        wordForSearch = driver.findElement(By.xpath("(//*[@class='product__link'])[" + randomProductNumberOnThePage + "]")).getText();
     }
     public void enterPartOfNameInTheSearchFieldOnTheCatalogTab(By searchField, String wordForSearch){
         driver.findElement(searchField).sendKeys(wordForSearch.substring(0, 1));
@@ -836,10 +834,11 @@ public class MethodsForCatalog extends BaseActions {
         driver.findElement(fieldForSearchInCatalogLocator).sendKeys(nameForSearch);
         driver.findElement(fieldForSearchInCatalogLocator).sendKeys(nameForSearch.substring(0, 1));
         driver.findElement(fieldForSearchInCatalogLocator).sendKeys("\b");
+        implicitWaiting();
     }
 
     public void choiceWordForSearch() {
-        wordForSearch = driver.findElement(By.xpath("(//*[@class='product__link'])[" + randomNumberOfProductsPerPage + "]")).getText();
+        wordForSearch = driver.findElement(By.xpath("(//*[@class='product__link'])[" + randomProductNumberOnThePage + "]")).getText();
     }
 
     public By fieldForSearchInCatalogLocator = By.xpath("//*[@type='search']");
@@ -916,7 +915,7 @@ public class MethodsForCatalog extends BaseActions {
         if (themeColorBlack) {
             tempValue1 = driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][@title='Каталог']")).getText();
             driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][@title='Каталог']")).click();
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='nav-item nav-item-submenu'])[2]")));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[contains(@class, 'nav-item-open')]//*[@class='nav-item nav-item-submenu'])")));
             waitingMilliSecond();
             String backgroundColor = driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][@title='Каталог']"))
                     .getCssValue("background-color");
@@ -1139,7 +1138,7 @@ public class MethodsForCatalog extends BaseActions {
         Assert.assertTrue(driver.findElement(By.xpath("//h2[@class='card-title'][contains(text(), 'Характеристики')]")).isDisplayed(), "!!!! Характеристики не отображаются");
     }
 
-    public void openDetailPageOfRandomProduct() {
+    public void openDetailPageOfRandomProduct(int randomNumberOfProductsPerPage) {
         implicitWaiting();
         driver.findElement(By.xpath("(//*[@class='product__link'])[" + randomNumberOfProductsPerPage + "]")).click();
         By locIframe = By.cssSelector(".side-panel-iframe");
@@ -1594,22 +1593,16 @@ public class MethodsForCatalog extends BaseActions {
     public void removingImagesFromTheGefestGasStove() {
         driver.findElement(By.xpath("//a[contains(text(), 'Плита GEFEST')]")).click();
         try {
-            driver.findElement(By.xpath("//*[contains(@class, 'adm-btn-del')]")).click();
+            clickElement("//*[contains(@class, 'adm-btn-del')]");
             implicitWaiting();
         } catch (Exception e) {
-            scrollToTheElement("//*[contains(@class, 'adm-btn-del')]");
-            scrollUp();
-            driver.findElement(By.xpath("//*[contains(@class, 'adm-btn-del')]")).click();
-            implicitWaiting();
+            System.out.println("Все картинки уже удалены");
         }
         try {
-            driver.findElement(By.xpath("//*[contains(@class, 'adm-btn-del')]")).click();
+            clickElement("//*[contains(@class, 'adm-btn-del')]");
             implicitWaiting();
         } catch (Exception e) {
-            scrollToTheElement("//*[contains(@class, 'adm-btn-del')]");
-            scrollUp();
-            driver.findElement(By.xpath("//*[contains(@class, 'adm-btn-del')]")).click();
-            implicitWaiting();
+            System.out.println("Все картинки уже удалены");
         }
         driver.findElement(By.cssSelector(".adm-btn-save")).click();
     }
@@ -1702,15 +1695,15 @@ public class MethodsForCatalog extends BaseActions {
     public void addingThisProductOneMoreTime() {
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
         implicitWaiting();
-        driver.findElement(By.xpath("(//*[contains(@id, 'quantity-increment')])[" + randomNumberOfProductsPerPage + "]")).click();
+        driver.findElement(By.xpath("(//*[contains(@id, 'quantity-increment')])[" + randomProductNumberOnThePage + "]")).click();
         implicitWaiting();
     }
 
     public void checkingThatPriceAndQuantityHaveIncreased() {
         Assert.assertTrue(Double.valueOf(replacingSomeSymbols(driver.findElement(By.cssSelector("#catalog__basket-price-value")).getText())) > priceForNewlyAddedProducts);
         implicitWaiting();
-        System.out.println(randomNumberOfProductsPerPage);
-        Assert.assertTrue(Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage +
+        System.out.println(randomProductNumberOnThePage);
+        Assert.assertTrue(Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage +
                 "]")).getAttribute("value"))) > quantityOfProductsInStock);
     }
 
@@ -1902,11 +1895,11 @@ public class MethodsForCatalog extends BaseActions {
     }
 
     public void addingAnItemToTheCartWithPriceChecking() {
-        randomNumberOfProductsPerPage = count;
+        randomProductNumberOnThePage = count;
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), "0"));
         calculationOfTheCoefficientForNonPieceProducts();
         numberOfProductsInTheFooter = Integer.parseInt(driver.findElement(By.id("catalog__basket-quantity-value")).getText());
-        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]"))
+        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]"))
                 .sendKeys("1");
         numberOfProductsInTheFooter++;
         determiningPriceOfThisRandomProduct();
@@ -2660,12 +2653,6 @@ public class MethodsForCatalog extends BaseActions {
         Assert.assertTrue(tempValue5.contains(tempValue1));
         Assert.assertTrue(tempValue5.contains(tempValue2));
         Assert.assertTrue(tempValue5.contains(tempValue3));
-        System.out.println("Удалить " + tempValue5);
-        System.out.println("Удалить");
-        System.out.println("Удалить1 " + tempValue1);
-        System.out.println("Удалить2 " + tempValue2);
-        System.out.println("Удалить3 " + tempValue3);
-
     }
 
     public void checkingThatAllProductsHaveASimilarIdToTheSectionId() {
@@ -2769,17 +2756,12 @@ public class MethodsForCatalog extends BaseActions {
     }
 
     public void checkingThatQuantityProductsOnThisPageAreDecreased() {
-        System.out.println("Удалить " + tempInt);
         System.out.println(driver.findElements(By.xpath("//*[@class='product__link']")).size());
         Assert.assertTrue(tempInt > driver.findElements(By.xpath("//*[@class='product__link']")).size());
     }
 
     public void showProductsInTheCartOnTheMakingOrderPage() {
-        try {
-            driver.findElement(By.xpath("//*[@data-action='collapse'][contains(@class, 'rotate')]")).click();
-        }catch (Exception e){
-            System.out.println("Удалить!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! - ошибка b2b, как поправят нужно убрать катч");
-        }
+        driver.findElement(By.xpath("//*[@data-action='collapse'][contains(@class, 'rotate')]")).click(); //ошибка в b2b
         waitingMilliSecond();
     }
     public void highlightsAllProductsInTheCart(){
@@ -2792,6 +2774,7 @@ public class MethodsForCatalog extends BaseActions {
             driver.findElement(By.cssSelector("#CATALOG_SHOW_SECTIONS")).click();
             driver.findElement(By.xpath("//*[@value='MENU']")).click();
             driver.findElement(buttonSaveLocator).click();
+            implicitWaiting();
             navigationToMeanPageByUrl();
         }
     }
@@ -2980,7 +2963,15 @@ public class MethodsForCatalog extends BaseActions {
         Assert.assertTrue(driver.findElement(By.cssSelector(".basket__product-discrioption")).getText().contains(wordForSearch));
     }
     public void checkingThatThereAreNoCartIconInPupOpWindow(){
-        Assert.assertTrue(driver.findElements(By.cssSelector(".btn_search__product-add")).size() == 0); //корзинка которая в поп-ап окне отсутсвует
+        Assert.assertTrue(driver.findElements(By.cssSelector(".btn_search__product-add")).size() == 0); //корзинка в поп-ап окне отсутсвует
     }
+    public void clickFullScreen(){
+        driver.findElement(By.xpath("//*[@data-action='fullscreen']")).click();
+    }
+    public void checkingThatCatalogIsOpenToFullScreen(){
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@data-fullscreen='active']")).isDisplayed());
+
+    }
+
 
 }

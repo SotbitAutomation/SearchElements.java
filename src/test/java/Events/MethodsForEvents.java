@@ -42,7 +42,7 @@ public class MethodsForEvents extends MethodsForAddingOrganizationsWithExtendedV
                 checkingThatThereIsThisEvent("SOTBIT_AUTH_CONFIRM_REGISTRATION", registr.email);
             }else {
                 System.out.println("Проверяю событие что пользователь зарегистирровался (без подтверждения)  "  + registr.email);
-                checkingThatThereIsThisEvent("SOTBIT_AUTH_WHOLESALER_NOTICE", registr.email);
+                checkingThatThereIsThisEvent("SOTBIT_AUTH_WHOLESALER_NOTICE", registr.email); //Если ошибка, поставить галку у "Уведомлять пользователя по Email при добавлении в группу оптовиков"
             }
         }
     }

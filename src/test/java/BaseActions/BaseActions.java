@@ -73,7 +73,6 @@ public class BaseActions extends CustomizingForYourself {
     By addOrganizationButtonLocator = By.xpath("//*[contains(@class,'add_organization-button')]");
 
 
-
     public String name = "Name Имя" + randomString(8);
     public String lastName = "LastName Фамилия" + randomString(10);
     public String phone = "+7" + randomNumber(+10);
@@ -139,58 +138,45 @@ public class BaseActions extends CustomizingForYourself {
     public String fileNameForB2BThemeColor = "fileNameForColor";  //Имя создаваемого файла в папке с проектом
     public boolean themeColorBlack = true;
 
-    boolean flagForCloseWarning = false;
-    public void navigationToAuthorizationTab() {
+    boolean flagForCloseWarningOnTheFirstVisit = false;
+
+    public void firsNavigationToB2B() {
         driver.navigate().to(b2bUrl);
-        if (!flagForCloseWarning){
-            flagForCloseWarning=true;
+        if (!flagForCloseWarningOnTheFirstVisit) {
+            flagForCloseWarningOnTheFirstVisit = true;
             try {
                 driver.findElement(By.cssSelector(".brighttheme-icon-closer")).click();
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("0 катч - При первом запуске предупреждения что нужно авторизовтаься не было!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             }
-        }
-        try {
-            exitFromB2B();
-            driver.findElement(By.xpath("//*[@href='/auth/']")).click();
-            Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
-        }catch (Exception e){
+        } else {
             try {
-                System.out.println("1 катч -  Я и так не авторизован");
-                driver.navigate().to(b2bUrl);
+                exitFromB2B();
                 driver.findElement(By.xpath("//*[@href='/auth/']")).click();
                 Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
-            }catch (Exception e2){
-                try {
-                    System.out.println("2 катч - Кнопку входа перекрывает предупреждение");
-                    driver.findElement(By.cssSelector(".brighttheme-icon-closer")).click();
-                    driver.findElement(By.xpath("//*[@href='/auth/']")).click();
-                    Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
-                }catch (Exception e3){
-                    System.out.println("Доступ закрыт, потом оптимизирую для быстрой работы");
-                    Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
-                }
+            } catch (Exception e) {
+                System.out.println("1 катч -  Я и так не авторизован");
             }
         }
+    }
 
-
-//            try {
-//                exitFromB2B();
-//                driver.findElement(By.cssSelector(".header_logout")).click();
-//                Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
-//            } catch (Exception e2) {
-//                try {
-////               driver.findElement(By.cssSelector("#details-button")).click();
-////               driver.findElement(By.cssSelector("#proceed-link")).click();
-////               System.out.println("Обошел предупреждение что подключение защищено");
-//                    Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
-//                } catch (Exception e1) {
-//                    exitFromB2B();
-//                    driver.navigate().to(b2bUrl);
-//                    Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
-//                }
-//            }
-
+    public void navigationToAuthorizationTab() {
+        firsNavigationToB2B();
+        try {
+            driver.navigate().to(b2bUrl);
+            driver.findElement(By.xpath("//*[@href='/auth/']")).click();
+            Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
+        } catch (Exception e2) {
+            try {
+                System.out.println("2 катч - Кнопку входа перекрывает предупреждение");
+                driver.findElement(By.cssSelector(".brighttheme-icon-closer")).click();
+                driver.findElement(By.xpath("//*[@href='/auth/']")).click();
+                Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
+            } catch (Exception e3) {
+                System.out.println("Доступ закрыт, потом оптимизирую для быстрой работы");
+                Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
+            }
+        }
         Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
     }
 
@@ -347,7 +333,8 @@ public class BaseActions extends CustomizingForYourself {
         wait.until(ExpectedConditions.visibilityOfElementLocated(exitButtonInb2bCabinetLocator));
         driver.findElement(exitButtonInb2bCabinetLocator).click();
     }
-    public void expandMenuWithOrganizations(){
+
+    public void expandMenuWithOrganizations() {
         for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@class, 'navbar-nav-link dropdown-toggle')]")).size(); i++) {
             if (driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).getText().contains("рганизации")) {
                 driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).click();
@@ -368,6 +355,7 @@ public class BaseActions extends CustomizingForYourself {
             Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Список организаций пуст']")).isDisplayed());
         }
     }
+
     public void navigationToAddOrganizationTab() {
         determineWhetherVersionsOfWorkingWithOrganization();
         if (versionsOfWorkingWithOrganizationsExtended) {
@@ -454,7 +442,7 @@ public class BaseActions extends CustomizingForYourself {
                 for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(text(), 'Предложения:')]")).size(); i++) {
                     try {
                         driver.findElement(By.xpath("(//*[contains(text(), 'Предложения:')])[" + i + "]")).click();
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         System.out.println("не смог проскролить самостоятельно для клика на предложения оффера");
                         scrollToTheElement("(//*[contains(text(), 'Предложения:')])[" + i + "]");
                         driver.findElement(By.xpath("(//*[contains(text(), 'Предложения:')])[" + i + "]")).click();
@@ -598,17 +586,18 @@ public class BaseActions extends CustomizingForYourself {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
         implicitWaiting();
     }
+
     public void scrollToTheElement(By locator) {
         WebElement element = driver.findElement(locator);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
         implicitWaiting();
     }
+
     public void scrollToTheElementByCss(String cssSelector) {
         WebElement element = driver.findElement(By.cssSelector(cssSelector));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
         implicitWaiting();
     }
-
 
 
     public void fileDownload() {
@@ -712,7 +701,7 @@ public class BaseActions extends CustomizingForYourself {
             try {
                 wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//*[@class='main-grid-row main-grid-row-body'])[1] /*[7]"), "Одобрена"));
             } catch (Exception e) {
-                driver.findElement(By.xpath("//*[@class='main-ui-pagination-arrow']")).click();
+                clickElement("//*[@class='main-ui-pagination-arrow']");
                 sortingOrganizationByDecrease();
                 waitingMilliSecond();
                 wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//*[@class='main-grid-row main-grid-row-body'])[1] /*[7]"), "Одобрена"));
@@ -885,23 +874,24 @@ public class BaseActions extends CustomizingForYourself {
         driver.findElement(By.cssSelector("#bx-panel-toggle-indicator")).click();
         implicitWaiting();
     }
-    public void ternOffEditMode(){
+
+    public void ternOffEditMode() {
         try {
             driver.findElement(By.xpath("//*[contains(@href, 'bitrix_include_areas=N')][@id='bx-panel-toggle']")).click();
             implicitWaiting();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Режим правки уже выключен");
         }
     }
-    public void ternOnEditMode(){
+
+    public void ternOnEditMode() {
         try {
             driver.findElement(By.xpath("//*[contains(@href, 'bitrix_include_areas=Y')][@id='bx-panel-toggle']")).click();
             implicitWaiting();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Режим правки уже включен");
         }
     }
-
 
 
     public void saveBasicData(int numberOfSetting) {
@@ -978,32 +968,34 @@ public class BaseActions extends CustomizingForYourself {
     public void navigationToTheSiteSettings() {
         driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/", "") + "bitrix/admin/sotbit.auth_settings.php?lang=ru&site=s1");
     }
-    public void clickStandardButtonForSaveSettings(){
+
+    public void clickStandardButtonForSaveSettings() {
         try {
             driver.findElement(buttonSaveLocator).click();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Не проскролил сам до кнопки Сохранить");
             scrollToTheElement(buttonSaveLocator);
             driver.findElement(buttonSaveLocator).click();
         }
     }
-    public void clickElement(String elementXpath){
+
+    public void clickElement(String elementXpath) {
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(elementXpath)));
             driver.findElement(By.xpath(elementXpath)).click();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Не смог кликнуть по элементу, пробую проскролить до него");
             scrollToTheElement(elementXpath);
             waitingMilliSecond();
             try {
                 driver.findElement(By.xpath(elementXpath)).click();
-            }catch (Exception e2){
+            } catch (Exception e2) {
                 System.out.println("Не смог кликнуть по элементу, пробую проскролить вверх");
                 scrollUp();
                 waitingMilliSecond();
                 try {
                     driver.findElement(By.xpath(elementXpath)).click();
-                }catch (Exception e3){
+                } catch (Exception e3) {
                     System.out.println("Не смог кликнуть по элементу, пробую перезагрузить страницу");
                     refreshingThisPage();
                     driver.findElement(By.xpath(elementXpath)).click();
@@ -1011,23 +1003,24 @@ public class BaseActions extends CustomizingForYourself {
             }
         }
     }
-    public void clickElement(By elementLocator){
+
+    public void clickElement(By elementLocator) {
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(elementLocator));
             driver.findElement(elementLocator).click();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Не смог кликнуть по элементу, пробую проскролить до него");
             scrollToTheElement(elementLocator);
             waitingMilliSecond();
             try {
                 driver.findElement(elementLocator).click();
-            }catch (Exception e2){
+            } catch (Exception e2) {
                 System.out.println("Не смог кликнуть по элементу, пробую проскролить вверх");
                 scrollUp();
                 waitingMilliSecond();
                 try {
                     driver.findElement(elementLocator).click();
-                }catch (Exception e3){
+                } catch (Exception e3) {
                     System.out.println("Не смог кликнуть по элементу, пробую перезагрузить страницу");
                     refreshingThisPage();
                     driver.findElement(elementLocator).click();
@@ -1035,23 +1028,24 @@ public class BaseActions extends CustomizingForYourself {
             }
         }
     }
-    public void clickElementByItsCssSelector(String cssSelector){
+
+    public void clickElementByItsCssSelector(String cssSelector) {
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(cssSelector)));
             driver.findElement(By.cssSelector(cssSelector)).click();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Не смог кликнуть по элементу, пробую проскролить до него");
             scrollToTheElementByCss(cssSelector);
             waitingMilliSecond();
             try {
                 driver.findElement(By.cssSelector(cssSelector)).click();
-            }catch (Exception e2){
+            } catch (Exception e2) {
                 System.out.println("Не смог кликнуть по элементу, пробую проскролить вверх");
                 scrollUp();
                 waitingMilliSecond();
                 try {
                     driver.findElement(By.cssSelector(cssSelector)).click();
-                }catch (Exception e3){
+                } catch (Exception e3) {
                     System.out.println("Не смог кликнуть по элементу, пробую перезагрузить страницу");
                     refreshingThisPage();
                     driver.findElement(By.cssSelector(cssSelector)).click();

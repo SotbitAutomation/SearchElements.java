@@ -808,7 +808,7 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
 
     public void checkingStatusOfOrganizationWithoutConfirm() {
         determineWhetherRegistrationOrganizationNeedsToBeConfirmed();
-        if (doNeedToConfirmRegistrationOrganization == true) {
+        if (doNeedToConfirmRegistrationOrganization) {
             Assert.assertTrue(driver.findElement(By.xpath("//*[text()='На модерации']")).isDisplayed());
         } else {
             Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Одобрена']")).isDisplayed());

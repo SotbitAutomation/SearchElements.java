@@ -186,6 +186,7 @@ public class MethodsForSettingUpCabinetForTesting extends BaseActions {
         checkingWhetherAdvancedModeIsEnabled();
         if (whetherExtendedModeIsEnabled){
             driver.findElement(By.cssSelector(".adm-designed-checkbox-label")).click();
+            implicitWaiting();
         }
         driver.findElement(buttonSaveLocator).click();
         changeTheWayToDetailPageCompany("companies", "buyer");
@@ -228,6 +229,7 @@ public class MethodsForSettingUpCabinetForTesting extends BaseActions {
         checkingWhetherTheCompanyRegistrationNeedsToBeConfirmed();
         if (!companyRegistrationNeedsToBeConfirmed){
             clickElement("//*[@for='CONFIRM_BUYER']");
+            implicitWaiting();
         }
         driver.findElement(buttonSaveLocator).click();
     }
@@ -235,6 +237,7 @@ public class MethodsForSettingUpCabinetForTesting extends BaseActions {
         checkingWhetherTheCompanyRegistrationNeedsToBeConfirmed();
         if (companyRegistrationNeedsToBeConfirmed){
             clickElement("//*[@for='CONFIRM_BUYER']");
+            implicitWaiting();
         }
         driver.findElement(buttonSaveLocator).click();
     }

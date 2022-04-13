@@ -4,11 +4,14 @@ import BaseActions.BaseActions;
 import MakingOrders.MethodsForMakingOrders;
 import OrganizationsWithExtendedVersion.MethodsForAddingOrganizationsWithExtendedVersion;
 import RegistrationAndAuthorization.RegistrationB2B;
-import org.testng.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+
+import java.util.Iterator;
+import java.util.Set;
 
 public class MethodsForMeanPage extends BaseActions {
 
@@ -449,6 +452,22 @@ public class MethodsForMeanPage extends BaseActions {
     }
     public void checkingThatInTheWeatherWidgetTheDefaultCityIsMoscow(){
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@id, 'WEATHER')]")).getText().contains("Москва"));
+    }
+    public void checkingTheTransitionToTheWeatherPageUsingTheLearnMoreButton(){
+        driver.findElement(By.xpath("//*[contains(@id, 'WEATHER')] //*[text()='Подробнее']")).click();
+        Set<String> handles = driver.getWindowHandles();
+        Iterator<String> itr = handles.iterator();
+        String parentWindow = itr.next();
+        String newWindow = itr.next();
+        driver.switchTo().window(newWindow);
+        Assert.assertTrue(driver.getCurrentUrl().contains("pogoda"));
+        driver.close();
+        driver.switchTo().window(parentWindow); //вернуть фокус на старое окно
+    }
+    public void checkingThatTheSettingsAreBeingOpened(){
+        driver.findElement(By.xpath("//*[contains(@class, 'settings icon')]")).click();
+        Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@id, 'WEATHER')]//*[contains(@class, 'TITLE')]")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@id, 'WEATHER')]//*[contains(@class, 'CITY')]")).isDisplayed());
     }
 
     public void makeOrderForWidget() {

@@ -86,7 +86,12 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='text-center'])[11]")));
         tempShippingCost = Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[@class='text-center'])[11]")).getText()));
         clickElement(buttonForMakeOrderLocatorOnTheCheckoutPage);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".index_order_success")));
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".index_order_success")));
+        }catch (Exception e){
+            clickElement(buttonForMakeOrderLocatorOnTheCheckoutPage);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".index_order_success")));
+        }
         Assert.assertTrue(driver.findElement(By.cssSelector(".index_order_success")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'Ваш заказ')]")).isDisplayed());
         numberOfOrder = driver.findElement(By.xpath("//*[contains(@href, 'order/detail')]/b")).getText().replaceAll("№", "");

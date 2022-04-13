@@ -11,10 +11,6 @@ public class Catalog extends MethodsForCatalog {
     public void addingProductToCart() {
         //arrange
         navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeAdmin();
-        logInToB2B();
-        resetCache();
-        navigationToAuthorizationTab();
         //act
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
@@ -533,7 +529,7 @@ public class Catalog extends MethodsForCatalog {
         openingAllOffers();
         determiningNumberOfProductsOnThePage();
         determiningRandomNumberOfProducts();
-        openDetailPageOfRandomProduct();
+        openDetailPageOfRandomProduct(randomProductNumberOnThePage);
         checkThatDetailPageOfProductIsOpened();
         navigationToMeanPageByUrl();
     }
@@ -678,7 +674,7 @@ public class Catalog extends MethodsForCatalog {
         openingAllOffers();
         determiningNumberOfProductsOnThePage();
         determiningRandomNumberOfProducts();
-        openDetailPageOfRandomProduct();
+        openDetailPageOfRandomProduct(randomProductNumberOnThePage);
         addingThisProductToTheBasket();
         navigationToMeanPageByUrl();
         navigationToCart();
@@ -714,7 +710,7 @@ public class Catalog extends MethodsForCatalog {
         openingAllOffers();
         determiningNumberOfProductsOnThePage();
         determiningRandomNumberOfProducts();
-        openDetailPageOfRandomProduct();
+        openDetailPageOfRandomProduct(randomProductNumberOnThePage);
         addingProductFromPopUpDetailPage();
         navigationToMeanPageByUrl();
         checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(1);
@@ -775,6 +771,75 @@ public class Catalog extends MethodsForCatalog {
         navigationToCatalogTab();
         enterNameInTheSearchFieldOnTheCatalogTab("Городской велосипед STELS Navigator");
         checkingThatThereAreNoCartIconInPupOpWindow();
+    }
+    @Test(retryAnalyzer = Retry.class) //47. Добавление товара в корзину при раскрытом каталоге во весь экран
+    public void addingAnItemToTheCartWhenTheCatalogIsOpenedInFullScreen() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        deletingProductsFromTheCart();
+        navigationToCatalogTab();
+        clickFullScreen();
+        checkingThatCatalogIsOpenToFullScreen();
+        changeTheQuantityOfRandomProduct();
+        clickFullScreen();
+        checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(numberOfProductsInTheFooter);
+        checkingThatThePriceOfTheAddedProductHasBeenCalculated();
+        checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(numberOfProductsInTheFooter);
+    }
+    @Test(retryAnalyzer = Retry.class) //48. Добавление товара в корзину при раскрытом каталоге во весь экран из детальной страницы товара
+    public void addingAnItemToTheCartWhenTheCatalogIsOpenedInFullScreenFromTheDetailedProductPage() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        deletingProductsFromTheCart();
+        navigationToCatalogTab();
+        clickFullScreen();
+        checkingThatCatalogIsOpenToFullScreen();
+        determiningNumberOfProductsOnThePage();
+        determiningRandomNumberOfProducts();
+        openDetailPageOfRandomProduct(randomProductNumberOnThePage);
+        checkThatDetailPageOfProductIsOpened();
+        addingProductFromPopUpDetailPage();
+        navigationToMeanPageByUrl();
+        checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(1);
+        navigationToCart();
+        checkingThatThereIsProductInTheCartThatWasAddedFromTheDetailedProductPage();
+    }
+    @Test(retryAnalyzer = Retry.class) //49. Добавление первого и последнего товара в корзину при раскрытом каталоге во весь экран из детальной страницы товара
+    public void addingFirstAndLastItemToTheCartWhenTheCatalogIsOpenedInFullScreenFromTheDetailedProductPage() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        deletingProductsFromTheCart();
+        navigationToCatalogTab();
+        clickFullScreen();
+        checkingThatCatalogIsOpenToFullScreen();
+        determiningNumberOfProductsOnThePage();
+        openDetailPageOfRandomProduct(1);
+        checkThatDetailPageOfProductIsOpened();
+        addingProductFromPopUpDetailPage();
+        navigationToMeanPageByUrl();
+        checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(1);
+        navigationToCart();
+        checkingThatThereIsProductInTheCartThatWasAddedFromTheDetailedProductPage();
+        navigationToCatalogTab();
+        clickFullScreen();
+        openDetailPageOfRandomProduct(numberOfProductsPerPage);
+        checkThatDetailPageOfProductIsOpened();
+        addingProductFromPopUpDetailPage();
+        navigationToMeanPageByUrl();
+        checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(2);
+        navigationToCart();
+        checkingThatThereIsProductInTheCartThatWasAddedFromTheDetailedProductPage();
+
+
     }
 
 
