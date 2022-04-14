@@ -264,28 +264,11 @@ public class MethodsForSettingUpCabinetForTesting extends BaseActions {
         //act
         fillingFieldsOnTheLogInTabLikeAdmin();
         driver.findElement(logInButtonOnTheAuthorizationTabLocator).click();
-        resetCache();
-        navigationToPageForClearCache();
+        resetCache();navigationToPageForClearCache();
         clearCache();
         navigationToMeanPageByUrl();
         resetCache();
         navigationToCatalogTab();
         resetCache();
-//        try {
-//            driver.findElement(By.cssSelector(".quantity-selector__increment")).click();
-//            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".b2b-notification__icon")));
-//        }catch (Exception e){
-//            System.out.println("не смог добавить товар в корзину");
-//        }
-//
-//        navigationToCart();
-//        resetCache();
-//        try {
-//            driver.findElement(By.xpath("//*[@class='upselling'] //*[@class='input-group-append']")).click();
-//        }catch (Exception e){
-//            System.out.println("не смог добавить доп товар в корзину");
-//        }
-//        driver.findElement(buttonMakeOrderInTheCartLocator).click();
-//        navigationToMeanPageByUrl();
     }
 }

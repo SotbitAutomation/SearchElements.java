@@ -113,6 +113,8 @@ public class SettingUpCabinetForTesting extends MethodsForSettingUpCabinetForTes
         clearAllCache();
         driver.quit();
         setUpSuite();
+        flagForCloseWarningOnTheFirstVisit = false;
+        navigationToAuthorizationTab();
     }
 
 

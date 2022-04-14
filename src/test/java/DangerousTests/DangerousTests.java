@@ -401,7 +401,8 @@ public class DangerousTests extends MethodsForDangerousTests {
         selectTheSectionWithGasStoves();
         addingGefestGasStoveToCartUsingPlusIcon();
         addingKaiserGasStoveToCartUsingPlusIcon();
-        navigationToCart();        ternOffEditMode();
+        navigationToCart();
+        ternOffEditMode();
         //act
         addingMaxQuantityOfProductInTheCartUsingPlusIconOneMoreThanAvailable(quantityFieldOfGefestLocator, iconPlusOfGefestLocator, numberOfAvailableGefestGasStove);
         checkingThatQuantityOfGefestGasStoveIsOneMoreThanAvailable();

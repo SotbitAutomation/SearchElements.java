@@ -126,8 +126,7 @@ public class MethodsForMeanPage extends BaseActions {
         tempRandomNumber = 1 + (int) (Math.random() * driver.findElements(By.xpath("(//div[@class='widgets_cabinet_title'])")).size());
         tempValueOfTitle = driver.findElement(By.xpath("(//div[@class='widgets_cabinet_title'])" + "[" + tempRandomNumber + "]")).getText();
         System.out.println("Название добавленного виджета  - " + tempValueOfTitle);
-        //scrollDownToTheElement("(//div[@class='widgets_cabinet_title'])" + "[" + tempRandomNumber + "]");
-        driver.findElement(By.xpath("(//div[@class='widgets_cabinet_title'])" + "[" + tempRandomNumber + "]")).click();
+        clickElement("(//div[@class='widgets_cabinet_title'])" + "[" + tempRandomNumber + "]");
         implicitWaiting();
         tempLocatorForSearchElementByTextAndColumn = By.xpath("//*[text()='" + tempValueOfTitle + "']");
         System.out.println("Проверяю что виджет с таким заголовком есть " + tempValueOfTitle);

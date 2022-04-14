@@ -121,14 +121,14 @@ public class MethodsForCatalog extends BaseActions {
         calculationOfTheCoefficientForNonPieceProducts();
         determiningRandomNumberUpToMAxQuantityThisProducts();
         numberOfProductsInTheFooter = Integer.parseInt(driver.findElement(By.id("catalog__basket-quantity-value")).getText());
+        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]")).clear();
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]"))
                 .sendKeys(String.valueOf(quantityOfProductsInStock));
         priceForNewlyAddedProducts = basePriceRandomProduct * quantityOfProductsInStock;
         randomNumberUpToMAxQuantityThisProducts = quantityOfProductsInStock;
         numberOfProductsInTheFooter++;
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
-        waitingMilliSecond();
-        waitingMilliSecond();
+        implicitWaiting();
     }
 
     public void addingTheMaxNumberOfProductsToTheCartUsingIconPlus() {
@@ -227,23 +227,13 @@ public class MethodsForCatalog extends BaseActions {
         } else {
             unitsOfMeasurement = 1;
         }
-
         driver.findElement(By.xpath("(//*[@class='quantity-selector__decrement'])[" + randomProductNumberOnThePage + "]")).click();
         coefficientForQuantityOfProducts = 1 / unitsOfMeasurement;
         driver.findElement(By.xpath("(//*[@class='quantity-selector__decrement'])[" + randomProductNumberOnThePage + "]")).click();
-//        try {
-//            wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
-//        }catch (Exception e){
-//            driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]")).clear();
-//            driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomNumberOfProductsPerPage + "]")).sendKeys("0");
-//            wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
-//        } //было так, но долго сделал как снизу
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]")).clear();
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]")).sendKeys("0");
-        implicitWaiting();
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
-        waitingMilliSecond();
-        waitingMilliSecond();
+        implicitWaiting();
     }
 
     public void determiningNumberOfProductsOnThePage() {
@@ -2197,10 +2187,11 @@ public class MethodsForCatalog extends BaseActions {
             driver.findElement(checkboxThatHighlightsAllProductsInTheCartLocator).click();
             implicitWaiting();
         }
-        while (!(numberOfAvailableProduct == tempDouble)) {
+        while (numberOfAvailableProduct != tempDouble) {
             try {
                 driver.findElement(quantityPlusSelector).click();
             } catch (Exception e) {
+                System.out.println("тупая ошибка. слишком быстро кликает!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 driver.findElement(quantityPlusSelector).click();
             }
             waitingMilliSecond();
@@ -2227,11 +2218,11 @@ public class MethodsForCatalog extends BaseActions {
             driver.findElement(checkboxThatHighlightsAllProductsInTheCartLocator).click();
             implicitWaiting();
         }
-        while (!(1 == tempDouble)) {
+        while (1 != tempDouble) {
             try {
                 driver.findElement(quantityMinusSelector).click();
             } catch (Exception e) {
-                driver.findElement(quantityMinusSelector).click();
+                // тупая ошибка слишком быстро кликает
             }
             waitingMilliSecond();
             try {

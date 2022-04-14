@@ -138,7 +138,7 @@ public class BaseActions extends CustomizingForYourself {
     public String fileNameForB2BThemeColor = "fileNameForColor";  //Имя создаваемого файла в папке с проектом
     public boolean themeColorBlack = true;
 
-    boolean flagForCloseWarningOnTheFirstVisit = false;
+    public boolean flagForCloseWarningOnTheFirstVisit = false;
 
     public void firsNavigationToB2B() {
         driver.navigate().to(b2bUrl);
