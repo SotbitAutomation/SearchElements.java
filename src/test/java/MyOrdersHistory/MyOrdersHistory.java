@@ -189,7 +189,7 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToMyOrdersPage();
-        enableEditMode();
+        ternOnEditMode();
         navigationToComponentOfUserOrders();
         selectTheNumberOfDisplayedOrdersOnThePage();
         navigationToAuthorizationTab();

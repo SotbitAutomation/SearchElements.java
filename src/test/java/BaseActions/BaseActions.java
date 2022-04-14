@@ -168,12 +168,16 @@ public class BaseActions extends CustomizingForYourself {
             Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
         } catch (Exception e2) {
             try {
-                System.out.println("2 катч - Кнопку входа перекрывает предупреждение");
+                System.out.println("2 катч - Кнопку входа перекрывает предупреждение из-за сброса кеша");
                 driver.findElement(By.cssSelector(".brighttheme-icon-closer")).click();
                 driver.findElement(By.xpath("//*[@href='/auth/']")).click();
                 Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
             } catch (Exception e3) {
-                System.out.println("Доступ закрыт, потом оптимизирую для быстрой работы");
+                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Доступ закрыт, или не вышел из кабинета потом оптимизирую для быстрой работы");
+                exitFromB2B();
+                if (driver.findElements(By.xpath("//*[@href='/auth/']")).size() > 0) {
+                    driver.findElement(By.xpath("//*[@href='/auth/']")).click();
+                }
                 Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
             }
         }

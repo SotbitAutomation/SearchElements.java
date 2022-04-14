@@ -15,6 +15,7 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
 
     public void choiceCategoryFromPopApWindow(){
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".media-body >*> .media-title")));
+        waitingMilliSecond();
         driver.findElement(By.cssSelector(".media-body >*> .media-title")).click();
     }
 
