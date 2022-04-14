@@ -388,7 +388,6 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
         navigationToPageForConfirmUserRegistration();
         approveTheRegistrationOfTheLastUser();
         navigationToMeanPageByUrl();
-        exitFromB2B();
         navigationToAuthorizationTab();
     }
 
@@ -414,7 +413,6 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
         logInFromAuthorizationTab();
         navigationToAdminPartFromMeanPage();
         driver.findElement(sotbitTabLocator).click();
-
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(organizationsForConfirmRegistrationLocator));
             driver.findElement(organizationsForConfirmRegistrationLocator).click();
@@ -429,7 +427,6 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
                 driver.findElement(organizationsForConfirmRegistrationLocator).click();
             }
         }
-
     }
 
     public void tryConfirmRegistration() {

@@ -85,6 +85,7 @@ public class MethodsForCatalog extends BaseActions {
         calculationOfTheCoefficientForNonPieceProducts();
         determiningRandomNumberUpToMAxQuantityThisProducts();
         numberOfProductsInTheFooter = Integer.parseInt(driver.findElement(By.id("catalog__basket-quantity-value")).getText());
+        System.out.println("Ввожу такое кол-во товара - " + randomNumberUpToMAxQuantityThisProducts );
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]"))
                 .sendKeys(String.valueOf(randomNumberUpToMAxQuantityThisProducts));
         numberOfProductsInTheFooter++;
@@ -201,7 +202,7 @@ public class MethodsForCatalog extends BaseActions {
     }
 
     public void determiningRandomNumberUpToMAxQuantityThisProducts() {
-        System.out.println("В наличии= " + tempDouble);
+        System.out.println("В наличии = " + tempDouble);
         quantityOfProductsInStock = tempDouble;
         randomNumberUpToMAxQuantityThisProducts = 1 + (int) (Math.random() * quantityOfProductsInStock * coefficientForQuantityOfProducts);
         randomNumberUpToMAxQuantityThisProducts = (double) (randomNumberUpToMAxQuantityThisProducts / coefficientForQuantityOfProducts);
