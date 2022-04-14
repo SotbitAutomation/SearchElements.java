@@ -494,6 +494,8 @@ public class BaseActions extends CustomizingForYourself {
                 driver.findElement(cartIconLocator).click();
             }
             Assert.assertTrue(driver.findElement(By.cssSelector(".basket-page")).isDisplayed());
+            Assert.assertTrue(driver.findElement(By.cssSelector(".breadcrumb")).getText().contains("Главная"));
+            Assert.assertTrue(driver.findElement(By.cssSelector(".breadcrumb")).getText().contains("Корзина"));
         }
     }
 
@@ -512,6 +514,8 @@ public class BaseActions extends CustomizingForYourself {
             driver.findElement(By.xpath("//*[@title='Мои заказы']")).click();
         }
         Assert.assertTrue(driver.findElement(By.cssSelector(".order_wrapper")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.cssSelector(".breadcrumb")).getText().contains("Главная"));
+        Assert.assertTrue(driver.findElement(By.cssSelector(".breadcrumb")).getText().contains("Мои заказы"));
     }
 
     public void navigationToTechnicalSupportTab() {

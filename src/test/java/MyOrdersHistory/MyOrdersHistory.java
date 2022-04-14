@@ -189,7 +189,7 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToMyOrdersPage();
-        ternOnEditMode();
+        enableEditMode();
         navigationToComponentOfUserOrders();
         selectTheNumberOfDisplayedOrdersOnThePage();
         navigationToAuthorizationTab();
@@ -330,8 +330,23 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         searchForAnOrderByItSNumber();
         deletingNumberForSearchUsingFieldForSearch();
         checkingThatAllOrdersAreDisplayedAgain();
-
-
-
+    }
+    @Test (retryAnalyzer = Retry.class) //13 Оформление заказа без выбора организации
+    public void makingOrderWithoutChoosingOrganization() {
+        //arrange
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        deletingProductsFromTheCart();
+        navigationToCatalogTab();
+        changeTheQuantityOfRandomProduct();
+        checkingThatThePriceOfTheAddedProductHasBeenCalculated();
+        navigationToCart();
+        navigationToMakingOrderFromCart();
+        //act
+        makingOrder();
+        navigationToListOfOrdersUsingLinkFromInformationAboutMadeOrder();
+        checkingThatThereIsNumberOfMadeOrderInTheFirstRow();
+        checkingThatThereIsALinkToDetailPageOfOrganizationInTheFirstRow();
     }
 }
