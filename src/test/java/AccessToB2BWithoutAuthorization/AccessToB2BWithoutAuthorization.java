@@ -2,7 +2,7 @@ package AccessToB2BWithoutAuthorization;
 
 import BaseActions.Retry;
 import org.testng.annotations.Test;
-
+//
 public class AccessToB2BWithoutAuthorization extends MethodsForAccessToB2BWithoutAuthorization{
     @Test(retryAnalyzer = Retry.class) //1. Просмотр разделов в b2b без авторизации
     public void viewingSectionsInB2BWithoutAuthorization() {

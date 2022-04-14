@@ -16,7 +16,6 @@ public class MethodsForAccessToB2BWithoutAuthorization extends BaseActions {
             }
         }
     }
-
     public void navigationToSubsectionFromTheAboutUsSection(String nameSubsectionFromTheAboutUsSection) {
         determineThemeColor();
         if (!themeColorBlack) {
