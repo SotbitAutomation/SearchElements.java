@@ -160,6 +160,7 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
             }
         }
         driver.findElement(By.cssSelector("#PERSONAL_PROFILE_LIST-grid-settings-apply-button")).click();
+        driver.findElement(By.cssSelector("#PERSONAL_PROFILE_LIST-confirm-dialog-apply-button")).click();
 
         //Запись в файл (версия работы расширенная ли)
         try {
