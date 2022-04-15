@@ -271,4 +271,16 @@ public class MethodsForSettingUpCabinetForTesting extends BaseActions {
         navigationToCatalogTab();
         resetCache();
     }
+
+    public void configureTheOutputOfAllAvailableColumnsInTheTable(){
+        driver.findElement(By.xpath("//*[@id='PERSONAL_PROFILE_LIST_table'] //*[@class='main-grid-interface-settings-icon']")).click();
+        for (int i = 1; i <=driver.findElements(By.xpath("//*[contains(@id, 'checkbox')]")).size(); i++) {
+            if (!driver.findElement(By.xpath("(//*[contains(@id, 'checkbox')])[" + i + "]")).isSelected()){
+                driver.findElement(By.xpath("(//*[contains(@id, 'checkbox')])[" + i + "]")).click();
+            }
+        }
+        driver.findElement(By.cssSelector("#PERSONAL_PROFILE_LIST-grid-settings-apply-button")).click();
+        driver.findElement(By.cssSelector("#PERSONAL_PROFILE_LIST-confirm-dialog-apply-button")).click();
+    }
+
 }
