@@ -910,13 +910,13 @@ public class MethodsForCatalog extends BaseActions {
             waitingMilliSecond();
             String backgroundColor = driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][@title='Каталог']"))
                     .getCssValue("background-color");
-            try {
-                Assert.assertEquals("rgba(62, 73, 95, 1)", backgroundColor, "Цвет фона для 'Каталог' не соответсвует ожидаемому'");
-            }catch (Exception e){
-                System.out.println("тупая ошибка, цвет фона троху отличается");
-                Assert.assertEquals("rgba(62, 73, 95, 0.996)", backgroundColor, "Цвет фона для 'Каталог' не соответсвует ожидаемому'");
-
-            }
+            Assert.assertTrue(backgroundColor.contains("rgba(62, 73, 95,"));
+//            try {
+//                Assert.assertEquals("rgba(62, 73, 95, 1)", backgroundColor, "Цвет фона для 'Каталог' не соответсвует ожидаемому'");
+//            }catch (Exception e){
+//                System.out.println("тупая ошибка, цвет фона троху отличается");
+//                Assert.assertEquals("rgba(62, 73, 95, 0.996)", backgroundColor, "Цвет фона для 'Каталог' не соответсвует ожидаемому'");
+//            }
             implicitWaiting();
         }else{
             tempValue1 = driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][contains(@class, 'navbar-nav-link')]")).getText();

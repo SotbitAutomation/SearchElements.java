@@ -149,7 +149,6 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
         navigationToGeneralB2BSettings();
         set.checkingWhetherAdvancedModeIsEnabled();
         versionsOfWorkingWithOrganizationsExtended = set.whetherExtendedModeIsEnabled;
-
         navigationToMeanPageByUrl();
         resetCache();
         navigationToOrganizationTab();
