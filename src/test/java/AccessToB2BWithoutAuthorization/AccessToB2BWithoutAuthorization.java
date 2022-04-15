@@ -28,7 +28,7 @@ public class AccessToB2BWithoutAuthorization extends MethodsForAccessToB2BWithou
         navigationToCatalogTab();
         checkingThatThereAreNoOptPrices();
         catalog.determiningNumberOfProductsOnThePage();
-        catalog.determiningRandomNumberOfProducts();
+        catalog.determiningRandomProduct();
         tryToAddProductToTheCartWithoutAuthorization();
     }
     @Test(retryAnalyzer = Retry.class) //3. Проверка оптовых цен, добавление товаров без авторизации из детальной страницы товара
@@ -37,7 +37,7 @@ public class AccessToB2BWithoutAuthorization extends MethodsForAccessToB2BWithou
         navigationToCatalogTab();
         checkingThatThereAreNoOptPrices();
         catalog.determiningNumberOfProductsOnThePage();
-        catalog.determiningRandomNumberOfProducts();
+        catalog.determiningRandomProduct();
         catalog.openDetailPageOfRandomProduct(catalog.randomProductNumberOnThePage);
         catalog.checkThatDetailPageOfProductIsOpened();
         checkingThatThereAreOnlyRetailPrice();

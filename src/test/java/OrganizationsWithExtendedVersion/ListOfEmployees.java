@@ -28,7 +28,6 @@ public class ListOfEmployees extends MethodsForAddingOrganizationsWithExtendedVe
                 creatingNewEmployeeForBoss();
             }
             navigationToAuthorizationTab();
-
             fillingFieldsOnTheLogInTabLikeEmployee();
             logInToB2B();
             if (themeColorBlack){

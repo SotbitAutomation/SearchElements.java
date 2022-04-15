@@ -528,7 +528,7 @@ public class Catalog extends MethodsForCatalog {
         changePageOnTheSecond();
         openingAllOffers();
         determiningNumberOfProductsOnThePage();
-        determiningRandomNumberOfProducts();
+        determiningRandomProduct();
         openDetailPageOfRandomProduct(randomProductNumberOnThePage);
         checkThatDetailPageOfProductIsOpened();
         navigationToMeanPageByUrl();
@@ -673,7 +673,7 @@ public class Catalog extends MethodsForCatalog {
         changePageOnTheSecond();
         openingAllOffers();
         determiningNumberOfProductsOnThePage();
-        determiningRandomNumberOfProducts();
+        determiningRandomProduct();
         openDetailPageOfRandomProduct(randomProductNumberOnThePage);
         addingThisProductToTheBasket();
         navigationToMeanPageByUrl();
@@ -709,7 +709,7 @@ public class Catalog extends MethodsForCatalog {
         changePageOnTheSecond();
         openingAllOffers();
         determiningNumberOfProductsOnThePage();
-        determiningRandomNumberOfProducts();
+        determiningRandomProduct();
         openDetailPageOfRandomProduct(randomProductNumberOnThePage);
         addingProductFromPopUpDetailPage();
         navigationToMeanPageByUrl();
@@ -801,7 +801,7 @@ public class Catalog extends MethodsForCatalog {
         clickFullScreen();
         checkingThatCatalogIsOpenToFullScreen();
         determiningNumberOfProductsOnThePage();
-        determiningRandomNumberOfProducts();
+        determiningRandomProduct();
         openDetailPageOfRandomProduct(randomProductNumberOnThePage);
         checkThatDetailPageOfProductIsOpened();
         addingProductFromPopUpDetailPage();

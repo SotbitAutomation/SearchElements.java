@@ -311,7 +311,7 @@ public class AddingOrganizationsWithStandardVersion extends MethodsForAddingOrga
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToOrganizationTab();
-        searchForRandomOneFromTheUserSExistingOrganizations();
+        searchRandomOrganizationByItSNameFromTheUserSExistingOrganizations();
         deletingNumberForSearchOrganizationUsingCloseIcon();
         openDetailPageFirstOrganization();
         navigationToOrganizationTab();

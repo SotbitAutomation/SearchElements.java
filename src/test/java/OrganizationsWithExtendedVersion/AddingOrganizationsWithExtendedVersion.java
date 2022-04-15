@@ -3,7 +3,6 @@ package OrganizationsWithExtendedVersion;
 import BaseActions.Retry;
 import MyOrdersHistory.MethodsForMyOrders;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Test;
 
 
@@ -578,47 +577,39 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
             fillingFieldsOnTheLogInTabLikeUser();
             logInToB2B();
             navigationToOrganizationTab();
-            searchForRandomOneFromTheUserSExistingOrganizations();
+            searchRandomOrganizationByItSNameFromTheUserSExistingOrganizations();
             deletingNumberForSearchOrganizationUsingCloseIcon();
-            searchForRandomOneFromTheUserSExistingOrganizations();
+            searchRandomOrganizationByItSNameFromTheUserSExistingOrganizations();
             deletingNameForSearchOrganizationUsingFieldForSearch();
-            searchForRandomOneFromTheUserSExistingOrganizations();
+            searchRandomOrganizationByItSNameFromTheUserSExistingOrganizations();
             openDetailPageFirstOrganization();
+            navigationToOrganizationTab();
+            deletingNameForSearchOrganizationUsingFieldForSearch();
         }
     }
 
-
-    @Test (retryAnalyzer = Retry.class)//12 Поиск оформленного заказа по его номеру
-    public void searchForCompletedOrderByItsNumber() {
+    @Test (retryAnalyzer = Retry.class)//26 Поиск оформленного заказа по его номеру из детальной страницы организации
+    public void searchForCompletedOrderByItsNumberFromDetailOrganizationsPage() {
+        MethodsForMyOrders order = new MethodsForMyOrders();
         //arrange
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToCatalogTab();
-        MethodsForMyOrders order = new MethodsForMyOrders();
         order.changeTheQuantityOfRandomProduct();
         navigationToCart();
         order.navigationToMakingOrderFromCart();
         order.trySelectCompany();
-        tempValue = driver.findElement(By.xpath("//*[contains(@for, 'PPROFILE_ID')]")).getText();
+        determineWhetherVersionsOfWorkingWithOrganization();
+        rememberingNameOfOrganizationWhichMakingOrder();
         order.makingOrder();
+        tempValueForNumbers = order.numberOfOrder;
         navigationToOrganizationTab();
         //act
-        driver.findElement(By.xpath("//*[contains(text(), '" + tempValue + "')] /preceding::*[contains(@class, 'main-grid-cell-action')] //*[contains(@class, 'action-button')]")).click();
-        driver.findElement(By.cssSelector(".menu-popup-item-text")).click();
-        driver.findElement(ordersTabInTheOrganization).click();
-        driver.findElement(By.cssSelector("#PROFILE_ORDER_LIST_search")).sendKeys(order.numberOfOrder);
-
-        wait.until(ExpectedConditions.numberOfElementsToBe(By.xpath("//*[@class='main-grid-row main-grid-row-body']"), 1));
-
-
-
-
-
-
-
-
-
+        openingOrganizationWhichMadeAnOrder();
+        searchJustNowCompletedOrderByItSNumberOnTheDetailPageOrganization();
+        checkingThatThatOrderIsFound();
+        order.openingLastOrder();
     }
 
 

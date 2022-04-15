@@ -84,7 +84,13 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
 
     public void makingOrder() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='text-center'])[11]")));
-        tempShippingCost = Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[@class='text-center'])[11]")).getText()));
+        try {
+            tempShippingCost = Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[@class='text-center'])[11]")).getText()));
+        }catch (Exception e){
+            System.out.println("Тупая ошибка при считывании стоимости доставки на странице оформления заказа");
+            implicitWaiting();
+            tempShippingCost = Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[@class='text-center'])[11]")).getText()));
+        }
         clickElement(buttonForMakeOrderLocatorOnTheCheckoutPage);
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".index_order_success")));
@@ -374,7 +380,9 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
         Assert.assertEquals(driver.findElement(firstColumnInFirstRowLocator).getText(), numberOfOrder);
     }
     public void checkingThatThereIsALinkToDetailPageOfOrganizationInTheFirstRow(){
-        By linkToDetailPageOfOrganizationInTheFirstRowLocator = By.xpath("(//*[@class='main-grid-row main-grid-row-body'])[1] //*[contains(@href, 'personal/buyer/profile')]");
+        By linkToDetailPageOfOrganizationInTheFirstRowLocator = By.xpath("(//*[@class='main-grid-row main-grid-row-body'])[1] //*[contains(@href, 'personal')]");
+        Assert.assertTrue(driver.findElement(linkToDetailPageOfOrganizationInTheFirstRowLocator).isDisplayed());
+        linkToDetailPageOfOrganizationInTheFirstRowLocator = By.xpath("(//*[@class='main-grid-row main-grid-row-body'])[1] //*[contains(@href, 'profile')]");
         Assert.assertTrue(driver.findElement(linkToDetailPageOfOrganizationInTheFirstRowLocator).isDisplayed());
     }
 

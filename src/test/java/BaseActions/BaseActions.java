@@ -107,9 +107,9 @@ public class BaseActions extends CustomizingForYourself {
     public String tempValueForNumbers;
     public boolean flag = false;
     public static boolean flagForLocation = false;
-    public boolean doNeedToConfirmRegistrationUser = false;
-    public boolean doNeedToConfirmRegistrationOrganization = false;
-    public boolean versionsOfWorkingWithOrganizationsExtended = true;
+    public boolean doNeedToConfirmRegistrationUser;
+    public boolean doNeedToConfirmRegistrationOrganization;
+    public boolean versionsOfWorkingWithOrganizationsExtended;
     public String fileNameForConfirmRegistrationUser = "doNeedToConfirmRegistrationUser";  //Имя создаваемого файла в папке с проектом
     public String fileNameForConfirmRegistrationOrganization = "doNeedToConfirmRegistrationOrganization";  //Имя создаваемого файла в папке с проектом
     public String fileNameForUsersEmailsAndPasswords = "fileNameForUsersEmailsAndPasswords";  //Имя создаваемого файла в папке с проектом

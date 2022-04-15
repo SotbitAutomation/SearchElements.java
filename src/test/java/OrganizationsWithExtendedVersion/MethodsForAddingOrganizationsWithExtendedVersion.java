@@ -1406,7 +1406,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         Assert.assertEquals(tempIntValue, tempIntValue2, "Количество организаций фактически отображаемых не равно кол-ву организаций подсчитаных в 'ВСЕГО:'");
     }
     int numberOfUserSOrganizations;
-    public void searchForRandomOneFromTheUserSExistingOrganizations(){
+    public void searchRandomOrganizationByItSNameFromTheUserSExistingOrganizations(){
         if (driver.findElement(By.xpath("//*[@name='FIND']")).getAttribute("value").length()>0){
             driver.findElement(By.xpath("//*[@name='FIND']")).clear();
             driver.findElement(By.xpath("//*[@name='FIND']")).sendKeys(Keys.ENTER);
@@ -1435,6 +1435,25 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         driver.findElement(By.xpath("//*[@name='FIND']")).sendKeys(Keys.ENTER);
         wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//*[@id='PERSONAL_PROFILE_LIST_table']//*[@class='main-grid-row main-grid-row-body']"), 1));
     }
-
+    public void rememberingNameOfOrganizationWhichMakingOrder(){
+        if (versionsOfWorkingWithOrganizationsExtended){
+            nameCompany = driver.findElement(By.xpath("//*[contains(@class, 'company-c')]")).getText();
+        }else {
+            nameCompany = driver.findElement(By.xpath("//*[contains(@for, 'PPROFILE_ID')]")).getText();
+        }
+    }
+    public void openingOrganizationWhichMadeAnOrder(){
+        driver.findElement(By.xpath("(//*[contains(text(), '" + nameCompany +"')]/preceding::*[contains(@class, 'action')])[last()]")).click();
+        driver.findElement(By.cssSelector(".menu-popup-item-text")).click();
+    }
+    public void searchJustNowCompletedOrderByItSNumberOnTheDetailPageOrganization (){
+        driver.findElement(ordersTabInTheOrganization).click();
+        driver.findElement(By.cssSelector("#PROFILE_ORDER_LIST_search")).sendKeys(tempValueForNumbers);
+    }
+    public void checkingThatThatOrderIsFound (){
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.xpath("//*[@class='main-grid-row main-grid-row-body']"), 1));
+        Assert.assertEquals(driver.findElement(By.xpath("//*[@class='main-grid-row main-grid-row-body'] //*[@class='main-grid-cell main-grid-cell-left']")).getText()
+                , tempValueForNumbers);
+    }
 }
 

@@ -81,11 +81,12 @@ public class MethodsForCatalog extends BaseActions {
 
     public void changeTheQuantityOfRandomProduct() {
         determiningNumberOfProductsOnThePage();
-        determiningRandomNumberOfProducts();
+        determiningRandomProduct();
         calculationOfTheCoefficientForNonPieceProducts();
         determiningRandomNumberUpToMAxQuantityThisProducts();
         numberOfProductsInTheFooter = Integer.parseInt(driver.findElement(By.id("catalog__basket-quantity-value")).getText());
         System.out.println("Ввожу такое кол-во товара - " + randomNumberUpToMAxQuantityThisProducts );
+
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]"))
                 .sendKeys(String.valueOf(randomNumberUpToMAxQuantityThisProducts));
         numberOfProductsInTheFooter++;
@@ -96,7 +97,7 @@ public class MethodsForCatalog extends BaseActions {
 
     public void changeTheQuantityOfRandomProductUsingIconPlus() {
         determiningNumberOfProductsOnThePage();
-        determiningRandomNumberOfProducts();
+        determiningRandomProduct();
         calculationOfTheCoefficientForNonPieceProducts();
         determiningRandomNumberUpToMAxQuantityThisProducts();
         numberOfProductsInTheFooter = Integer.parseInt(driver.findElement(By.id("catalog__basket-quantity-value")).getText());
@@ -117,7 +118,7 @@ public class MethodsForCatalog extends BaseActions {
 
     public void addingTheMaxNumberOfProductsToTheCart() {
         determiningNumberOfProductsOnThePage();
-        determiningRandomNumberOfProducts();
+        determiningRandomProduct();
         calculationOfTheCoefficientForNonPieceProducts();
         determiningRandomNumberUpToMAxQuantityThisProducts();
         numberOfProductsInTheFooter = Integer.parseInt(driver.findElement(By.id("catalog__basket-quantity-value")).getText());
@@ -133,7 +134,7 @@ public class MethodsForCatalog extends BaseActions {
 
     public void addingTheMaxNumberOfProductsToTheCartUsingIconPlus() {
         determiningNumberOfProductsOnThePage();
-        determiningRandomNumberOfProducts();
+        determiningRandomProduct();
         calculationOfTheCoefficientForNonPieceProducts();
         determiningRandomNumberUpToMAxQuantityThisProducts();
 
@@ -160,7 +161,7 @@ public class MethodsForCatalog extends BaseActions {
         waitingMilliSecond();
     }
 
-    public void determiningRandomNumberOfProducts() {
+    public void determiningRandomProduct() {
         count = 0;
         flag = false;
         while (!flag) {
@@ -189,6 +190,7 @@ public class MethodsForCatalog extends BaseActions {
         }
 
         if (randomProductNumberOnThePage == tempInt) {
+            driver.findElement(By.xpath("(//*[@class='quantity-selector__increment'])[" + tempInt + "]")).click();
             randomProductNumberOnThePage = tempInt + 1;
         } else {
             randomProductNumberOnThePage = tempInt;
@@ -209,6 +211,14 @@ public class MethodsForCatalog extends BaseActions {
     }
 
     public void calculationOfTheCoefficientForNonPieceProducts() {
+        String quantitySelectedProduct = driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage +"]")).getAttribute("value");
+        System.out.println(quantitySelectedProduct);
+        if (!quantitySelectedProduct.equals("0")){
+            driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage +"]")).clear();
+            driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage +"]")).sendKeys("0");
+            implicitWaiting();
+            implicitWaiting();
+        }
         numberOfProductsInTheFooter = Integer.parseInt(driver.findElement(By.id("catalog__basket-quantity-value")).getText());
         clickElement("(//*[@class='quantity-selector__increment'])[" + randomProductNumberOnThePage + "]");
         try {
@@ -303,7 +313,7 @@ public class MethodsForCatalog extends BaseActions {
 
 
         System.out.println("Доступная цена товара за шт. = " + basePriceRandomProduct);
-        System.out.println("Рандомное число товаров = " + randomNumberUpToMAxQuantityThisProducts);
+        //System.out.println("Рандомное число товаров = " + randomNumberUpToMAxQuantityThisProducts);
         priceForNewlyAddedProducts = basePriceRandomProduct * randomNumberUpToMAxQuantityThisProducts; //* coefficientForQuantityOfProducts
     }
 
@@ -667,7 +677,7 @@ public class MethodsForCatalog extends BaseActions {
 
     public void determineRandomProductOnPge() {
         determiningNumberOfProductsOnThePage();
-        determiningRandomNumberOfProducts();
+        determiningRandomProduct();
         if (randomProductNumberOnThePage == 1) {
             randomProductNumberOnThePage++;
         }
