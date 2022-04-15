@@ -151,6 +151,7 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
         versionsOfWorkingWithOrganizationsExtended = set.whetherExtendedModeIsEnabled;
 
         navigationToMeanPageByUrl();
+        resetCache();
         navigationToOrganizationTab();
         driver.findElement(By.xpath("//*[@id='PERSONAL_PROFILE_LIST_table'] //*[@class='main-grid-interface-settings-icon']")).click();
         for (int i = 1; i <=driver.findElements(By.xpath("//*[contains(@id, 'checkbox')]")).size(); i++) {
