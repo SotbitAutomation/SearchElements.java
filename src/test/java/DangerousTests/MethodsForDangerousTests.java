@@ -14,12 +14,14 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
     }
 
     public void choiceCategoryFromPopApWindow(){
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".media-body >*> .media-title")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class= 'media-body'] /* [@href] /*[contains(@class, 'media-title')])[last()]")));
         waitingMilliSecond();
-        driver.findElement(By.cssSelector(".media-body >*> .media-title")).click();
+        driver.findElement(By.xpath("(//*[@class= 'media-body'] /* [@href] /*[contains(@class, 'media-title')])[last()]")).click();
     }
 
     public void checkingThatURLContainsChosenCategory() {
+        System.out.println(driver.getCurrentUrl());
+        System.out.println(tempValue4);
         if (driver.findElements(By.xpath("//*[contains(@class, 'categorie')]")).size() > 0) {
             Assert.assertTrue(driver.getCurrentUrl().contains("SECTION_ID"));
         }else {
