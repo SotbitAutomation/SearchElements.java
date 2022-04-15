@@ -149,6 +149,17 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
         navigationToGeneralB2BSettings();
         set.checkingWhetherAdvancedModeIsEnabled();
         versionsOfWorkingWithOrganizationsExtended = set.whetherExtendedModeIsEnabled;
+
+        navigationToMeanPageByUrl();
+        navigationToOrganizationTab();
+        driver.findElement(By.xpath("//*[@id='PERSONAL_PROFILE_LIST_table'] //*[@class='main-grid-interface-settings-icon']")).click();
+        for (int i = 1; i <=driver.findElements(By.xpath("//*[contains(@id, 'checkbox')]")).size(); i++) {
+            if (!driver.findElement(By.xpath("(//*[contains(@id, 'checkbox')])[" + i + "]")).isSelected()){
+                driver.findElement(By.xpath("(//*[contains(@id, 'checkbox')])[" + i + "]")).click();
+            }
+        }
+        driver.findElement(By.cssSelector("#PERSONAL_PROFILE_LIST-grid-settings-apply-button")).click();
+
         //Запись в файл (версия работы расширенная ли)
         try {
             outputStream = new ObjectOutputStream(new FileOutputStream(fileNameForVersionOfWorkingWithOrganization));
@@ -161,6 +172,9 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
             e.printStackTrace();
         }
         System.out.println("Расширенная ли версия работы с компаниями - " + versionsOfWorkingWithOrganizationsExtended);
+
+
+
     }
 
 //    @Test //5. Определение версии работы с компаниями

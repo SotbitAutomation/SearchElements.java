@@ -74,6 +74,7 @@ public class SettingUpCabinetForTesting extends MethodsForSettingUpCabinetForTes
         driver.findElement(logInButtonOnTheAuthorizationTabLocator).click();
         navigationToGeneralB2BSettings();
         enableTheExtendedVersionOfWorkingWithCompanies();
+        navigationToMeanPageByUrl();
         navigationToTheSiteSettings();
         enableUserRegistrationConfirmation();
         navigationToTheSiteSettings();

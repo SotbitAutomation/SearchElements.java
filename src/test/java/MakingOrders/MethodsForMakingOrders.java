@@ -366,6 +366,17 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
         Assert.assertTrue(Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[@class='index_checkout-promocode-total_amount'])[1]")).getText())) ==
                 sumOfPricesOfTheAddedProducts);
     }
+    public void navigationToListOfOrdersUsingLinkFromInformationAboutMadeOrder(){
+        driver.findElement(By.xpath("//*[@class='checkout_form-individual'] //*[contains(@href, 'orders/index')]")).click();
+    }
+    public void checkingThatThereIsNumberOfMadeOrderInTheFirstRow (){
+        By firstColumnInFirstRowLocator = By.xpath("(//*[@class='main-grid-row main-grid-row-body'] /*[contains(@class, 'main-grid-cell-left')])[1]");
+        Assert.assertEquals(driver.findElement(firstColumnInFirstRowLocator).getText(), numberOfOrder);
+    }
+    public void checkingThatThereIsALinkToDetailPageOfOrganizationInTheFirstRow(){
+        By linkToDetailPageOfOrganizationInTheFirstRowLocator = By.xpath("(//*[@class='main-grid-row main-grid-row-body'])[1] //*[contains(@href, 'personal/buyer/profile')]");
+        Assert.assertTrue(driver.findElement(linkToDetailPageOfOrganizationInTheFirstRowLocator).isDisplayed());
+    }
 
 
 }
