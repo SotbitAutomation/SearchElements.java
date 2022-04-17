@@ -14,7 +14,8 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
     String tempNamePayment;
     int randomNumberOfPaymentWay;
     public void openingLastOrder(){
-        driver.findElement(By.xpath("(//*[@class='main-grid-row main-grid-row-body'])[1] /*[1]")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='main-grid-row main-grid-row-body'])[1] /*[1]")));
+        clickElement("(//*[@class='main-grid-row main-grid-row-body'])[1] /*[1]");
         driver.findElement(By.cssSelector(".menu-popup-item-text")).click();
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(),'Детальная информация о заказе')]")).isDisplayed());
     }

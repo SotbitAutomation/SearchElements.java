@@ -335,8 +335,8 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
     public void confirmEmployeeRequest() {
         navigationToRequestOfEmployee();
         driver.findElement(By.xpath("//*[text()='Принять']")).click();
-        waitingMilliSecond();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@type='button'][text()='OK']")));
+        waitingMilliSecond();
         driver.findElement(By.xpath("//*[@type='button'][text()='OK']")).click();
     }
 
@@ -360,7 +360,13 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         driver.findElement(By.xpath("//input[contains(@placeholder,'Введите название')]")).sendKeys(nameCompany);
         System.out.println("Отправил запрос на присоединение к этой компании - " + nameCompany);
         implicitWaiting();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), '" + nameCompany + "')]")));
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), '" + nameCompany + "')]")));
+        }catch (Exception e){
+            driver.findElement(By.xpath("//input[contains(@placeholder,'Введите название')]")).clear();
+            driver.findElement(By.xpath("//input[contains(@placeholder,'Введите название')]")).sendKeys(nameCompany);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), '" + nameCompany + "')]")));
+        }
         driver.findElement(By.xpath("//*[contains(text(), '" + nameCompany + "')]")).click();
         driver.findElement(By.xpath("//*[@name = 'company-join-send']")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='Ваш запрос успешно отправлен!']")));
@@ -1443,7 +1449,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         }
     }
     public void openingOrganizationWhichMadeAnOrder(){
-        driver.findElement(By.xpath("(//*[contains(text(), '" + nameCompany +"')]/preceding::*[contains(@class, 'action')])[last()]")).click();
+        clickElement("(//*[contains(text(), '" + nameCompany +"')]/preceding::*[contains(@class, 'action')])[last()]");
         driver.findElement(By.cssSelector(".menu-popup-item-text")).click();
     }
     public void searchJustNowCompletedOrderByItSNumberOnTheDetailPageOrganization (){

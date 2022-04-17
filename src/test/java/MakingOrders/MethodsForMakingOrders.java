@@ -301,8 +301,7 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
 
     public void tryToMakeAnOrderWithoutTheAddressField() {
         driver.findElement(By.xpath("//*[contains(text(), 'доставки')] /following::*[2][@class='form-control']")).clear();
-        scrollToTheElement(buttonForMakeOrderLocatorOnTheCheckoutPage);
-        driver.findElement(buttonForMakeOrderLocatorOnTheCheckoutPage).click();
+        clickElement(buttonForMakeOrderLocatorOnTheCheckoutPage);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".errortext")));
         implicitWaiting();
         Assert.assertTrue(driver.findElement(By.cssSelector(".errortext")).isDisplayed()

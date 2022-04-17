@@ -152,7 +152,7 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
     }
     public void turnOnStoreAccounting(){
         if (driver.findElements(By.xpath("//*[@id='use_store_control_y'][@checked]")).size()==0){
-            driver.findElement(By.xpath("//*[@id='use_store_control_y']/following::*[1]")).click();
+            clickElement("//*[@id='use_store_control_y']/following::*[1]");
         }
         clickElement("//*[@value='Сохранить']");
     }

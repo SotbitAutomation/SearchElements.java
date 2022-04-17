@@ -745,9 +745,9 @@ public class DangerousTests extends MethodsForDangerousTests {
         logInToB2B();
         enableTheIndexSectionsForTheSearchModuleSetting();
         navigationToMeanPageByUrl();
+        ternOffEditMode();
         navigationToCatalogTab();
         choiceTheSecondLevelCategoryInABlackHatOrTheFirstLevelInAWhiteHat();
-        ternOffEditMode();
         navigationToCatalogTab();
         enterPartOfNameRandomCategoryInTheSearchFieldOnTheCatalogTabAndDeleteOne(fieldForSearchInCatalogLocator, tempString);
         choiceCategoryFromPopApWindow();
@@ -764,6 +764,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         logInToB2B();
         enableTheIndexSectionsForTheSearchModuleSetting();
         navigationToMeanPageByUrl();
+        ternOffEditMode();
         navigationToCatalogTab();
         choiceTheSecondLevelCategoryInABlackHatOrTheFirstLevelInAWhiteHat();
         navigationToCatalogTab();

@@ -377,7 +377,7 @@ public class MethodsForMeanPage extends BaseActions {
     }
 
     public void openPrivacyPolicy() {
-        driver.findElement(buttonPrivacyPolicyForMainSettings).click();
+        clickElement(buttonPrivacyPolicyForMainSettings);
         String winHandleBefore = driver.getWindowHandle();
         for (String winHandle : driver.getWindowHandles()) {
             driver.switchTo().window(winHandle);
@@ -414,7 +414,7 @@ public class MethodsForMeanPage extends BaseActions {
         driver.switchTo().frame(driver.findElement(locIframe));
         driver.findElement(By.xpath("/html/body")).sendKeys(randomData);
         driver.switchTo().defaultContent();
-        driver.findElement(By.xpath("(//*[contains(@class, 'sotbit-cabinet-gadget')])[1] //*[contains(@onclick, 'save()')]")).click();
+        clickElement("(//*[contains(@class, 'sotbit-cabinet-gadget')])[1] //*[contains(@onclick, 'save()')]");
     }
 
     public void fillingTheDataForTheFavoriteLinksWidget() {
@@ -502,20 +502,14 @@ public class MethodsForMeanPage extends BaseActions {
         try {
             driver.findElement(By.xpath("//*[contains(@class, 'icon-pencil')]")).click();
             driver.findElement(By.xpath("//*[contains(@id, 'RSS_URL')]")).sendKeys("https://news.mail.ru/rss/");
-            try {
-                driver.findElement(By.cssSelector(".button-ok")).click();
-            }catch (Exception e2){
-                System.out.println("тупая ошибка, недоскролил до кнопки");
-                scrollToTheElement(".button-ok");
-                driver.findElement(By.cssSelector(".button-ok")).click();
-            }
+            clickElementByItsCssSelector(".button-ok");
         }catch (Exception e){
             System.out.println("Похоже включен режим правки, выключаю его");
             refreshingThisPage();
             ternOffEditMode();
             driver.findElement(By.xpath("//*[contains(@class, 'icon-pencil')]")).click();
             driver.findElement(By.xpath("//*[contains(@id, 'RSS_URL')]")).sendKeys("https://news.mail.ru/rss/");
-            driver.findElement(By.cssSelector(".button-ok")).click();
+            clickElementByItsCssSelector(".button-ok");
         }
     }
 
@@ -556,7 +550,7 @@ public class MethodsForMeanPage extends BaseActions {
     public void goToTheDetailedOrganizationPageFromTheWidget() {
         navigationToTheDesktop();
         tempValue = driver.findElement(By.cssSelector(".company-auth-vidget-item-link")).getText();
-        driver.findElement(By.cssSelector(".company-auth-vidget-item-link")).click();
+        clickElementByItsCssSelector(".company-auth-vidget-item-link");
         Assert.assertTrue(driver.findElement(By.xpath("//*[@name='NAME']")).getAttribute("value").contains(tempValue));
     }
     public void deletingAllWidget (){

@@ -86,7 +86,7 @@ public class MethodsForCatalog extends BaseActions {
         determiningRandomNumberUpToMAxQuantityThisProducts();
         numberOfProductsInTheFooter = Integer.parseInt(driver.findElement(By.id("catalog__basket-quantity-value")).getText());
         System.out.println("Ввожу такое кол-во товара - " + randomNumberUpToMAxQuantityThisProducts );
-
+        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]")).clear();
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]"))
                 .sendKeys(String.valueOf(randomNumberUpToMAxQuantityThisProducts));
         numberOfProductsInTheFooter++;
@@ -179,10 +179,10 @@ public class MethodsForCatalog extends BaseActions {
                 if (Double.valueOf(tempValue2) > 0) {
                     try {
                         driver.findElement(By.xpath("(//*[@class='quantity-selector__increment'])[" + tempInt + "]")).click();
+                        waitingMilliSecond();
                         flag = true;
                         tempDouble = Double.valueOf(tempValue2);
                         driver.findElement(By.xpath("(//*[@class='quantity-selector__decrement'])[" + tempInt + "]")).click();
-                        waitingMilliSecond();
                     } catch (Exception e) {
                     }
                 }
@@ -208,11 +208,11 @@ public class MethodsForCatalog extends BaseActions {
         quantityOfProductsInStock = tempDouble;
         randomNumberUpToMAxQuantityThisProducts = 1 + (int) (Math.random() * quantityOfProductsInStock * coefficientForQuantityOfProducts);
         randomNumberUpToMAxQuantityThisProducts = (double) (randomNumberUpToMAxQuantityThisProducts / coefficientForQuantityOfProducts);
+        System.out.println("Ввожу такое кол-во товара - " + randomNumberUpToMAxQuantityThisProducts);
     }
 
     public void calculationOfTheCoefficientForNonPieceProducts() {
         String quantitySelectedProduct = driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage +"]")).getAttribute("value");
-        System.out.println(quantitySelectedProduct);
         if (!quantitySelectedProduct.equals("0")){
             driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage +"]")).clear();
             driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage +"]")).sendKeys("0");
@@ -242,6 +242,7 @@ public class MethodsForCatalog extends BaseActions {
         driver.findElement(By.xpath("(//*[@class='quantity-selector__decrement'])[" + randomProductNumberOnThePage + "]")).click();
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]")).clear();
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]")).sendKeys("0");
+        clickElementByItsCssSelector("#title-search-input");
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
         implicitWaiting();
     }
@@ -332,7 +333,6 @@ public class MethodsForCatalog extends BaseActions {
         System.out.println("Сумма добавленных товаров отображаемая в футере каталога = " + Double.valueOf(tempString));
         pricesForAllProductsInTheFooter = Double.valueOf(tempString);
         implicitWaiting();
-
         System.out.println("1 сумма за товары подсчитанная мной - " + sumOfPricesOfTheAddedProducts);
         System.out.println("2 сумма за товары отображаемая в футуре - " + pricesForAllProductsInTheFooter);
         Assert.assertTrue(sumOfPricesOfTheAddedProducts == pricesForAllProductsInTheFooter);
@@ -411,7 +411,7 @@ public class MethodsForCatalog extends BaseActions {
     public void deletingLastAddedProductFromTheCatalogUsingIconMinus() {
         for (double i = 0; i < quantityOfProductsInStock * coefficientForQuantityOfProducts; i++) {
             if (quantityOfProductsInStock * coefficientForQuantityOfProducts < 50) {
-                driver.findElement(By.xpath("(//*[contains(@id, 'quantity-decrement')])[" + randomProductNumberOnThePage + "]")).click();
+                clickElement("(//*[contains(@id, 'quantity-decrement')])[" + randomProductNumberOnThePage + "]");
             } else {
                 driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]"))
                         .clear();
@@ -2952,8 +2952,7 @@ public class MethodsForCatalog extends BaseActions {
     public void addingThisProductFromPopUpWindowToTheCart(){
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".btn_search__product-add")));
         waitingMilliSecond();
-        driver.findElement(By.cssSelector(".btn_search__product-add")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".b2b-notification__content")));
+        driver.findElement(By.cssSelector(".btn_search__product-add >*")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//i[@class='icon-cross']")));
         driver.findElement(By.xpath("//i[@class='icon-cross']")).click();
         driver.findElement(fieldForSearchInCatalogLocator).click();
@@ -2968,6 +2967,7 @@ public class MethodsForCatalog extends BaseActions {
         Assert.assertTrue(driver.findElements(By.cssSelector(".btn_search__product-add")).size() == 0); //корзинка в поп-ап окне отсутсвует
     }
     public void clickFullScreen(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@data-action='fullscreen']")));
         driver.findElement(By.xpath("//*[@data-action='fullscreen']")).click();
     }
     public void checkingThatCatalogIsOpenToFullScreen(){
