@@ -158,6 +158,17 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
     }
     public void checkingThatThereIsAWordFrom(){
         Assert.assertTrue(driver.findElement(By.cssSelector(".search-title-result-item-current-price")).getText().contains("от"));
-
+    }
+    public void checkingThatThereArePricesWithAndWithoutDiscount (){
+        // названия цен (обычн и опт)
+        Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Розничная цена']")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("//*[text()='SMALL_OPT']")).isDisplayed());
+        // базовые цены (обычн и опт)
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@class='bzd-prices__item-value'][contains(@id, 'price_BASE')]")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@class='bzd-prices__item-value'][contains(@id, 'SMALL_OPT')]")).isDisplayed());
+        // цены с скидкой (обычн и опт)
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@class='product__property--discount-price'][contains(@id, 'price_BASE')]")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@class='product__property--discount-price'][contains(@id, 'SMALL_OPT')]")).isDisplayed());
+        navigationToMeanPageByUrl();
     }
 }

@@ -5,8 +5,6 @@ import BeforeTest.SettingUpAutotestsForB2BSettings;
 import MyOrdersHistory.MethodsForMyOrders;
 import OrganizationsWithExtendedVersion.MethodsForAddingOrganizationsWithExtendedVersion;
 import SettingUpCabinetForTesting.SettingUpCabinetForTesting;
-import org.openqa.selenium.By;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class DangerousTests extends MethodsForDangerousTests {
@@ -859,10 +857,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         selectTheSectionWithGasStoves();
         findNumberOfGefestInCatalogInCatalog();
         openDetailPageOfRandomProduct(count);
-
-        Assert.assertTrue(driver.findElement(By.xpath("//*[@class='product__property--discount-price'][contains(@id, 'price_BASE')]")).isDisplayed());
-        Assert.assertTrue(driver.findElement(By.xpath("//*[@class='product__property--discount-price'][contains(@id, 'SMALL_OPT')]")).isDisplayed());
-        driver.findElement(By.cssSelector(".side-panel-label-icon-close")).click();
+        checkingThatThereArePricesWithAndWithoutDiscount();
     }
 
 
