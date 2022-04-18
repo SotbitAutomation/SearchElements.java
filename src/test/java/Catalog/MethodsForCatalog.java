@@ -2972,13 +2972,13 @@ public class MethodsForCatalog extends BaseActions {
         driver.findElement(By.xpath("//*[@data-action='fullscreen']")).click();
     }
     public void openCatalogInFullScreen(){
-        while (driver.findElement(By.xpath("//*[contains(@class, 'icon-cart')]")).isDisplayed()){
+        while (driver.findElements(By.xpath("//*[@data-action='fullscreen'][@data-fullscreen='active']")).size()==0){
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@data-action='fullscreen']")));
         driver.findElement(By.xpath("//*[@data-action='fullscreen']")).click();
         }
     }
     public void closeCatalogInFullScreen(){
-        while (!driver.findElement(By.xpath("//*[contains(@class, 'icon-cart')]")).isDisplayed()){
+        while (driver.findElements(By.xpath("//*[@data-action='fullscreen'][@data-fullscreen='active']")).size()!=0){
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@data-action='fullscreen']")));
             driver.findElement(By.xpath("//*[@data-action='fullscreen']")).click();
         }
