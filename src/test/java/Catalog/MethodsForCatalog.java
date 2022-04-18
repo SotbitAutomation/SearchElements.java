@@ -242,7 +242,7 @@ public class MethodsForCatalog extends BaseActions {
         driver.findElement(By.xpath("(//*[@class='quantity-selector__decrement'])[" + randomProductNumberOnThePage + "]")).click();
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]")).clear();
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]")).sendKeys("0");
-        clickElementByItsCssSelector("#title-search-input");
+        //clickElementByItsCssSelector("#title-search-input"); закрывает каталог во весь экран
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
         implicitWaiting();
     }
@@ -2967,20 +2967,18 @@ public class MethodsForCatalog extends BaseActions {
     public void checkingThatThereAreNoCartIconInPupOpWindow(){
         Assert.assertTrue(driver.findElements(By.cssSelector(".btn_search__product-add")).size() == 0); //корзинка в поп-ап окне отсутсвует
     }
-    public void clickFullScreen(){
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@data-action='fullscreen']")));
-        driver.findElement(By.xpath("//*[@data-action='fullscreen']")).click();
-    }
     public void openCatalogInFullScreen(){
         while (driver.findElements(By.xpath("//*[@data-action='fullscreen'][@data-fullscreen='active']")).size()==0){
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@data-action='fullscreen']")));
         driver.findElement(By.xpath("//*[@data-action='fullscreen']")).click();
+        implicitWaiting();
         }
     }
     public void closeCatalogInFullScreen(){
         while (driver.findElements(By.xpath("//*[@data-action='fullscreen'][@data-fullscreen='active']")).size()!=0){
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@data-action='fullscreen']")));
             driver.findElement(By.xpath("//*[@data-action='fullscreen']")).click();
+            implicitWaiting();
         }
     }
 

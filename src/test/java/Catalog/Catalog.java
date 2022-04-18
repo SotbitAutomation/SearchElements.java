@@ -798,7 +798,7 @@ public class Catalog extends MethodsForCatalog {
         logInToB2B();
         deletingProductsFromTheCart();
         navigationToCatalogTab();
-        clickFullScreen();
+        openCatalogInFullScreen();
         checkingThatCatalogIsOpenToFullScreen();
         determiningNumberOfProductsOnThePage();
         determiningRandomProduct();
@@ -819,7 +819,7 @@ public class Catalog extends MethodsForCatalog {
         logInToB2B();
         deletingProductsFromTheCart();
         navigationToCatalogTab();
-        clickFullScreen();
+        openCatalogInFullScreen();
         checkingThatCatalogIsOpenToFullScreen();
         determiningNumberOfProductsOnThePage();
         openDetailPageOfRandomProduct(1);
@@ -830,7 +830,7 @@ public class Catalog extends MethodsForCatalog {
         navigationToCart();
         checkingThatThereIsProductInTheCartThatWasAddedFromTheDetailedProductPage();
         navigationToCatalogTab();
-        clickFullScreen();
+        openCatalogInFullScreen();
         openDetailPageOfRandomProduct(numberOfProductsPerPage);
         checkThatDetailPageOfProductIsOpened();
         addingProductFromPopUpDetailPage();
@@ -838,8 +838,6 @@ public class Catalog extends MethodsForCatalog {
         checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(2);
         navigationToCart();
         checkingThatThereIsProductInTheCartThatWasAddedFromTheDetailedProductPage();
-
-
     }
 
 

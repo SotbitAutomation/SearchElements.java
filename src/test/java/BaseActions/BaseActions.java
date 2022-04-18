@@ -399,7 +399,7 @@ public class BaseActions extends CustomizingForYourself {
         flag = false;
         while (!flag) {
             if (driver.findElements(By.cssSelector(".b2b-notification__content")).size() > 0) {
-                driver.findElement(By.xpath("//i[@class='icon-cross']")).click();
+                clickElement("//i[@class='icon-cross']");
             } else flag = true;
         }
         Assert.assertTrue(driver.findElement(By.cssSelector(".badge")).getText().equals(tempValueForNumbers), "Иконка наличия товаров в корзине не показывает 'количество'");
