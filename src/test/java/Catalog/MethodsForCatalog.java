@@ -2971,6 +2971,19 @@ public class MethodsForCatalog extends BaseActions {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@data-action='fullscreen']")));
         driver.findElement(By.xpath("//*[@data-action='fullscreen']")).click();
     }
+    public void openCatalogInFullScreen(){
+        while (driver.findElement(By.xpath("//*[contains(@class, 'icon-cart')]")).isDisplayed()){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@data-action='fullscreen']")));
+        driver.findElement(By.xpath("//*[@data-action='fullscreen']")).click();
+        }
+    }
+    public void closeCatalogInFullScreen(){
+        while (!driver.findElement(By.xpath("//*[contains(@class, 'icon-cart')]")).isDisplayed()){
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@data-action='fullscreen']")));
+            driver.findElement(By.xpath("//*[@data-action='fullscreen']")).click();
+        }
+    }
+
     public void checkingThatCatalogIsOpenToFullScreen(){
         Assert.assertTrue(driver.findElement(By.xpath("//*[@data-fullscreen='active']")).isDisplayed());
 

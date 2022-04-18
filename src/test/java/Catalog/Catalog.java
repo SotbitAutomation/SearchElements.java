@@ -781,10 +781,10 @@ public class Catalog extends MethodsForCatalog {
         logInToB2B();
         deletingProductsFromTheCart();
         navigationToCatalogTab();
-        clickFullScreen();
+        openCatalogInFullScreen();
         checkingThatCatalogIsOpenToFullScreen();
         changeTheQuantityOfRandomProduct();
-        clickFullScreen();
+        closeCatalogInFullScreen();
         checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(numberOfProductsInTheFooter);
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
         checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(numberOfProductsInTheFooter);
