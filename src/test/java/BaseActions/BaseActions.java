@@ -880,9 +880,16 @@ public class BaseActions extends CustomizingForYourself {
         System.out.println("Есть ли выбор местоположения - " + flagForLocation);
     }
 
+    public void expandTheControlPanel(){
+        if (!driver.findElement(By.cssSelector("#bx-panel-hider-arrow")).isDisplayed()){
+            driver.findElement(By.cssSelector("#bx-panel-expander-arrow")).click();
+        }
+
+    }
     public void enableEditMode() {
         driver.findElement(By.cssSelector("#bx-panel-toggle-indicator")).click();
         implicitWaiting();
+        expandTheControlPanel();
     }
 
     public void ternOffEditMode() {

@@ -838,7 +838,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         returningSettingsBack();
     }
 
-    @Test(retryAnalyzer = Retry.class) //32. Отображение скидки на детальной странице
+    @Test(retryAnalyzer = Retry.class) //32. Отображение скидки на детальной странице товара
     public void displayedDiscountOnTheDetailPage() {
         //arrange
         navigationToAuthorizationTab();
