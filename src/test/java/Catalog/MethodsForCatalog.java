@@ -1857,6 +1857,7 @@ public class MethodsForCatalog extends BaseActions {
             driver.findElement(By.xpath("//*[contains(@id, 'discount_groups')] /*[contains(text(), 'Все пользователи')]")).click();
         }
         driver.findElement(By.xpath("//*[contains(text(), 'Следующий шаг')]")).click();
+        implicitWaiting();
     }
 
     public void memorizingDiscountedAndNonDiscountedPricesForGefest() {
