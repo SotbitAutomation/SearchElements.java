@@ -861,7 +861,7 @@ public class DangerousTests extends MethodsForDangerousTests {
     }
 
     @Test(retryAnalyzer = Retry.class)
-    //31. Добавление доп. товара которого нет в наличии в корзину (кол-ый учет у каталога - выкл)
+    //33. Добавление доп. товара которого нет в наличии в корзину (кол-ый учет у каталога - выкл)
     public void addingAnAdditionalItemToTheCartWithAnAvailableQuantityOfZeroAndTheNumberOfCatalogAccountsIsOff() {
         //arrange
         navigationToAuthorizationTab();
