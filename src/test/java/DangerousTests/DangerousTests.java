@@ -860,6 +860,43 @@ public class DangerousTests extends MethodsForDangerousTests {
         checkingThatThereArePricesWithAndWithoutDiscount();
     }
 
+    @Test(retryAnalyzer = Retry.class)
+    //31. Добавление доп. товара которого нет в наличии в корзину (кол-ый учет у каталога - выкл)
+    public void addingAnAdditionalItemToTheCartWithAnAvailableQuantityOfZeroAndTheNumberOfCatalogAccountsIsOff() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        returningSettingsBackIfCatalogBroken();
+        deletingProductsFromTheCart();
+        navigationToSettingOfQuantitativeAccountingForTheProduct();
+        turnOffStoreAccounting();
+        turnOffQuantitativeAccountingForTheProductsInCatalog();
+        navigationToGasStoveSetting();
+        setTheNumberOfGasStoveGefestEqualToZero();
+        navigationToMeanPageByUrl();
+
+        navigationToCatalogTab();
+        wordForSearch = "Плита GEFEST";
+        enterNameInTheSearchFieldOnTheCatalogTab(wordForSearch);
+        addingThisProductFromPopUpWindowToTheCart();
+        navigationToCart();
+        checkingThatThisProductWasAddedToTheCart();
+        returningSettingsBack();
+
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        deletingProductsFromTheCart();
+        navigationToCatalogTab();
+        navigationToCart();
+        addingProductToCartFromTabAddAnAdditionalProduct();
+        checkThatProductAddedFromTabAddAnAdditional();
+    }
+
 
 
 
