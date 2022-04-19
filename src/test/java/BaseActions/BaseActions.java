@@ -342,6 +342,10 @@ public class BaseActions extends CustomizingForYourself {
         for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@class, 'navbar-nav-link dropdown-toggle')]")).size(); i++) {
             if (driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).getText().contains("рганизации")) {
                 driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).click();
+                if (driver.findElements(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "][@aria-expanded='true']")).size() ==0){
+                    refreshingThisPage(); // организции не раскрылись, продую еще раз
+                    driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).click();
+                }
                 break;
             }
         }
@@ -682,20 +686,15 @@ public class BaseActions extends CustomizingForYourself {
     }
 
     public void sortingOrganizationByDecrease() {
-        implicitWaiting();
-        try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//span[contains(text(),'Код')])[1]")));
-        } catch (Exception e) {
-            navigationToOrganizationTab();
+        if (driver.findElements(By.xpath("//*[contains(@class, 'sort-desc')]")).size() == 0) {
+            try {
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@class, 'sort-asc')]")));
+                driver.findElement(By.xpath("//*[contains(@class, 'sort-asc')]")).click();
+            } catch (Exception e) {
+                System.out.println("Уже отсортировано");
+            }
             implicitWaiting();
         }
-        driver.findElement(By.xpath("(//span[contains(text(),'Код')])[1]")).click();
-        try {
-            driver.findElement(By.cssSelector(".main-grid-control-sort.main-grid-control-sort-asc")).click();
-        } catch (Exception e) {
-            System.out.println("Уже отсортировано");
-        }
-        implicitWaiting();
     }
 
     public void checkingThatOrganizationsIsDisplayed() {
@@ -711,7 +710,10 @@ public class BaseActions extends CustomizingForYourself {
             try {
                 wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//*[@class='main-grid-row main-grid-row-body'])[1] /*[7]"), "Одобрена"));
             } catch (Exception e) {
-                clickElement("//*[@class='main-ui-pagination-arrow']");
+                if (driver.findElements(By.xpath("//*[@class='main-ui-pagination-arrow']")).size()>0){
+                    clickElement("//*[@class='main-ui-pagination-arrow']");
+                }
+                driver.findElement(By.xpath("//*[@class='main-grid-head-title'][text()='Код']")).click();
                 sortingOrganizationByDecrease();
                 waitingMilliSecond();
                 wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//*[@class='main-grid-row main-grid-row-body'])[1] /*[7]"), "Одобрена"));
@@ -884,7 +886,6 @@ public class BaseActions extends CustomizingForYourself {
         if (!driver.findElement(By.cssSelector("#bx-panel-hider-arrow")).isDisplayed()){
             driver.findElement(By.cssSelector("#bx-panel-expander-arrow")).click();
         }
-
     }
     public void enableEditMode() {
         driver.findElement(By.cssSelector("#bx-panel-toggle-indicator")).click();

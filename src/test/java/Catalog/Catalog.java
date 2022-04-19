@@ -353,7 +353,7 @@ public class Catalog extends MethodsForCatalog {
         deletingProductsFromTheCart();
         navigationToCatalogTab();
         navigationToCart();
-        addingProductToCartFromTabAddAnAdditionalProduct();
+        addingProductToCartFromTabAddAnAdditionalProduct(randomNumberUpToFife);
         checkThatProductAddedFromTabAddAnAdditional();
     }
 

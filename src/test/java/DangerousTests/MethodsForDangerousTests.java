@@ -81,6 +81,7 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         returningTheKaiserGasStoveSettingByDefault();
         navigationToMeanPageByUrl();
         navigationToCatalogTab();
+        ternOnEditMode();
         tryTurnOffShowTheQuantityOfProductsInStorage();
         navigationToComponentOfCatalogSetting();
         choiceStandardCatalog();
@@ -170,5 +171,8 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         Assert.assertTrue(driver.findElement(By.xpath("//*[@class='product__property--discount-price'][contains(@id, 'price_BASE')]")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.xpath("//*[@class='product__property--discount-price'][contains(@id, 'SMALL_OPT')]")).isDisplayed());
         navigationToMeanPageByUrl();
+    }
+    public void checkingThatThereAreThisQuantityItemsInTheBasket(int expectedQuantity){
+        Assert.assertEquals(driver.findElements(By.cssSelector(".basket__item")).size(), expectedQuantity);
     }
 }

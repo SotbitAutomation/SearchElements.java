@@ -196,27 +196,27 @@ public class AddingOrganizationsWithStandardVersion extends MethodsForAddingOrga
             creatingOrganization();
         }
     }
-
-    @Test //12. Проверить корректность сохранения данных существующей организации
-    public void checkCorrectnessOfDataSavingExistingOrganization() {
-        determineWhetherVersionsOfWorkingWithOrganization();
-        if (!versionsOfWorkingWithOrganizationsExtended) {
-            //arrange
-            navigationToAuthorizationTab();
-            //act
-            fillingFieldsOnTheLogInTabLikeUser();
-            logInToB2B();
-            navigationToOrganizationTab();
-            addingOrganizationIfThereIsNoOrganizationsInStandardVersion();
-            sortingOrganizationByDecrease();
-            changeDataInOrganization();
-            navigationToCatalogTab();
-            increaseQuantityOfFirstProduct();
-            navigationToCart();
-            driver.findElement(buttonMakeOrderInTheCartLocator).click();
-            checkingThatDataHasBeenChanged(); //ошибка b2b, название радиобаттана не меняется после изменения названия комании (как и название орг. в списке орг-й)
-        }
-    }
+                        // Ошибка b2b !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//    @Test //12. Проверить корректность сохранения данных существующей организации
+//    public void checkCorrectnessOfDataSavingExistingOrganization() {
+//        determineWhetherVersionsOfWorkingWithOrganization();
+//        if (!versionsOfWorkingWithOrganizationsExtended) {
+//            //arrange
+//            navigationToAuthorizationTab();
+//            //act
+//            fillingFieldsOnTheLogInTabLikeUser();
+//            logInToB2B();
+//            navigationToOrganizationTab();
+//            addingOrganizationIfThereIsNoOrganizationsInStandardVersion();
+//            sortingOrganizationByDecrease();
+//            changeDataInOrganization();
+//            navigationToCatalogTab();
+//            increaseQuantityOfFirstProduct();
+//            navigationToCart();
+//            driver.findElement(buttonMakeOrderInTheCartLocator).click();
+//            checkingThatDataHasBeenChanged(); //ошибка b2b, название радиобаттана не меняется после изменения названия комании (как и название орг. в списке орг-й)
+//        }
+//    }
 
     @Test(retryAnalyzer = Retry.class)
     //12.1. !!!Пока ошибка в 12 (клиенты не жалуются, поэтому пока исправляться не будет), выполнять этот!

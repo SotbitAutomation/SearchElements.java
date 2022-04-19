@@ -255,12 +255,13 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
                 scrollToTheElement("(//*[@class='main-grid-row main-grid-row-body'])[1] /*[7]");
                 wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//*[@class='main-grid-row main-grid-row-body'])[1] /*[7]"), "На модерации"));
             } catch (Exception e) {
-                driver.findElement(By.xpath("//*[@class='main-ui-pagination-arrow']")).click();
+                if (driver.findElements(By.xpath("//*[@class='main-ui-pagination-arrow']")).size()>0){
+                    driver.findElement(By.xpath("//*[@class='main-ui-pagination-arrow']")).click();
+                }
                 sortingOrganizationByDecrease();
                 wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//*[@class='main-grid-row main-grid-row-body'])[1] /*[7]"), "На модерации"));
             }
         }
-        System.out.println(driver.findElement(By.xpath("(//*[@class = 'main-grid-row main-grid-row-body'])[1] /*[3]")).getText());
     }
 
     public void checkingAvailableActionsWithOrganization(boolean confirmFromAdmin) {
@@ -328,6 +329,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         if (!themeColorBlack){
             expandMenuWithOrganizations();
         }
+        wait.until(ExpectedConditions.visibilityOfElementLocated(employeesTab));
         driver.findElement(employeesTab).click();
         Assert.assertTrue(driver.findElement(By.cssSelector("#STAFF_LIST")).isDisplayed());
     }
