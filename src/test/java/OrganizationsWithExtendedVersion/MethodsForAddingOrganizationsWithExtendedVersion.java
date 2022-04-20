@@ -155,6 +155,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         driver.findElement(By.cssSelector(".card__footer__actions-toggler")).click();
         driver.findElement(joinToOrganizationButtonLocator).click();
         driver.findElement(By.cssSelector(".join__search-company")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#modal_company_join-dialog")));
         Assert.assertTrue(driver.findElement(By.cssSelector("#modal_company_join-dialog")).isDisplayed());
     }
 
@@ -165,8 +166,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
     }
 
     public void creatingOrganization() {
-        scrollToTheElement(saveButtonOnTheOrganizationTabLocator);
-        driver.findElement(saveButtonOnTheOrganizationTabLocator).click();
+        clickElement(saveButtonOnTheOrganizationTabLocator);
         navigationToOrganizationTab();
         try {
             Assert.assertTrue(driver.findElement(By.xpath("//*[text()='" + nameCompany + "']")).isDisplayed());

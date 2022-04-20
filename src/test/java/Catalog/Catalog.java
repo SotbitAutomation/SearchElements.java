@@ -3,6 +3,7 @@ package Catalog;
 import BaseActions.Retry;
 import MakingOrders.MakingOrders;
 import SettingUpCabinetForTesting.SettingUpCabinetForTesting;
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
 
@@ -839,6 +840,47 @@ public class Catalog extends MethodsForCatalog {
         navigationToCart();
         checkingThatThereIsProductInTheCartThatWasAddedFromTheDetailedProductPage();
     }
+    @Test(retryAnalyzer = Retry.class) //50. Удаление/ восстановление  товаров в разделе "Корзина"
+    public void removingRestoringProductsFromTheCartSection() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        deletingProductsFromTheCart();
+        navigationToCatalogTab();
+        changeTheQuantityOfRandomProduct();
+        changeTheQuantityOfRandomProduct();
+        changeTheQuantityOfRandomProduct();
+        changeTheQuantityOfRandomProduct();
+        navigationToCart();
+        choiceRandomProductInTheCart();
+        checkingThatSuchNumberOfSelectedProductsAppearedInTheBasket(1);
+        deletingSelectedProducts();
+        checkingThatTheAmountOfPricesHasBeenRecalculatedTakingIntoAccountTheDeletedItem();
+        restoreJustDeletedItemInTheCart();
+        calculationOfAllPricesOfGoodsInTheBasket();
+        checkingThatCurrentSumOfAllPricesInTheCartIsEqualsCalculatedSum(calculatedSumOfAllPricesInTheCart);
+        choiceRandomProductInTheCart();
+        deletingSelectedProducts();
+        checkingThatTheAmountOfPricesHasBeenRecalculatedTakingIntoAccountTheDeletedItem();
+        refreshingThisPage();
+        checkingThatProductWasDeleted(quantityItemsInTheCart);
+        calculationOfAllPricesOfGoodsInTheBasket();
+        checkingThatCurrentSumOfAllPricesInTheCartIsEqualsCalculatedSum(calculatedSumOfAllPricesInTheCart);
+        refreshingThisPage();
+        chooseAllProductInTheCart();
+        checkingThatCheckboxThatAllProductsSelectedIsDisplayed();
+        choiceRandomProductInTheCart();
+        checkingThatCheckboxThatAllProductsSelectedIsNotDisplayed();
+        refreshingThisPage();
+
+        driver.findElement(By.xpath("//*[@data-entity='basket-gruope-item-checkbox']")).click();
+        checkingThatSuchNumberOfSelectedProductsAppearedInTheBasket(quantityItemsInTheCart);
+
+
+
+    }
 
 
 
@@ -849,8 +891,9 @@ public class Catalog extends MethodsForCatalog {
 //        for (int i = 0; i < 20; i++) {
 //
 //            //Сюда тест
-//            addingTheMaxNumberPlusOneOfProductsToCartUsingIconPlus();
+//            addingAnItemToTheShoppingCartFromASearchHint();
 //
+//            numberOfProductsInTheFooter = 0;
 //            pricesForAllProductsInTheFooter = 0;
 //            sumOfPricesOfTheAddedProducts = 0;
 //            exitFromB2B();

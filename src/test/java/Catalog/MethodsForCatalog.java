@@ -87,6 +87,7 @@ public class MethodsForCatalog extends BaseActions {
         numberOfProductsInTheFooter = Integer.parseInt(driver.findElement(By.id("catalog__basket-quantity-value")).getText());
         System.out.println("Ввожу такое кол-во товара - " + randomNumberUpToMAxQuantityThisProducts );
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]")).clear();
+        waitingMilliSecond();
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]"))
                 .sendKeys(String.valueOf(randomNumberUpToMAxQuantityThisProducts));
         numberOfProductsInTheFooter++;
@@ -164,7 +165,6 @@ public class MethodsForCatalog extends BaseActions {
     public void determiningRandomProduct() {
         count = 0;
         flag = false;
-        int tempRandomProductNumberOnThePage = 0;
         while (!flag) {
             tempInt = 1 + (int) (Math.random() * numberOfProductsPerPage);
             count++;
@@ -217,13 +217,6 @@ public class MethodsForCatalog extends BaseActions {
     }
 
     public void calculationOfTheCoefficientForNonPieceProducts() {
-//        String quantitySelectedProduct = driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage +"]")).getAttribute("value");
-//        if (!quantitySelectedProduct.equals("0")){
-//            driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage +"]")).clear();
-//            driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage +"]")).sendKeys("0");
-//            implicitWaiting();
-//            implicitWaiting();
-//        }
         numberOfProductsInTheFooter = Integer.parseInt(driver.findElement(By.id("catalog__basket-quantity-value")).getText());
         clickElement("(//*[@class='quantity-selector__increment'])[" + randomProductNumberOnThePage + "]");
         try {
@@ -842,6 +835,7 @@ public class MethodsForCatalog extends BaseActions {
         driver.findElement(fieldForSearchInCatalogLocator).sendKeys(nameForSearch);
         driver.findElement(fieldForSearchInCatalogLocator).sendKeys(nameForSearch.substring(0, 1));
         driver.findElement(fieldForSearchInCatalogLocator).sendKeys("\b");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".media-body")));
         implicitWaiting();
     }
 
@@ -1335,6 +1329,9 @@ public class MethodsForCatalog extends BaseActions {
         tempInt = driver.findElements(By.cssSelector(".item_name")).size();
         if (driver.findElements(By.xpath("//*[contains(@class, 'categorie')]")).size() > 0) {
             tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(By.xpath("//*[contains(@class, 'catalog_section')]")).size()));
+            if (tempRandomNumber == 3 || tempRandomNumber == 5 || tempRandomNumber == 6 || tempRandomNumber == 7){
+                tempRandomNumber = 2;
+            } // незначительный баг b2b
             driver.findElement(By.xpath("(//*[contains(@class, 'catalog_section')])[" + tempRandomNumber + "]//*[@class='form-check']")).click();
         } else {
             choiceRandomCategoryInMenuCatalog();
@@ -2484,7 +2481,7 @@ public class MethodsForCatalog extends BaseActions {
     public String wordForSearch;
 
     public void selectRandomSection() {
-        wordsForCheck[0] = "плит";
+        wordsForCheck[0] = "лит";
         wordsForCheck[1] = "тиральн";
         wordsForCheck[2] = "олодильник";
         wordsForCheck[3] = "бензин";
@@ -2992,8 +2989,70 @@ public class MethodsForCatalog extends BaseActions {
 
     public void checkingThatCatalogIsOpenToFullScreen(){
         Assert.assertTrue(driver.findElement(By.xpath("//*[@data-fullscreen='active']")).isDisplayed());
-
+    }
+    int quantityItemsInTheCart;
+    int randomNumberItemInTheCart;
+    public void choiceRandomProductInTheCart (){
+        quantityItemsInTheCart = driver.findElements(By.cssSelector(".basket__product-discrioption")).size();
+        randomNumberItemInTheCart = 1 + (int) (Math.random() * quantityItemsInTheCart);
+        driver.findElement(By.xpath("(//*[@class='basket__checkbox'])[" + (randomNumberItemInTheCart+1) + "]")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".basket__checkbox_content.state-checked")));
+        implicitWaiting();
+    }
+    public void checkingThatSuchNumberOfSelectedProductsAppearedInTheBasket(int ExpectedQuantitySelectedItems){
+        Assert.assertEquals(driver.findElements(By.xpath("//*[contains(@class, 'basket__item')] /*[contains(@class, 'basket__column')] /*[contains(@class, 'basket__checkbox')] /*[contains(@class, 'checked')]")).size()
+                , ExpectedQuantitySelectedItems);
+    }
+    public void restoreJustDeletedItemInTheCart(){
+        quantityItemsInTheCart = driver.findElements(By.cssSelector(".basket__product-discrioption")).size();
+        driver.findElement(By.cssSelector(".basket-item-restore-button")).click();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".basket-item-restore-button")));
+        refreshingThisPage();
+        Assert.assertEquals(driver.findElements(By.cssSelector(".basket__product-discrioption")).size(), quantityItemsInTheCart);
+    }
+    public void deletingSelectedProducts(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".icon-trash")));
+        driver.findElement(By.cssSelector(".icon-trash")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".basket-item-restore-button")));
+    }
+    public void checkingThatProductWasDeleted(int quantityItemsInTheCart){
+        wait.until(ExpectedConditions.numberOfElementsToBeLessThan(By.cssSelector(".basket__product-discrioption"), quantityItemsInTheCart));
+    }
+    Double calculatedSumOfAllPricesInTheCart = 0.0;
+    public void checkingThatTheAmountOfPricesHasBeenRecalculatedTakingIntoAccountTheDeletedItem (){
+        quantityItemsInTheCart = driver.findElements(By.cssSelector(".basket__product-discrioption")).size();
+        calculationOfAllPricesOfGoodsInTheBasket();
+        Double priceJustDeletedProduct = Double.valueOf(replacingSomeSymbols(
+                        driver.findElement(By.xpath("(//*[contains(@class, 'busket__column__font-bold')])[" + randomNumberItemInTheCart + "]"))
+                                .getText()));
+        calculatedSumOfAllPricesInTheCart = calculatedSumOfAllPricesInTheCart - priceJustDeletedProduct;
+        checkingThatCurrentSumOfAllPricesInTheCartIsEqualsCalculatedSum(calculatedSumOfAllPricesInTheCart);
     }
 
-
+    public void checkingThatCurrentSumOfAllPricesInTheCartIsEqualsCalculatedSum(Double calculatedSumOfAllPricesInTheCart ){
+        Double currentSumOfAllPricesInTheCart = Double.valueOf(replacingSomeSymbols(driver.findElement(By.cssSelector(".basket-page__total-price-value")).getText()));
+        Assert.assertEquals(calculatedSumOfAllPricesInTheCart, currentSumOfAllPricesInTheCart);
+    }
+    public void calculationOfAllPricesOfGoodsInTheBasket() {
+        quantityItemsInTheCart = driver.findElements(By.cssSelector(".basket__product-discrioption")).size();
+        calculatedSumOfAllPricesInTheCart = 0.0;
+        for (int i = 1; i <= quantityItemsInTheCart; i++) {
+            calculatedSumOfAllPricesInTheCart = calculatedSumOfAllPricesInTheCart + Double.valueOf(replacingSomeSymbols(
+                    driver.findElement(By.xpath("(//*[contains(@class, 'busket__column__font-bold')])[" + i + "]"))
+                            .getText()));
+        }
+        System.out.println("Сумма всех товаров в корзине - " + calculatedSumOfAllPricesInTheCart);
+    }
+    public void chooseAllProductInTheCart(){
+        quantityItemsInTheCart = driver.findElements(By.cssSelector(".basket__product-discrioption")).size();
+        for (int i = 1; i <= quantityItemsInTheCart; i++) {
+            driver.findElement(By.xpath("(//*[contains(@class, 'basket__item')] /*[contains(@class, 'basket__column')] /*[contains(@class, 'basket__checkbox')])[" + i + "]"))
+                    .click();
+        }
+    }
+    public void checkingThatCheckboxThatAllProductsSelectedIsDisplayed(){
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@data-entity='basket-gruope-item-checkbox']/*[contains(@class, 'checked')]")).isDisplayed());
+    }
+    public void checkingThatCheckboxThatAllProductsSelectedIsNotDisplayed(){
+        Assert.assertTrue(driver.findElements(By.xpath("//*[@data-entity='basket-gruope-item-checkbox']/*[contains(@class, 'checked')]")).size() == 0);    }
 }

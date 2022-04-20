@@ -741,6 +741,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         //act
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
+        returningSettingsBackIfCatalogBroken();
         enableTheIndexSectionsForTheSearchModuleSetting();
         navigationToMeanPageByUrl();
         ternOffEditMode();
@@ -760,6 +761,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         //act
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
+        returningSettingsBackIfCatalogBroken();
         enableTheIndexSectionsForTheSearchModuleSetting();
         navigationToMeanPageByUrl();
         ternOffEditMode();

@@ -686,6 +686,9 @@ public class BaseActions extends CustomizingForYourself {
     }
 
     public void sortingOrganizationByDecrease() {
+        driver.findElement(By.xpath("//*[text()='Код'][@class='main-grid-head-title']")).click();
+        driver.findElement(By.xpath("//*[text()='Код'][@class='main-grid-head-title']")).click();
+        implicitWaiting(); //из-за бага (обманывает что отсорт) оставил это здесь
         if (driver.findElements(By.xpath("//*[contains(@class, 'sort-desc')]")).size() == 0) {
             try {
                 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@class, 'sort-asc')]")));
