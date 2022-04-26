@@ -312,6 +312,7 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
         registr.registrationLegalPersonWithManualEntryINN();
         emailEmployee = registr.email;
         passwordEmployee = registr.password;
+        exitFromB2B();
 
         //Запись в файл
         try {

@@ -2,6 +2,7 @@ package DangerousTests;
 
 import Catalog.MethodsForCatalog;
 import org.openqa.selenium.By;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
@@ -65,12 +66,20 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         }
     }
     public void returningSettingsBackIfCatalogBroken() {
-        navigationToCatalogTab();
-        if (driver.findElements(By.xpath("//*[contains(@class, 'icon-question')]")).size() > 0
-                || driver.findElement(By.xpath("//*[@class='product__link']")).getText().contains("Тапочки")
-                || driver.findElement(By.xpath("(//*[@class='item-quantity__general'])[3]")).getText().equals("0")) {
+        driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/", "") + "orders/blank_zakaza/");
+        if (driver.findElements(By.xpath("//*[@title='Ремни']")).size() > 0) {
             returningSettingsBack();
-        }
+        }else{
+            clickElement("//*[@title='Компьютеры']");
+            turnOffShowTheQuantityOfProductsInStorageIfItIsShowed();
+            }
+
+
+//        if (driver.findElements(By.xpath("//*[contains(@class, 'icon-question')]")).size() > 0
+//                || driver.findElement(By.xpath("//*[@class='product__link']")).getText().contains("Тапочки")
+//                || driver.findElement(By.xpath("(//*[@class='item-quantity__general'])[3]")).getText().equals("0")) {
+//            returningSettingsBack();
+//        }
     }
     public void returningSettingsBack(){
         navigationToSystemSettings();
@@ -81,9 +90,7 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         returningTheKaiserGasStoveSettingByDefault();
         navigationToMeanPageByUrl();
         navigationToCatalogTab();
-        ternOnEditMode();
-        tryTurnOffShowTheQuantityOfProductsInStorage();
-        navigationToComponentOfCatalogSetting();
+        turnOffShowTheQuantityOfProductsInStorageIfItIsShowed();
         choiceStandardCatalog();
         choiceMinPriceForOutputInCatalog();
         driver.navigate().refresh();
@@ -174,5 +181,116 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
     }
     public void checkingThatThereAreThisQuantityItemsInTheBasket(int expectedQuantity){
         Assert.assertEquals(driver.findElements(By.cssSelector(".basket__item")).size(), expectedQuantity);
+    }
+
+    int quantityItemsWithQuantityEqualsZero;
+    public void showTheQuantityOfProductsInStorageIfItIsNotShowed() {
+        determineQuantityItemsEqualsZero();
+        if (quantityItemsWithQuantityEqualsZero < 2) {
+            navigationToComponentOfCatalogSetting();
+            showingTheQuantityOfProductsInStorage();
+        }
+    }
+    public void determineQuantityItemsEqualsZero(){
+        quantityItemsWithQuantityEqualsZero = 0;
+        numberOfProductsPerPage = driver.findElements(By.cssSelector(".item-quantity__general")).size();
+        for (int i = 1; i <= numberOfProductsPerPage; i++) {
+            if (driver.findElement(By.xpath("(//*[@class='item-quantity__general'])[" + i + "]")).getText().equals("0")){
+                quantityItemsWithQuantityEqualsZero++;
+            }
+        }
+    }
+    public void turnOffShowTheQuantityOfProductsInStorageIfItIsShowed(){
+        determineQuantityItemsEqualsZero();
+        if (quantityItemsWithQuantityEqualsZero > 3) {
+            ternOnEditMode();
+            navigationToComponentOfCatalogSetting();
+            showingTheQuantityOfProductsInStorage();
+        }
+    }
+    int quantityItemsInTheTESTStorage;
+    public void addingProductsToTheStorages() {
+        driver.findElement(By.xpath("//a[contains(text(), 'Плита GEFEST')]")).click();
+        driver.findElement(By.xpath("//*[contains(text(), 'Торговый каталог')][contains(@class, 'adm-detail-tab')]")).click();
+        driver.findElement(By.xpath("//*[@title='Управление товаром на складах']")).click();
+        try {
+            driver.findElement(By.xpath("//input[contains(@id, 'AMOUNT')]")).clear();
+        } catch (Exception e) {
+            driver.findElement(By.xpath("//*[@id='bx-search-box'] /input")).sendKeys("склады");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".adm-search-result")));
+            driver.findElement(By.cssSelector(".adm-search-result")).click();
+            driver.findElement(By.xpath("//*[contains(@for, 'store_control')][contains(@class, 'checkbox')]")).click();
+            driver.findElement(By.xpath("//*[@value='Сохранить']")).click();
+            navigationToGasStoveSetting();
+            driver.findElement(By.xpath("//a[contains(text(), 'Плита GEFEST')]")).click();
+            driver.findElement(By.xpath("//*[contains(text(), 'Торговый каталог')][contains(@class, 'adm-detail-tab')]")).click();
+            driver.findElement(By.xpath("//*[@title='Управление товаром на складах']")).click();
+            driver.findElement(By.xpath("//input[contains(@id, 'AMOUNT')]")).clear();
+        }
+        tempValue = randomNumberWithoutZero(4);
+        driver.findElement(By.xpath("(//input[contains(@id, 'AMOUNT')])[1]")).clear();
+        driver.findElement(By.xpath("(//input[contains(@id, 'AMOUNT')])[1]")).sendKeys(tempValue);
+        tempValue1 = randomNumberWithoutZero(4);
+        driver.findElement(By.xpath("(//input[contains(@id, 'AMOUNT')])[2]")).clear();
+        driver.findElement(By.xpath("(//input[contains(@id, 'AMOUNT')])[2]")).sendKeys(tempValue1);
+        driver.findElement(By.xpath("//*[@title='Дополнительные параметры']")).click();
+        driver.findElement(By.xpath("//*[@id='CAT_BASE_QUANTITY']")).clear();
+        tempValue2 = String.valueOf(Integer.parseInt(tempValue1) + Integer.parseInt(tempValue));
+        driver.findElement(By.xpath("//*[@id='CAT_BASE_QUANTITY']")).sendKeys(tempValue2);
+        quantityItemsInTheTESTStorage = Integer.valueOf(driver.findElement(By.xpath("//*[text()='TEST'] /following::*[contains(@id, 'AMOUNT')]")).getAttribute("value"));
+        driver.findElement(By.xpath("//*[@name='save']")).click();
+    }
+    public void checkingThatTheTotalNumberOfOutputProductsAndQuantityStoragesIsEqualToThePreviouslyEnteredData() {
+        Actions action = new Actions(driver);
+        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).clear();
+        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).sendKeys("0");
+        tempValue3 = driver.findElement(By.xpath("(//*[@class='item-quantity__general'])[" + count + "]")).getText();
+        Assert.assertTrue((Integer.parseInt(tempValue) + Integer.parseInt(tempValue1)) == Integer.parseInt(tempValue3));
+        System.out.println(count);
+        action.moveToElement(driver.findElement(By.xpath("(//*[@class='item-quantity__general'])[" + count + "]")));
+        action.perform();
+        Assert.assertTrue(driver.findElements(By.xpath("//*[@class='item-quantity__store-name'][contains(text(), 'TEST')]")).size() > 0, "Не отображается склад с названием 'TEST'");
+        System.out.println("Отображаемое кол-во товаров на складе №1   " + driver.findElement(By.xpath("(//*[@class='item-quantity__store-quantity'])[1]")).getText());
+        System.out.println("Отображаемое кол-во товаров на складе №2   " + driver.findElement(By.xpath("(//*[@class='item-quantity__store-quantity'])[2]")).getText());
+        System.out.println("Кол-во товара на складе №1 которое я вводил   " + tempValue1);
+        System.out.println("Кол-во товара на складе №2 которое я вводил   " + tempValue);
+        flag = false;
+        for (int i = 1; i <= 2; i++) {
+            if (driver.findElement(By.xpath("(//*[@class='item-quantity__store-quantity'])[" + i + "]")).getText().trim().equals(tempValue1.trim())) {
+                flag = true;
+            }
+        }
+        Assert.assertTrue(flag == true);
+        flag = false;
+        for (int i = 1; i <= 2; i++) {
+            if (driver.findElement(By.xpath("(//*[@class='item-quantity__store-quantity'])[" + i + "]")).getText().trim().equals(tempValue.trim())) {
+                flag = true;
+            }
+        }
+        Assert.assertTrue(flag == true);
+        implicitWaiting();
+        implicitWaiting();
+    }
+    public void checkingThatTheTotalNumberOfOutputProductsIsEqualToThePreviouslyEnteredDataInTestStorage() {
+        Actions action = new Actions(driver);
+        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).clear();
+        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).sendKeys("0");
+        tempValue3 = driver.findElement(By.xpath("(//*[@class='item-quantity__general'])[" + count + "]")).getText();
+        Assert.assertTrue(quantityItemsInTheTESTStorage == Integer.parseInt(tempValue3));
+        System.out.println(count);
+        action.moveToElement(driver.findElement(By.xpath("(//*[@class='item-quantity__general'])[" + count + "]")));
+        action.perform();
+        Assert.assertTrue(driver.findElements(By.xpath("//*[@class='item-quantity__store-name'][contains(text(), 'TEST')]")).size() > 0, "Не отображается склад с названием 'TEST'");
+        System.out.println("Отображаемое кол-во товаров на складе №1   " + driver.findElement(By.xpath("(//*[@class='item-quantity__store-quantity'])[1]")).getText());
+        System.out.println("Кол-во товара на складе №1 которое я вводил   " + quantityItemsInTheTESTStorage);
+        Assert.assertTrue(driver.findElements(By.cssSelector(".item-quantity__store-item")).size() == 1);
+        Assert.assertTrue(Integer.parseInt( driver.findElement(By.cssSelector(".item-quantity__store-item")).getText().replaceAll("[^0-9]", "")) == quantityItemsInTheTESTStorage);
+    }
+    public void attemptToAddMoreItemsThanIsAtTheStorage(){
+        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).sendKeys(String.valueOf(quantityItemsInTheTESTStorage));
+        driver.findElement(By.xpath("(//*[@class='quantity-selector__increment'])[" + count + "]")).click();
+        implicitWaiting();
+        Assert.assertTrue(Integer.parseInt(driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).getAttribute("value")) == quantityItemsInTheTESTStorage);
+
     }
 }

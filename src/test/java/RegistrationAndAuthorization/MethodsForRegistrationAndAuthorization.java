@@ -117,7 +117,7 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
         determineWhetherRegistrationUserNeedsToBeConfirmed();
         if (doNeedToConfirmRegistrationUser) {
             fillingFieldsOnTheLogInTab();
-            logInFromAuthorizationTab();
+            logInToB2B();
         } else {
             try {
                 driver.findElement(registerButtonOnRegistrationTabLocator).click();
@@ -410,7 +410,7 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
     public void navigationToPageForConfirmUserRegistration() {
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
-        logInFromAuthorizationTab();
+        logInToB2B();
         navigationToAdminPartFromMeanPage();
         driver.findElement(sotbitTabLocator).click();
         try {
@@ -478,10 +478,10 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
         Assert.assertEquals( password, driver.findElement(passwordInputInAuthorizationTanLocator).getAttribute("value"), "Пароль не отображается");
     }
 
-    public void logInFromAuthorizationTab() {
-        driver.findElement(loginButtonLocator).click();
-        Assert.assertTrue(driver.findElement(By.cssSelector(".navbar")).isDisplayed());
-    }
+//    public void logInFromAuthorizationTab() {
+//        driver.findElement(loginButtonLocator).click();
+//        Assert.assertTrue(driver.findElement(By.cssSelector(".navbar")).isDisplayed());
+//    }
 
     public void logInFromAuthorizationTabWithRejectedStatus() {
         driver.findElement(loginButtonLocator).click();

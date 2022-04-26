@@ -104,7 +104,7 @@ public class BaseActions extends CustomizingForYourself {
     public String tempValueForPassword;
     public int tempIntValue;
     public int tempIntValue2;
-    public String tempValueForNumbers;
+    public String tempValueForNumbers = "0";
     public boolean flag = false;
     public static boolean flagForLocation = false;
     public boolean doNeedToConfirmRegistrationUser;
@@ -138,24 +138,41 @@ public class BaseActions extends CustomizingForYourself {
     public String fileNameForB2BThemeColor = "fileNameForColor";  //Имя создаваемого файла в папке с проектом
     public boolean themeColorBlack = true;
 
-    public boolean flagForCloseWarningOnTheFirstVisit = false;
+    public boolean flagForCloseWarningWindowThisIsTheFirstVisit = true;
+    public boolean flagForRegionThisIsTheFirstVisit = true;
+
 
     public void firsNavigationToB2B() {
         driver.navigate().to(b2bUrl);
-        if (!flagForCloseWarningOnTheFirstVisit) {
-            flagForCloseWarningOnTheFirstVisit = true;
-            try {
-                driver.findElement(By.cssSelector(".brighttheme-icon-closer")).click();
-            } catch (Exception e) {
-                System.out.println("0 катч - При первом запуске предупреждения что нужно авторизовтаься не было!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            }
+        if (flagForCloseWarningWindowThisIsTheFirstVisit) {
+            flagForCloseWarningWindowThisIsTheFirstVisit = false;
+            closeTheWarningWindowThatYouNeedToLogIn();
         } else {
             try {
                 exitFromB2B();
-                driver.findElement(By.xpath("//*[@href='/auth/']")).click();
+                clickEnter();
                 Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
             } catch (Exception e) {
                 System.out.println("1 катч -  Я и так не авторизован");
+            }
+        }
+    }
+    public void closeTheWarningWindowThatYouNeedToLogIn(){
+        try {
+            driver.findElement(By.cssSelector(".brighttheme-icon-closer")).click();
+        } catch (Exception e) {
+            System.out.println("0 катч - При первом запуске предупреждения что нужно авторизовтаься не было!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        }
+    }
+    public void choiceStandardCityInMultiRegionsWindow(){
+        if(isThereMultiRegions){
+            if (flagForRegionThisIsTheFirstVisit) {
+                flagForRegionThisIsTheFirstVisit = false;
+                try {
+                    driver.findElement(By.cssSelector(".select-city__dropdown__choose")).click();
+                } catch (Exception e) {
+                    System.out.println("катч - При первом запуске предложения выбрать регион небыло (может город уже выбран)");
+                }
             }
         }
     }
@@ -164,24 +181,27 @@ public class BaseActions extends CustomizingForYourself {
         firsNavigationToB2B();
         try {
             driver.navigate().to(b2bUrl);
-            driver.findElement(By.xpath("//*[@href='/auth/']")).click();
+            clickEnter();
             Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
         } catch (Exception e2) {
             try {
                 System.out.println("2 катч - Кнопку входа перекрывает предупреждение из-за сброса кеша");
-                driver.findElement(By.cssSelector(".brighttheme-icon-closer")).click();
-                driver.findElement(By.xpath("//*[@href='/auth/']")).click();
+                closeTheWarningWindowThatYouNeedToLogIn();
+                clickEnter();
                 Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
             } catch (Exception e3) {
                 System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Доступ закрыт, или не вышел из кабинета потом оптимизирую для быстрой работы");
                 exitFromB2B();
                 if (driver.findElements(By.xpath("//*[@href='/auth/']")).size() > 0) {
-                    driver.findElement(By.xpath("//*[@href='/auth/']")).click();
+                    clickEnter();
                 }
                 Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
             }
         }
         Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
+    }
+    public void clickEnter(){
+        driver.findElement(By.xpath("//*[@href='/auth/']")).click();
     }
 
     public void navigationToTheSetting() {
@@ -233,6 +253,7 @@ public class BaseActions extends CustomizingForYourself {
     }
 
     public void navigationToAdminPartFromMeanPage() {
+        navigationToMeanPageByUrl();
         wait.until(ExpectedConditions.visibilityOfElementLocated(buttonToGoToAdminPartLocator));
         try {
             driver.findElement(buttonToGoToAdminPartLocator).click();
@@ -311,8 +332,9 @@ public class BaseActions extends CustomizingForYourself {
 
     public void logInToB2B() {
         driver.findElement(logInButtonOnTheAuthorizationTabLocator).click();
+        choiceStandardCityInMultiRegionsWindow();
         determineThemeColor();
-        Assert.assertTrue(driver.findElement(By.cssSelector(".swiper-wrapper")).isDisplayed());
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".swiper-wrapper")));
         if (themeColorBlack) {
             try {
                 unHideTheMenu();
@@ -430,10 +452,17 @@ public class BaseActions extends CustomizingForYourself {
         } else {
             driver.findElement(catalogTabLocator).click();
         }
+        try {
+            clickElement("//*[@title='Компьютеры']");
+        }catch (Exception e){
+            System.out.println("Я не в обычном каталоге, а в ТП");
+            clickElement("//*[@title='Тапочки']");
+        }
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".catalog")));
         Assert.assertTrue(driver.findElement(By.cssSelector(".catalog")).isDisplayed());
         openingAllOffers();
     }
+
 
     public void navigationToPersonalAccountTab() {
         determineThemeColor();
@@ -461,45 +490,62 @@ public class BaseActions extends CustomizingForYourself {
     }
 
     public void navigationToCart() {
-        determineThemeColor();
-        if (!themeColorBlack) {
-            //implicitWaiting();
-            flag = false;
-            while (!flag) {
-                if (driver.findElements(By.cssSelector(".b2b-notification__content")).size() > 0) {
-                    try {
-                        driver.findElement(By.xpath("//i[@class='icon-cross']")).click();
-                    } catch (Exception e) {
-                        System.out.println("Всплывашка что товар добавлен в корзину пропала сама");
-                    }
-                } else flag = true;
-            }
+        int quantityPopApWindowsThatItemWasAddedToCart = driver.findElements(By.xpath("//i[@class='icon-cross']")).size();
+        for (int i = 1; i <= quantityPopApWindowsThatItemWasAddedToCart; i++) {
             try {
-                driver.findElement(By.xpath("//*[contains(@class, 'icon-cart')]")).click();
+                driver.findElement(By.xpath("//i[@class='icon-cross']")).click();
             } catch (Exception e) {
-                flag = false;
-                while (!flag) {
-                    if (driver.findElements(By.cssSelector(".b2b-notification__content")).size() > 0) {
-                        driver.findElement(By.xpath("//i[@class='icon-cross']")).click();
-                    } else flag = true;
-                }
-                try {
-                    driver.findElement(By.xpath("//*[contains(@class, 'icon-cart')]")).click();
-                } catch (Exception e2) {
-                    implicitWaiting();
-                    driver.findElement(By.xpath("//*[contains(@class, 'icon-cart')]")).click();
-                }
+                System.out.println("Всплывашка что товар добавлен в корзину пропала сама");
             }
-        } else {
-            try {
-                driver.findElement(cartIconLocator).click();
-            } catch (Exception e3) {
-                scrollToTheElement("//*[contains(@href, 'orders/make/')][@class='nav-link']");
-                driver.findElement(cartIconLocator).click();
-            }
-            Assert.assertTrue(driver.findElement(By.cssSelector(".basket-page")).isDisplayed());
-            checkingBreadcrumbs("Корзина");
         }
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@class, 'icon-cart')]")));
+        driver.findElement(By.xpath("//*[contains(@class, 'icon-cart')]")).click();
+        Assert.assertTrue(driver.findElement(By.cssSelector(".basket-page")).isDisplayed());
+        checkingBreadcrumbs("Корзина");
+
+
+//        determineThemeColor();
+//        if (!themeColorBlack) {
+            //implicitWaiting();
+//            flag = false;
+//            while (!flag) {
+//                if (driver.findElements(By.cssSelector(".b2b-notification__content")).size() > 0) {
+//                    try {
+//                        driver.findElement(By.xpath("//i[@class='icon-cross']")).click();
+//                    } catch (Exception e) {
+//                        System.out.println("Всплывашка что товар добавлен в корзину пропала сама");
+//                    }
+//                } else flag = true;
+//            }
+
+//            try {
+//                driver.findElement(By.xpath("//*[contains(@class, 'icon-cart')]")).click();
+//            } catch (Exception e) {
+//                flag = false;
+//                while (!flag) {
+//                    if (driver.findElements(By.cssSelector(".b2b-notification__content")).size() > 0) {
+//                        driver.findElement(By.xpath("//i[@class='icon-cross']")).click();
+//                    } else flag = true;
+//                }
+//                try {
+//                    driver.findElement(By.xpath("//*[contains(@class, 'icon-cart')]")).click();
+//                } catch (Exception e2) {
+//                    implicitWaiting();
+//                    driver.findElement(By.xpath("//*[contains(@class, 'icon-cart')]")).click();
+//                }
+//            }
+//        } else {
+//            try {
+//                driver.findElement(cartIconLocator).click();
+//            } catch (Exception e3) {
+//                scrollToTheElement("//*[contains(@href, 'orders/make/')][@class='nav-link']");
+//                driver.findElement(cartIconLocator).click();
+//            }
+//            Assert.assertTrue(driver.findElement(By.cssSelector(".basket-page")).isDisplayed());
+//            checkingBreadcrumbs("Корзина");
+//        }
+
+
     }
 
     public void navigationToMyOrdersPage() {
@@ -687,7 +733,9 @@ public class BaseActions extends CustomizingForYourself {
 
     public void sortingOrganizationByDecrease() {
         driver.findElement(By.xpath("//*[text()='Код'][@class='main-grid-head-title']")).click();
-        driver.findElement(By.xpath("//*[text()='Код'][@class='main-grid-head-title']")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='Код'][@class='main-grid-head-title']")));
+        waitingMilliSecond();
+        clickElement("//*[text()='Код'][@class='main-grid-head-title']");
         implicitWaiting(); //из-за бага (обманывает что отсорт) оставил это здесь
         if (driver.findElements(By.xpath("//*[contains(@class, 'sort-desc')]")).size() == 0) {
             try {

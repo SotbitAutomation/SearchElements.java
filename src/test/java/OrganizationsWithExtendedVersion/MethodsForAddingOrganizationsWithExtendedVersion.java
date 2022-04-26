@@ -16,7 +16,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
     By individualBusinessmanFromDropDownListLocator = By.xpath("//*[contains(@class, 'select2-results__option')][contains(text(),'Индивидуальный предприниматель')]");
     By legalPersonFromDropDownListLocator = By.xpath("//*[contains(@class, 'select2-results__option')][contains(text(),'Юридическое лицо')]");
     By employeesTab = By.xpath("//*[contains(@class, 'icon')]/following::*[contains(text(), 'Сотрудники')]");
-    By confirmPopUpWindowAfterManagerAddingUserToCompanyLocator = By.xpath("//*[@role='dialog']//button[contains(@class, 'btn_b2b')]");
+    By confirmPopUpWindowAfterManagerAddingUserToCompanyLocator = By.xpath("//*[@role='dialog']//button[contains(@class, 'confirm')]");
     public String stringOfNinetyNineSymbols = "фыв'АПР'ячтьjAb=&G;PwAZ*[U]AC3U%/%hNAV%:9Q#rf&v)uLKpx3W]<G*PhK8f8[]6@J\"kT`%~HD>g`kW*G9{ZJ{E&ZRVYQ)z";
     int quantityOrganizationOfUser = 0;
     By expandListOfOrganizationsInTheWhiteVersionLocator = By.xpath("//*[@title='Сменить компанию']");
@@ -502,11 +502,19 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         navigationToPersonsTab();
         driver.findElement(buttonAddNewEmployee).click();
 
-        for (int i = 0; i < driver.findElements(By.xpath("//input[contains(@placeholder,'')][@class='form-control']")).size(); i++) {
+        for (int i = 2; i <= driver.findElements(By.xpath("//input[contains(@placeholder,'')][@class='form-control']")).size(); i++) {
             for (int j = 0; j < arrayWithAllPossibleLocatorsForOrganization.length; j = j + 2) {
-                if (driver.findElement(By.xpath("(//*[@class='register-field-name'])[" + (i + 1) + "]"))
+                if (driver.findElement(By.xpath("(//*[@class='register-field-name'])[" + i +  "]"))
                         .getText().replaceAll("[*, ]", "").equals(arrayWithAllPossibleLocatorsForOrganization[j])) {
-                    driver.findElement(By.xpath("(//*[@class='form-control'])[" + (i + 1) + "]")).sendKeys(arrayWithAllPossibleLocatorsForOrganization[j + 1]);
+
+                    System.out.println("1   "+ driver.findElement(By.xpath("(//*[@class='register-field-name'])[" + i + "]"))
+                            .getText().replaceAll("[*, ]", ""));
+                    System.out.println("2   " + arrayWithAllPossibleLocatorsForOrganization[j]);
+                    System.out.println("3  " + j);
+                    System.out.println("4  " + i);
+
+
+                    driver.findElement(By.xpath("(//*[@class='staff-register']//*[@class='form-control'])[" + i + "]")).sendKeys(arrayWithAllPossibleLocatorsForOrganization[j + 1]);
                     break;
                 }
             }

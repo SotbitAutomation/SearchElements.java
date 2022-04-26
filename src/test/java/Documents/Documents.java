@@ -1,10 +1,11 @@
 package Documents;
 
 
+import BaseActions.Retry;
 import org.testng.annotations.Test;
 
 public class Documents extends MethodsForDocuments {
-    @Test //1. Добавление существующего документа пользователю
+    @Test(retryAnalyzer = Retry.class) //1. Добавление существующего документа пользователю
     public void addExistingDocumentToUser() {
         //arrange
         deletingExcelAndJpgFilesFromDownloads();
@@ -23,7 +24,7 @@ public class Documents extends MethodsForDocuments {
         downloadDocument();
     }
 
-    @Test //2. Добавление существующего  документа пользователю c привязкой организации
+    @Test(retryAnalyzer = Retry.class) //2. Добавление существующего  документа пользователю c привязкой организации
     public void addExistingDocumentWithOrganizationToUser() {
         //arrange
         deletingExcelAndJpgFilesFromDownloads();
@@ -43,7 +44,7 @@ public class Documents extends MethodsForDocuments {
         navigationToDetailInformationOfOrganizationFromDocument();
     }
 
-    @Test //3. Добавление документа пользователю
+    @Test(retryAnalyzer = Retry.class) //3. Добавление документа пользователю
     public void addDocumentToUser() {
         //arrange
         deletingExcelAndJpgFilesFromDownloads();
@@ -61,7 +62,7 @@ public class Documents extends MethodsForDocuments {
         downloadDocument();
     }
 
-    @Test //4. Добавление документа пользователю c привязкой организации
+    @Test(retryAnalyzer = Retry.class) //4. Добавление документа пользователю c привязкой организации
     public void addDocumentWithOrganizationToUser() {
         //arrange
         deletingExcelAndJpgFilesFromDownloads();
@@ -83,7 +84,7 @@ public class Documents extends MethodsForDocuments {
         navigationToDetailInformationOfOrganizationFromDocument();
     }
 
-    @Test //5. Отображение документа привязонного к заказу
+    @Test(retryAnalyzer = Retry.class) //5. Отображение документа привязонного к заказу
     public void displayingTheDocumentLinkedToTheOrder() {
         //arrange
         deletingExcelAndJpgFilesFromDownloads();
@@ -108,7 +109,7 @@ public class Documents extends MethodsForDocuments {
         downloadDocument();
     }
 
-    @Test //6. Переход на детальную страницу заказа из раздела "Документы" с помощью привязанного к заказу документа
+    @Test(retryAnalyzer = Retry.class) //6. Переход на детальную страницу заказа из раздела "Документы" с помощью привязанного к заказу документа
     public void goToTheDetailedOrderPageFromTheDocumentsSectionUsingTheDocumentLinkedToTheOrder() {
         //arrange
         deletingExcelAndJpgFilesFromDownloads();
@@ -133,7 +134,7 @@ public class Documents extends MethodsForDocuments {
         navigationToTheLastOrderFromDocumentsPage();
     }
 
-    @Test //7. Смена порядка вывода инфоблоков раздела "Документы"
+    @Test(retryAnalyzer = Retry.class) //7. Смена порядка вывода инфоблоков раздела "Документы"
     public void changingTheOrderOutputOfInformationBlocksInTheDocumentsSection() {
         //arrange
         navigationToAuthorizationTab();

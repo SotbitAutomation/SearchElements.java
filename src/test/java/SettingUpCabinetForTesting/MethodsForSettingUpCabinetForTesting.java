@@ -270,6 +270,8 @@ public class MethodsForSettingUpCabinetForTesting extends BaseActions {
         resetCache();
         navigationToCatalogTab();
         resetCache();
+        flagForCloseWarningWindowThisIsTheFirstVisit = true;
+        flagForRegionThisIsTheFirstVisit = true;
     }
 
     public void configureTheOutputOfAllAvailableColumnsInTheTable(){

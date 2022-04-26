@@ -132,14 +132,14 @@ public class RegistrationB2B extends MethodsForRegistrationAndAuthorization {
             tryConfirmRegistration();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTab(tempValueForEmail, password);
-            logInFromAuthorizationTab();
+            logInToB2B();
             navigationToEmployeesTab();
             acceptEmployee();
             checkThatEmployeeIsDisplayedFromTheManager();
             exitFromB2B();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTab();
-            logInFromAuthorizationTab();
+            logInToB2B();
             navigationToEmployeesTab();
             chekThatTheOrganizationIsDisplayedByTheEmployee();
         }else {

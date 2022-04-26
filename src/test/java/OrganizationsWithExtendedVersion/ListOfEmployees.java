@@ -56,7 +56,7 @@ public class ListOfEmployees extends MethodsForAddingOrganizationsWithExtendedVe
                 requestToJoinTheCompany();
                 navigationToAuthorizationTab();
                 registr.fillingFieldsOnTheLogInTab();
-                registr.logInFromAuthorizationTab();
+                registr.logInToB2B();
                 confirmEmployeeRequest();
                 navigationToAuthorizationTab();
                 fillingFieldsOnTheLogInTabLikeEmployee();

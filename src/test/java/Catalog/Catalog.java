@@ -612,11 +612,11 @@ public class Catalog extends MethodsForCatalog {
         //act
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
-        navigationToCatalogTab();
+        navigationToClothesSection();
         changePageOnTheSecond();
         checkingThatSelectedSecondPage();
-        changePageOnTheFifth();
-        checkingThatSelectedFifthPage();
+        changePageOnTheFourth();
+        checkingThatSelectedFourthPage();
     }
     @Test(retryAnalyzer = Retry.class) //38. Проверка корректности вывода разделов каталога (проверяя кол-во страниц каталога)
     public void checkingCorrectnessOfTheOutputOfSecondLevelDirectorySections() {
@@ -639,6 +639,10 @@ public class Catalog extends MethodsForCatalog {
         logInToB2B();
         navigationToCatalogTab();
         choosingRandomCategory();
+        rememberTheNumberOfProductsOnFirstPage();
+        goToTheLastPage();
+        choiceRandomProperty();
+        checkingThatQuantityItemsIsDecreased();
         checkingThatQuantityOfPropertiesIsHadDecreased();
     }
 

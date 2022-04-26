@@ -26,8 +26,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         returningTheKaiserGasStoveSettingByDefault();
         navigationToMeanPageByUrl();
         navigationToCatalogTab();
-        tryTurnOffShowTheQuantityOfProductsInStorage();
-        navigationToComponentOfCatalogSetting();
+        turnOffShowTheQuantityOfProductsInStorageIfItIsShowed();
         choiceStandardCatalog();
         ternOffEditMode();
         SettingUpCabinetForTesting set = new SettingUpCabinetForTesting();
@@ -334,14 +333,12 @@ public class DangerousTests extends MethodsForDangerousTests {
         deletingProductsFromTheCart();
         ternOnEditMode();
         navigationToCatalogTab();
-        navigationToComponentOfCatalogSetting();
         choiceCatalogWithOnlyOffers();
         navigationToMeanPageByUrl();
         navigationToCatalogTab();
         changeTheQuantityOfRandomProduct();
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
         navigationToCatalogTab();
-        navigationToComponentOfCatalogSetting();
         choiceStandardCatalog();
         ternOffEditMode();
     }
@@ -357,7 +354,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         deletingProductsFromTheCart();
         navigationToCatalogTab();
         ternOnEditMode();
-        showTheQuantityOfProductsInStorage();
+        showTheQuantityOfProductsInStorageIfItIsNotShowed();
         navigationToAdminPartFromMeanPage();
         navigationToGasStoveSetting();
         returningQuantitativeAccountingAtTheGefestGasStoveByDefault();
@@ -373,9 +370,9 @@ public class DangerousTests extends MethodsForDangerousTests {
         navigationToCatalogTab();
         selectTheSectionWithGasStoves();
         enterTheMaximumAvailableQuantityOfThisProduct();
-        checkingThatTheTotalNumberOfOutputProductsAndQuantityByIsEqualToThePreviouslyEnteredData();
+        checkingThatTheTotalNumberOfOutputProductsAndQuantityStoragesIsEqualToThePreviouslyEnteredData();
         navigationToComponentOfCatalogSetting();
-        turnOffShowingTheQuantityOfProductsInStorage();
+        showingTheQuantityOfProductsInStorage();
     }
 
     @Test(retryAnalyzer = Retry.class)
@@ -436,7 +433,6 @@ public class DangerousTests extends MethodsForDangerousTests {
         deletingProductsFromTheCart();
         enableEditMode();
         navigationToCatalogTab();
-        navigationToComponentOfCatalogSetting();
         choiceCatalogWithOnlyOffers();
         navigationToMeanPageByUrl();
         ternOffEditMode();
@@ -455,10 +451,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         addingMaxQuantityOfProductInTheCartUsingInputField(quantityFieldOfRandomTPLocator, quantityOfProductsInStock);
         checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfRandomTPLocator, quantityOfProductsInStock);
         navigationToCatalogTab();
-        ternOnEditMode();
-        navigationToComponentOfCatalogSetting();
         choiceStandardCatalog();
-        ternOffEditMode();
     }
 
     @Test(retryAnalyzer = Retry.class)
@@ -472,7 +465,6 @@ public class DangerousTests extends MethodsForDangerousTests {
         deletingProductsFromTheCart();
         ternOnEditMode();
         navigationToCatalogTab();
-        navigationToComponentOfCatalogSetting();
         choiceCatalogWithOnlyOffers();
         navigationToMeanPageByUrl();
         navigationToCatalogTab();
@@ -501,7 +493,6 @@ public class DangerousTests extends MethodsForDangerousTests {
         navigationToCatalogTab();
         configureTheFirstTwoTP("D");
         navigationToCatalogTab();
-        navigationToComponentOfCatalogSetting();
         choiceStandardCatalog();
         ternOffEditMode();
     }
@@ -606,7 +597,6 @@ public class DangerousTests extends MethodsForDangerousTests {
         deletingProductsFromTheCart();
         ternOnEditMode();
         navigationToCatalogTab();
-        navigationToComponentOfCatalogSetting();
         choiceCatalogWithOnlyOffers();
         navigationToMeanPageByUrl();
         ternOffEditMode();
@@ -627,7 +617,6 @@ public class DangerousTests extends MethodsForDangerousTests {
         makeOrder.openingLastOrder();
         makeOrder.checkingThatAddedProductsAreDisplayed();
         navigationToCatalogTab();
-        navigationToComponentOfCatalogSetting();
         choiceStandardCatalog();
         ternOffEditMode();
     }
@@ -751,7 +740,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         enterPartOfNameRandomCategoryInTheSearchFieldOnTheCatalogTabAndDeleteOne(fieldForSearchInCatalogLocator, tempString);
         choiceCategoryFromPopApWindow();
         checkingThatBreadCrumbsContainTheNameOfTheSection();
-        checkingThatURLContainsChosenCategory();
+        //checkingThatURLContainsChosenCategory(); уже ЧПУ
         checkingThatAllProductsHaveSimilarIdToTheSectionId();
     }
     @Test(retryAnalyzer = Retry.class) //28. Вывод разделов в поисковой подсказке по целому названию
@@ -805,7 +794,6 @@ public class DangerousTests extends MethodsForDangerousTests {
         deletingProductsFromTheCart();
         ternOnEditMode();
         navigationToCatalogTab();
-        navigationToComponentOfCatalogSetting();
         choiceCatalogWithOnlyOffers();
         navigationToMeanPageByUrl();
         ternOffEditMode();

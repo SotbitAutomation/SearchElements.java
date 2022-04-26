@@ -20,7 +20,7 @@ public class AuthorizationB2B extends MethodsForRegistrationAndAuthorization {
         //act
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTab();
-        logInFromAuthorizationTab();
+        logInToB2B();
     }
 
     @Test(retryAnalyzer = Retry.class) //2. Авторизация зарегистрированного пользователя без чекбокса "Запомнить"
@@ -37,7 +37,7 @@ public class AuthorizationB2B extends MethodsForRegistrationAndAuthorization {
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTab();
         driver.findElement(By.xpath("//*[@name='USER_REMEMBER']")).click();
-        logInFromAuthorizationTab();
+        logInToB2B();
     }
 
     @Test(retryAnalyzer = Retry.class) //3. Авторизация зарегистрированного пользователя под неверным паролем
@@ -115,7 +115,7 @@ public class AuthorizationB2B extends MethodsForRegistrationAndAuthorization {
             //act
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTab();
-            logInFromAuthorizationTab();
+            logInToB2B();
             navigationToOrganizationTab();
             checkingStatusOfOrganizationWithoutConfirm();
         }
@@ -143,12 +143,12 @@ public class AuthorizationB2B extends MethodsForRegistrationAndAuthorization {
             tryConfirmRegistration();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTab(tempValueForEmail, password);
-            logInFromAuthorizationTab();
+            logInToB2B();
             navigationToEmployeesTab();
             rejectEmployee();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTab();
-            logInFromAuthorizationTab();
+            logInToB2B();
             navigationToEmployeesTab();
             Assert.assertTrue(driver.findElement(By.cssSelector(".main-grid-empty-text")).isDisplayed());
         }else {
