@@ -57,13 +57,13 @@ public class MethodsForMultiRegions extends MethodsForDangerousTests {
     public void navigationToRegionSetting(){
         driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/" , "") + "bitrix/admin/sotbit_regions_settings.php?lang=ru&site=s1");
     }
-    public void tryToTurnOffWorkingWithLocations(){
+    public void turnOffWorkingWithLocations(){
         if (driver.findElements(By.xpath("//*[@id='MODE_LOCATION'][@checked] /following::*[1]")).size() > 0){
             driver.findElement(By.xpath("//*[@id='MODE_LOCATION'] /following::*[1]")).click();
             driver.findElement(buttonSaveLocator).click();
         }
     }
-    public void tryToTurnOnWorkingWithLocations(){
+    public void turnOnWorkingWithLocations(){
         if (driver.findElements(By.xpath("//*[@id='MODE_LOCATION'][@checked] /following::*[1]")).size() == 0){
             driver.findElement(By.xpath("//*[@id='MODE_LOCATION'] /following::*[1]")).click();
             driver.findElement(buttonSaveLocator).click();
@@ -80,5 +80,59 @@ public class MethodsForMultiRegions extends MethodsForDangerousTests {
     public void selectShowingOnlyOneTESTStorage(){
         driver.findElement(By.xpath("//*[contains(@id, 'STORE')] //option[text()='TEST']")).click();
         driver.findElement(buttonSaveLocator).click();
+    }
+    public void unselectAllTypesOfPrices(){
+        int quantityTypesOfPrices = driver.findElements(By.xpath("//*[contains(@id, 'PRICE_CODE')] /option")).size();
+        for (int i = 1; i <= quantityTypesOfPrices; i++) {
+            if (driver.findElement(By.xpath("(//*[contains(@id, 'PRICE_CODE')] //option)[" + i + "]")).isSelected()){
+                driver.findElement(By.xpath("(//*[contains(@id, 'PRICE_CODE')] //option)[" + i + "]")).click();
+            }
+        }
+    }
+    public void choiceSmallOptTypePrice(){
+        driver.findElement(By.xpath("//*[contains(@id, 'PRICE_CODE')] //option[@value='SMALL_OPT']")).click();
+    }
+    double basePriceOurssonGasStove;
+    double displayedOptPriceForOursson;
+    double displayedSmallOptPriceForOursson;
+
+
+    public void setOptPricesForOurssonGasStove (){
+        driver.findElement(By.xpath("//a[contains(text(), 'Плита Oursson')]")).click();
+        driver.findElement(By.xpath("//*[contains(text(), 'Торговый каталог')][contains(@class, 'adm-detail-tab')]")).click();
+        basePriceOurssonGasStove = Double.valueOf(driver.findElement(By.cssSelector("#CAT_BASE_PRICE")).getAttribute("value"));
+        clearAllOptPrices();
+        driver.findElement(By.xpath("//*[contains(@onchange, 'ChangePrice')]")).sendKeys(String.valueOf(basePriceOurssonGasStove-6));
+        driver.findElement(By.xpath("(//*[contains(@onchange, 'ChangePrice')])[2]")).sendKeys(String.valueOf(basePriceOurssonGasStove-1));
+        driver.findElement(buttonSaveLocator).click();
+    }
+    public void checkingThatAllOptPricesAreDisplayed (){
+        displayedOptPriceForOursson = Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_OPT')])[" + count + "]")).getText()));
+        Assert.assertTrue(displayedOptPriceForOursson == (basePriceOurssonGasStove-6));
+        displayedSmallOptPriceForOursson = Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'SMALL_OPT')])[" + count + "]")).getText()));
+        Assert.assertTrue(displayedSmallOptPriceForOursson == (basePriceOurssonGasStove-1));
+    }
+    public void addingOurssonGasStoveToTheCart(){
+        driver.findElement(By.xpath("(//*[@class='quantity-selector__increment'])[" + count + "]")).click();
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), "1"));
+    }
+    public void checkingThatAffordablePriceIsEqualsOptPrice (){
+        pricesForAllProductsInTheFooter = Double.valueOf(replacingSomeSymbols(driver.findElement(By.cssSelector("#catalog__basket-price-value")).getText()));
+        Assert.assertTrue(pricesForAllProductsInTheFooter == (basePriceOurssonGasStove-6));
+    }
+    public void checkingThatOptPriceIsNotDisplayed(){
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.xpath("(//*[contains(@id, 'price_OPT')])[" + count + "]"), 0));
+        displayedOptPriceForOursson = driver.findElements(By.xpath("(//*[contains(@id, 'price_OPT')])[" + count + "]")).size();
+        System.out.println(count);
+        System.out.println(displayedOptPriceForOursson);
+        Assert.assertTrue(displayedOptPriceForOursson == 0);
+    }
+    public void checkingThatSmallOptPriceIsDisplayed(){
+        displayedSmallOptPriceForOursson = Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'SMALL_OPT')])[" + count + "]")).getText()));
+        Assert.assertTrue(displayedSmallOptPriceForOursson == (basePriceOurssonGasStove-1));
+    }
+    public void checkingThatAffordablePriceIsEqualsSmallOpt (){
+        pricesForAllProductsInTheFooter = Double.valueOf(replacingSomeSymbols(driver.findElement(By.cssSelector("#catalog__basket-price-value")).getText()));
+        Assert.assertTrue(pricesForAllProductsInTheFooter == (basePriceOurssonGasStove-1));
     }
 }

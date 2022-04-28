@@ -181,7 +181,6 @@ public class BaseActions extends CustomizingForYourself {
         firsNavigationToB2B();
         try {
             driver.navigate().to(b2bUrl);
-            exitFromB2B();
             clickEnter();
             Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
         } catch (Exception e2) {
@@ -1019,6 +1018,7 @@ public class BaseActions extends CustomizingForYourself {
     }
 
     public void navigationToBasicB2BSettings() {
+        implicitWaiting();
         driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/", "") + "/bitrix/admin/sotbit.b2bcabinet_settings.php?lang=ru&site=s1");
     }
 

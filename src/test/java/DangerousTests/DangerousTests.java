@@ -384,7 +384,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
-        returningSettingsBackIfCatalogBroken();
+        returningSettingsBack();
         deletingProductsFromTheCart();
         navigationToSettingOfQuantitativeAccountingForTheProduct();
         turnOffStoreAccounting();
@@ -845,7 +845,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         navigationToMeanPageByUrl();
         navigationToCatalogTab();
         selectTheSectionWithGasStoves();
-        findNumberOfGefestInCatalogInCatalog();
+        findNumberOfGasStoveInCatalogInCatalog("Плита GEFEST");
         //act
         openDetailPageOfRandomProduct(count);
         checkingThatThereArePricesWithAndWithoutDiscount();

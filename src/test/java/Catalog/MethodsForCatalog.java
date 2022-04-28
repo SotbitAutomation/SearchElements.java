@@ -1687,32 +1687,24 @@ public class MethodsForCatalog extends BaseActions {
         driver.findElement(By.cssSelector(".adm-btn-save")).click();
     }
 
-    public void findNumberOfGefestInCatalogInCatalog() {
-        for (int i = 1; i < driver.findElements(By.cssSelector(".product")).size(); i++) {
-            if (driver.findElements(By.xpath("(//*[@class='product'])[" + i + "]//*[contains(@title, 'Плита GEFEST')]")).size() > 0) {
+    public void findNumberOfGasStoveInCatalogInCatalog(String neededGasStove) {
+        for (int i = 1; i <= driver.findElements(By.cssSelector(".product")).size(); i++) {
+            if (driver.findElement(By.xpath("(//*[@class='product__link'])[" + i + "]")).getText().contains(neededGasStove)) {
                 count = i;
                 break;
             }
         }
     }
 
-    public void findNumberOfKaiserInCatalogInCatalog() {
-        for (int i = 1; i < driver.findElements(By.cssSelector(".product")).size(); i++) {
-            if (driver.findElements(By.xpath("(//*[@class='product'])[" + i + "]//*[contains(@title, 'Плита Kaiser')]")).size() > 0) {
-                count = i;
-                break;
-            }
-        }
-    }
 
     public void checkingThatTheGefestGasStoveHasTheSmallOptPrice() {
-        findNumberOfGefestInCatalogInCatalog();
+        findNumberOfGasStoveInCatalogInCatalog("Плита GEFEST");
         Assert.assertTrue(Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'SMALL_OPT')])[" + count + "]")).getText())) == tempDouble
                 , "Отображаемая ОПТ цена для пользваотеля не равна вводимой у товара в админке");
     }
 
     public void addingGefestGasStoveToTheCart() {
-        findNumberOfGefestInCatalogInCatalog();
+        findNumberOfGasStoveInCatalogInCatalog("Плита GEFEST");
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).sendKeys("1");
     }
 
@@ -1786,7 +1778,7 @@ public class MethodsForCatalog extends BaseActions {
 
 
     public void enterTheMaximumAvailableQuantityOfThisProduct() {
-        findNumberOfGefestInCatalogInCatalog();
+        findNumberOfGasStoveInCatalogInCatalog("Плита GEFEST");
         tempValue2 = driver.findElement(By.xpath("(//*[@class='item-quantity__general'])[" + count + "]"))
                 .getText();
         tempValue2 = replacingSomeSymbols(tempValue2);
@@ -1844,7 +1836,7 @@ public class MethodsForCatalog extends BaseActions {
     }
 
     public void checkingThatThisProductHasStubInsteadOfPicture() {
-        findNumberOfGefestInCatalogInCatalog();
+        findNumberOfGasStoveInCatalogInCatalog("Плита GEFEST");
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).clear();
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).sendKeys("1");
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector("#catalog__basket-quantity-value"), "1"));
@@ -2219,13 +2211,15 @@ public class MethodsForCatalog extends BaseActions {
         }
         while (numberOfAvailableProduct != tempDouble) {
             countForBreak++;
-            if (countForBreak > 100){
-                countForBreak = 5/0;
+            if (countForBreak > 1000){
+                break;
             }
             try {
+                waitingMilliSecond();
                 driver.findElement(quantityPlusSelector).click();
             } catch (Exception e) {
                 System.out.println("тупая ошибка. слишком быстро кликает!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                implicitWaiting();
                 driver.findElement(quantityPlusSelector).click();
             }
             waitingMilliSecond();

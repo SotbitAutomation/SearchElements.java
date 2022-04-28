@@ -71,7 +71,10 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
             returningSettingsBack();
         }else{
             clickElement("//*[@title='Компьютеры']");
-            turnOffShowTheQuantityOfProductsInStorageIfItIsShowed();
+            determineQuantityItemsEqualsZero();
+            if (quantityItemsWithQuantityEqualsZero > 3) {
+                returningSettingsBack();
+            }
             }
 
 
@@ -98,6 +101,7 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
     public void returningQuantitativeAccountingAtTheGefestGasStoveByDefault() {
         driver.findElement(By.xpath("//a[contains(text(), 'Плита GEFEST')]")).click();
         driver.findElement(By.xpath("//*[contains(text(), 'Торговый каталог')][contains(@class, 'adm-detail-tab')]")).click();
+        clearAllOptPrices();
         driver.findElement(By.xpath("//*[@title='Дополнительные параметры']")).click();
         driver.findElement(By.xpath("//*[contains(@id, 'MEASURE_RATIO')]")).clear();
         driver.findElement(By.xpath("//*[contains(@id, 'MEASURE_RATIO')]")).sendKeys("1");
@@ -124,7 +128,16 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         driver.findElement(By.xpath("//*[@id='CAT_BASE_QUANTITY']")).sendKeys("5");
         driver.findElement(By.xpath("//*[contains(@id, 'BASE_QUANTITY_TRACE')]")).click();
         driver.findElement(By.xpath("//*[@id='CAT_BASE_QUANTITY_TRACE'] /option[@value='D']")).click();
+        driver.findElement(By.xpath("//*[@title='Управление товаром на складах']")).click();
+        driver.findElement(By.xpath("(//input[contains(@id, 'AMOUNT')])[1]")).clear();
+        driver.findElement(By.xpath("(//input[contains(@id, 'AMOUNT')])[2]")).clear();
         driver.findElement(By.cssSelector(".adm-btn-save")).click();
+    }
+    public void clearAllOptPrices(){
+        int quantityTypesOfPrices = driver.findElements(By.xpath("//*[contains(@onchange, 'ChangePrice')]")).size();
+        for (int i = 1; i <= quantityTypesOfPrices; i++) {
+            driver.findElement(By.xpath("(//*[contains(@onchange, 'ChangePrice')])["+ i + "]")).clear();
+        }
     }
 
     public void returningTheKaiserGasStoveSettingByDefault() {

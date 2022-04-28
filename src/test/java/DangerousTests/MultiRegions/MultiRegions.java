@@ -95,7 +95,7 @@ public class MultiRegions extends MethodsForMultiRegions {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToRegionSetting();
-        tryToTurnOffWorkingWithLocations();
+        turnOffWorkingWithLocations();
         returningSettingsBackIfCatalogBroken();
         deletingProductsFromTheCart();
         navigationToCatalogTab();
@@ -132,7 +132,7 @@ public class MultiRegions extends MethodsForMultiRegions {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToRegionSetting();
-        tryToTurnOnWorkingWithLocations();
+        turnOnWorkingWithLocations();
         returningSettingsBackIfCatalogBroken();
         deletingProductsFromTheCart();
         navigationToCatalogTab();
@@ -160,6 +160,101 @@ public class MultiRegions extends MethodsForMultiRegions {
         navigationToComponentOfCatalogSetting();
         showingTheQuantityOfProductsInStorage();
         ternOffEditMode();
+    }
+
+    @Test(retryAnalyzer = Retry.class) //7. Вывод типов цен в зависимости от региона (работа с местоположениями включена)
+    public void outputOfPriceTypesDependingOnTheRegionWorkingWithLocationsIsEnabled() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        deletingProductsFromTheCart();
+        returningSettingsBackIfCatalogBroken();
+        navigationToRegionSetting();
+        turnOnWorkingWithLocations();
+        openRandomRegionInAdminPart();
+        unselectAllTypesOfPrices();
+        choiceSmallOptTypePrice();
+        driver.findElement(buttonSaveLocator).click();
+        navigationToGasStoveSetting();
+        setOptPricesForOurssonGasStove();
+        navigationToMeanPageByUrl();
+        selectTheSectionWithGasStoves();
+        findNumberOfGasStoveInCatalogInCatalog("Плита Oursson");
+        checkingThatAllOptPricesAreDisplayed();
+        checkingThatAllOptPricesAreDisplayed();
+        addingOurssonGasStoveToTheCart();
+        checkingThatAffordablePriceIsEqualsOptPrice();
+        clickOnTheMultiRegion();
+        choiceRandomCityFromSearchHint(nameRandomCity);
+        checkingThatOptPriceIsNotDisplayed();
+        checkingThatSmallOptPriceIsDisplayed();
+        checkingThatAffordablePriceIsEqualsSmallOpt();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        deletingProductsFromTheCart();
+        clickOnTheMultiRegion();
+        choiceRandomCityFromSearchHint("Москва");
+        selectTheSectionWithGasStoves();
+        findNumberOfGasStoveInCatalogInCatalog("Плита Oursson");
+        checkingThatAllOptPricesAreDisplayed();
+        checkingThatAllOptPricesAreDisplayed();
+        addingOurssonGasStoveToTheCart();
+        checkingThatAffordablePriceIsEqualsOptPrice();
+        clickOnTheMultiRegion();
+        choiceRandomCityFromSearchHint(nameRandomCity);
+        checkingThatOptPriceIsNotDisplayed();
+        checkingThatSmallOptPriceIsDisplayed();
+        checkingThatAffordablePriceIsEqualsSmallOpt();
+    }
+    @Test(retryAnalyzer = Retry.class) //7. Вывод типов цен в зависимости от региона (работа с местоположениями выключена)
+    public void outputOfPriceTypesDependingOnTheRegionWorkingWithLocationsIsDisabled() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        deletingProductsFromTheCart();
+        returningSettingsBackIfCatalogBroken();
+        navigationToRegionSetting();
+        turnOffWorkingWithLocations();
+        openRandomRegionInAdminPart();
+        unselectAllTypesOfPrices();
+        choiceSmallOptTypePrice();
+        driver.findElement(buttonSaveLocator).click();
+        navigationToGasStoveSetting();
+        setOptPricesForOurssonGasStove();
+        navigationToMeanPageByUrl();
+        selectTheSectionWithGasStoves();
+        findNumberOfGasStoveInCatalogInCatalog("Плита Oursson");
+        checkingThatAllOptPricesAreDisplayed();
+        checkingThatAllOptPricesAreDisplayed();
+        addingOurssonGasStoveToTheCart();
+        checkingThatAffordablePriceIsEqualsOptPrice();
+        clickOnTheMultiRegion();
+        choiceRandomCityFromSearchHint(nameRandomCity);
+        checkingThatOptPriceIsNotDisplayed();
+        checkingThatSmallOptPriceIsDisplayed();
+        checkingThatAffordablePriceIsEqualsSmallOpt();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        deletingProductsFromTheCart();
+        clickOnTheMultiRegion();
+        choiceRandomCityFromSearchHint("Москва");
+        selectTheSectionWithGasStoves();
+        findNumberOfGasStoveInCatalogInCatalog("Плита Oursson");
+        checkingThatAllOptPricesAreDisplayed();
+        checkingThatAllOptPricesAreDisplayed();
+        addingOurssonGasStoveToTheCart();
+        checkingThatAffordablePriceIsEqualsOptPrice();
+        clickOnTheMultiRegion();
+        choiceRandomCityFromSearchHint(nameRandomCity);
+        checkingThatOptPriceIsNotDisplayed();
+        checkingThatSmallOptPriceIsDisplayed();
+        checkingThatAffordablePriceIsEqualsSmallOpt();
     }
 
 }
