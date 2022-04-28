@@ -102,9 +102,29 @@ public class MethodsForCatalog extends BaseActions {
         calculationOfTheCoefficientForNonPieceProducts();
         determiningRandomNumberUpToMAxQuantityThisProducts();
         numberOfProductsInTheFooter = Integer.parseInt(driver.findElement(By.id("catalog__basket-quantity-value")).getText());
-        for (int i = 0; i < randomNumberUpToMAxQuantityThisProducts; i++) {
-            if (quantityOfProductsInStock * coefficientForQuantityOfProducts < 30) {
+        for (int i = 1; i <= randomNumberUpToMAxQuantityThisProducts; i++) {
+            if (quantityOfProductsInStock * coefficientForQuantityOfProducts < 40) {
                 driver.findElement(By.xpath("(//*[contains(@id, 'quantity-increment')])[" + randomProductNumberOnThePage + "]")).click();
+
+                double tempQuantityItems;
+                int tempCountForBreak = 0;
+                double expectedTempQuantityItems;
+                flag= false;
+
+                while (!flag){
+                    tempCountForBreak++;
+                    expectedTempQuantityItems = i/coefficientForQuantityOfProducts;
+                    tempQuantityItems = Double.valueOf(driver.findElement(By.xpath("(//*[contains(@id, 'quantity-value')])[" + randomProductNumberOnThePage + "]")).getAttribute("value"));
+                    if (tempQuantityItems == expectedTempQuantityItems){
+                        flag = true;
+                    }
+                    if (tempCountForBreak > 10){
+                        driver.findElement(By.xpath("(//*[contains(@id, 'quantity-increment')])[" + randomProductNumberOnThePage + "]")).click();
+                        implicitWaiting();implicitWaiting();
+                        tempQuantityItems = Double.valueOf(driver.findElement(By.xpath("(//*[contains(@id, 'quantity-value')])[" + randomProductNumberOnThePage + "]")).getAttribute("value"));
+                        Assert.assertTrue(tempQuantityItems == expectedTempQuantityItems);
+                    }
+                }
                 waitingMilliSecond();
             } else {
                 driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]"))
@@ -217,32 +237,38 @@ public class MethodsForCatalog extends BaseActions {
     }
 
     public void calculationOfTheCoefficientForNonPieceProducts() {
+        String unitOfMeasurementOfARandomProduct = driver.findElement(By.xpath("(//*[contains(@class, 'roperty--measure')])[" + randomProductNumberOnThePage +  "]")).getText();
         numberOfProductsInTheFooter = Integer.parseInt(driver.findElement(By.id("catalog__basket-quantity-value")).getText());
-        clickElement("(//*[@class='quantity-selector__increment'])[" + randomProductNumberOnThePage + "]");
-        try {
-            wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter + 1)));
-        } catch (Exception e) {
-            System.out.println("C первого раза не кликнулось");
-            driver.findElement(By.xpath("(//*[@class='quantity-selector__increment'])[" + randomProductNumberOnThePage + "]")).click();
-            System.out.println("Ожидаю кол-во позицый в футере каталога - " + (numberOfProductsInTheFooter + 1));
-            wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter + 1)));
-        }
-        implicitWaiting();
+        if (!areThereAnyOffers && unitOfMeasurementOfARandomProduct.equals("шт")){
+            coefficientForQuantityOfProducts = 1;
+        }else {
 
-        if (Double.valueOf(driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]")).getAttribute("value"))
-                == 0.1) {
-            unitsOfMeasurement = 0.1;
-        } else {
-            unitsOfMeasurement = 1;
+            clickElement("(//*[@class='quantity-selector__increment'])[" + randomProductNumberOnThePage + "]");
+            try {
+                wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter + 1)));
+            } catch (Exception e) {
+                System.out.println("C первого раза не кликнулось");
+                driver.findElement(By.xpath("(//*[@class='quantity-selector__increment'])[" + randomProductNumberOnThePage + "]")).click();
+                System.out.println("Ожидаю кол-во позицый в футере каталога - " + (numberOfProductsInTheFooter + 1));
+                wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter + 1)));
+            }
+            implicitWaiting();
+
+            if (Double.valueOf(driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]")).getAttribute("value"))
+                    == 0.1) {
+                unitsOfMeasurement = 0.1;
+            } else {
+                unitsOfMeasurement = 1;
+            }
+            driver.findElement(By.xpath("(//*[@class='quantity-selector__decrement'])[" + randomProductNumberOnThePage + "]")).click();
+            coefficientForQuantityOfProducts = 1 / unitsOfMeasurement;
+            driver.findElement(By.xpath("(//*[@class='quantity-selector__decrement'])[" + randomProductNumberOnThePage + "]")).click();
+            driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]")).clear();
+            driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]")).sendKeys("0");
+            //clickElementByItsCssSelector("#title-search-input"); закрывает каталог во весь экран
+            wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
+            implicitWaiting();
         }
-        driver.findElement(By.xpath("(//*[@class='quantity-selector__decrement'])[" + randomProductNumberOnThePage + "]")).click();
-        coefficientForQuantityOfProducts = 1 / unitsOfMeasurement;
-        driver.findElement(By.xpath("(//*[@class='quantity-selector__decrement'])[" + randomProductNumberOnThePage + "]")).click();
-        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]")).clear();
-        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]")).sendKeys("0");
-        //clickElementByItsCssSelector("#title-search-input"); закрывает каталог во весь экран
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter)));
-        implicitWaiting();
     }
 
     public void determiningNumberOfProductsOnThePage() {
@@ -670,12 +696,12 @@ public class MethodsForCatalog extends BaseActions {
 
     public void sortsProductsByDecreasePrice() {
         try {
-            driver.findElement(By.xpath("//*[@data-property-code = 'BASE']")).click();
-            driver.findElement(By.xpath("//*[@data-property-code = 'BASE']")).click();
+            driver.findElement(By.xpath("//*[contains(@class, 'blank-zakaza__header-property')][contains(text(), 'Розничная цена')]")).click();
+            driver.findElement(By.xpath("//*[contains(@class, 'blank-zakaza__header-property')][contains(text(), 'Розничная цена')]")).click();
         } catch (Exception e) {
-            System.out.println("Нет столбца с 'BASE'");
-            driver.findElement(By.xpath("//*[contains(@class, 'blank-zakaza__header-property')][contains(text(), 'Розничная цена')]")).click();
-            driver.findElement(By.xpath("//*[contains(@class, 'blank-zakaza__header-property')][contains(text(), 'Розничная цена')]")).click();
+            System.out.println("Нет столбца с 'розничная цена'");
+            driver.findElement(By.xpath("//*[@data-property-code = 'BASE']")).click();
+            driver.findElement(By.xpath("//*[@data-property-code = 'BASE']")).click();
         }
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@class, 'active sort-DESC')]")).isDisplayed()
                 , "У 'Розничная цена' не появился флажок сортировки во убыванию");
@@ -725,7 +751,9 @@ public class MethodsForCatalog extends BaseActions {
                     Assert.assertTrue(Double.valueOf(tempValue2) <= Double.valueOf(tempValue3));
                 }
             } else {
-                Assert.assertTrue(Double.valueOf(tempValue2) <= Double.valueOf(tempValue3));
+                if (!tempValue2.equals("0") && !tempValue3.equals("0")) {
+                    Assert.assertTrue(Double.valueOf(tempValue2) <= Double.valueOf(tempValue3));
+                }
             }
         }
     }
@@ -850,10 +878,13 @@ public class MethodsForCatalog extends BaseActions {
             implicitWaiting();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".media-title")));
         } catch (Exception e) {
-            System.out.println("Не высветился поп-ап товар в подсказке, удаляю пару символов из имени !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            driver.findElement(fieldForSearchInCatalogLocator).sendKeys("\b");
-            waitingMilliSecond();
-            driver.findElement(fieldForSearchInCatalogLocator).sendKeys("\b");
+            System.out.println("Не высветился поп-ап товар в подсказке, ввожу посимвольно!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            driver.findElement(fieldForSearchInCatalogLocator).clear();
+            driver.findElement(fieldForSearchInCatalogLocator).sendKeys(nameForSearch.substring(0,1));
+            driver.findElement(fieldForSearchInCatalogLocator).sendKeys(nameForSearch.substring(1,2));
+            driver.findElement(fieldForSearchInCatalogLocator).sendKeys(nameForSearch.substring(2,3));
+            driver.findElement(fieldForSearchInCatalogLocator).sendKeys(nameForSearch.substring(3,4));
+            driver.findElement(fieldForSearchInCatalogLocator).sendKeys(nameForSearch.substring(4,5));
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".media-title")));
         }
         implicitWaiting();
@@ -1019,12 +1050,18 @@ public class MethodsForCatalog extends BaseActions {
             String backgroundColor = driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')])[last()] /*[@class='nav-link']"))
                     .getCssValue("background-color");
             Assert.assertTrue(backgroundColor.contains("rgba(0, 0, 0, 0"), "Цвет фона для 'Каталог не соответсвует ожидаемому'");
-            System.out.println("Рандомный подраздел рандомного раздела - " + tempValue3);
             tempValue4 = driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')])[last()] /*[@href]")).getAttribute("href");
             tempValue4 = tempValue4.substring(tempValue4.indexOf('=') + 1);
             tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)")).size()));
             tempValue3 = driver.findElement(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]")).getText();
-            clickElement("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]");
+            System.out.println("Рандомный подраздел рандомного раздела - " + tempValue3);
+            try {
+                clickElement("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]");
+            }catch (Exception e){
+                System.out.println("тупая ошибкаб скрывается каталогб раскрываю его заново");
+                expandCatalogCategories();
+                clickElement("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]");
+            }
         } else {
             expandCatalogCategories();
             disclosureOfASubcategories("//*[@class='nav-item dropdown nav-item-dropdown-xl show'] //*[contains(text(), '" + tempValue2 + "')]");
@@ -1049,21 +1086,14 @@ public class MethodsForCatalog extends BaseActions {
 
     public void enteringTheMaxPriceIntoTheFilter() {
         driver.findElement(By.cssSelector(".max-price")).sendKeys(maxPriceForFiltering);
-        try {
-            driver.findElement(By.cssSelector("#set_filter")).click();
-        } catch (Exception e) {
-            driver.findElement(By.cssSelector("#set_filter")).click();
-        }
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#modef")));
+        clickElementByItsCssSelector("#set_filter");
     }
 
     public void enteringTheMinPriceIntoTheFilter() {
-        //minPriceForFiltering = replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(@id, 'price_BASE')])[3]")).getText()));
         driver.findElement(By.cssSelector(".min-price")).sendKeys(minPriceForFiltering);
-        try {
-            driver.findElement(By.cssSelector("#set_filter")).click();
-        } catch (Exception e) {
-            driver.findElement(By.cssSelector("#set_filter")).click();
-        }
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#modef")));
+        clickElementByItsCssSelector("#set_filter");
     }
 
     public void checkThatMaxPriceHasBeenApplied() {
@@ -1332,7 +1362,10 @@ public class MethodsForCatalog extends BaseActions {
                     .compareTo(
                             driver.findElement(By.xpath("(//*[@class='blank-zakaza__item'] //*[@class='product'] //*[@class='product__link'])[" + (i + 1) + "]"))
                             .getText().substring(0, 3));
-            Assert.assertTrue(tempInt >= 0, "Товары не отсортированы по алфавиту (возрастанию)");
+            if (!driver.findElement(By.xpath("(//*[@class='item-quantity__general'])[" + i + "]")).getText().equals("0")
+                    && !driver.findElement(By.xpath("(//*[@class='item-quantity__general'])[" + (i+1) + "]")).getText().equals("0")){
+                Assert.assertTrue(tempInt >= 0, "Товары не отсортированы по алфавиту (возрастанию)");
+            }
         }
     }
 
@@ -2176,6 +2209,7 @@ public class MethodsForCatalog extends BaseActions {
     }
 
     public void addingMaxQuantityOfProductInTheCartUsingPlusIconOneMoreThanAvailable(By quantityFieldSelector, By quantityPlusSelector, double numberOfAvailableProduct) {
+        int countForBreak = 0;
         tempDouble = 1;
         System.out.println("Доступное кол-во товара - " + numberOfAvailableProduct);
         if (numberOfAvailableProduct > 95) {
@@ -2184,6 +2218,10 @@ public class MethodsForCatalog extends BaseActions {
             implicitWaiting();
         }
         while (numberOfAvailableProduct != tempDouble) {
+            countForBreak++;
+            if (countForBreak > 100){
+                countForBreak = 5/0;
+            }
             try {
                 driver.findElement(quantityPlusSelector).click();
             } catch (Exception e) {

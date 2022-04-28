@@ -181,11 +181,12 @@ public class BaseActions extends CustomizingForYourself {
         firsNavigationToB2B();
         try {
             driver.navigate().to(b2bUrl);
+            exitFromB2B();
             clickEnter();
             Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
         } catch (Exception e2) {
             try {
-                System.out.println("2 катч - Кнопку входа перекрывает предупреждение из-за сброса кеша");
+                System.out.println("2 катч - Кнопку входа перекрывает предупреждение из-за сброса кеша и я не был авторизован");
                 closeTheWarningWindowThatYouNeedToLogIn();
                 clickEnter();
                 Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
@@ -358,6 +359,7 @@ public class BaseActions extends CustomizingForYourself {
         }
         wait.until(ExpectedConditions.visibilityOfElementLocated(exitButtonInb2bCabinetLocator));
         driver.findElement(exitButtonInb2bCabinetLocator).click();
+        flagForRegionThisIsTheFirstVisit = true;
     }
 
     public void expandMenuWithOrganizations() {

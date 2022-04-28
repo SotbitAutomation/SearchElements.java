@@ -87,13 +87,15 @@ public class MultiRegions extends MethodsForMultiRegions {
         checkingThatChosenCityIsDisplayed();
     }
 
-    @Test(retryAnalyzer = Retry.class) //5. Вывод остатков на складх в зависимости от выбранного региона
-    public void displayOfStockBalancesDependingOnTheSelectedRegion() {
+    @Test(retryAnalyzer = Retry.class) //5. Вывод остатков на складх в зависимости от выбранного региона (работа с местоположениями выключена)
+    public void displayOfStockBalancesDependingOnTheSelectedRegionWorkingWithLocationsIsDisabled() {
         //arrange
         navigationToAuthorizationTab();
         //act
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
+        navigationToRegionSetting();
+        tryToTurnOffWorkingWithLocations();
         returningSettingsBackIfCatalogBroken();
         deletingProductsFromTheCart();
         navigationToCatalogTab();
@@ -120,6 +122,44 @@ public class MultiRegions extends MethodsForMultiRegions {
         attemptToAddMoreItemsThanIsAtTheStorage();
         navigationToComponentOfCatalogSetting();
         showingTheQuantityOfProductsInStorage();
+        ternOffEditMode();
+    }
+    @Test(retryAnalyzer = Retry.class) //6. Вывод остатков на складх в зависимости от выбранного региона (работа с местоположениями включена)
+    public void displayOfStockBalancesDependingOnTheSelectedRegionWorkingWithLocationsIsEnabled() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToRegionSetting();
+        tryToTurnOnWorkingWithLocations();
+        returningSettingsBackIfCatalogBroken();
+        deletingProductsFromTheCart();
+        navigationToCatalogTab();
+        ternOnEditMode();
+        navigationToComponentOfCatalogSetting();
+        configureTheOutputOfAllStoragesToTheCatalog();
+        showTheQuantityOfProductsInStorageIfItIsNotShowed();
+        openRandomRegionInAdminPart();
+        unselectAllStorages();
+        selectShowingOnlyOneTESTStorage();
+        navigationToGasStoveSetting();
+        returningQuantitativeAccountingAtTheGefestGasStoveByDefault();
+        addingSecondStorageIfItNeed();
+        navigationToGasStoveSetting();
+        addingProductsToTheStorages();
+        navigationToMeanPageByUrl();
+        ternOffEditMode();
+        selectTheSectionWithGasStoves();
+        enterTheMaximumAvailableQuantityOfThisProduct();
+        checkingThatTheTotalNumberOfOutputProductsAndQuantityStoragesIsEqualToThePreviouslyEnteredData();
+        clickOnTheMultiRegion();
+        choiceRandomCityFromSearchHint(nameRandomCity);
+        checkingThatTheTotalNumberOfOutputProductsIsEqualToThePreviouslyEnteredDataInTestStorage();
+        attemptToAddMoreItemsThanIsAtTheStorage();
+        navigationToComponentOfCatalogSetting();
+        showingTheQuantityOfProductsInStorage();
+        ternOffEditMode();
     }
 
 }

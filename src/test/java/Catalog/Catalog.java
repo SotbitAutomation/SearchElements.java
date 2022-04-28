@@ -730,7 +730,6 @@ public class Catalog extends MethodsForCatalog {
         navigationToPersonalAccountTab();
         sendRequestToTopUpYourPersonalAccountForOneHundredRubles();
         checkingConfirmInformationThatTheRequestIsSent();
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
@@ -739,7 +738,6 @@ public class Catalog extends MethodsForCatalog {
         checkingThatTheRequestForReplenishmentOfThePersonalAccountIsDisplayedByTheAdmin(tempValue);
         navigationToPageForAddingPersonalAccountInAdminPart();
         addMoneyToTheUserSPersonalAccount(registr.theSameEmail);
-        exitFromB2B();
         navigationToAuthorizationTab();
         registr.fillingFieldsOnTheLogInTab();
         logInToB2B();

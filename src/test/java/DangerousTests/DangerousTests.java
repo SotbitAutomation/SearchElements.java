@@ -760,7 +760,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         enterNameInTheSearchFieldOnTheCatalogTab(tempString);
         choiceCategoryFromPopApWindow();
         checkingThatBreadCrumbsContainTheNameOfTheSection();
-        checkingThatURLContainsChosenCategory();
+        //checkingThatURLContainsChosenCategory(); ЧПУ добавили
         checkingThatAllProductsHaveSimilarIdToTheSectionId();
     }
     @Test(retryAnalyzer = Retry.class)

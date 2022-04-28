@@ -192,6 +192,7 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         }
     }
     public void determineQuantityItemsEqualsZero(){
+        ternOffEditMode();
         quantityItemsWithQuantityEqualsZero = 0;
         numberOfProductsPerPage = driver.findElements(By.cssSelector(".item-quantity__general")).size();
         for (int i = 1; i <= numberOfProductsPerPage; i++) {
@@ -239,6 +240,7 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         driver.findElement(By.xpath("//*[@id='CAT_BASE_QUANTITY']")).sendKeys(tempValue2);
         quantityItemsInTheTESTStorage = Integer.valueOf(driver.findElement(By.xpath("//*[text()='TEST'] /following::*[contains(@id, 'AMOUNT')]")).getAttribute("value"));
         driver.findElement(By.xpath("//*[@name='save']")).click();
+        System.out.println("Кол-ва gefest на складе 'TEST' -  " + quantityItemsInTheTESTStorage);
     }
     public void checkingThatTheTotalNumberOfOutputProductsAndQuantityStoragesIsEqualToThePreviouslyEnteredData() {
         Actions action = new Actions(driver);
@@ -272,8 +274,10 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         implicitWaiting();
     }
     public void checkingThatTheTotalNumberOfOutputProductsIsEqualToThePreviouslyEnteredDataInTestStorage() {
+        System.out.println("УДАЛИТЬ  " + count);
         Actions action = new Actions(driver);
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).clear();
+        waitingMilliSecond();
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).sendKeys("0");
         tempValue3 = driver.findElement(By.xpath("(//*[@class='item-quantity__general'])[" + count + "]")).getText();
         Assert.assertTrue(quantityItemsInTheTESTStorage == Integer.parseInt(tempValue3));

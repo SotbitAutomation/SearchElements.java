@@ -6,15 +6,15 @@ import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
 public class MenuInTheCatalog extends MethodsForCatalog {
-    @Test (retryAnalyzer = Retry.class) //0. Включить вывод каталога в меню
-    public void a_enableCatalogOutputInTheMenu() {
-        //arrange
-        navigationToAuthorizationTab();
-        //act
-        fillingFieldsOnTheLogInTabLikeAdmin();
-        logInToB2B();
-        configuringDirectoryOutputInTheNavigationMenu();
-    }
+//    @Test (retryAnalyzer = Retry.class) //0. Включить вывод каталога в меню
+//    public void a_enableCatalogOutputInTheMenu() {
+//        //arrange
+//        navigationToAuthorizationTab();
+//        //act
+//        fillingFieldsOnTheLogInTabLikeAdmin();
+//        logInToB2B();
+//        configuringDirectoryOutputInTheNavigationMenu();
+//    }
     @Test (retryAnalyzer = Retry.class) //1. Переключение между разделами различного уровня вложенности
     public void switchingBetweenSectionsOfDifferentNestingLevels() {
         //arrange

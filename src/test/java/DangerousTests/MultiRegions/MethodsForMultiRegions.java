@@ -54,6 +54,21 @@ public class MethodsForMultiRegions extends MethodsForDangerousTests {
         driver.findElement(By.xpath("//*[contains(@style, 'display: block')]//*[text()='Изменить']")).click();
         nameRandomCity = driver.findElement(By.xpath("//*[@name='NAME']")).getAttribute("value");
     }
+    public void navigationToRegionSetting(){
+        driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/" , "") + "bitrix/admin/sotbit_regions_settings.php?lang=ru&site=s1");
+    }
+    public void tryToTurnOffWorkingWithLocations(){
+        if (driver.findElements(By.xpath("//*[@id='MODE_LOCATION'][@checked] /following::*[1]")).size() > 0){
+            driver.findElement(By.xpath("//*[@id='MODE_LOCATION'] /following::*[1]")).click();
+            driver.findElement(buttonSaveLocator).click();
+        }
+    }
+    public void tryToTurnOnWorkingWithLocations(){
+        if (driver.findElements(By.xpath("//*[@id='MODE_LOCATION'][@checked] /following::*[1]")).size() == 0){
+            driver.findElement(By.xpath("//*[@id='MODE_LOCATION'] /following::*[1]")).click();
+            driver.findElement(buttonSaveLocator).click();
+        }
+    }
     public void unselectAllStorages(){
         int quantityOfStorages = driver.findElements(By.xpath("//*[contains(@id, 'STORE')] //option")).size();
         for (int i = 1; i <= quantityOfStorages ; i++) {

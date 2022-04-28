@@ -112,6 +112,13 @@ public class MethodsForDocuments extends BaseActions {
         String parentWindow = itr.next();
         String newWindow = itr.next();
         driver.switchTo().window(newWindow);
+
+        driver.findElement(By.xpath("//*[contains(@title, 'Введите')]")).clear();
+        driver.findElement(By.xpath("//*[contains(@title, 'Введите')]")).sendKeys(emailUserForDoc);
+        driver.findElement(By.xpath("//*[@type='submit']")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[text()='" + emailUserForDoc +  "'])[1]")));
+        implicitWaiting();
+
         if (driver.findElements(By.xpath("(//*[text()='" + emailUserForDoc +  "'])[1]")).size() == 0){
             driver.findElement(By.xpath("//*[text()='На странице:'] /following::*[1]")).click();
             driver.findElement(By.xpath("//*[text()='все']")).click();
@@ -136,7 +143,8 @@ public class MethodsForDocuments extends BaseActions {
         }
         implicitWaiting();
         driver.switchTo().window(parentWindow);
-        implicitWaiting();
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.xpath("//*[@class='tablebodybutton']/following::*[1]"), 1));
+        implicitWaiting();implicitWaiting();
         System.out.println(driver.findElement(By.xpath("//*[@class='tablebodybutton']/following::*[1]")).getText());
         Assert.assertTrue(driver.findElement(By.xpath("//*[@class='tablebodybutton']/following::*[1]")).getText().contains(emailUserForDoc));
     }
@@ -149,7 +157,6 @@ public class MethodsForDocuments extends BaseActions {
             driver.findElement(By.xpath("//*[contains(text(), 'Акты')]")).click();
         }else {
             driver.findElement(By.xpath("//*[text()='Акты']")).click();
-
         }
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@class,'page-header')] //*[text()='Акты']")).isDisplayed());
     }
