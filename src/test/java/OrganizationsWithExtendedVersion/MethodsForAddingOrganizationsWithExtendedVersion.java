@@ -199,6 +199,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
     }
 
     public void openTabsInTheOrganizationDetailedPage() {
+        scrollToTheElement("//*[@class='breadcrumb-item']");
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//*[@class='main-grid-row main-grid-row-body'])[1] /*[7]"), "Одобрена"));
         implicitWaiting();
         driver.findElement(firstHamburgerMenuOnTheOrganizationTabLocator).click();

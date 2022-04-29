@@ -853,6 +853,7 @@ public class MethodsForCatalog extends BaseActions {
     }
 
     public void enterPartOfNameInTheSearchFieldOnTheCatalogTab(By searchField, String wordForSearch) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(searchField));
         driver.findElement(searchField).sendKeys(wordForSearch.substring(0, 1));
         driver.findElement(searchField).sendKeys(wordForSearch.substring(1, 2));
         driver.findElement(searchField).sendKeys(wordForSearch.substring(2, 3));
@@ -943,7 +944,7 @@ public class MethodsForCatalog extends BaseActions {
                 goToTheLastPage();
                 checkThatTheQuantityOfPagesIsChanged();
             } else {
-                choiceRandomCategoryInMenuCatalog();
+                choiceRandomCategoryInMenuCatalog(false);
                 //checkingThatAllProductsHaveASimilarIdToTheSectionId();
                 choiceRandomUnderCategoryOfTheSelectedCategory();
                 tempString = tempValue3; //Название категории
@@ -959,13 +960,14 @@ public class MethodsForCatalog extends BaseActions {
                 goToTheLastPage();
                 checkThatTheQuantityOfPagesIsChanged();
             } else {
-                choiceRandomCategoryInMenuCatalog();
+                choiceRandomCategoryInMenuCatalog(false);
                 tempString = tempValue2;
             }
         }
     }
 
-    public void expandCatalogCategories() {
+    public void expandCatalogCategories(boolean expandFromPopUpWindow) {
+        if (!expandFromPopUpWindow){
         determineThemeColor();
         if (themeColorBlack) {
             tempValue1 = driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][@title='Каталог']")).getText();
@@ -988,41 +990,44 @@ public class MethodsForCatalog extends BaseActions {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@href, 'SECTION_ID=1')]")));
             waitingMilliSecond();
         }
+        }
     }
+    int numberOfPropertiesInTheFilterAfterChoiceSection;
+    int numberOfPropertiesInTheFilterAfterChoiceUnderSection;
 
-    public void choiceRandomCategoryInMenuCatalog() {
-        tempInt = driver.findElements(By.cssSelector(".item_name")).size();
-        expandCatalogCategories();
+    public void choiceRandomCategoryInMenuCatalog(boolean expandFromPopUpWindow) {
+        //tempInt = driver.findElements(By.cssSelector(".item_name")).size();
+        expandCatalogCategories(expandFromPopUpWindow);
         determineThemeColor();
         if (themeColorBlack) {
-            tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(By.xpath("//*[contains(@class, 'nav-item-open')]/*[contains(@class, 'nav-group-sub')] /li /a /span")).size()));
+            tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(By.xpath("//*[contains(@class, 'nav-sidebar')]/*[contains(@class, 'nav-item')]/ul[contains(@class, 'nav-group-sub')] /li")).size()));
             if (tempRandomNumber == 7) {
                 tempRandomNumber = 1;
             }
-            tempValue2 = driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]")).getText();
+            tempValue2 = driver.findElement(By.xpath("(//*[contains(@class, 'nav-sidebar')]/*[contains(@class, 'nav-item')]/ul[contains(@class, 'nav-group-sub')] /li)[" + tempRandomNumber + "]")).getText();
             System.out.println("Рандомный раздел - " + tempValue2);
-            driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]")).click();
-            wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector(".breadcrumb-item.active"), tempValue2));
-            waitingMilliSecond();
-            expandCatalogCategories();
-            String backgroundColor = driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')]/*[contains(@class, 'nav-group-sub')] /li /a)[" + tempRandomNumber + "]"))
+            String backgroundColor = driver.findElement(By.xpath("(//*[contains(@class, 'nav-sidebar')]/*[contains(@class, 'nav-item')]/ul[contains(@class, 'nav-group-sub')] /li)[" + tempRandomNumber + "]"))
                     .getCssValue("background-color");
             Assert.assertTrue(backgroundColor.contains("rgba(0, 0, 0, 0"), "Цвет фона для 'Каталог не соответсвует ожидаемому'");
-            tempValue4 = driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')])[last()] /*[@href]")).getAttribute("href");
-            tempValue4 = tempValue4.substring(tempValue4.indexOf('=') + 1);
+            driver.findElement(By.xpath("(//*[contains(@class, 'nav-sidebar')]/*[contains(@class, 'nav-item')]/ul[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]")).click();
+            wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector(".breadcrumb-item.active"), tempValue2));
+            waitingMilliSecond();
+//            tempValue4 = driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')])[last()] /*[@href]")).getAttribute("href");
+//            tempValue4 = tempValue4.substring(tempValue4.indexOf('=') + 1); ЧПУ
         } else {
             tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(
                     By.xpath("//*[contains(@class ,'show')]/*[contains(@class ,'dropdown-menu')]/*[contains(@class ,'dropdown-submenu')]")).size()));
             tempValue2 = driver.findElement(By.xpath("(//*[contains(@class ,'show')]/*[contains(@class ,'dropdown-menu')]/*[contains(@class ,'dropdown-submenu')] /*[1] /span)["
                     + tempRandomNumber + "]")).getText();
             System.out.println("Рандомный раздел - " + tempValue2);
-            tempValue4 = driver.findElement(By.xpath("(//*[contains(@class ,'show')]/*[contains(@class ,'dropdown-menu')]/*[contains(@class ,'dropdown-submenu')] /*[1])["
-                    + tempRandomNumber + "]")).getAttribute("href");
-            tempValue4 = tempValue4.substring(tempValue4.indexOf('=') + 1);
+//            tempValue4 = driver.findElement(By.xpath("(//*[contains(@class ,'show')]/*[contains(@class ,'dropdown-menu')]/*[contains(@class ,'dropdown-submenu')] /*[1])["
+//                    + tempRandomNumber + "]")).getAttribute("href");
+//            tempValue4 = tempValue4.substring(tempValue4.indexOf('=') + 1); ЧПУ убрали
             driver.findElement(
                     By.xpath("(//*[contains(@class ,'show')]/*[contains(@class ,'dropdown-menu')]/*[contains(@class ,'dropdown-submenu')] /*[1] /span)["
                             + tempRandomNumber + "]")).click();
         }
+        numberOfPropertiesInTheFilterAfterChoiceSection = driver.findElements(By.xpath("//*[contains(@class, 'active')]//*[@data-checkbox='div']")).size();
     }
 
     public void choiceRandomCategoryInPopUpMenuCatalog() {
@@ -1034,36 +1039,35 @@ public class MethodsForCatalog extends BaseActions {
         System.out.println("Рандомный раздел - " + tempValue2);
         driver.findElement(pathToRandomSectionsInMenuLocator).click();
         hoveringTheCursorOverTheElement(iconCatalogLocator);
-        waitingMilliSecond();
-        String backgroundColor = driver.findElement(By.xpath("(//*[@class='nav-item nav-item-submenu nav-item-open'])[last()] /*[@class='nav-link']")).getCssValue("background-color");
+        String backgroundColor = driver.findElement(pathToRandomSectionsInMenuLocator).getCssValue("background-color");
         Assert.assertTrue(backgroundColor.contains("rgba(0, 0, 0, 0"), "Цвет фона для 'Каталог не соответсвует ожидаемому'");
-        tempValue4 = driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')])[last()] /*[@href]")).getAttribute("href");
-        tempValue4 = tempValue4.substring(tempValue4.indexOf('=') + 1);
+//        tempValue4 = driver.findElement(pathToRandomSectionsInMenuLocator).getAttribute("href");
+//        tempValue4 = tempValue4.substring(tempValue4.indexOf('=') + 1); уже ЧПУ
     }
 
     public void choiceRandomUnderCategoryOfTheSelectedCategory() {
         determineThemeColor();
         if (themeColorBlack) {
-            tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(By.xpath("(//*[contains(@class, 'nav-item-open')])[last()] /ul /li")).size()));
-            tempValue2 = driver.findElement(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()] /ul /li)[" + tempRandomNumber + "]")).getText();
-            disclosureOfASubcategories("((//*[contains(@class, 'nav-item-open')])[last()] /ul /li)[" + tempRandomNumber + "]");
-            String backgroundColor = driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')])[last()] /*[@class='nav-link']"))
+            tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(By.xpath("//*[contains(@class, 'nav-sidebar')]/*[contains(@class, 'nav-item')]/ul[contains(@class, 'nav-group-sub')] /li")).size()));
+            tempValue2 = driver.findElement(By.xpath("(//*[contains(@class, 'nav-sidebar')]/*[contains(@class, 'nav-item')]/ul[contains(@class, 'nav-group-sub')] /li)[" + tempRandomNumber + "]")).getText();
+            String backgroundColor = driver.findElement(By.xpath("(//*[contains(@class, 'nav-sidebar')]/*[contains(@class, 'nav-item')]/ul[contains(@class, 'nav-group-sub')] /li)[" + tempRandomNumber + "]"))
                     .getCssValue("background-color");
             Assert.assertTrue(backgroundColor.contains("rgba(0, 0, 0, 0"), "Цвет фона для 'Каталог не соответсвует ожидаемому'");
-            tempValue4 = driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')])[last()] /*[@href]")).getAttribute("href");
-            tempValue4 = tempValue4.substring(tempValue4.indexOf('=') + 1);
+            disclosureOfASubcategories("(//*[contains(@class, 'nav-sidebar')]/*[contains(@class, 'nav-item')]/ul[contains(@class, 'nav-group-sub')] /li)[" + tempRandomNumber + "]");
+//            tempValue4 = driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')])[last()] /*[@href]")).getAttribute("href");
+//            tempValue4 = tempValue4.substring(tempValue4.indexOf('=') + 1); ЧПУ
             tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)")).size()));
             tempValue3 = driver.findElement(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]")).getText();
             System.out.println("Рандомный подраздел рандомного раздела - " + tempValue3);
             try {
                 clickElement("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]");
             }catch (Exception e){
-                System.out.println("тупая ошибкаб скрывается каталогб раскрываю его заново");
-                expandCatalogCategories();
+                System.out.println("тупая ошибка скрывается каталогб раскрываю его заново");
+                expandCatalogCategories(false);
                 clickElement("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]");
             }
         } else {
-            expandCatalogCategories();
+            expandCatalogCategories(false);
             disclosureOfASubcategories("//*[@class='nav-item dropdown nav-item-dropdown-xl show'] //*[contains(text(), '" + tempValue2 + "')]");
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='dropdown-submenu show'] //*[@class='dropdown-menu show']")));
             tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(
@@ -1078,6 +1082,7 @@ public class MethodsForCatalog extends BaseActions {
             driver.findElement(By.xpath("(//*[@class='dropdown-submenu show'] //*[@class='dropdown-menu show'] /*[@class='dropdown-submenu']/*[contains(@href, 'SECTION_ID')])[" + tempRandomNumber + "] /span"))
                     .click();
         }
+        numberOfPropertiesInTheFilterAfterChoiceUnderSection = driver.findElements(By.xpath("//*[contains(@class, 'active')]//*[@data-checkbox='div']")).size();
     }
 
     public void checkThatTheQuantityOfPagesIsChanged() {
@@ -1390,17 +1395,18 @@ public class MethodsForCatalog extends BaseActions {
             } // незначительный баг b2b
             driver.findElement(By.xpath("(//*[contains(@class, 'catalog_section')])[" + tempRandomNumber + "]//*[@class='form-check']")).click();
         } else {
-            choiceRandomCategoryInMenuCatalog();
+            choiceRandomCategoryInMenuCatalog(false);
         }
     }
 
     public void checkingThatQuantityOfPropertiesIsHadDecreased() {
-        implicitWaiting();
-        implicitWaiting();
-        System.out.println(tempInt);
-        System.out.println(driver.findElements(By.cssSelector(".item_name")).size());
-        Assert.assertTrue(tempInt > driver.findElements(By.cssSelector(".item_name")).size()
-                , "Количество свойств в рандомной разделе больше или равно чем во всех разделах");
+        System.out.println(numberOfPropertiesInTheFilterAfterChoiceSection);
+        System.out.println(numberOfPropertiesInTheFilterAfterChoiceUnderSection);
+        Assert.assertTrue(numberOfPropertiesInTheFilterAfterChoiceSection > numberOfPropertiesInTheFilterAfterChoiceUnderSection);
+
+//        System.out.println(driver.findElements(By.cssSelector(".item_name")).size());
+//        Assert.assertTrue(tempInt > driver.findElements(By.cssSelector(".item_name")).size()
+//                , "Количество свойств в рандомной разделе больше или равно чем во всех разделах");
     }
 
     public void navigationToSystemSettings() {
@@ -1788,6 +1794,7 @@ public class MethodsForCatalog extends BaseActions {
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector("#catalog__basket-quantity-value"), "0"));
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).sendKeys(tempValue2);
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector("#catalog__basket-quantity-value"), "1"));
+        waitingMilliSecond();
     }
 
     public void addThisProductOneMoreTimeUsingPlusIcon() {
@@ -2743,12 +2750,12 @@ public class MethodsForCatalog extends BaseActions {
         }
         try {
             navigationToMeanPageByUrl();
-            choiceRandomCategoryInMenuCatalog();
+            choiceRandomCategoryInMenuCatalog(false);
             maxPriceForFiltering = String.valueOf(Double.valueOf(driver.findElement(By.cssSelector(".max-price")).getAttribute("placeholder")) - 1000);
         } catch (Exception e) {
             System.out.println("В фильтре нет поля (или плэйсхолдера) для ввода максимальной цены (снова), меняю категорию");
             navigationToMeanPageByUrl();
-            choiceRandomCategoryInMenuCatalog();
+            choiceRandomCategoryInMenuCatalog(false);
             maxPriceForFiltering = String.valueOf(Double.valueOf(driver.findElement(By.cssSelector(".max-price")).getAttribute("placeholder")) - 1000);
         }
     }
@@ -2761,12 +2768,12 @@ public class MethodsForCatalog extends BaseActions {
         }
         try {
             navigationToMeanPageByUrl();
-            choiceRandomCategoryInMenuCatalog();
+            choiceRandomCategoryInMenuCatalog(false);
             minPriceForFiltering = String.valueOf(Double.valueOf(driver.findElement(By.cssSelector(".min-price")).getAttribute("placeholder")) + 1000);
         } catch (Exception e) {
             System.out.println("В фильтре нет поля (или плэйсхолдера) для ввода минимальной цены (снова), меняю категорию");
             navigationToMeanPageByUrl();
-            choiceRandomCategoryInMenuCatalog();
+            choiceRandomCategoryInMenuCatalog(false);
             minPriceForFiltering = String.valueOf(Double.valueOf(driver.findElement(By.cssSelector(".min-price")).getAttribute("placeholder")) + 1000);
         }
     }
@@ -2778,6 +2785,7 @@ public class MethodsForCatalog extends BaseActions {
     public void applyTheFirstProperty() {
         driver.findElement(By.xpath("//*[@type='checkbox']/following::*[1]")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#set_filter")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#modef")));
         waitingMilliSecond();
         waitingMilliSecond();
         driver.findElement(By.cssSelector("#set_filter")).click();
@@ -3116,6 +3124,7 @@ public class MethodsForCatalog extends BaseActions {
     public void choiceRandomProperty() {
         tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(By.xpath("//*[@data-checkbox]")).size()));
         clickElement("(//*[@data-checkbox])[" + tempRandomNumber + "]");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#modef")));
         clickElementByItsCssSelector("#set_filter");
     }
 

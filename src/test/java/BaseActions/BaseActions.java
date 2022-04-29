@@ -611,7 +611,10 @@ public class BaseActions extends CustomizingForYourself {
     public void scrollDown() {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         jse.executeScript("scroll(0, 250);"); //jse.executeScript("window.scrollBy(0,250)");
-
+    }
+    public void scrollDownMax() {
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript("scroll(0, 1000);"); //jse.executeScript("window.scrollBy(0,250)");
     }
 
 //    public void scrollUpToTheElement(String xpath) {
@@ -643,9 +646,14 @@ public class BaseActions extends CustomizingForYourself {
 //    }
 
     public void scrollToTheElement(String xpath) {
-        WebElement element = driver.findElement(By.xpath(xpath));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
-        implicitWaiting();
+        try {
+            WebElement element = driver.findElement(By.xpath(xpath));
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+            implicitWaiting();
+        }catch (Exception e){
+            scrollDownMax();
+            implicitWaiting();
+        }
     }
 
     public void scrollToTheElement(By locator) {
@@ -979,6 +987,8 @@ public class BaseActions extends CustomizingForYourself {
         Actions action = new Actions(driver);
         action.moveToElement(driver.findElement(xpathLocator));
         action.perform();
+        implicitWaiting();
+        implicitWaiting();
     }
 
     public void determineThemeColor() {

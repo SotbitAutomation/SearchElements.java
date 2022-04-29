@@ -114,7 +114,8 @@ public class SettingUpCabinetForTesting extends MethodsForSettingUpCabinetForTes
         clearAllCache();
         driver.quit();
         setUpSuite();
-        flagForCloseWarningWindowThisIsTheFirstVisit = false;
+        flagForCloseWarningWindowThisIsTheFirstVisit = true;
+        flagForRegionThisIsTheFirstVisit = true;
         navigationToAuthorizationTab();
     }
 

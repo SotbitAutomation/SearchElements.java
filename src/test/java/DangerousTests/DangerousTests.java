@@ -28,8 +28,8 @@ public class DangerousTests extends MethodsForDangerousTests {
         navigationToCatalogTab();
         turnOffShowTheQuantityOfProductsInStorageIfItIsShowed();
         choiceStandardCatalog();
-        ternOffEditMode();
         SettingUpCabinetForTesting set = new SettingUpCabinetForTesting();
+        set.flagForCloseWarningWindowThisIsTheFirstVisit = flagForCloseWarningWindowThisIsTheFirstVisit;
         set.clearAllCacheForTests();
     }
 

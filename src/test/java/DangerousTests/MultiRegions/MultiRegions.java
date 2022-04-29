@@ -7,6 +7,9 @@ public class MultiRegions extends MethodsForMultiRegions {
     @Test(retryAnalyzer = Retry.class) //1. Первый выбор города из списка мультирегиональности
     public void firstChoiceOfTheCityFromTheMultiRegionList() {
         //arrange
+        flagForRegionThisIsTheFirstVisit = true;
+        driver.quit();
+        setUpSuite();
         isThereMultiRegions = false;
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
@@ -30,6 +33,9 @@ public class MultiRegions extends MethodsForMultiRegions {
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
+        clickOnTheMultiRegion();
+        choiceRandomCityFromSearchHint("Москва");
+        deletingProductsFromTheCart();
         //act
         refreshingThisPage();
         clickOnTheMultiRegion();
@@ -47,6 +53,9 @@ public class MultiRegions extends MethodsForMultiRegions {
     @Test(retryAnalyzer = Retry.class) //3. Первый выбор города из поисковой подсказки
     public void firstChoiceOfTheCityFromTheSearchHint() {
         //arrange
+        flagForRegionThisIsTheFirstVisit = true;
+        driver.quit();
+        setUpSuite();
         isThereMultiRegions = false;
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
@@ -72,6 +81,8 @@ public class MultiRegions extends MethodsForMultiRegions {
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
+        clickOnTheMultiRegion();
+        choiceRandomCityFromSearchHint("Москва");
         //act
         refreshingThisPage();
         clickOnTheMultiRegion();
@@ -94,6 +105,8 @@ public class MultiRegions extends MethodsForMultiRegions {
         //act
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
+        clickOnTheMultiRegion();
+        choiceRandomCityFromSearchHint("Москва");
         navigationToRegionSetting();
         turnOffWorkingWithLocations();
         returningSettingsBackIfCatalogBroken();
@@ -131,6 +144,8 @@ public class MultiRegions extends MethodsForMultiRegions {
         //act
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
+        clickOnTheMultiRegion();
+        choiceRandomCityFromSearchHint("Москва");
         navigationToRegionSetting();
         turnOnWorkingWithLocations();
         returningSettingsBackIfCatalogBroken();
@@ -169,12 +184,14 @@ public class MultiRegions extends MethodsForMultiRegions {
         //act
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
+        clickOnTheMultiRegion();
+        choiceRandomCityFromSearchHint("Москва");
         deletingProductsFromTheCart();
         returningSettingsBackIfCatalogBroken();
         navigationToRegionSetting();
         turnOnWorkingWithLocations();
         openRandomRegionInAdminPart();
-        unselectAllTypesOfPrices();
+        unselectAllTypesOfPricesAgainstBase();
         choiceSmallOptTypePrice();
         driver.findElement(buttonSaveLocator).click();
         navigationToGasStoveSetting();
@@ -216,12 +233,14 @@ public class MultiRegions extends MethodsForMultiRegions {
         //act
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
+        clickOnTheMultiRegion();
+        choiceRandomCityFromSearchHint("Москва");
         deletingProductsFromTheCart();
         returningSettingsBackIfCatalogBroken();
         navigationToRegionSetting();
         turnOffWorkingWithLocations();
         openRandomRegionInAdminPart();
-        unselectAllTypesOfPrices();
+        unselectAllTypesOfPricesAgainstBase();
         choiceSmallOptTypePrice();
         driver.findElement(buttonSaveLocator).click();
         navigationToGasStoveSetting();

@@ -110,13 +110,14 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         } catch (Exception e) {
             navigationToSystemSettings();
             navigationToSettingOfQuantitativeAccountingForTheProduct();
-            scrollToTheElement("//*[@for='use_store_control_y'][@class]");
-            try {
-                driver.findElement(By.xpath("//*[@for='use_store_control_y'][@class]")).click();
-            }catch (Exception e2){
-                scrollUp();
-                driver.findElement(By.xpath("//*[@for='use_store_control_y'][@class]")).click();
-            }
+//            scrollToTheElement("//*[@for='use_store_control_y'][@class]");
+//            try {
+//                driver.findElement(By.xpath("//*[@for='use_store_control_y'][@class]")).click();
+//            }catch (Exception e2){
+//                scrollUp();
+//                driver.findElement(By.xpath("//*[@for='use_store_control_y'][@class]")).click();
+//            }
+            clickElement("//*[@for='use_store_control_y'][@class]");
             driver.findElement(By.xpath("//*[@value='Сохранить']")).click();
             navigationToGasStoveSetting();
             driver.findElement(By.xpath("//a[contains(text(), 'Плита GEFEST')]")).click();
@@ -255,13 +256,13 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         driver.findElement(By.xpath("//*[@name='save']")).click();
         System.out.println("Кол-ва gefest на складе 'TEST' -  " + quantityItemsInTheTESTStorage);
     }
+
     public void checkingThatTheTotalNumberOfOutputProductsAndQuantityStoragesIsEqualToThePreviouslyEnteredData() {
         Actions action = new Actions(driver);
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).clear();
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).sendKeys("0");
         tempValue3 = driver.findElement(By.xpath("(//*[@class='item-quantity__general'])[" + count + "]")).getText();
         Assert.assertTrue((Integer.parseInt(tempValue) + Integer.parseInt(tempValue1)) == Integer.parseInt(tempValue3));
-        System.out.println(count);
         action.moveToElement(driver.findElement(By.xpath("(//*[@class='item-quantity__general'])[" + count + "]")));
         action.perform();
         Assert.assertTrue(driver.findElements(By.xpath("//*[@class='item-quantity__store-name'][contains(text(), 'TEST')]")).size() > 0, "Не отображается склад с названием 'TEST'");
@@ -287,11 +288,11 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         implicitWaiting();
     }
     public void checkingThatTheTotalNumberOfOutputProductsIsEqualToThePreviouslyEnteredDataInTestStorage() {
-        System.out.println("УДАЛИТЬ  " + count);
         Actions action = new Actions(driver);
-        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).clear();
-        waitingMilliSecond();
-        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).sendKeys("0");
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")));
+//        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).clear();
+//        waitingMilliSecond();
+//        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).sendKeys("0");
         tempValue3 = driver.findElement(By.xpath("(//*[@class='item-quantity__general'])[" + count + "]")).getText();
         Assert.assertTrue(quantityItemsInTheTESTStorage == Integer.parseInt(tempValue3));
         System.out.println(count);

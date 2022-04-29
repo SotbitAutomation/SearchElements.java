@@ -32,23 +32,38 @@ public class MethodsForMultiRegions extends MethodsForDangerousTests {
     }
     public void checkingThatChosenCityIsDisplayed(){
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//*[@data-entity='select-city__block__text-city']"), nameRandomCity));
-        Assert.assertEquals(driver.findElement(By.xpath("//*[@data-entity='select-city__block__text-city']")).getText(), nameRandomCity);
-        Assert.assertTrue(driver.findElement(By.xpath("//*[@data-entity='select-city__block__text-city']")).isDisplayed());
+        waitingMilliSecond();
+        try {
+            Assert.assertEquals(driver.findElement(By.xpath("//*[@data-entity='select-city__block__text-city']")).getText(), nameRandomCity);
+            Assert.assertTrue(driver.findElement(By.xpath("//*[@data-entity='select-city__block__text-city']")).isDisplayed());
+        }catch (Exception e){
+            System.out.println("тупая ошибка, скрипты шалят!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Assert.assertEquals(driver.findElement(By.xpath("//*[@data-entity='select-city__block__text-city']")).getText(), nameRandomCity);
+            Assert.assertTrue(driver.findElement(By.xpath("//*[@data-entity='select-city__block__text-city']")).isDisplayed());
+        }
     }
     public void clickOnTheMultiRegion(){
         driver.findElement(By.xpath("//*[@data-entity='select-city']")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='modal-title'][text()='Выбор города']")));
     }
     public void choiceRandomCityFromSearchHint(String nameRandomCity){
-        driver.findElement(By.xpath("//*[@placeholder='Введите ваш город']")).sendKeys(nameRandomCity.substring(0, 3));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@placeholder='Введите ваш город']")));
+        waitingMilliSecond();
+        int quantitySymbols =  nameRandomCity.length();
+        for (int i = 1; i < quantitySymbols; i++) {
+            driver.findElement(By.xpath("//*[@placeholder='Введите ваш город']")).sendKeys(nameRandomCity.substring((i-1), i));
+        }
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".regions_vars")));
+        waitingMilliSecond();
         driver.findElement(By.cssSelector(".regions_vars")).click();
         driver.findElement(By.xpath("//*[@name='submit']")).click();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[@placeholder='Введите ваш город']")));
     }
     public void openRandomRegionInAdminPart(){
         refreshingThisPage();
         driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/" , "") + "bitrix/admin/sotbit_regions.php?lang=ru&site=s1");
         int randomHamburgerMenuNumber = driver.findElements(By.xpath("//*[@class='adm-list-table-popup']")).size();
+        System.out.println("Порядковый номер выбраннго рандомонго региона -  " + randomHamburgerMenuNumber);
         randomHamburgerMenuNumber = 2 + (int) (Math.random() * randomHamburgerMenuNumber);
         clickElement("(//*[@class='adm-list-table-popup'])[" + randomHamburgerMenuNumber + "]");
         driver.findElement(By.xpath("//*[contains(@style, 'display: block')]//*[text()='Изменить']")).click();
@@ -81,10 +96,11 @@ public class MethodsForMultiRegions extends MethodsForDangerousTests {
         driver.findElement(By.xpath("//*[contains(@id, 'STORE')] //option[text()='TEST']")).click();
         driver.findElement(buttonSaveLocator).click();
     }
-    public void unselectAllTypesOfPrices(){
+    public void unselectAllTypesOfPricesAgainstBase(){
         int quantityTypesOfPrices = driver.findElements(By.xpath("//*[contains(@id, 'PRICE_CODE')] /option")).size();
         for (int i = 1; i <= quantityTypesOfPrices; i++) {
-            if (driver.findElement(By.xpath("(//*[contains(@id, 'PRICE_CODE')] //option)[" + i + "]")).isSelected()){
+            if (driver.findElement(By.xpath("(//*[contains(@id, 'PRICE_CODE')] //option)[" + i + "]")).isSelected()
+                && !driver.findElement(By.xpath("(//*[contains(@id, 'PRICE_CODE')] //option)[" + i + "]")).getAttribute("value").equals("BASE")){
                 driver.findElement(By.xpath("(//*[contains(@id, 'PRICE_CODE')] //option)[" + i + "]")).click();
             }
         }

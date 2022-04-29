@@ -355,7 +355,6 @@ public class Events extends MethodsForEvents{
         checkingEventThatTheManagerHasRejectedTheJoiningOfThisEmployeeToTheCompany();
         checkingTheStatusEventAboutRejectedJoiningToTheCompanyFromAnEmployee(expectedSuccessExec);
         }else System.out.println("Нет сотрудников в нерасширенной версии рабы с компаниями");
-
 }
     @Test(retryAnalyzer = Retry.class) //14. Изменение данных созданной организациии у юзера
     public void checkAvailableActionsWithOrganizationsFromTheUser() {

@@ -22,8 +22,8 @@ public class MenuInTheCatalog extends MethodsForCatalog {
         //act
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
-        choiceRandomCategoryInMenuCatalog();
-        checkingThatAllProductsHaveASimilarIdToTheSectionId();
+        choiceRandomCategoryInMenuCatalog(false);
+        expandCatalogCategories(false);
         choiceRandomUnderCategoryOfTheSelectedCategory();
         checkingThatBreadCrumbHaveSelectedCategories();
         checkingThatAllProductsHaveASimilarIdToTheSectionId();
@@ -37,12 +37,13 @@ public class MenuInTheCatalog extends MethodsForCatalog {
             //act
             fillingFieldsOnTheLogInTabLikeUser();
             logInToB2B();
-            expandCatalogCategories();
+            expandCatalogCategories(false);
             hideTheMenu();
             driver.findElement(iconCatalogLocator).click();
             hoveringTheCursorOverTheElement(iconCatalogLocator);
-            choiceRandomCategoryInPopUpMenuCatalog();
-            checkingThatAllProductsHaveASimilarIdToTheSectionId();
+            //choiceRandomCategoryInPopUpMenuCatalog();
+            choiceRandomCategoryInMenuCatalog(true);
+            //checkingThatAllProductsHaveASimilarIdToTheSectionId();
             hoveringTheCursorOverTheElement(iconCatalogLocator);
             choiceRandomUnderCategoryOfTheSelectedCategory();
             checkingThatBreadCrumbHaveSelectedCategories();
@@ -79,7 +80,7 @@ public class MenuInTheCatalog extends MethodsForCatalog {
         //act
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
-        choiceRandomCategoryInMenuCatalog();
+        choiceRandomCategoryInMenuCatalog(false);
         determineMaxPriceForFilteringAThousandLessThanThePriceOfTheMostExpensiveProductInThisSection();
         enteringTheMaxPriceIntoTheFilter();
         checkThatTheMaximumPriceIsAppliedOnAllPages();
@@ -91,7 +92,7 @@ public class MenuInTheCatalog extends MethodsForCatalog {
         //act
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
-        choiceRandomCategoryInMenuCatalog();
+        choiceRandomCategoryInMenuCatalog(false);
         determineMinPriceForFilteringAThousandMoreThanThePriceOfTheMostCheapProductInThisSection();
         enteringTheMinPriceIntoTheFilter();
         checkThatTheMinimumPriceIsAppliedOnAllPages();
@@ -103,7 +104,8 @@ public class MenuInTheCatalog extends MethodsForCatalog {
         //act
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
-        choiceRandomCategoryInMenuCatalog();
+        choiceRandomCategoryInMenuCatalog(false);
+        expandCatalogCategories(false);
         choiceRandomUnderCategoryOfTheSelectedCategory();
         determineMaxPriceForFilteringAThousandLessThanThePriceOfTheMostExpensiveProductInThisSection();
         enteringTheMaxPriceIntoTheFilter();
@@ -116,7 +118,8 @@ public class MenuInTheCatalog extends MethodsForCatalog {
         //act
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
-        choiceRandomCategoryInMenuCatalog();
+        choiceRandomCategoryInMenuCatalog(false);
+        expandCatalogCategories(false);
         choiceRandomUnderCategoryOfTheSelectedCategory();
         determineMinPriceForFilteringAThousandMoreThanThePriceOfTheMostCheapProductInThisSection(); //возможно падает из-за того что в выбранном разделе нет товаров в наличии
         enteringTheMinPriceIntoTheFilter();
@@ -130,7 +133,9 @@ public class MenuInTheCatalog extends MethodsForCatalog {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToCatalogTab();
-        choiceRandomCategoryInMenuCatalog();
+        choiceRandomCategoryInMenuCatalog(false);
+        expandCatalogCategories(false);
+        choiceRandomUnderCategoryOfTheSelectedCategory();
         checkingThatQuantityOfPropertiesIsHadDecreased();
     }
     @Test (retryAnalyzer = Retry.class) //9. Выбор первого свойства в рандомной  категории каталога
@@ -141,7 +146,7 @@ public class MenuInTheCatalog extends MethodsForCatalog {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToCatalogTab();
-        choiceRandomCategoryInMenuCatalog();
+        choiceRandomCategoryInMenuCatalog(false);
         rememberQuantityProductsOnThisPage();
         applyTheFirstProperty();
         checkingThatQuantityProductsOnThisPageAreDecreased();
@@ -154,7 +159,8 @@ public class MenuInTheCatalog extends MethodsForCatalog {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToCatalogTab();
-        choiceRandomCategoryInMenuCatalog();
+        choiceRandomCategoryInMenuCatalog(false);
+        expandCatalogCategories(false);
         choiceRandomUnderCategoryOfTheSelectedCategory();
         rememberQuantityProductsOnThisPage();
         applyTheFirstProperty();
@@ -169,7 +175,7 @@ public class MenuInTheCatalog extends MethodsForCatalog {
             //act
             fillingFieldsOnTheLogInTabLikeUser();
             logInToB2B();
-            expandCatalogCategories();
+            expandCatalogCategories(false);
             hideTheMenu();
             driver.findElement(iconCatalogLocator).click();
             hoveringTheCursorOverTheElement(iconCatalogLocator);
