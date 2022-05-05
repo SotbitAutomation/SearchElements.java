@@ -2462,8 +2462,9 @@ public class MethodsForCatalog extends BaseActions {
 
     public void addingToSearchFieldWordForSearchAdditionalProductsGefestGasStove() {
         driver.findElement(By.xpath("//*[@placeholder='Название']")).sendKeys("Плита GEFEST");
+        waitingMilliSecond();
         driver.findElement(By.xpath("//*[contains(@class, 'filter')]/*[contains(@class, 'btn_b2b')]")).click();
-        implicitWaiting();
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.cssSelector(".catalog-list__name"), 1));
     }
 
     public void checkingThatAllAdditionalProductsContainsWordForSearch() {
@@ -2974,7 +2975,7 @@ public class MethodsForCatalog extends BaseActions {
 //        } // была разная логика пометки полей как "обязательные", пока просто добавляет тег "required"
         Assert.assertTrue(driver.findElement(By.xpath(
                         "//*[contains(text(), 'Обращение')][not(ancestor-or-self::*[@style = 'display: none;'])] /following::*[2][@required]"))
-                .isDisplayed());
+                .isDisplayed()); //баг 1.11.2, Алеся оофрмила уже
     }
 
     public void addingThisProductFromPopUpWindowToTheCart() {

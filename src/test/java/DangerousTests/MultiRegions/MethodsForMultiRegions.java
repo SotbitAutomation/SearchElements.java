@@ -26,9 +26,11 @@ public class MethodsForMultiRegions extends MethodsForDangerousTests {
         driver.findElement(By.xpath("(//*[@class='select-city__modal__list__item'])[" + randomCityNumber + "]")).click();
     }
     public void choiceNameRandomCityFromList(){
+        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//*[@class='select-city__modal__list__item']"), 3));
         randomCityNumber = driver.findElements(By.xpath("//*[@class='select-city__modal__list__item']")).size();
         randomCityNumber = 1 + (int) (Math.random() * randomCityNumber);
         nameRandomCity = driver.findElement(By.xpath("(//*[@class='select-city__modal__list__item'])[" + randomCityNumber + "]")).getText();
+        System.out.println("Выбранный рандомный город -  " + nameRandomCity);
     }
     public void checkingThatChosenCityIsDisplayed(){
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//*[@data-entity='select-city__block__text-city']"), nameRandomCity));

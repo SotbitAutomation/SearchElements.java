@@ -720,7 +720,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         selectARequiredProperty();
         navigationToRegistrationTab();
         checkingThatAllUserDataForIPSelectedInTheAdminPanelIsDisplayedWhenRegisteringTheOrganization();
-        checkingThatTheFieldSelectedInTheAdminPanelAsRequiredIsReallyRequired();
+        checkingThatTheFieldSelectedInTheAdminPanelAsRequiredIsReallyRequired(); //баг 1.11.2, Алеся оофрмила уже
     }
 
     @Test(retryAnalyzer = Retry.class) //27. Вывод разделов в поисковой подсказке по части названия
@@ -849,7 +849,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         openDetailPageOfRandomProduct(count);
         checkingThatThereArePricesWithAndWithoutDiscount();
     }
-// ОШИБКА B2B !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// была ошибка, ща норм
     @Test(retryAnalyzer = Retry.class)
     //33. Добавление доп. товара которого нет в наличии в корзину (кол-ый учет у каталога - выкл)
     public void addingAnAdditionalItemToTheCartWithAnAvailableQuantityOfZeroAndTheNumberOfCatalogAccountsIsOff() {

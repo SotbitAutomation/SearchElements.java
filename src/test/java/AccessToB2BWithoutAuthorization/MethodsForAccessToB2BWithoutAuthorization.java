@@ -3,6 +3,7 @@ package AccessToB2BWithoutAuthorization;
 import BaseActions.BaseActions;
 import Catalog.MethodsForCatalog;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
 public class MethodsForAccessToB2BWithoutAuthorization extends BaseActions {
@@ -74,6 +75,7 @@ public class MethodsForAccessToB2BWithoutAuthorization extends BaseActions {
         driver.findElement(By.xpath("//*[@name='ALERT_FOR_NOT_AUTHORIZED_USER']")).clear();
     }
     public void checkingWarningOutputForUnauthorizedUsers(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".ui-pnotify-title")));
         Assert.assertEquals(driver.findElement(By.cssSelector(".ui-pnotify-title")).getText(), randomData);
     }
     public void navigationToCartByUrl() {

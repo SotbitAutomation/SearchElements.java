@@ -264,11 +264,14 @@ public class MethodsForSettingUpCabinetForTesting extends BaseActions {
         //act
         fillingFieldsOnTheLogInTabLikeAdmin();
         driver.findElement(logInButtonOnTheAuthorizationTabLocator).click();
-        resetCache();navigationToPageForClearCache();
+        choiceStandardCityInMultiRegionsWindow();
+        resetCache();
+        navigationToPageForClearCache();
         clearCache();
         navigationToMeanPageByUrl();
         resetCache();
         navigationToCatalogTab();
+        navigationToTheRootPageOfTheCatalog();
         resetCache();
         flagForCloseWarningWindowThisIsTheFirstVisit = true;
         flagForRegionThisIsTheFirstVisit = true;
