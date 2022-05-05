@@ -53,6 +53,7 @@ public class AccessToB2BWithoutAuthorization extends MethodsForAccessToB2BWithou
         enterMessageForUnauthorizedUsers();
         driver.findElement(buttonSaveLocator).click();
         driver.quit();
+        flagForCloseWarningWindowThisIsTheFirstVisit = true;
         setUpSuite();
         navigationToMeanPageByUrl();
         checkingWarningOutputForUnauthorizedUsers();

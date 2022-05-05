@@ -248,14 +248,7 @@ public class MethodsForSettingUpCabinetForTesting extends BaseActions {
         driver.findElement(By.xpath("//*[contains(@title, 'чистка файлов')]")).click();
         driver.findElement(By.xpath("//*[@class='cache-types'][@value='all']")).click();
         driver.findElement(By.cssSelector("#start_button")).click();
-        try {
-            waitElementInVisible("//*[@id='wait_window_div']");
-        }catch (Exception e){
-            System.out.println("Не хватило 10 секунд, подожду еще");
-            implicitWaiting();implicitWaiting();implicitWaiting();implicitWaiting();implicitWaiting();implicitWaiting();implicitWaiting();
-            waitElementInVisible("//*[@id='wait_window_div']");
-        }
-        //wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#wait_window_div")));
+        waitClearingCash("//*[@id='wait_window_div']"); //жду до 100 сек сообщение, что кеш очистился
     }
     public void clearAllCache() {
         //arrange

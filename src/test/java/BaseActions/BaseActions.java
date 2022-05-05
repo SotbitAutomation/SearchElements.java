@@ -448,12 +448,17 @@ public class BaseActions extends CustomizingForYourself {
 
     public void navigationToCatalogTab() {
         navigationToTheRootPageOfTheCatalog();
-        try {
-            clickElement("//*[@title='Компьютеры']");
-        }catch (Exception e){
-            System.out.println("Я не в обычном каталоге, а в ТП");
+        if (driver.findElements(By.xpath("//*[@title='Компьютеры']")).size()>0){
+            try {
+                clickElement("//*[@title='Компьютеры']");
+            }catch (Exception e){
+                System.out.println("Тупая ошибка, не смог кликнуть с первого раза");
+                clickElement("//*[@title='Компьютеры']");
+            }
+        }else {
             clickElement("//*[@title='Тапочки']");
         }
+
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".catalog")));
         Assert.assertTrue(driver.findElement(By.cssSelector(".catalog")).isDisplayed());
         openingAllOffers();
@@ -461,6 +466,7 @@ public class BaseActions extends CustomizingForYourself {
     public void navigationToTheRootPageOfTheCatalog(){
         determineThemeColor();
         if (!themeColorBlack) {
+            implicitWaiting();
             driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/", "") + "orders/blank_zakaza/");
         } else {
             driver.findElement(catalogTabLocator).click();
@@ -1046,6 +1052,10 @@ public class BaseActions extends CustomizingForYourself {
 
     public String waitElementInVisible(String xpath) {
         new WebDriverWait(driver, 10).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(xpath)));
+        return xpath;
+    }
+    public String waitClearingCash(String xpath){
+        new WebDriverWait(driver, 100).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(xpath)));
         return xpath;
     }
 

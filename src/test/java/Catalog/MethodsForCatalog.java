@@ -988,7 +988,7 @@ public class MethodsForCatalog extends BaseActions {
         } else {
             tempValue1 = driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][contains(@class, 'navbar-nav-link')]")).getText();
             driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][contains(@class, 'navbar-nav-link')]")).click();
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@href, 'SECTION_ID=1')]")));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[contains(@href, 'blank_zakaza')] /following::*[contains(@class, 'dropdown-menu')])[1]")));
             waitingMilliSecond();
         }
         }
@@ -1071,19 +1071,18 @@ public class MethodsForCatalog extends BaseActions {
                 clickElement("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]");
             }
         } else {
-            expandCatalogCategories(false);
+            //expandCatalogCategories(false);
             disclosureOfASubcategories("//*[@class='nav-item dropdown nav-item-dropdown-xl show'] //*[contains(text(), '" + tempValue2 + "')]");
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='dropdown-submenu show'] //*[@class='dropdown-menu show']")));
             tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(
-                    By.xpath("//*[@class='dropdown-submenu show'] //*[@class='dropdown-menu show'] /*[@class='dropdown-submenu']/*[contains(@href, 'SECTION_ID')]")).size()));
-            tempValue3 = driver.findElement(By.xpath("(//*[@class='dropdown-submenu show'] //*[@class='dropdown-menu show'] /*[@class='dropdown-submenu']/*[contains(@href, 'SECTION_ID')])[" + tempRandomNumber + "]"))
+                    By.xpath("//*[@class='dropdown-submenu show'] /*[@class='dropdown-menu show'] /*[@class='dropdown-submenu']")).size()));
+            tempValue3 = driver.findElement(By.xpath("(//*[@class='dropdown-submenu show'] /*[@class='dropdown-menu show'] /*[@class='dropdown-submenu'])[" + tempRandomNumber + "]"))
                     .getText();
-            System.out.println("Рандомный подраздел рандомного раздела - "
-                    + tempValue3);
-            tempValue4 = driver.findElement(By.xpath("(//*[@class='dropdown-submenu show'] //*[@class='dropdown-menu show'] /*[@class='dropdown-submenu']/*[contains(@href, 'SECTION_ID')])[" + tempRandomNumber + "]"))
-                    .getAttribute("href");
-            tempValue4 = tempValue4.substring(tempValue4.indexOf('=') + 1);
-            driver.findElement(By.xpath("(//*[@class='dropdown-submenu show'] //*[@class='dropdown-menu show'] /*[@class='dropdown-submenu']/*[contains(@href, 'SECTION_ID')])[" + tempRandomNumber + "] /span"))
+            System.out.println("Рандомный подраздел рандомного раздела - " + tempValue3);
+//            tempValue4 = driver.findElement(By.xpath("(//*[@class='dropdown-submenu show'] //*[@class='dropdown-menu show'] /*[@class='dropdown-submenu']/*[contains(@href, 'SECTION_ID')])[" + tempRandomNumber + "]"))
+//                    .getAttribute("href");
+//            tempValue4 = tempValue4.substring(tempValue4.indexOf('=') + 1); ЧПУ
+            driver.findElement(By.xpath("(//*[@class='dropdown-submenu show'] /*[@class='dropdown-menu show'] /*[@class='dropdown-submenu'])[" + tempRandomNumber + "] //span"))
                     .click();
         }
         numberOfPropertiesInTheFilterAfterChoiceUnderSection = driver.findElements(By.xpath("//*[contains(@class, 'active')]//*[@data-checkbox='div']")).size();
@@ -1406,7 +1405,12 @@ public class MethodsForCatalog extends BaseActions {
     public void checkingThatQuantityOfPropertiesIsHadDecreased() {
         System.out.println(numberOfPropertiesInTheFilterAfterChoiceSection);
         System.out.println(numberOfPropertiesInTheFilterAfterChoiceUnderSection);
-        Assert.assertTrue(numberOfPropertiesInTheFilterAfterChoiceSection > numberOfPropertiesInTheFilterAfterChoiceUnderSection);
+        if (!tempValue2.contains("Спорт и отдых")){
+            Assert.assertTrue(numberOfPropertiesInTheFilterAfterChoiceSection > numberOfPropertiesInTheFilterAfterChoiceUnderSection);
+        }else {
+            Assert.assertTrue(numberOfPropertiesInTheFilterAfterChoiceSection >= numberOfPropertiesInTheFilterAfterChoiceUnderSection);
+
+        }
 
 //        System.out.println(driver.findElements(By.cssSelector(".item_name")).size());
 //        Assert.assertTrue(tempInt > driver.findElements(By.cssSelector(".item_name")).size()
@@ -2414,30 +2418,44 @@ public class MethodsForCatalog extends BaseActions {
                     , "Не все чекбоксы выбрались");
         }
     }
+    int pieceQuantityOfItemsInTheCart = 0;
+    public void sumPieceQuantityItemsInTheCart(){
+        pieceQuantityOfItemsInTheCart = 0;
+        for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@id, 'basket-item-quantity')]")).size(); i++) {
+            pieceQuantityOfItemsInTheCart =  (pieceQuantityOfItemsInTheCart + Integer.valueOf(driver.findElement(By.xpath("(//*[contains(@id, 'basket-item-quantity')])[" + i + "]")).getAttribute("value")));
+        }
+    }
 
     public void addingAndCheckThatAdditionalProductIsAddedTenTimes() {
-        tempDouble = 0;
-        for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@id, 'basket-item-quantity')]")).size(); i++) {
-            tempDouble = tempDouble + Double.valueOf(driver.findElement(By.xpath("(//*[contains(@id, 'basket-item-quantity')])[" + i + "]")).getAttribute("value"));
-        }
+        int tempCountForBreakCircle;
+        int pieceQuantityOfItemsInTheCartAfterAddingItem = 0;
+        sumPieceQuantityItemsInTheCart();
+        pieceQuantityOfItemsInTheCartAfterAddingItem = pieceQuantityOfItemsInTheCart;
+
         for (int i = 1; i <= 10; i++) {
             tempRandomNumber = 1 + (int) (Math.random() * driver.findElements(By.xpath("//*[@class='catalog-list__body'] //*[@class='input-group-append']")).size());
-            if (driver.findElement(By.xpath("(//*[@class='catalog-list__body'] //*[@class='input-group-append'])[" + tempRandomNumber + "]")).isDisplayed()) {
-                driver.findElement(By.xpath("(//*[@class='catalog-list__body'] //*[@class='input-group-append'])[" + tempRandomNumber + "]")).click();
-            } else {
-                scrollToTheElement(By.xpath("(//*[@class='catalog-list__body'] //*[@class='input-group-append'])[" + tempRandomNumber + "]"));
-                driver.findElement(By.xpath("(//*[@class='catalog-list__body'] //*[@class='input-group-append'])[" + tempRandomNumber + "]")).click();
+            clickElement("(//*[@class='catalog-list__body'] //*[@class='input-group-append'])[" + tempRandomNumber + "]");
+            sumPieceQuantityItemsInTheCart();
+            tempCountForBreakCircle = 0;
+            while (pieceQuantityOfItemsInTheCartAfterAddingItem == pieceQuantityOfItemsInTheCart){
+                implicitWaiting();
+                sumPieceQuantityItemsInTheCart();
+                tempCountForBreakCircle++;
+                if (tempCountForBreakCircle>5){
+                    driver.findElement(By.xpath("(//*[@class='catalog-list__body'] //*[@class='input-group-append'])[" + tempRandomNumber + "]")).click();
+                    implicitWaiting();implicitWaiting();implicitWaiting();implicitWaiting();
+                    sumPieceQuantityItemsInTheCart();
+                    Assert.assertTrue(pieceQuantityOfItemsInTheCart > pieceQuantityOfItemsInTheCartAfterAddingItem);
+                }
             }
-            implicitWaiting();
-            implicitWaiting();
-            implicitWaiting();
-            implicitWaiting();
-            tempDouble2 = 0;
-            for (int y = 1; y <= driver.findElements(By.xpath("//*[contains(@id, 'basket-item-quantity')]")).size(); y++) {
-                tempDouble2 = tempDouble2 + Double.valueOf(driver.findElement(By.xpath("(//*[contains(@id, 'basket-item-quantity')])[" + y + "]")).getAttribute("value"));
-            }
-            Assert.assertTrue(tempDouble2 > tempDouble, "Я не смог добавить этот товар -  " + tempRandomNumber + " -- это его порядковый номер в таблице доп. товаров");
-            tempDouble = tempDouble2;
+            pieceQuantityOfItemsInTheCartAfterAddingItem = pieceQuantityOfItemsInTheCart;
+
+//            tempDouble2 = 0;
+//            for (int y = 1; y <= driver.findElements(By.xpath("//*[contains(@id, 'basket-item-quantity')]")).size(); y++) {
+//                tempDouble2 = tempDouble2 + Double.valueOf(driver.findElement(By.xpath("(//*[contains(@id, 'basket-item-quantity')])[" + y + "]")).getAttribute("value"));
+//            }
+//            Assert.assertTrue(tempDouble2 > tempDouble, "Я не смог добавить этот товар -  " + tempRandomNumber + " -- это его порядковый номер в таблице доп. товаров");
+//            tempDouble = tempDouble2;
         }
     }
 
