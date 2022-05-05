@@ -733,7 +733,6 @@ public class DangerousTests extends MethodsForDangerousTests {
         returningSettingsBackIfCatalogBroken();
         enableTheIndexSectionsForTheSearchModuleSetting();
         navigationToMeanPageByUrl();
-        ternOffEditMode();
         navigationToCatalogTab();
         choiceTheSecondLevelCategoryInABlackHatOrTheFirstLevelInAWhiteHat();
         navigationToCatalogTab();
@@ -851,31 +850,155 @@ public class DangerousTests extends MethodsForDangerousTests {
         checkingThatThereArePricesWithAndWithoutDiscount();
     }
 // ОШИБКА B2B !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//    @Test(retryAnalyzer = Retry.class)
-//    //33. Добавление доп. товара которого нет в наличии в корзину (кол-ый учет у каталога - выкл)
-//    public void addingAnAdditionalItemToTheCartWithAnAvailableQuantityOfZeroAndTheNumberOfCatalogAccountsIsOff() {
+    @Test(retryAnalyzer = Retry.class)
+    //33. Добавление доп. товара которого нет в наличии в корзину (кол-ый учет у каталога - выкл)
+    public void addingAnAdditionalItemToTheCartWithAnAvailableQuantityOfZeroAndTheNumberOfCatalogAccountsIsOff() {
+        //arrange
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        returningSettingsBackIfCatalogBroken();
+        deletingProductsFromTheCart();
+        navigationToSettingOfQuantitativeAccountingForTheProduct();
+        turnOffStoreAccounting();
+        turnOffQuantitativeAccountingForTheProductsInCatalog();
+        navigationToGasStoveSetting();
+        setTheNumberOfGasStoveGefestEqualToZero();
+        navigationToMeanPageByUrl();
+        ternOffEditMode();
+        //act
+        navigationToCart();
+        addingToSearchFieldWordForSearchAdditionalProductsGefestGasStove();
+        addingProductToCartFromTabAddAnAdditionalProduct(1);
+        checkingThatThereAreThisQuantityItemsInTheBasket(1);
+        returningSettingsBack();
+    }
+
+    @Test(retryAnalyzer = Retry.class) //34. Вывод категорий в зависимости от установленной вложенности
+    public void outputOfCategoriesDependingOnTheSetNesting() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        returningSettingsBackIfCatalogBroken();
+        navigationToTheRootPageOfTheCatalog();
+        ternOnEditMode();
+        navigationToComponentOfCatalogSetting();
+        setTheOutputOfTheNumberOfCategoriesInTheRootDirectory("1");
+        checkingTheNumberOfOutputSections(10, 5);
+        navigationToComponentOfCatalogSetting();
+        setTheOutputOfTheNumberOfCategoriesInTheRootDirectory("3");
+        checkingTheNumberOfOutputSections(50, 30);
+        navigationToComponentOfCatalogSetting();
+        setTheOutputOfTheNumberOfCategoriesInTheRootDirectory("2");
+        checkingTheNumberOfOutputSections(30, 10);
+        ternOffEditMode();
+    }
+
+
+// ОШИБКА B2B !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+//    @Test(retryAnalyzer = Retry.class) //35. При смене каталога в админ части меняются разделы в корне каталога в публичке
+//    public void whenYouChangeTheDirectoryInTheAdminPartTheSectionsInTheRootOfTheDirectoryChange() {
 //        //arrange
+//        areThereAnyOffers = true;
 //        navigationToAuthorizationTab();
+//        //act
 //        fillingFieldsOnTheLogInTabLikeAdmin();
 //        logInToB2B();
-//        returningSettingsBackIfCatalogBroken();
-//        deletingProductsFromTheCart();
-//        navigationToSettingOfQuantitativeAccountingForTheProduct();
-//        turnOffStoreAccounting();
-//        turnOffQuantitativeAccountingForTheProductsInCatalog();
-//        navigationToGasStoveSetting();
-//        setTheNumberOfGasStoveGefestEqualToZero();
+//
+//
+//        navigationToBasicB2BSettings();
+//        driver.findElement(By.xpath("//*[contains(@title, 'Каталог ')]")).click();
+//        driver.findElement(By.cssSelector("#CATALOG_IBLOCK_ID")).click();
+//        driver.findElement(By.xpath("//*[@id='CATALOG_IBLOCK_ID']/*[contains(text(), 'торговые предложения')]")).click();
+//        clickElement(buttonSaveLocator);
+//        implicitWaiting();
+//
+//
 //        navigationToMeanPageByUrl();
-//        ternOffEditMode();
-//        //act
-//        navigationToCart();
-//        addingToSearchFieldWordForSearchAdditionalProductsGefestGasStove();
-//        addingProductToCartFromTabAddAnAdditionalProduct(1);
-//        checkingThatThereAreThisQuantityItemsInTheBasket(1);
-//        returningSettingsBack();
+//        navigationToTheRootPageOfTheCatalog();
+//
+//        Assert.assertTrue(driver.findElements(By.xpath("//*[@title='Компьютеры']")).size() == 0);
+//        Assert.assertTrue(driver.findElements(By.xpath("//*[@title='Тапочки']")).size() > 0);
+//
+//
+//        navigationToBasicB2BSettings();
+//        driver.findElement(By.xpath("//*[contains(@title, 'Каталог ')]")).click();
+//        driver.findElement(By.cssSelector("#CATALOG_IBLOCK_ID")).click();
+//        driver.findElement(By.xpath("//*[@id='CATALOG_IBLOCK_ID']/*[contains(text(), 'торговые предложения')]")).click();
+//        clickElement(buttonSaveLocator);
+//        implicitWaiting();
+//        navigationToMeanPageByUrl();
+//        navigationToTheRootPageOfTheCatalog();
+//
+//        Assert.assertTrue(driver.findElements(By.xpath("//*[@title='Компьютеры']")).size() > 0);
+//        Assert.assertTrue(driver.findElements(By.xpath("//*[@title='Тапочки']")).size() == 0);
 //    }
 
 
+    @Test(retryAnalyzer = Retry.class)
+    //36. Изменение названия и фото раздела каталога
+    public void сhangingTheNameAndPhotoOfTheCatalogSection() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToAdminPartFromMeanPage();
+        navigationToPageInAdminPartWithMeanCatalog();
+        openFirsSectionInMeanCatalog();
+        rememberDefaultNameOfSection();
+        deletingExistedItemImage();
+        changeSectionName("testChangeNameSection");
+        addingImageToItem("Gefest.jpg");
+        saveSectionCatalogSetting();
+        addingImageIfImageIsNotAdded();
+        navigationToMeanPageByUrl();
+        navigationToTheRootPageOfTheCatalog();
+        checkingThatThereAreNewNameOfSection();
+        navigationToAdminPartFromMeanPage();
+        navigationToPageInAdminPartWithMeanCatalog();
+        openFirsSectionInMeanCatalog();
+        deletingExistedItemImage();
+        changeSectionName(defaultNameSection);
+        addingImageToItem("palms.jpg");
+        saveSectionCatalogSetting();
+        addingImageIfImageIsNotAdded();
+        navigationToMeanPageByUrl();
+        navigationToTheRootPageOfTheCatalog();
+        checkingThatThereAreNameOfSectionWithReturnBack();
+    }
+
+    @Test(retryAnalyzer = Retry.class)
+    //37. Настройка отображения типа цены для  неавторизованного пользвателя
+    public void settingUpTheDisplayOfThePriceTypeForUnauthorizedUser() {
+        //arrange
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        //act
+        navigationToBasicB2BSettings();
+        choiceTypeOfpRiceForUnauthorizedUser("SMALL_OPT");
+        driver.findElement(buttonSaveLocator).click();
+        returningSettingsBackIfCatalogBroken();
+        chooseToDisplaySmallOptPricesForAllUsers();
+        navigationToGasStoveSetting();
+        setPriceForSmallOptForGasStoveGefest();
+        driver.quit();
+        setUpSuite();
+        navigationToMeanPageByUrl();
+        navigationToCatalogTab();
+        selectTheSectionWithGasStoves();
+        checkingThatTheGefestGasStoveHasTheSmallOptPrice();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToBasicB2BSettings();
+        choiceTypeOfpRiceForUnauthorizedUser("BASE");
+        driver.findElement(buttonSaveLocator).click();
+    }
 
 
 
@@ -904,6 +1027,7 @@ public class DangerousTests extends MethodsForDangerousTests {
             clickStandardButtonForSaveSettings();
         }
     }
+
 
 
 }

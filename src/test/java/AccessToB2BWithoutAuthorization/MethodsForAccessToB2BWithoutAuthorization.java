@@ -65,4 +65,24 @@ public class MethodsForAccessToB2BWithoutAuthorization extends BaseActions {
         Assert.assertEquals(driver.findElements(By.cssSelector(".bzd-prices__item")).size(), 1);
         Assert.assertEquals(driver.findElement(By.xpath("//*[contains(@class, 'prices__item-name')]")).getText(), "Розничная цена");
     }
+    public void enterMessageForUnauthorizedUsers(){
+        clearExistingMessage();
+        randomData = "test сообщения для невторизованых юзеров " + randomString(5);
+        driver.findElement(By.xpath("//*[@name='ALERT_FOR_NOT_AUTHORIZED_USER']")).sendKeys(randomData);
+    }
+    public void clearExistingMessage(){
+        driver.findElement(By.xpath("//*[@name='ALERT_FOR_NOT_AUTHORIZED_USER']")).clear();
+    }
+    public void checkingWarningOutputForUnauthorizedUsers(){
+        Assert.assertEquals(driver.findElement(By.cssSelector(".ui-pnotify-title")).getText(), randomData);
+    }
+    public void navigationToCartByUrl() {
+        driver.navigate().to(b2bUrl + "orders/make/");
+    }
+    public void checkingThatThereIsAStub(){
+        Assert.assertTrue(driver.findElement(By.xpath("//img[contains(@src, 'error')]")).isDisplayed());
+        Assert.assertTrue(driver.findElements(By.xpath("//*[contains(@href, 'auth')]")).size() ==2);
+        driver.findElement(By.cssSelector(".icon-enter")).click();
+        Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
+    }
 }

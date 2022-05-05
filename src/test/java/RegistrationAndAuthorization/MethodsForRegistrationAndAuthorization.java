@@ -386,15 +386,25 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
             }
         }
         navigationToPageForConfirmUserRegistration();
+        System.out.println(email);
         approveTheRegistrationOfTheLastUser();
         navigationToMeanPageByUrl();
         navigationToAuthorizationTab();
     }
 
     public void approveTheRegistrationOfTheLastUser() {
-        driver.findElement(chekBoxForUserSelectionLocator).click();
-        driver.findElement(choiceOfActionForApproveLocator).click();
-        driver.findElement(applyApprovalLocator).click();
+        if (driver.findElement(By.xpath("(//*[@class='adm-list-table-row'] /*[@class='adm-list-table-cell'])[2]")).getText().contains(email)){
+            driver.findElement(chekBoxForUserSelectionLocator).click();
+            driver.findElement(choiceOfActionForApproveLocator).click();
+            driver.findElement(applyApprovalLocator).click();
+        }else {
+            refreshingThisPage();
+            if (driver.findElement(By.xpath("(//*[@class='adm-list-table-row'] /*[@class='adm-list-table-cell'])[2]")).getText().contains(email)) {
+                driver.findElement(chekBoxForUserSelectionLocator).click();
+                driver.findElement(choiceOfActionForApproveLocator).click();
+                driver.findElement(applyApprovalLocator).click();
+            } else System.out.println(5 / 0);
+        }
     }
 
     public void rejectTheRegistrationOfTheLastUser() {

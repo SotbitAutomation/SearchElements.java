@@ -70,8 +70,9 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
     }
     public void navigationToDeliveryTabInOrderPage() {
         openDeliveryTabInOrderPage();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='" + nameDeliveryWay + "']")));
-        Assert.assertTrue(driver.findElement(By.xpath("//*[text()='" + nameDeliveryWay + "']")).isDisplayed());
+        System.out.println(nameDeliveryWay);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td[contains(text(), '" + nameDeliveryWay + "')]")));
+        Assert.assertTrue(driver.findElement(By.xpath("//td[contains(text(), '" + nameDeliveryWay + "')]")).isDisplayed());
     }
     public void openSupportServiceTabInOrderPage(){
         driver.findElement(By.xpath("//*[@class='blank_detail-menu'] //*[text()='Служба поддержки']")).click();
@@ -282,9 +283,9 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
     }
     public void checkingThatThereAreTwoDelivery(){
         openDeliveryTabInOrderPage();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='SHIPMENT_LIST_table'] //span[contains(text(), '666')]")));
-        Assert.assertTrue(driver.findElement(By.xpath("//*[@id='SHIPMENT_LIST_table'] //span[contains(text(), '666')]")).isDisplayed());
-        Assert.assertTrue(driver.findElements(By.xpath("//*[@id='SHIPMENT_LIST_table'] //*[@class='main-grid-row main-grid-row-body']")).size() == 2);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td[contains(text(), '666 ₽')]")));
+        Assert.assertTrue(driver.findElement(By.xpath("//td[contains(text(), '666 ₽')]")).isDisplayed());
+        Assert.assertTrue(driver.findElements(By.cssSelector(".card.card-shipment__wrap")).size() == 2);
     }
     int numberOfOrders = 0;
     public void searchForAnOrderByItSNumber(){

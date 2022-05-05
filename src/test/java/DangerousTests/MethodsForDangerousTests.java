@@ -69,11 +69,13 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/", "") + "orders/blank_zakaza/");
         if (driver.findElements(By.xpath("//*[@title='Ремни']")).size() > 0) {
             returningSettingsBack();
+            ternOffEditMode();
         }else{
             clickElement("//*[@title='Компьютеры']");
             determineQuantityItemsEqualsZero();
             if (quantityItemsWithQuantityEqualsZero > 3) {
                 returningSettingsBack();
+                ternOffEditMode();
             }
             }
 
@@ -309,6 +311,103 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         driver.findElement(By.xpath("(//*[@class='quantity-selector__increment'])[" + count + "]")).click();
         implicitWaiting();
         Assert.assertTrue(Integer.parseInt(driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).getAttribute("value")) == quantityItemsInTheTESTStorage);
+    }
+    public void showingTheQuantityOfProductsInStorage() {
+        driver.findElement(By.xpath("//*[contains(@for, 'USE_STORE')][contains(@class, 'checkbox')]")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(buttonToSaveTheComponentSettingsForTheCatalog));
+        savingComponentSettings();
+    }
+    public void savingComponentSettings(){
+        implicitWaiting();
+        clickElement(buttonToSaveTheComponentSettingsForTheCatalog);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".catalog")));
+        implicitWaiting();
+    }
 
+    public void addingSecondStorageIfItNeed() {
+        driver.findElement(By.cssSelector("#global_menu_store")).click();
+        driver.findElement(By.xpath("//*[@class = 'adm-submenu-item-name-link-text'][contains(text(), 'Складской учет')]")).click();
+        if (driver.findElements(By.xpath("//*[@class='main-grid-row main-grid-row-body']")).size() < 2) {
+            driver.findElement(By.cssSelector(".ui-btn-primary")).click();
+            driver.findElement(By.xpath("//*[@name='TITLE']")).sendKeys("TEST");
+            driver.findElement(By.xpath("//*[@name='ADDRESS']")).sendKeys("address" + randomString(3));
+            driver.findElement(By.xpath("//*[@name='save']")).click();
+        }
+    }
+
+    public void configureTheOutputOfAllStoragesToTheCatalog() {
+        for (int i = 2; i <= driver.findElements(By.xpath("//select[@data-bx-property-id = 'STORES'] /option")).size(); i++) {
+            if (!(driver.findElement(By.xpath("(//select[@data-bx-property-id = 'STORES'] /option)[" + i + "]")).isSelected())) {
+                driver.findElement(By.xpath("(//select[@data-bx-property-id = 'STORES'] /option)[" + i + "]")).click();
+            }
+        }
+        clickElement(buttonToSaveTheComponentSettingsForTheCatalog);
+        //driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
+    }
+    public void setTheOutputOfTheNumberOfCategoriesInTheRootDirectory(String depthOfSections){
+        driver.findElement(By.xpath("//*[contains(@id, 'SECTION_TOP_DEPTH')]")).clear();
+        driver.findElement(By.xpath("//*[contains(@id, 'SECTION_TOP_DEPTH')]")).sendKeys(depthOfSections);
+        savingComponentSettings();
+        refreshingThisPage();
+    }
+    public void checkingTheNumberOfOutputSections(int iExpectLessThan, int iExpectMoreThan){
+        Assert.assertTrue(driver.findElements(By.cssSelector(".card")).size() < iExpectLessThan && driver.findElements(By.cssSelector(".card")).size() > iExpectMoreThan);
+    }
+    public void navigationToPageInAdminPartWithMeanCatalog(){
+        driver.findElement(By.xpath("//*[@class='adm-main-menu-item-text'][text()='Контент']")).click();
+        driver.findElement(By.xpath("//*[@class='adm-submenu-item-name-link-text'][text()='Каталог (sotbit.b2bcabinet)']")).click();
+        driver.findElement(By.xpath("//*[@class='adm-submenu-item-name-link-text'][text()='Каталог товаров']")).click();
+    }
+    public void openFirsSectionInMeanCatalog(){
+        driver.findElement(By.cssSelector(".main-grid-cell-content > .main-grid-row-action-button")).click();
+        driver.findElement(By.cssSelector(".menu-popup-item-text")).click();
+    }
+    public void deletingExistedItemImage(){
+        try {
+            driver.findElement(By.cssSelector(".adm-btn-del")).click();
+        }catch (Exception e){
+            System.out.println("Изображение уже было удалено");
+        }
+    }
+    String defaultNameSection;
+    public void changeSectionName(String nameToEnter){
+        driver.findElement(By.cssSelector("#NAME")).clear();
+        driver.findElement(By.cssSelector("#NAME")).sendKeys(nameToEnter);
+    }
+    String filePath;
+    public void addingImageToItem(String imageToEdd){
+        filePath = System.getProperty("user.dir") + "\\resources\\" + imageToEdd ;
+        driver.findElement(By.xpath("(//input[@type='file'])[1]")).sendKeys(filePath);
+        implicitWaiting();implicitWaiting();
+    }
+    public void saveSectionCatalogSetting(){
+        driver.findElement(By.cssSelector(".adm-btn-save")).click();
+        implicitWaiting();
+    }
+    public void addingImageIfImageIsNotAdded(){
+        openFirsSectionInMeanCatalog();
+        if (driver.findElements(By.cssSelector(".adm-btn-del")).size()==0){
+            driver.findElement(By.xpath("(//input[@type='file'])[1]")).sendKeys(filePath);
+            implicitWaiting();
+            driver.findElement(By.cssSelector(".adm-btn-save")).click();
+            implicitWaiting();
+        }
+    }
+    String pathToImage;
+    public void checkingThatThereAreNewNameOfSection(){
+        Assert.assertTrue(driver.findElement(By.xpath("//a[contains(text(), 'testChangeNameSection')]")).isDisplayed());
+        pathToImage = driver.findElement(By.xpath("//*[@title='testChangeNameSection']")).getAttribute("src");
+    }
+    public void checkingThatThereAreNameOfSectionWithReturnBack (){
+        Assert.assertTrue(driver.findElements(By.xpath("//a[contains(text(), 'testChangeNameSection')]")).size() == 0);
+        Assert.assertTrue(driver.findElement(By.xpath("//a[contains(text(), '" + defaultNameSection + "')]")).isDisplayed());
+        Assert.assertNotEquals(driver.findElement(By.xpath("//*[@title='" + defaultNameSection + "']")).getAttribute("src") , pathToImage);
+    }
+    public void rememberDefaultNameOfSection(){
+        defaultNameSection = driver.findElement(By.cssSelector("#NAME")).getAttribute("value");
+    }
+    public void choiceTypeOfpRiceForUnauthorizedUser(String priceType){
+        clickElementByItsCssSelector("#PRICE_FOR_NOT_AUTHORIZED_USER");
+        driver.findElement(By.xpath("//*[@value='" + priceType + "']")).click();
     }
 }

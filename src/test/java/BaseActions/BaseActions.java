@@ -447,12 +447,7 @@ public class BaseActions extends CustomizingForYourself {
     }
 
     public void navigationToCatalogTab() {
-        determineThemeColor();
-        if (!themeColorBlack) {
-            driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/", "") + "orders/blank_zakaza/");
-        } else {
-            driver.findElement(catalogTabLocator).click();
-        }
+        navigationToTheRootPageOfTheCatalog();
         try {
             clickElement("//*[@title='Компьютеры']");
         }catch (Exception e){
@@ -462,6 +457,14 @@ public class BaseActions extends CustomizingForYourself {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".catalog")));
         Assert.assertTrue(driver.findElement(By.cssSelector(".catalog")).isDisplayed());
         openingAllOffers();
+    }
+    public void navigationToTheRootPageOfTheCatalog(){
+        determineThemeColor();
+        if (!themeColorBlack) {
+            driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/", "") + "orders/blank_zakaza/");
+        } else {
+            driver.findElement(catalogTabLocator).click();
+        }
     }
 
 

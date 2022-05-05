@@ -42,4 +42,34 @@ public class AccessToB2BWithoutAuthorization extends MethodsForAccessToB2BWithou
         catalog.checkThatDetailPageOfProductIsOpened();
         checkingThatThereAreOnlyRetailPrice();
     }
+    @Test(retryAnalyzer = Retry.class) //4. Вывод сообщения для неавторизованного пользователя
+    public void outputMessageForUnauthorizedUser() {
+        //arrange
+        navigationToAuthorizationTab();
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        driver.findElement(logInButtonOnTheAuthorizationTabLocator).click();
+        navigationToBasicB2BSettings();
+        enterMessageForUnauthorizedUsers();
+        driver.findElement(buttonSaveLocator).click();
+        driver.quit();
+        setUpSuite();
+        navigationToMeanPageByUrl();
+        checkingWarningOutputForUnauthorizedUsers();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        driver.findElement(logInButtonOnTheAuthorizationTabLocator).click();
+        navigationToBasicB2BSettings();
+        clearExistingMessage();
+        driver.findElement(buttonSaveLocator).click();
+        navigationToMeanPageByUrl();
+        exitFromB2B();
+    }
+    @Test(retryAnalyzer = Retry.class) //5. Вывод заглушки при попытке войти в недоступные разделы  по прямой ссылке
+    public void outputOfAStubWhenUserTryingToGoUnavailableSectionsByDirectLink() {
+        //act
+        navigationToCartByUrl();
+        checkingThatThereIsAStub();
+    }
+
 }

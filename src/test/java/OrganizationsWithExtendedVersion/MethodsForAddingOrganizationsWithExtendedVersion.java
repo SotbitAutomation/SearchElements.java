@@ -1056,16 +1056,13 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
 
     public void checkingThatAllFieldsForLegalPersonIsOutPut() {
         selectionFromDropDownListLegalPerson();
-        Assert.assertTrue(driver.findElements(By.cssSelector(".form-control")).size()
-                - driver.findElements(By.xpath("//*[contains(@placeholder, 'естоположение')]")).size()
-                == count);
+        implicitWaiting();
+        Assert.assertTrue(driver.findElements(By.xpath("//*[@class='form-control']")).size() == count);
     }
 
     public void checkingThatAllFieldsForIndividualBusinessman() {
         selectionFromDropDownListIndividualBusinessman();
-        Assert.assertTrue(driver.findElements(By.cssSelector(".form-control")).size()
-                - driver.findElements(By.xpath("//*[contains(@placeholder, 'естоположение')]")).size()
-                == countIP);
+        Assert.assertTrue(driver.findElements(By.xpath("//*[@class='form-control']")).size() == countIP);
     }
 
     public void enteringINNUsingListOfCompanies() {

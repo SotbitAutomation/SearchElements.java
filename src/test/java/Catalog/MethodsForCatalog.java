@@ -946,6 +946,7 @@ public class MethodsForCatalog extends BaseActions {
             } else {
                 choiceRandomCategoryInMenuCatalog(false);
                 //checkingThatAllProductsHaveASimilarIdToTheSectionId();
+                expandCatalogCategories(false);
                 choiceRandomUnderCategoryOfTheSelectedCategory();
                 tempString = tempValue3; //Название категории
                 checkingThatBreadCrumbHaveSelectedCategories();
@@ -1056,13 +1057,16 @@ public class MethodsForCatalog extends BaseActions {
             disclosureOfASubcategories("(//*[contains(@class, 'nav-sidebar')]/*[contains(@class, 'nav-item')]/ul[contains(@class, 'nav-group-sub')] /li)[" + tempRandomNumber + "]");
 //            tempValue4 = driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')])[last()] /*[@href]")).getAttribute("href");
 //            tempValue4 = tempValue4.substring(tempValue4.indexOf('=') + 1); ЧПУ
+            waitingMilliSecond();
+            wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)"),1));
+            implicitWaiting();
             tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)")).size()));
             tempValue3 = driver.findElement(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]")).getText();
             System.out.println("Рандомный подраздел рандомного раздела - " + tempValue3);
             try {
                 clickElement("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]");
             }catch (Exception e){
-                System.out.println("тупая ошибка скрывается каталогб раскрываю его заново");
+                System.out.println("тупая ошибка скрывается каталог, раскрываю его заново");
                 expandCatalogCategories(false);
                 clickElement("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]");
             }
@@ -2098,37 +2102,7 @@ public class MethodsForCatalog extends BaseActions {
 
 
 
-    public void showingTheQuantityOfProductsInStorage() {
-        driver.findElement(By.xpath("//*[contains(@for, 'USE_STORE')][contains(@class, 'checkbox')]")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(buttonToSaveTheComponentSettingsForTheCatalog));
-        implicitWaiting();
-        clickElement(buttonToSaveTheComponentSettingsForTheCatalog);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".catalog")));
-        implicitWaiting();
-    }
 
-    public void addingSecondStorageIfItNeed() {
-        driver.findElement(By.cssSelector("#global_menu_store")).click();
-        driver.findElement(By.xpath("//*[@class = 'adm-submenu-item-name-link-text'][contains(text(), 'Складской учет')]")).click();
-        if (driver.findElements(By.xpath("//*[@class='main-grid-row main-grid-row-body']")).size() < 2) {
-            driver.findElement(By.cssSelector(".ui-btn-primary")).click();
-            driver.findElement(By.xpath("//*[@name='TITLE']")).sendKeys("TEST");
-            driver.findElement(By.xpath("//*[@name='ADDRESS']")).sendKeys("address" + randomString(3));
-            driver.findElement(By.xpath("//*[@name='save']")).click();
-        }
-    }
-
-
-
-    public void configureTheOutputOfAllStoragesToTheCatalog() {
-        for (int i = 2; i <= driver.findElements(By.xpath("//select[@data-bx-property-id = 'STORES'] /option")).size(); i++) {
-            if (!(driver.findElement(By.xpath("(//select[@data-bx-property-id = 'STORES'] /option)[" + i + "]")).isSelected())) {
-                driver.findElement(By.xpath("(//select[@data-bx-property-id = 'STORES'] /option)[" + i + "]")).click();
-            }
-        }
-        clickElement(buttonToSaveTheComponentSettingsForTheCatalog);
-        //driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
-    }
 
 
 
