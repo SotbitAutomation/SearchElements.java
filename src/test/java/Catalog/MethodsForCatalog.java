@@ -104,13 +104,11 @@ public class MethodsForCatalog extends BaseActions {
         numberOfProductsInTheFooter = Integer.parseInt(driver.findElement(By.id("catalog__basket-quantity-value")).getText());
         for (int i = 1; i <= randomNumberUpToMAxQuantityThisProducts; i++) {
             if (quantityOfProductsInStock * coefficientForQuantityOfProducts < 40) {
-                driver.findElement(By.xpath("(//*[contains(@id, 'quantity-increment')])[" + randomProductNumberOnThePage + "]")).click();
-
+                clickElement("(//*[contains(@id, 'quantity-increment')])[" + randomProductNumberOnThePage + "]");
                 double tempQuantityItems;
                 int tempCountForBreak = 0;
                 double expectedTempQuantityItems;
                 flag= false;
-
                 while (!flag){
                     tempCountForBreak++;
                     expectedTempQuantityItems = i/coefficientForQuantityOfProducts;
@@ -164,8 +162,8 @@ public class MethodsForCatalog extends BaseActions {
             if (quantityOfProductsInStock * coefficientForQuantityOfProducts < 500) {
                 driver.findElement(By.xpath("(//*[contains(@id, 'quantity-increment')])[" + randomProductNumberOnThePage + "]")).click();
                 waitingMilliSecond();
-                waitingMilliSecond();
             } else {
+                clickElement("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]");
                 driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]"))
                         .sendKeys(String.valueOf(quantityOfProductsInStock));
                 i = (int) (quantityOfProductsInStock * coefficientForQuantityOfProducts) + 1;
@@ -866,13 +864,17 @@ public class MethodsForCatalog extends BaseActions {
         }
     }
 
-    public void enterNameInTheSearchFieldOnTheCatalogTab(By searchField, String wordForSearch) {
-        driver.findElement(searchField).sendKeys(wordForSearch);
+    public void enterNameInTheSearchFieldOnTheCatalogTabByWord(By searchField, String wordForSearch) {
+        for (int i = 1; i <= wordForSearch.length() ; i++) {
+            driver.findElement(searchField).sendKeys(wordForSearch.substring((i-1), i));
+        }
+        //driver.findElement(searchField).sendKeys(wordForSearch);
     }
 
     public void enterNameInTheSearchFieldOnTheCatalogTab(String nameForSearch) {
         clickElement(fieldForSearchInCatalogLocator);
-        driver.findElement(fieldForSearchInCatalogLocator).sendKeys(nameForSearch);
+        enterNameInTheSearchFieldOnTheCatalogTabByWord(fieldForSearchInCatalogLocator, nameForSearch);
+        //driver.findElement(fieldForSearchInCatalogLocator).sendKeys(nameForSearch);
 //        driver.findElement(fieldForSearchInCatalogLocator).sendKeys(nameForSearch.substring(0, 1));
 //        driver.findElement(fieldForSearchInCatalogLocator).sendKeys("\b"); баг, пробую сразу
         try {

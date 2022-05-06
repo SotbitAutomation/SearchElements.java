@@ -226,7 +226,7 @@ public class MultiRegions extends MethodsForMultiRegions {
         checkingThatSmallOptPriceIsDisplayed();
         checkingThatAffordablePriceIsEqualsSmallOpt();
     }
-    @Test(retryAnalyzer = Retry.class) //7. Вывод типов цен в зависимости от региона (работа с местоположениями выключена)
+    @Test(retryAnalyzer = Retry.class) //8. Вывод типов цен в зависимости от региона (работа с местоположениями выключена)
     public void outputOfPriceTypesDependingOnTheRegionWorkingWithLocationsIsDisabled() {
         //arrange
         navigationToAuthorizationTab();

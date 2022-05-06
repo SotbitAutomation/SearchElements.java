@@ -431,7 +431,7 @@ public class Catalog extends MethodsForCatalog {
         changingPageInCatalog();
         determineRandomProductOnPge();
         choiceWordForSearch();
-        enterNameInTheSearchFieldOnTheCatalogTab(fieldForSearchInCatalogLocator, wordForSearch);
+        enterNameInTheSearchFieldOnTheCatalogTabByWord(fieldForSearchInCatalogLocator, wordForSearch);
         searchByWord();
     }
 

@@ -116,7 +116,6 @@ public class SettingUpCabinetForTesting extends MethodsForSettingUpCabinetForTes
         setUpSuite();
         flagForCloseWarningWindowThisIsTheFirstVisit = true;
         flagForRegionThisIsTheFirstVisit = true;
-        navigationToAuthorizationTab();
     }
 
 

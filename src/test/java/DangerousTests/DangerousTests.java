@@ -16,6 +16,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         //act
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
+        setTypeOfPriceForUnauthorizedUsers("BASE");
         navigationToSystemSettings();
         disableOutputOfPropertiesInTheDirectory();
         navigationToSettingOfQuantitativeAccountingForTheProduct();
@@ -31,6 +32,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         SettingUpCabinetForTesting set = new SettingUpCabinetForTesting();
         set.flagForCloseWarningWindowThisIsTheFirstVisit = flagForCloseWarningWindowThisIsTheFirstVisit;
         set.clearAllCacheForTests();
+        flagForRegionThisIsTheFirstVisit = true;
     }
 
     @Test(retryAnalyzer = Retry.class)
@@ -979,9 +981,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         //act
-        navigationToBasicB2BSettings();
-        choiceTypeOfpRiceForUnauthorizedUser("SMALL_OPT");
-        driver.findElement(buttonSaveLocator).click();
+        setTypeOfPriceForUnauthorizedUsers("SMALL_OPT");
         returningSettingsBackIfCatalogBroken();
         chooseToDisplaySmallOptPricesForAllUsers();
         navigationToGasStoveSetting();
@@ -989,15 +989,14 @@ public class DangerousTests extends MethodsForDangerousTests {
         driver.quit();
         setUpSuite();
         navigationToMeanPageByUrl();
+        closeTheWarningWindowThatYouNeedToLogIn();
         navigationToCatalogTab();
         selectTheSectionWithGasStoves();
         checkingThatTheGefestGasStoveHasTheSmallOptPrice();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
-        navigationToBasicB2BSettings();
-        choiceTypeOfpRiceForUnauthorizedUser("BASE");
-        driver.findElement(buttonSaveLocator).click();
+        setTypeOfPriceForUnauthorizedUsers("BASE");
     }
 
 

@@ -157,9 +157,10 @@ public class BaseActions extends CustomizingForYourself {
             }
         }
     }
+    public By iconForClosingWarningThatYouNeedToLogInLocator = By.cssSelector(".brighttheme-icon-closer");
     public void closeTheWarningWindowThatYouNeedToLogIn(){
         try {
-            driver.findElement(By.cssSelector(".brighttheme-icon-closer")).click();
+            driver.findElement(iconForClosingWarningThatYouNeedToLogInLocator).click();
         } catch (Exception e) {
             System.out.println("0 катч - При первом запуске предупреждения что нужно авторизовтаься не было!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         }
@@ -361,9 +362,9 @@ public class BaseActions extends CustomizingForYourself {
         flagForRegionThisIsTheFirstVisit = true;
     }
 
-    public void expandMenuWithOrganizations() {
+    public void expandMenuWithUnderMenuInWhiteHat(String nameMenu) {
         for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@class, 'navbar-nav-link dropdown-toggle')]")).size(); i++) {
-            if (driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).getText().contains("рганизации")) {
+            if (driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).getText().contains(nameMenu)) {
                 driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).click();
                 if (driver.findElements(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "][@aria-expanded='true']")).size() ==0){
                     refreshingThisPage(); // организции не раскрылись, продую еще раз
@@ -377,7 +378,7 @@ public class BaseActions extends CustomizingForYourself {
     public void navigationToOrganizationTab() {
         determineThemeColor();
         if (!themeColorBlack) {
-            expandMenuWithOrganizations();
+            expandMenuWithUnderMenuInWhiteHat("рганизации");
         }
         driver.findElement(organizationsTabLocator).click();
         try {
@@ -411,7 +412,7 @@ public class BaseActions extends CustomizingForYourself {
     public void navigationToEmployeesTab() {
         determineThemeColor();
         if (!themeColorBlack) {
-            expandMenuWithOrganizations();
+            expandMenuWithUnderMenuInWhiteHat("рганизации");
         }
         driver.findElement(employeesTabLocator).click();
         Assert.assertTrue(driver.findElement(By.cssSelector("#STAFF_LIST")).isDisplayed());
@@ -464,20 +465,25 @@ public class BaseActions extends CustomizingForYourself {
         openingAllOffers();
     }
     public void navigationToTheRootPageOfTheCatalog(){
+        navigationToMeanPageByUrl();
         determineThemeColor();
         if (!themeColorBlack) {
-            implicitWaiting();
-            driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/", "") + "orders/blank_zakaza/");
+            expandMenuWithUnderMenuInWhiteHat("Каталог");
+            driver.findElement(By.cssSelector(".show >* > .dropdown-item")).click();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='breadcrumb-item'][contains(@href, 'blank_zakaza')]")));
+            driver.findElement(By.xpath("//*[@class='breadcrumb-item'][contains(@href, 'blank_zakaza')]")).click();
         } else {
             driver.findElement(catalogTabLocator).click();
         }
+        checkingBreadcrumbs("Каталог");
+        checkingPageTitle("Каталог");
     }
 
 
     public void navigationToPersonalAccountTab() {
         determineThemeColor();
         if (!themeColorBlack) {
-            expandMenuWithOrganizations();
+            expandMenuWithUnderMenuInWhiteHat("рганизации");
         }
         driver.findElement(By.xpath("//*[contains(@href, 'personal/account')]")).click();
         Assert.assertTrue(driver.findElement(By.cssSelector(".blank_personal")).isDisplayed());
@@ -578,6 +584,9 @@ public class BaseActions extends CustomizingForYourself {
     public void checkingBreadcrumbs(String nameBreadcrumb){
         Assert.assertTrue(driver.findElement(By.cssSelector(".breadcrumb")).getText().contains("Главная"));
         Assert.assertTrue(driver.findElement(By.cssSelector(".breadcrumb")).getText().contains(nameBreadcrumb));
+    }
+    public void checkingPageTitle(String nameTitle){
+        Assert.assertTrue(driver.findElement(By.cssSelector(".page-title")).getText().contains(nameTitle));
     }
 
     public void navigationToTechnicalSupportTab() {
@@ -1092,7 +1101,13 @@ public class BaseActions extends CustomizingForYourself {
                 } catch (Exception e3) {
                     System.out.println("Не смог кликнуть по элементу, пробую перезагрузить страницу");
                     refreshingThisPage();
-                    driver.findElement(By.xpath(elementXpath)).click();
+                    try {
+                        driver.findElement(By.xpath(elementXpath)).click();
+                    }catch (Exception e4){
+                        System.out.println("Может мультирегиональность мешает, пробую закрыть ее");
+                        driver.findElement(By.cssSelector(".select-city__dropdown__choose")).click();
+                        driver.findElement(By.xpath(elementXpath)).click();
+                    }
                 }
             }
         }

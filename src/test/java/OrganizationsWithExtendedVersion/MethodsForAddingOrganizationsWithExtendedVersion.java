@@ -328,7 +328,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
     public void navigationToPersonsTab() {
         determineThemeColor();
         if (!themeColorBlack){
-            expandMenuWithOrganizations();
+            expandMenuWithUnderMenuInWhiteHat("рганизации");
         }
         wait.until(ExpectedConditions.visibilityOfElementLocated(employeesTab));
         driver.findElement(employeesTab).click();

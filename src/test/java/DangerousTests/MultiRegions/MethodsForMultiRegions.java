@@ -65,8 +65,11 @@ public class MethodsForMultiRegions extends MethodsForDangerousTests {
         refreshingThisPage();
         driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/" , "") + "bitrix/admin/sotbit_regions.php?lang=ru&site=s1");
         int randomHamburgerMenuNumber = driver.findElements(By.xpath("//*[@class='adm-list-table-popup']")).size();
-        System.out.println("Порядковый номер выбраннго рандомонго региона -  " + randomHamburgerMenuNumber);
         randomHamburgerMenuNumber = 2 + (int) (Math.random() * randomHamburgerMenuNumber);
+        if (randomHamburgerMenuNumber >10){
+            randomHamburgerMenuNumber=5; //Не скролит в админке регионы нормально
+        }
+        System.out.println("Порядковый номер выбраннго рандомонго региона -  " + randomHamburgerMenuNumber);
         clickElement("(//*[@class='adm-list-table-popup'])[" + randomHamburgerMenuNumber + "]");
         driver.findElement(By.xpath("//*[contains(@style, 'display: block')]//*[text()='Изменить']")).click();
         nameRandomCity = driver.findElement(By.xpath("//*[@name='NAME']")).getAttribute("value");
@@ -78,12 +81,14 @@ public class MethodsForMultiRegions extends MethodsForDangerousTests {
         if (driver.findElements(By.xpath("//*[@id='MODE_LOCATION'][@checked] /following::*[1]")).size() > 0){
             driver.findElement(By.xpath("//*[@id='MODE_LOCATION'] /following::*[1]")).click();
             driver.findElement(buttonSaveLocator).click();
+            flagForRegionThisIsTheFirstVisit = true;
         }
     }
     public void turnOnWorkingWithLocations(){
         if (driver.findElements(By.xpath("//*[@id='MODE_LOCATION'][@checked] /following::*[1]")).size() == 0){
             driver.findElement(By.xpath("//*[@id='MODE_LOCATION'] /following::*[1]")).click();
             driver.findElement(buttonSaveLocator).click();
+            flagForRegionThisIsTheFirstVisit = true;
         }
     }
     public void unselectAllStorages(){

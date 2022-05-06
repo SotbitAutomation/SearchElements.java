@@ -398,6 +398,7 @@ public class MethodsForMeanPage extends BaseActions {
         if (themeColorBlack){
             Assert.assertTrue(driver.findElement(By.xpath("//*[@class='sidebar-user']//*[contains(@src, 'upload')]")).isDisplayed());
         }else{
+            refreshingThisPage();
             Assert.assertTrue(driver.findElements(By.xpath("//img[contains(@src, 'upload/resize_cach')]")).size() >= 2);
         }
     }
