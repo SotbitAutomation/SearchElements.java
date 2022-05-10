@@ -19,11 +19,7 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
 
 
     public void navigationToMakingOrderFromCart() {
-        try {
-            driver.findElement(buttonMakeOrderInTheCartLocator).click();
-        }catch (Exception e){
-
-        }
+        clickElement(buttonMakeOrderInTheCartLocator);
         try {
             Assert.assertTrue(driver.findElement(By.cssSelector("#ORDER_FORM")).isDisplayed());
         } catch (Exception e) {
@@ -59,7 +55,7 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
 
     public void trySelectCompany() {
         determineWhetherVersionsOfWorkingWithOrganization();
-        if (versionsOfWorkingWithOrganizationsExtended == false) {
+        if (!versionsOfWorkingWithOrganizationsExtended) {
             driver.findElement(By.xpath("(//input[@name='PROFILE_ID'])[1]")).click();
         }
     }
@@ -102,19 +98,22 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'Ваш заказ')]")).isDisplayed());
         numberOfOrder = driver.findElement(By.xpath("//*[contains(@href, 'order/detail')]/b")).getText().replaceAll("№", "");
     }
-
-    public void checkingPriceOfProductsOnTheMakingOrderPage() {
+    public void findingNeededColumnAboutOrderOnTheMakingOrderPage (String NameOfColumn){
         tempInt = 1;
         flag = false;
         while (!flag) {
             scrollToTheElement("//h4[text()='Заказ']/ following::*[" + tempInt + "]");
-            if (driver.findElement(By.xpath("//h4[text()='Заказ']/ following::*[" + tempInt + "]")).getText().equals("Сумма")) {
+            if (driver.findElement(By.xpath("//h4[text()='Заказ']/ following::*[" + tempInt + "]")).getText().equals(NameOfColumn)) {
                 flag = true;
             } else {
                 tempInt++;
                 if (tempInt > 20) break;
             }
         }
+    }
+
+    public void checkingPriceOfProductsOnTheMakingOrderPage() {
+        findingNeededColumnAboutOrderOnTheMakingOrderPage("Сумма");
         try {
             tempDouble2 = Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("//h4[text()='Заказ']/ following::td[" + tempInt + "]"))
                     .getText()));

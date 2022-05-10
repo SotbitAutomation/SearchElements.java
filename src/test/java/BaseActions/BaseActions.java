@@ -1116,6 +1116,7 @@ public class BaseActions extends CustomizingForYourself {
     public void clickElement(By elementLocator) {
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(elementLocator));
+            waitingMilliSecond();
             driver.findElement(elementLocator).click();
         } catch (Exception e) {
             System.out.println("Не смог кликнуть по элементу, пробую проскролить до него");

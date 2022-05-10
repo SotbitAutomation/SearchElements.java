@@ -587,7 +587,7 @@ public class MethodsForCatalog extends BaseActions {
     }
 
     public void downloadingCatalogToYourComputer() {
-        driver.findElement(By.cssSelector(".catalog__actions-toggler")).click();
+        driver.findElement(actionsButtonLocator).click();
         driver.findElement(By.cssSelector(".icon-upload")).click();
         if (driver.findElements(By.xpath("//*[contains(@id, 'All_link')]")).size() != 0) {
             driver.findElement(By.xpath("//*[contains(@id, 'All_link')]")).click();
@@ -596,9 +596,10 @@ public class MethodsForCatalog extends BaseActions {
         checkingThatCatalogIsDownloaded();
     }
 
+    public By actionsButtonLocator = By.cssSelector(".catalog__actions-toggler");
     public void downloadingCatalogFromExcel(String nameCatalog) {
         try {
-            driver.findElement(By.cssSelector(".catalog__actions-toggler")).click();
+            driver.findElement(actionsButtonLocator).click();
         } catch (Exception e) {
             driver.findElement(By.cssSelector(".btn-actions")).click();
         }
@@ -607,15 +608,19 @@ public class MethodsForCatalog extends BaseActions {
 
     public void uploadingExcelCatalog(String nameCatalog) {
         driver.findElement(By.xpath("//*[contains(@class, 'icon-download')]")).click();
+        choiceExcelFromResources(nameCatalog);
+        try {
+            driver.findElement(By.xpath("//button[contains(text(), 'Закрыть')][contains(@class, 'btn')]")).click();
+        } catch (Exception e) {
+            System.out.println("Всплывашка какие товары были загружены не появилась");
+        }
+    }
+    public void choiceExcelFromResources(String nameCatalog){
         By fileInput = By.xpath("//input[@class='file-fileUploader']");
         String filePath = System.getProperty("user.dir") + "\\resources\\" + nameCatalog;
         driver.findElement(fileInput).sendKeys(filePath);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@class, 'file-extended')] //*[contains(@class, 'files-size')]")));
-        driver.findElement(By.xpath("//*[contains(@class, 'excel')]//*[contains(text(), 'Применить')]")).click();
-        try {
-            driver.findElement(By.xpath("//button[contains(text(), 'Закрыть')][contains(@class, 'btn')]")).click();
-        } catch (Exception e) {
-        }
+        driver.findElement(By.xpath("//*[contains(@name,'send_file')]")).click();
     }
 
     public void checkThatProductsAreDisplayedInCart() {
@@ -1284,9 +1289,9 @@ public class MethodsForCatalog extends BaseActions {
     }
 
     public void selectRandomSectionToDownloadToTheCatalog() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".catalog__actions-toggler")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(actionsButtonLocator));
         implicitWaiting();
-        driver.findElement(By.cssSelector(".catalog__actions-toggler")).click();
+        driver.findElement(actionsButtonLocator).click();
         driver.findElement(By.cssSelector(".icon-upload")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@id,'add_link')]")));
         driver.findElement(By.xpath("//*[contains(@id,'add_link')]")).click();
@@ -3042,6 +3047,7 @@ public class MethodsForCatalog extends BaseActions {
     int randomNumberItemInTheCart;
 
     public void choiceRandomProductInTheCart() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".basket__item")));
         quantityItemsInTheCart = driver.findElements(By.cssSelector(".basket__product-discrioption")).size();
         randomNumberItemInTheCart = 1 + (int) (Math.random() * quantityItemsInTheCart);
         driver.findElement(By.xpath("(//*[@class='basket__checkbox'])[" + (randomNumberItemInTheCart + 1) + "]")).click();
