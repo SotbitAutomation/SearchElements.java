@@ -27,6 +27,7 @@ public class MethodsForMultiRegions extends MethodsForDangerousTests {
     }
     public void choiceNameRandomCityFromList(){
         wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//*[@class='select-city__modal__list__item']"), 3));
+        waitingMilliSecond();
         randomCityNumber = driver.findElements(By.xpath("//*[@class='select-city__modal__list__item']")).size();
         randomCityNumber = 1 + (int) (Math.random() * randomCityNumber);
         nameRandomCity = driver.findElement(By.xpath("(//*[@class='select-city__modal__list__item'])[" + randomCityNumber + "]")).getText();

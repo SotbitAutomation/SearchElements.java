@@ -441,7 +441,6 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
             navigationToOrganizationTab();
             Assert.assertEquals(nameCompany, driver.findElement(expandListOfOrganizationsInTheWhiteVersionLocator).getText());
         }
-
     }
 
 
@@ -507,14 +506,6 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
             for (int j = 0; j < arrayWithAllPossibleLocatorsForOrganization.length; j = j + 2) {
                 if (driver.findElement(By.xpath("(//*[@class='register-field-name'])[" + i +  "]"))
                         .getText().replaceAll("[*, ]", "").equals(arrayWithAllPossibleLocatorsForOrganization[j])) {
-
-                    System.out.println("1   "+ driver.findElement(By.xpath("(//*[@class='register-field-name'])[" + i + "]"))
-                            .getText().replaceAll("[*, ]", ""));
-                    System.out.println("2   " + arrayWithAllPossibleLocatorsForOrganization[j]);
-                    System.out.println("3  " + j);
-                    System.out.println("4  " + i);
-
-
                     driver.findElement(By.xpath("(//*[@class='staff-register']//*[@class='form-control'])[" + i + "]")).sendKeys(arrayWithAllPossibleLocatorsForOrganization[j + 1]);
                     break;
                 }
@@ -1474,6 +1465,17 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         wait.until(ExpectedConditions.numberOfElementsToBe(By.xpath("//*[@class='main-grid-row main-grid-row-body']"), 1));
         Assert.assertEquals(driver.findElement(By.xpath("//*[@class='main-grid-row main-grid-row-body'] //*[@class='main-grid-cell main-grid-cell-left']")).getText()
                 , tempValueForNumbers);
+    }
+    public void findingColumnWithOrganizationName (String columnName){
+        String actualColumnName;
+        int numberOfColumns = driver.findElements(By.xpath("//*[@id='PERSONAL_PROFILE_LIST_table'] /*[@class='main-grid-header'] //*[@class='main-grid-head-title']")).size();
+        for (int i = 1; i <= numberOfColumns; i++) {
+            actualColumnName =  driver.findElement(By.xpath("(//*[@id='PERSONAL_PROFILE_LIST_table'] /*[@class='main-grid-header'] //*[@class='main-grid-head-title'])[" + i + "]")).getText();
+            if (actualColumnName.contains(columnName)){
+                count = i;
+                break;
+            }
+        }
     }
 }
 

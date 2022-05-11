@@ -942,7 +942,7 @@ public class DangerousTests extends MethodsForDangerousTests {
 
     @Test(retryAnalyzer = Retry.class)
     //36. Изменение названия и фото раздела каталога
-    public void сhangingTheNameAndPhotoOfTheCatalogSection() {
+    public void changingTheNameAndPhotoOfTheCatalogSection() {
         //arrange
         navigationToAuthorizationTab();
         //act

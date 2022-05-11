@@ -118,5 +118,4 @@ public class SettingUpCabinetForTesting extends MethodsForSettingUpCabinetForTes
         flagForRegionThisIsTheFirstVisit = true;
     }
 
-
 }

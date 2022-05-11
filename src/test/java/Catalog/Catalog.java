@@ -668,6 +668,7 @@ public class Catalog extends MethodsForCatalog {
     public void addingProductFromTheProductCard() {
         SettingUpCabinetForTesting set = new SettingUpCabinetForTesting();
         set.clearAllCacheForTests();
+        flagForRegionThisIsTheFirstVisit = true;
         //arrange
         navigationToAuthorizationTab();
         //act

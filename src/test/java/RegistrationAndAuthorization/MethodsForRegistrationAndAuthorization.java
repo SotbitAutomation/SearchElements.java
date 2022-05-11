@@ -386,7 +386,6 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
             }
         }
         navigationToPageForConfirmUserRegistration();
-        System.out.println(email);
         approveTheRegistrationOfTheLastUser();
         navigationToMeanPageByUrl();
         navigationToAuthorizationTab();

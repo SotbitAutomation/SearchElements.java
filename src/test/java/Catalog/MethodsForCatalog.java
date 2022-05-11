@@ -160,7 +160,7 @@ public class MethodsForCatalog extends BaseActions {
         numberOfProductsInTheFooter = Integer.parseInt(driver.findElement(By.id("catalog__basket-quantity-value")).getText());
         for (int i = 0; i < quantityOfProductsInStock * coefficientForQuantityOfProducts; i++) {
             if (quantityOfProductsInStock * coefficientForQuantityOfProducts < 500) {
-                driver.findElement(By.xpath("(//*[contains(@id, 'quantity-increment')])[" + randomProductNumberOnThePage + "]")).click();
+                clickElement("(//*[contains(@id, 'quantity-increment')])[" + randomProductNumberOnThePage + "]");
                 waitingMilliSecond();
             } else {
                 clickElement("(//*[@class='quantity-selector__value'])[" + randomProductNumberOnThePage + "]");
@@ -2429,7 +2429,14 @@ public class MethodsForCatalog extends BaseActions {
     public void sumPieceQuantityItemsInTheCart(){
         pieceQuantityOfItemsInTheCart = 0;
         for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@id, 'basket-item-quantity')]")).size(); i++) {
-            pieceQuantityOfItemsInTheCart =  (pieceQuantityOfItemsInTheCart + Integer.valueOf(driver.findElement(By.xpath("(//*[contains(@id, 'basket-item-quantity')])[" + i + "]")).getAttribute("value")));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[contains(@id, 'basket-item-quantity')])[" + i + "]")));
+            try {
+                pieceQuantityOfItemsInTheCart =  (pieceQuantityOfItemsInTheCart + Integer.valueOf(driver.findElement(By.xpath("(//*[contains(@id, 'basket-item-quantity')])[" + i + "]")).getAttribute("value")));
+            }catch (Exception e){
+                System.out.println("Тупая ошибка, скрипты меняют данные после отрисовки");
+                implicitWaiting();
+                pieceQuantityOfItemsInTheCart =  (pieceQuantityOfItemsInTheCart + Integer.valueOf(driver.findElement(By.xpath("(//*[contains(@id, 'basket-item-quantity')])[" + i + "]")).getAttribute("value")));
+            }
         }
     }
 

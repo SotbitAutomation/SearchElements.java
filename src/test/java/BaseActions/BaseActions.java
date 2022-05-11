@@ -359,7 +359,6 @@ public class BaseActions extends CustomizingForYourself {
         }
         wait.until(ExpectedConditions.visibilityOfElementLocated(exitButtonInb2bCabinetLocator));
         driver.findElement(exitButtonInb2bCabinetLocator).click();
-        flagForRegionThisIsTheFirstVisit = true;
     }
 
     public void expandMenuWithUnderMenuInWhiteHat(String nameMenu) {
@@ -380,6 +379,7 @@ public class BaseActions extends CustomizingForYourself {
         if (!themeColorBlack) {
             expandMenuWithUnderMenuInWhiteHat("рганизации");
         }
+        wait.until(ExpectedConditions.visibilityOfElementLocated(organizationsTabLocator));
         driver.findElement(organizationsTabLocator).click();
         try {
             Assert.assertTrue(driver.findElement(By.cssSelector("#PERSONAL_PROFILE_LIST")).isDisplayed());
@@ -441,6 +441,7 @@ public class BaseActions extends CustomizingForYourself {
             driver.findElement(By.cssSelector("#bx-panel-expander-text")).click();
             driver.findElement(By.cssSelector(".bx-panel-clear-cache-icon")).click();
         }
+        flagForRegionThisIsTheFirstVisit = true;
         implicitWaiting();
         implicitWaiting();
         implicitWaiting();
@@ -470,7 +471,12 @@ public class BaseActions extends CustomizingForYourself {
         if (!themeColorBlack) {
             expandMenuWithUnderMenuInWhiteHat("Каталог");
             driver.findElement(By.cssSelector(".show >* > .dropdown-item")).click();
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='breadcrumb-item'][contains(@href, 'blank_zakaza')]")));
+            try {
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='breadcrumb-item'][contains(@href, 'blank_zakaza')]")));
+            }catch (Exception e){
+                flagForRegionThisIsTheFirstVisit = true; //бывает местоположение скрывает крошки
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='breadcrumb-item'][contains(@href, 'blank_zakaza')]")));
+            }
             driver.findElement(By.xpath("//*[@class='breadcrumb-item'][contains(@href, 'blank_zakaza')]")).click();
         } else {
             driver.findElement(catalogTabLocator).click();
@@ -736,9 +742,19 @@ public class BaseActions extends CustomizingForYourself {
             }
         }
 
+
+        int columnWithDataAboutOrganization = driver.findElements(By.xpath("//*[@class='adm-list-table-row'] /*[@class='adm-list-table-cell'][3]")).size();
+        for (int i = 1; i <= columnWithDataAboutOrganization; i++) {
+            if (driver.findElement(By.xpath("(//*[@class='adm-list-table-row'] /*[@class='adm-list-table-cell'][3])[" + i + "]")).getText().contains(nameCompany)){
+                count = i;
+                break;
+            }
+        }
+
+
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#digitalwand_admin_helper_sotbit_auth_company_confirm")));
-        Assert.assertTrue(driver.findElement(By.xpath("((//*[@class='adm-list-table-row'])[1] //*[@class='adm-list-table-cell'])[3]")).getText().contains(nameCompany));
-        driver.findElement(By.xpath("//*[@class='adm-designed-checkbox-label adm-checkbox']")).click();
+        Assert.assertTrue(driver.findElement(By.xpath("(//*[@class='adm-list-table-row'] /*[@class='adm-list-table-cell'][3])[" + count + "]")).getText().contains(nameCompany));
+        driver.findElement(By.xpath("(//*[@class='adm-designed-checkbox-label adm-checkbox'])[" + count + "]")).click();
         driver.findElement(By.cssSelector("#digitalwand_admin_helper_sotbit_auth_company_confirm_action")).click();
         driver.findElement(By.xpath("//*[text()='Одобрить']")).click();
         driver.findElement(By.xpath("//*[@value='Применить']")).click();

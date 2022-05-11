@@ -17,7 +17,7 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
     public void choiceCategoryFromPopApWindow() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class= 'media-body'] /* [@href] /*[contains(@class, 'media-title')])[last()]")));
         waitingMilliSecond();
-        driver.findElement(By.xpath("(//*[@class= 'media-body'] /* [@href] /*[contains(@class, 'media-title')])[last()]")).click();
+        clickElement("(//*[@class= 'media-body'] /* [@href] /*[contains(@class, 'media-title')])[last()]");
     }
 
     public void checkingThatURLContainsChosenCategory() {
