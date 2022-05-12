@@ -545,12 +545,12 @@ public class Catalog extends MethodsForCatalog {
         logInToB2B();
         resetCache();
         navigationToCatalogTab();
-        enableEditMode();
+        ternOnEditMode();
         navigationToComponentOfUnloadingTheCatalog();
         selectTheWorkModelAsUserConfigurable();
         selectRandomSectionToDownloadToTheCatalog();
         clickTheUploadButton();
-        checkingThatCatalogIsDownloaded();
+        checkingThatCatalogIsDownloaded(".xlsx");
     }
     @Test(retryAnalyzer = Retry.class) //34.  Проверка корректности добавления в корзину после загрузки из EXCEL всего каталога
     public void addingAnItemToTheCartAfterDownloadingItFromExcel() {

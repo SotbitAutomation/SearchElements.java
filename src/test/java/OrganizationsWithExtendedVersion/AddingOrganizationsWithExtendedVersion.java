@@ -627,7 +627,7 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
 //
 //        for (int i = 0; i <500; i++) {
 //            Assert.assertNotEquals("Компания №2", driver.findElement(By.xpath("(//*[@class='adm-list-table-cell'])[1] /*")).getText());
-//            driver.findElement(By.xpath("(//*[@class='adm-list-table-cell'])[1] /*")).click();
+//            driver.findElement(By.xpath("(//*[contains(@href,'company_edit')])[2]")).click();
 //            driver.findElement(By.xpath("//*[@id='btn_delete']")).click();
 //            standardConfirmationOfTheActionOnThePage();
 //        }

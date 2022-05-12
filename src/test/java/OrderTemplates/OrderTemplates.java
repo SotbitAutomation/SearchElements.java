@@ -3,7 +3,7 @@ package OrderTemplates;
 import BaseActions.Retry;
 import org.testng.annotations.Test;
 
-public class OrderTemplates extends MethodsForOrderTemplates{
+public class OrderTemplates extends MethodsForOrderTemplates {
 
     @Test(retryAnalyzer = Retry.class) //1.  Создание шаблона заказа
     public void creatingAnOrderTemplate() {
@@ -13,12 +13,13 @@ public class OrderTemplates extends MethodsForOrderTemplates{
         logInToB2B();
         //act
         navigationToOrderTemplates();
-        uploadingExcelCatalogForOrderTemplates("blank.xlsx");
+        uploadingExcelCatalogForOrderTemplates("blankForOrderTemplates.xlsx");
         setNameForOrderTemplate();
         createOrderTemplate();
         navigationToOrderTemplates();
         checkingThatCreatedOrderTemplateDisplayed();
     }
+
     @Test(retryAnalyzer = Retry.class) //2.  Оформление заказа из шаблона
     public void makingOrderFromTemplate() {
         //arrange
@@ -30,7 +31,9 @@ public class OrderTemplates extends MethodsForOrderTemplates{
         addingItemsToTheCartFromOrderTemplate();
         makingOrderWithItemsFromOrderTemplate();
     }
-    @Test(retryAnalyzer = Retry.class) //3.  Просмотр шаблона > оформление заказа с удалением одного из товаров в корзине
+
+    @Test(retryAnalyzer = Retry.class)
+    //3.  Просмотр шаблона > оформление заказа с удалением одного из товаров в корзине
     public void viewingTemplateThenMakingOrderWithDeletingItemInTheCart() {
         //arrange
         navigationToAuthorizationTab();
@@ -51,6 +54,7 @@ public class OrderTemplates extends MethodsForOrderTemplates{
         checkingThatItemIsDeletedFromOrder();
         makeOrder.makingOrder();
     }
+
     @Test(retryAnalyzer = Retry.class) //4.  Оформление заказа из шаблона с редактированием кол-ва товаров в корзине
     public void makingOrderFromTemplateWithEditingTheNumberOfProductsInTheBasket() {
         //arrange
@@ -73,10 +77,12 @@ public class OrderTemplates extends MethodsForOrderTemplates{
         checkingThatPriceForOrderOnTheMakingOrderPageAndInTheCartIsTheSame();
         makeOrder.makingOrder();
     }
-    @Test(retryAnalyzer = Retry.class) //5.  У сотрудника отображается шаблон заказа который создал другой пользовтаель и привязал к их общей организации
+
+    @Test(retryAnalyzer = Retry.class)
+    //5.  У сотрудника отображается шаблон заказа который создал другой пользовтаель и привязал к их общей организации
     public void employeeSeesOrderTemplateThatWasCreatedByAnotherUserAndLinkedToTheirCommonOrganization() {
         determineWhetherVersionsOfWorkingWithOrganization();
-        if (versionsOfWorkingWithOrganizationsExtended){
+        if (versionsOfWorkingWithOrganizationsExtended) {
             //arrange
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeUser();
@@ -86,7 +92,7 @@ public class OrderTemplates extends MethodsForOrderTemplates{
             determineThemeColor();
             determineCurrentOrganizationName();
             navigationToOrderTemplates();
-            uploadingExcelCatalogForOrderTemplates("blank.xlsx");
+            uploadingExcelCatalogForOrderTemplates("blankForOrderTemplates.xlsx");
             setNameForOrderTemplate();
             setOrganizationForOrderTemplate();
             createOrderTemplate();
@@ -110,7 +116,7 @@ public class OrderTemplates extends MethodsForOrderTemplates{
         logInToB2B();
         //act
         navigationToOrderTemplates();
-        uploadingExcelCatalogForOrderTemplates("blank.xlsx");
+        uploadingExcelCatalogForOrderTemplates("blankForOrderTemplates.xlsx");
         setNameForOrderTemplate();
         createOrderTemplate();
         navigationToOrderTemplates();
@@ -119,32 +125,25 @@ public class OrderTemplates extends MethodsForOrderTemplates{
         checkingThatCreatedOrderTemplateIsNotDisplayed();
     }
 
-    @Test(retryAnalyzer = Retry.class)//13. Регистрация руководителя компании из раздела сотрудники
-    public void asdasd() {
+    @Test(retryAnalyzer = Retry.class)
+//7. Удаление шаблона заказа добавленным в организацию сотрудником у которого роль руководителя
+    public void deletingOrderTemplateByAnEmployeeAddedToTheOrganizationWhoHasTheBossRole() {
         determineWhetherVersionsOfWorkingWithOrganization();
         if (versionsOfWorkingWithOrganizationsExtended) {
             //arrange
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeUser();
             logInToB2B();
-
             navigationToOrganizationTab();
             determineThemeColor();
             determineCurrentOrganizationName();
             navigationToOrderTemplates();
-            uploadingExcelCatalogForOrderTemplates("blank.xlsx");
+            uploadingExcelCatalogForOrderTemplates("blankForOrderTemplates.xlsx");
             setNameForOrderTemplate();
             setOrganizationForOrderTemplate();
             createOrderTemplate();
-
             //act
-            readingUserData();
-            org.emailEmployee = emailEmployee;
-            org.fillingFieldForCreatingEmployeeUsingReferralLink();
-            org.choosingBossRole();
-            org.addingAnEmployeeToAnOrganizationUsingByReferralLink();
-
-
+            addingAnEmployeeWithBossRoleToOrganizationWithOrderTemplate();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeEmployee();
             logInToB2B();
@@ -152,8 +151,57 @@ public class OrderTemplates extends MethodsForOrderTemplates{
             checkingThatCreatedOrderTemplateDisplayed();
             deletingFirstOrderTemplate();
             checkingThatCreatedOrderTemplateIsNotDisplayed();
-
         }
+    }
+
+    @Test(retryAnalyzer = Retry.class) //8.  Названия столбцов таблицы с шаблонами заказов отображаются
+    public void columnNamesOfTheTableWithOrderTemplatesAreDisplayed() {
+        //arrange
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        //act
+        navigationToOrderTemplates();
+        checkingColumnHeadersOrderTemplateTable();
+    }
+
+    @Test(retryAnalyzer = Retry.class) //9.  На детальной странице шаблона отображается список товаров, количество и сумма
+    public void detailedPageOfTheTemplateDisplaysListOfProductsQuantityAndAmount() {
+        //arrange
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToOrderTemplates();
+        //act
+        expendHamburgerMenuInFirstOrderTemplate();
+        clickingLookOrderTemplate();
+        checkingColumnHeadersOnTheDetailPageOfOrderTemplate();
+        findingNumberOFColumnWithNeededName("Количество");
+        checkingNumberOfItemsOnTheOrderTemplateDetailPage("1", "1");
+        checkingNumberOfItemsOnTheOrderTemplateDetailPage("2", "2");
+        findingNumberOFColumnWithNeededName("Стоимость");
+        checkingPriceOfItemOnTheOrderTemplateDetailPage("1", 345000);
+        checkingPriceOfItemOnTheOrderTemplateDetailPage("2", 125600);
+        findingNumberOFColumnWithNeededName("Наименование");
+        checkingNameOfItemOnTheOrderTemplateDetailPage("1", "Видеокамера Canon EOS C300");
+        checkingNameOfItemOnTheOrderTemplateDetailPage("2", "Видеокамера Canon XA11");
+    }
+    @Test(retryAnalyzer = Retry.class)//10.  Выгрузка шаблона заказа в Excel файл
+    public void uploadingAnOrderTemplateToAnExcelFile() {
+        //arrange
+        deletingExcelAndJpgFilesFromDownloads();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToOrderTemplates();
+        uploadingExcelCatalogForOrderTemplates("blankForOrderTemplates.xlsx");
+        setNameForOrderTemplate();
+        createOrderTemplate();
+        navigationToOrderTemplates();
+        //act
+        expendHamburgerMenuInFirstOrderTemplate();
+        clickingUploadExcel();
+        checkingThatOrderTemplateIsDownloaded();
     }
 
 }

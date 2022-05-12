@@ -47,7 +47,6 @@ public class MethodsForCatalog extends BaseActions {
     public double tempDouble5 = 0;
     String maxPriceForFiltering = "10000";
     String minPriceForFiltering = "3000";
-    double scale;
     public By quantityFieldOfGefestLocator = By.xpath("//*[contains(text(), 'GEFEST')] /following::* //*[@data-entity ='basket-item-quantity-field']");
     public By iconPlusOfGefestLocator = By.xpath("//*[contains(text(), 'GEFEST')] /following::* //*[@data-entity ='basket-item-quantity-plus']");
     public By iconMinusOfGefestLocator = By.xpath("//*[contains(text(), 'GEFEST')] /following::* //*[@data-entity ='basket-item-quantity-minus']");
@@ -593,7 +592,7 @@ public class MethodsForCatalog extends BaseActions {
             driver.findElement(By.xpath("//*[contains(@id, 'All_link')]")).click();
             driver.findElement(By.xpath("//*[@name='send_cond_tree']")).click();
         }
-        checkingThatCatalogIsDownloaded();
+        checkingThatCatalogIsDownloaded(".xlsx");
     }
 
     public By actionsButtonLocator = By.cssSelector(".catalog__actions-toggler");
@@ -886,7 +885,7 @@ public class MethodsForCatalog extends BaseActions {
             implicitWaiting();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".media-title")));
         } catch (Exception e) {
-            System.out.println("Не высветился поп-ап товар в подсказке, ввожу посимвольно!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println("Не высветился поп-ап товар в подсказке, ввожу посимвольно!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + nameForSearch);
             driver.findElement(fieldForSearchInCatalogLocator).clear();
             driver.findElement(fieldForSearchInCatalogLocator).sendKeys(nameForSearch.substring(0,1));
             driver.findElement(fieldForSearchInCatalogLocator).sendKeys(nameForSearch.substring(1,2));
@@ -1065,7 +1064,11 @@ public class MethodsForCatalog extends BaseActions {
 //            tempValue4 = driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')])[last()] /*[@href]")).getAttribute("href");
 //            tempValue4 = tempValue4.substring(tempValue4.indexOf('=') + 1); ЧПУ
             waitingMilliSecond();
-            wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)"),1));
+            if (!tempValue2.contains("Спорт и отдых")){
+                wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)"),1));
+            }else {
+                implicitWaiting();implicitWaiting(); // Привязываю ожидание к кол-ву подразделов, но у спорта кол-во подразделов рано 1
+            }
             implicitWaiting();
             tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)")).size()));
             tempValue3 = driver.findElement(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]")).getText();
@@ -1320,11 +1323,20 @@ public class MethodsForCatalog extends BaseActions {
         driver.findElement(By.xpath("//*[@name='send_cond_tree']")).click();
     }
 
-    public void checkingThatCatalogIsDownloaded() {
+    public void checkingThatCatalogIsDownloaded(String downloadedFileContainsName) {
+        flag = false;
+        count=0;
+        while (!flag){
+            implicitWaiting();
+            count++;
+            if (count>10){
+                System.out.println(5 / 0);
+            }
+            String downloadPath = System.getProperty("user.home") + "/Downloads/";
+            flag = isFileDownloaded_Ext(downloadPath, downloadedFileContainsName);
+        }
         String downloadPath = System.getProperty("user.home") + "/Downloads/";
-        implicitWaiting();
-        implicitWaiting();
-        Assert.assertTrue(isFileDownloaded_Ext(downloadPath, ".xlsx"), "Failed to download document which has extension .xlsx");
+        Assert.assertTrue(isFileDownloaded_Ext(downloadPath, downloadedFileContainsName), "Failed to download document which has extension .xlsx");
     }
 
     public void sortingOfProductsInAlphabeticalIncreasingOrder() {
@@ -2277,13 +2289,15 @@ public class MethodsForCatalog extends BaseActions {
 
     public void checkingThatTotalPriceAreCalculatedRight() {
         System.out.println(Double.valueOf(replacingSomeSymbols(driver.findElement(By.cssSelector(".basket-page__total-price-value")).getText())));
-        System.out.println(Double.valueOf((((numberOfAvailableGefestGasStove + 1) * Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(text(), 'GEFEST')] /following::* //*[@class ='basket__column-price-wrap']/span) [1]")).getText())))
-                + (numberOfAvailableKaiserGasStove * Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(text(), 'Kaiser')] /following::* //*[@class ='basket__column-price-wrap']/span) [1]")).getText())) * 10))));
-
+        double calculatedSum = Double.valueOf((((numberOfAvailableGefestGasStove + 1) * Double.valueOf(replacingSomeSymbols(
+                driver.findElement(By.xpath("(//*[contains(text(), 'GEFEST')] /following::* //*[@class ='basket__column-price-wrap']/span) [1]")).getText())))
+                + (numberOfAvailableKaiserGasStove * Double.valueOf(replacingSomeSymbols(
+                        driver.findElement(By.xpath("(//*[contains(text(), 'Kaiser')] /following::* //*[@class ='basket__column-price-wrap']/span) [1]")).getText())) * 10)));
+        double scale = Math.pow(10, 3);
+        calculatedSum = Math.ceil(calculatedSum * scale) / scale;
+        System.out.println(calculatedSum);
         Assert.assertTrue(Double.valueOf(replacingSomeSymbols(driver.findElement(By.cssSelector(".basket-page__total-price-value")).getText()))
-                == (((numberOfAvailableGefestGasStove + 1) * Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(text(), 'GEFEST')] /following::* //*[@class ='basket__column-price-wrap']/span) [1]")).getText())))
-                + (numberOfAvailableKaiserGasStove * Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("(//*[contains(text(), 'Kaiser')] /following::* //*[@class ='basket__column-price-wrap']/span) [1]")).getText())) * 10)
-        ));
+                == calculatedSum);
     }
 
     public void checkingThatTotalPriceOfTheseProductsAreCalculatedRight(By priceForFirstProduct, By priceForSecondProduct) {

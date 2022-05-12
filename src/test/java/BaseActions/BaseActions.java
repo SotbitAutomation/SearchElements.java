@@ -157,16 +157,19 @@ public class BaseActions extends CustomizingForYourself {
             }
         }
     }
+
     public By iconForClosingWarningThatYouNeedToLogInLocator = By.cssSelector(".brighttheme-icon-closer");
-    public void closeTheWarningWindowThatYouNeedToLogIn(){
+
+    public void closeTheWarningWindowThatYouNeedToLogIn() {
         try {
             driver.findElement(iconForClosingWarningThatYouNeedToLogInLocator).click();
         } catch (Exception e) {
             System.out.println("0 катч - При первом запуске предупреждения что нужно авторизовтаься не было!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         }
     }
-    public void choiceStandardCityInMultiRegionsWindow(){
-        if(isThereMultiRegions){
+
+    public void choiceStandardCityInMultiRegionsWindow() {
+        if (isThereMultiRegions) {
             if (flagForRegionThisIsTheFirstVisit) {
                 flagForRegionThisIsTheFirstVisit = false;
                 try {
@@ -201,7 +204,8 @@ public class BaseActions extends CustomizingForYourself {
         }
         Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
     }
-    public void clickEnter(){
+
+    public void clickEnter() {
         driver.findElement(By.xpath("//*[@href='/auth/']")).click();
     }
 
@@ -365,7 +369,7 @@ public class BaseActions extends CustomizingForYourself {
         for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@class, 'navbar-nav-link dropdown-toggle')]")).size(); i++) {
             if (driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).getText().contains(nameMenu)) {
                 driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).click();
-                if (driver.findElements(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "][@aria-expanded='true']")).size() ==0){
+                if (driver.findElements(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "][@aria-expanded='true']")).size() == 0) {
                     refreshingThisPage(); // организции не раскрылись, продую еще раз
                     driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).click();
                 }
@@ -450,14 +454,14 @@ public class BaseActions extends CustomizingForYourself {
 
     public void navigationToCatalogTab() {
         navigationToTheRootPageOfTheCatalog();
-        if (driver.findElements(By.xpath("//*[@title='Компьютеры']")).size()>0){
+        if (driver.findElements(By.xpath("//*[@title='Компьютеры']")).size() > 0) {
             try {
                 clickElement("//*[@title='Компьютеры']");
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("Тупая ошибка, не смог кликнуть с первого раза");
                 clickElement("//*[@title='Компьютеры']");
             }
-        }else {
+        } else {
             clickElement("//*[@title='Тапочки']");
         }
 
@@ -465,7 +469,8 @@ public class BaseActions extends CustomizingForYourself {
         Assert.assertTrue(driver.findElement(By.cssSelector(".catalog")).isDisplayed());
         openingAllOffers();
     }
-    public void navigationToTheRootPageOfTheCatalog(){
+
+    public void navigationToTheRootPageOfTheCatalog() {
         navigationToMeanPageByUrl();
         determineThemeColor();
         if (!themeColorBlack) {
@@ -473,7 +478,7 @@ public class BaseActions extends CustomizingForYourself {
             driver.findElement(By.cssSelector(".show >* > .dropdown-item")).click();
             try {
                 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='breadcrumb-item'][contains(@href, 'blank_zakaza')]")));
-            }catch (Exception e){
+            } catch (Exception e) {
                 flagForRegionThisIsTheFirstVisit = true; //бывает местоположение скрывает крошки
                 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='breadcrumb-item'][contains(@href, 'blank_zakaza')]")));
             }
@@ -528,7 +533,7 @@ public class BaseActions extends CustomizingForYourself {
 
 //        determineThemeColor();
 //        if (!themeColorBlack) {
-            //implicitWaiting();
+        //implicitWaiting();
 //            flag = false;
 //            while (!flag) {
 //                if (driver.findElements(By.cssSelector(".b2b-notification__content")).size() > 0) {
@@ -587,17 +592,20 @@ public class BaseActions extends CustomizingForYourself {
         Assert.assertTrue(driver.findElement(By.cssSelector(".order_wrapper")).isDisplayed());
         checkingBreadcrumbs("Мои заказы");
     }
-    public void checkingBreadcrumbs(String nameBreadcrumb){
+
+    public void checkingBreadcrumbs(String nameBreadcrumb) {
         Assert.assertTrue(driver.findElement(By.cssSelector(".breadcrumb")).getText().contains("Главная"));
         Assert.assertTrue(driver.findElement(By.cssSelector(".breadcrumb")).getText().contains(nameBreadcrumb));
     }
-    public void checkingPageTitle(String nameTitle){
+
+    public void checkingPageTitle(String nameTitle) {
         Assert.assertTrue(driver.findElement(By.cssSelector(".page-title")).getText().contains(nameTitle));
     }
 
     public void navigationToTechnicalSupportTab() {
         determineThemeColor();
         if (!themeColorBlack) {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(dropdownUserIcon));
             driver.findElement(dropdownUserIcon).click();
             driver.findElement(By.xpath("//*[contains(@href,'support')][contains(@class, 'action')]")).click();
         } else {
@@ -636,6 +644,7 @@ public class BaseActions extends CustomizingForYourself {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         jse.executeScript("scroll(0, 250);"); //jse.executeScript("window.scrollBy(0,250)");
     }
+
     public void scrollDownMax() {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         jse.executeScript("scroll(0, 1000);"); //jse.executeScript("window.scrollBy(0,250)");
@@ -674,7 +683,7 @@ public class BaseActions extends CustomizingForYourself {
             WebElement element = driver.findElement(By.xpath(xpath));
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
             implicitWaiting();
-        }catch (Exception e){
+        } catch (Exception e) {
             scrollDownMax();
             implicitWaiting();
         }
@@ -745,7 +754,7 @@ public class BaseActions extends CustomizingForYourself {
 
         int columnWithDataAboutOrganization = driver.findElements(By.xpath("//*[@class='adm-list-table-row'] /*[@class='adm-list-table-cell'][3]")).size();
         for (int i = 1; i <= columnWithDataAboutOrganization; i++) {
-            if (driver.findElement(By.xpath("(//*[@class='adm-list-table-row'] /*[@class='adm-list-table-cell'][3])[" + i + "]")).getText().contains(nameCompany)){
+            if (driver.findElement(By.xpath("(//*[@class='adm-list-table-row'] /*[@class='adm-list-table-cell'][3])[" + i + "]")).getText().contains(nameCompany)) {
                 count = i;
                 break;
             }
@@ -775,20 +784,47 @@ public class BaseActions extends CustomizingForYourself {
     }
 
     public void sortingOrganizationByDecrease() {
-        driver.findElement(By.xpath("//*[text()='Код'][@class='main-grid-head-title']")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='Код'][@class='main-grid-head-title']")));
-        waitingMilliSecond();
-        clickElement("//*[text()='Код'][@class='main-grid-head-title']");
-        implicitWaiting(); //из-за бага (обманывает что отсорт) оставил это здесь
-        if (driver.findElements(By.xpath("//*[contains(@class, 'sort-desc')]")).size() == 0) {
-            try {
-                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@class, 'sort-asc')]")));
-                driver.findElement(By.xpath("//*[contains(@class, 'sort-asc')]")).click();
-            } catch (Exception e) {
-                System.out.println("Уже отсортировано");
+        int numberOfOrganizations = driver.findElements(By.xpath("//tbody //*[@class='main-grid-row main-grid-row-body']")).size();
+        if (numberOfOrganizations>1){
+            int comparedNumber;
+            int nextNumberAfterComparedNumber;
+            count = 0;
+            flag = false;
+            while (!flag) {
+                flag = true;
+                for (int i = 1; i < numberOfOrganizations; i++) {
+                    comparedNumber = Integer.parseInt(driver.findElement(By
+                            .xpath("((//tbody /*[@class='main-grid-row main-grid-row-body'])[" + i + "] //*[@class='main-grid-cell-content'])[2]")).getText());
+                    nextNumberAfterComparedNumber = Integer.parseInt(driver.findElement(By
+                            .xpath("((//tbody /*[@class='main-grid-row main-grid-row-body'])[" + (i + 1) + "] //*[@class='main-grid-cell-content'])[2]")).getText());
+                    if (comparedNumber < nextNumberAfterComparedNumber) {
+                        count++;
+                        if (count > 100) {
+                            System.out.println(5 / 0);
+                        }
+                        flag = false;
+                        clickElement("//*[text()='Код'][@class='main-grid-head-title']");
+                    }
+                }
             }
-            implicitWaiting();
         }
+
+
+
+//        driver.findElement(By.xpath("//*[text()='Код'][@class='main-grid-head-title']")).click();
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='Код'][@class='main-grid-head-title']")));
+//        waitingMilliSecond();
+//        clickElement("//*[text()='Код'][@class='main-grid-head-title']");
+//        implicitWaiting(); //из-за бага (обманывает что отсорт) оставил это здесь
+//        if (driver.findElements(By.xpath("//*[contains(@class, 'sort-desc')]")).size() == 0) {
+//            try {
+//                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@class, 'sort-asc')]")));
+//                driver.findElement(By.xpath("//*[contains(@class, 'sort-asc')]")).click();
+//            } catch (Exception e) {
+//                System.out.println("Уже отсортировано");
+//            }
+//            implicitWaiting();
+//        }
     }
 
     public void checkingThatOrganizationsIsDisplayed() {
@@ -804,7 +840,7 @@ public class BaseActions extends CustomizingForYourself {
             try {
                 wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//*[@class='main-grid-row main-grid-row-body'])[1] /*[7]"), "Одобрена"));
             } catch (Exception e) {
-                if (driver.findElements(By.xpath("//*[@class='main-ui-pagination-arrow']")).size()>0){
+                if (driver.findElements(By.xpath("//*[@class='main-ui-pagination-arrow']")).size() > 0) {
                     clickElement("//*[@class='main-ui-pagination-arrow']");
                 }
                 driver.findElement(By.xpath("//*[@class='main-grid-head-title'][text()='Код']")).click();
@@ -838,11 +874,10 @@ public class BaseActions extends CustomizingForYourself {
         if (files == null || files.length == 0) {
             flag = false;
         }
-//        System.out.println(files.length-1);
-//        for (int i = 1; i < files.length-1; i++) {
-        if (files[0].getName().contains(ext)) {
-            flag = true;
-            //}
+        for (int i = 0; i <= files.length - 1; i++) {
+            if (files[i].getName().contains(ext)) {
+                flag = true;
+            }
         }
         return flag;
     }
@@ -976,11 +1011,12 @@ public class BaseActions extends CustomizingForYourself {
         System.out.println("Есть ли выбор местоположения - " + flagForLocation);
     }
 
-    public void expandTheControlPanel(){
-        if (!driver.findElement(By.cssSelector("#bx-panel-hider-arrow")).isDisplayed()){
+    public void expandTheControlPanel() {
+        if (!driver.findElement(By.cssSelector("#bx-panel-hider-arrow")).isDisplayed()) {
             driver.findElement(By.cssSelector("#bx-panel-expander-arrow")).click();
         }
     }
+
     public void enableEditMode() {
         driver.findElement(By.cssSelector("#bx-panel-toggle-indicator")).click();
         implicitWaiting();
@@ -1079,7 +1115,8 @@ public class BaseActions extends CustomizingForYourself {
         new WebDriverWait(driver, 10).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(xpath)));
         return xpath;
     }
-    public String waitClearingCash(String xpath){
+
+    public String waitClearingCash(String xpath) {
         new WebDriverWait(driver, 100).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(xpath)));
         return xpath;
     }
@@ -1119,7 +1156,7 @@ public class BaseActions extends CustomizingForYourself {
                     refreshingThisPage();
                     try {
                         driver.findElement(By.xpath(elementXpath)).click();
-                    }catch (Exception e4){
+                    } catch (Exception e4) {
                         System.out.println("Может мультирегиональность мешает, пробую закрыть ее");
                         driver.findElement(By.cssSelector(".select-city__dropdown__choose")).click();
                         driver.findElement(By.xpath(elementXpath)).click();

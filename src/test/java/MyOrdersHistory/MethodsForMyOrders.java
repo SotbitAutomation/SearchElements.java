@@ -110,7 +110,7 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
     }
     public void openRandomOrder (){
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='main-grid-row-action-button'])[" + randomNumberUpToNumberOfOrders + "]")));
-        driver.findElement(By.xpath("(//*[@class='main-grid-row-action-button'])[" + randomNumberUpToNumberOfOrders + "]")).click();
+        clickElement("(//*[@class='main-grid-row-action-button'])[" + randomNumberUpToNumberOfOrders + "]");
         driver.findElement(By.xpath("(//*[@class='menu-popup-item-text'])")).click();
     }
     public void determinePriceOfRandomOrderWithoutDelivery(){
@@ -241,6 +241,7 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
                 ("(//*[@class='table table-bordered'] //*[@class='text-center'])[last()]")).getText())));
     }
     public void enteringWordForSearch(){
+        driver.findElement(By.cssSelector("#PRODUCT_LIST_search")).clear();
         driver.findElement(By.cssSelector("#PRODUCT_LIST_search")).sendKeys(tempValue1);
         try {
             driver.findElement(By.xpath("//*[@id='popup-window-content-PRODUCT_LIST_search_container']//*[contains(@class, 'main-ui-filter-find')]")).click();

@@ -12,6 +12,7 @@ public class DangerousTests extends MethodsForDangerousTests {
     //0. Возвращение настроек назад (количественный учет в каталоге, а в товаре - по умолчанию; откл вывод складов)
     public void a_returningSettingsBack() {
         //arrange
+        flagForRegionThisIsTheFirstVisit = true;
         navigationToAuthorizationTab();
         //act
         fillingFieldsOnTheLogInTabLikeAdmin();
@@ -762,7 +763,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         choiceCategoryFromPopApWindow();
         checkingThatBreadCrumbsContainTheNameOfTheSection();
         //checkingThatURLContainsChosenCategory(); ЧПУ добавили
-        checkingThatAllProductsHaveSimilarIdToTheSectionId();
+        //checkingThatAllProductsHaveSimilarIdToTheSectionId();
     }
     @Test(retryAnalyzer = Retry.class)
     //29. Вывод минимальной цены в поисковой подсказке

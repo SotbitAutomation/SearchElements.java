@@ -443,7 +443,8 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
     }
 
     public void rememberDefaultNameOfSection() {
-        defaultNameSection = driver.findElement(By.cssSelector("#NAME")).getAttribute("value");
+        //defaultNameSection = driver.findElement(By.cssSelector("#NAME")).getAttribute("value");
+        defaultNameSection = "Тряпки";
     }
 
     public void choiceTypeOfPriceForUnauthorizedUser(String priceType) {

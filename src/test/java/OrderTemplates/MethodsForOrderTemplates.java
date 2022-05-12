@@ -12,7 +12,7 @@ public class MethodsForOrderTemplates extends MethodsForCatalog {
     MethodsForAddingOrganizationsWithExtendedVersion org = new MethodsForAddingOrganizationsWithExtendedVersion();
     By orderTemplatesLocator = By.xpath("//a[contains(@href, 'templates')]");
 
-    public void navigationToOrderTemplates(){
+    public void navigationToOrderTemplates() {
         determineThemeColor();
         if (!themeColorBlack) {
             expandMenuWithUnderMenuInWhiteHat("Заказы");
@@ -23,117 +23,142 @@ public class MethodsForOrderTemplates extends MethodsForCatalog {
         checkingBreadcrumbs("Шаблоны заказов");
         checkingPageTitle("Шаблоны заказов");
     }
+
     public void uploadingExcelCatalogForOrderTemplates(String nameCatalog) {
         driver.findElement(actionsButtonLocator).click();
         driver.findElement(By.cssSelector("#add-ordertemplate")).click();
         choiceExcelFromResources(nameCatalog);
     }
+
     String randomNameTemplate;
-    public void setNameForOrderTemplate(){
+
+    public void setNameForOrderTemplate() {
         driver.findElement(By.xpath("//*[@name='TEMPLATE_NAME']")).clear();
-        randomNameTemplate = randomString(20);
+        randomNameTemplate = "Немного кириллицы " + randomString(20);
         driver.findElement(By.xpath("//*[@name='TEMPLATE_NAME']")).sendKeys(randomNameTemplate);
         System.out.println("Имя создаваемого шаблона -  " + randomNameTemplate);
     }
-    public void setOrganizationForOrderTemplate(){
+
+    public void setOrganizationForOrderTemplate() {
         driver.findElement(By.xpath("//*[contains(@class, 'selection__rendered')] //input")).sendKeys(nameCompany);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@class, 'results__option--highlighted')]")));
         driver.findElement(By.xpath("//*[contains(@class, 'results__option--highlighted')]")).click();
     }
-    public void createOrderTemplate(){
+
+    public void createOrderTemplate() {
         driver.findElement(By.cssSelector(".save-btn")).click();
     }
-    public void checkingThatCreatedOrderTemplateDisplayed(){
+
+    public void checkingThatCreatedOrderTemplateDisplayed() {
         Assert.assertTrue(driver.findElement(By.xpath("//*[text()='" + randomNameTemplate + "']")).isDisplayed());
     }
-    public void checkingThatCreatedOrderTemplateIsNotDisplayed(){
+
+    public void checkingThatCreatedOrderTemplateIsNotDisplayed() {
         Assert.assertTrue(driver.findElements(By.xpath("//*[text()='" + randomNameTemplate + "']")).size() == 0);
     }
-    public void makingOrderWithItemsFromOrderTemplate(){
+
+    public void makingOrderWithItemsFromOrderTemplate() {
         makeOrder.navigationToMakingOrderFromCart();
         makeOrder.trySelectCompany();
         makeOrder.makingOrder();
     }
-    public void expendHamburgerMenuInFirstOrderTemplate(){
-//        if (driver.findElements(By.cssSelector(".main-grid-row-body")).size()<2){
-//            uploadingExcelCatalogForOrderTemplates("blank.xlsx");
-//            setNameForOrderTemplate();
-//            createOrderTemplate();
-//            navigationToOrderTemplates();
-//            checkingThatCreatedOrderTemplateDisplayed();
-//        }
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@title, 'Изменить')] //*[@class='main-grid-row-action-button']")));
-        driver.findElement(By.xpath("//*[contains(@title, 'Изменить')] //*[@class='main-grid-row-action-button']")).click();
+
+    public void expendHamburgerMenuInFirstOrderTemplate() {
+        if (driver.findElements(By.cssSelector(".main-grid-row-body")).size()<2){
+            uploadingExcelCatalogForOrderTemplates("blankForOrderTemplates.xlsx");
+            setNameForOrderTemplate();
+            createOrderTemplate();
+            navigationToOrderTemplates();
+            checkingThatCreatedOrderTemplateDisplayed();
+        }
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".main-grid-row-action-button")));
+        driver.findElement(By.cssSelector(".main-grid-row-action-button")).click();
     }
-    public void addingItemsToTheCartFromOrderTemplate(){
+
+    public void addingItemsToTheCartFromOrderTemplate() {
         expendHamburgerMenuInFirstOrderTemplate();
         driver.findElement(By.xpath("//*[@class='menu-popup-item-text'][text()='Создать заказ']")).click();
         confirmTheConfidenceThatTheBasketWillBeReplacedWithProductsFromTheOrderTemplate();
     }
-    public void confirmTheConfidenceThatTheBasketWillBeReplacedWithProductsFromTheOrderTemplate(){
+
+    public void confirmTheConfidenceThatTheBasketWillBeReplacedWithProductsFromTheOrderTemplate() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@onclick='addToBasket()']")));
         driver.findElement(By.xpath("//*[@onclick='addToBasket()']")).click();
     }
-    public void clickingLookOrderTemplate(){
+
+    public void clickingLookOrderTemplate() {
         driver.findElement(By.xpath("//*[@class='menu-popup-item-text'][text()='Просмотреть']")).click();
     }
-    public void clickingActionsInOpenedOrderTemplate(){
+    public void clickingUploadExcel() {
+        driver.findElement(By.xpath("//*[@class='menu-popup-item-text'][text()='Выгрузить Excel']")).click();
+        implicitWaiting();implicitWaiting();
+    }
+
+    public void clickingActionsInOpenedOrderTemplate() {
         driver.findElement(By.xpath("//*[@data-toggle='dropdown'][contains(@class, 'btn_b2b')]")).click();
     }
-    public void clickingButtonForCreatingOrderInTheActions(){
+
+    public void clickingButtonForCreatingOrderInTheActions() {
         driver.findElement(By.xpath("//*[contains(@data-target, 'add-basket')]")).click();
     }
-    public void checkingThatItemIsDeletedFromOrder(){
+
+    public void checkingThatItemIsDeletedFromOrder() {
         int numberOfItems = driver.findElements(By.xpath("//*[@class= 'card-body index_checkout-table'] //tbody/tr")).size();
         Assert.assertTrue(numberOfItems == 1);
     }
-    public void clickingIconForChangingQuantityItemsInTheCart(int itemNumber, String typeOfChange){
+
+    public void clickingIconForChangingQuantityItemsInTheCart(int itemNumber, String typeOfChange) {
         driver.findElement(By.xpath("(//*[@data-entity='basket-item-quantity-" + typeOfChange + "'])[" + itemNumber + "]")).click();
     }
+
     double sumPricesInTheCart;
-    public void memorizingTheTotalPriceInTheCart(){
+
+    public void memorizingTheTotalPriceInTheCart() {
         sumPricesInTheCart = Double.valueOf(replacingSomeSymbols(driver.findElement(By.cssSelector(".basket-page__total-price-value")).getText()));
     }
-    public void waitingUntilTotalSumIsChanged(){
+
+    public void waitingUntilTotalSumIsChanged() {
         double sumPricesInTheCartAfterChangeItems;
         flag = false;
         count = 0;
-        while (!flag){
+        while (!flag) {
             count++;
             sumPricesInTheCartAfterChangeItems = Double.valueOf(replacingSomeSymbols(driver.findElement(By.cssSelector(".basket-page__total-price-value")).getText()));
-            if (sumPricesInTheCart != sumPricesInTheCartAfterChangeItems){
+            if (sumPricesInTheCart != sumPricesInTheCartAfterChangeItems) {
                 flag = true;
-            }else {
-                if (count>1000){
-                    System.out.println(5/0);
+            } else {
+                if (count > 1000) {
+                    System.out.println(5 / 0);
                 }
             }
         }
     }
-    public void checkingThatPriceForOrderOnTheMakingOrderPageAndInTheCartIsTheSame(){
+
+    public void checkingThatPriceForOrderOnTheMakingOrderPageAndInTheCartIsTheSame() {
         double sumForOrderOnTheMakingOrderPage = Double.valueOf(replacingSomeSymbols(driver.findElement(By.xpath("//h4[text()='Заказ']/ following::td[" + makeOrder.tempInt + "]"))
                 .getText()));
         Assert.assertTrue(sumForOrderOnTheMakingOrderPage == sumPricesInTheCart);
     }
-    public void determineCurrentOrganizationName(){
-        if (themeColorBlack){
-            if (driver.findElements(By.cssSelector(".auth-company-change__current")).size()>0){
+
+    public void determineCurrentOrganizationName() {
+        if (themeColorBlack) {
+            if (driver.findElements(By.cssSelector(".auth-company-change__current")).size() > 0) {
                 nameCompany = driver.findElement(By.cssSelector(".auth-company-change__current")).getText();
-            }else {
+            } else {
                 org.findingColumnWithOrganizationName("Название");
-                nameCompany = driver.findElement(By.xpath("(//tbody /*[@class='main-grid-row main-grid-row-body'] //*[@class='main-grid-cell-content'])[" + (org.count+1) + "]"))
+                nameCompany = driver.findElement(By.xpath("(//tbody /*[@class='main-grid-row main-grid-row-body'] //*[@class='main-grid-cell-content'])[" + (org.count + 1) + "]"))
                         .getText();
                 confirmRegistrationOfOrganizationInB2bFromTheUser();
                 navigationToAuthorizationTab();
                 fillingFieldsOnTheLogInTabLikeUser();
                 logInToB2B();
             }
-        }else {
-            if (driver.findElements(By.xpath("//*[@title='Сменить компанию']")).size()>0){
+        } else {
+            if (driver.findElements(By.xpath("//*[@title='Сменить компанию']")).size() > 0) {
                 nameCompany = driver.findElement(By.xpath("//*[@title='Сменить компанию']")).getText();
-            }else {
+            } else {
                 org.findingColumnWithOrganizationName("Название");
-                nameCompany = driver.findElement(By.xpath("(//tbody /*[@class='main-grid-row main-grid-row-body'] //*[@class='main-grid-cell-content'])[" + (org.count+1) + "]"))
+                nameCompany = driver.findElement(By.xpath("(//tbody /*[@class='main-grid-row main-grid-row-body'] //*[@class='main-grid-cell-content'])[" + (org.count + 1) + "]"))
                         .getText();
                 confirmRegistrationOfOrganizationInB2bFromTheUser();
                 navigationToAuthorizationTab();
@@ -143,10 +168,11 @@ public class MethodsForOrderTemplates extends MethodsForCatalog {
         }
         org.nameCompany = nameCompany;
     }
-    public void selectingOrganizationForWhichAnotherUserHasCreatedAnOrderTemplate(){
+
+    public void selectingOrganizationForWhichAnotherUserHasCreatedAnOrderTemplate() {
         try {
             org.selectionFromTheHeaderOrganization(nameCompany);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Присоединяю сотрудника к этой компании -  " + nameCompany);
             org.requestToJoinTheCompany();
             navigationToAuthorizationTab();
@@ -161,15 +187,89 @@ public class MethodsForOrderTemplates extends MethodsForCatalog {
             org.selectionFromTheHeaderOrganization(nameCompany);
         }
     }
-    public void deletingFirstOrderTemplate(){
+
+    public void deletingFirstOrderTemplate() {
         expendHamburgerMenuInFirstOrderTemplate();
         driver.findElement(By.xpath("//*[@class='menu-popup-item-text'][text()='Удалить']")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='modal-open']/*[@class='page-content'] /*[@class='content-wrapper'] /*[@class='content'] /*[@id='modal_order-remove']//*[@class='modal-content']")));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@onclick='removeTemplate()']")));
         driver.findElement(By.xpath("//*[@onclick='removeTemplate()']")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='modal_order-remove-success'] //*[@data-dismiss='modal']")));
         driver.findElement(By.xpath("//*[@id='modal_order-remove-success'] //*[@data-dismiss='modal']")).click();
         refreshingThisPage();
+    }
+
+    public void addingAnEmployeeWithBossRoleToOrganizationWithOrderTemplate() {
+        readingUserData();
+        org.emailEmployee = emailEmployee;
+        org.fillingFieldForCreatingEmployeeUsingReferralLink();
+        org.choosingBossRole();
+        try {
+            org.addingAnEmployeeToAnOrganizationUsingByReferralLink();
+        } catch (Exception e) {
+            navigationToMeanPageByUrl();
+            navigationToEmployeesTab();
+            expendHamburgerMenuInFirstOrderTemplate();
+            driver.findElement(By.xpath("//*[@class='menu-popup-item-text'][text()='Удалить']")).click();
+            org.fillingFieldForCreatingEmployeeUsingReferralLink();
+            org.choosingBossRole();
+            org.addingAnEmployeeToAnOrganizationUsingByReferralLink();
+        }
+    }
+
+    public void checkingColumnHeadersOrderTemplateTable() {
+        String allNamesOfColumnsOrderTemplateTable = driver.findElement(By.xpath("//*[@id='TEMPLATE_LIST_table']/*[@class='main-grid-header']")).getText();
+        Assert.assertTrue(allNamesOfColumnsOrderTemplateTable.contains("Название"));
+        Assert.assertTrue(allNamesOfColumnsOrderTemplateTable.contains("Дата создания"));
+        Assert.assertTrue(allNamesOfColumnsOrderTemplateTable.contains("Автор шаблона"));
+    }
+
+    public void checkingColumnHeadersOnTheDetailPageOfOrderTemplate() {
+        String allNamesOfColumnsOrderTemplateTableOnTheDetailPage = driver.findElement(By.xpath("//*[@id='ORDER_TEMPLATE_DETAIL_table']/*[@class='main-grid-header']")).getText();
+        Assert.assertTrue(allNamesOfColumnsOrderTemplateTableOnTheDetailPage.contains("Наименование"));
+        Assert.assertTrue(allNamesOfColumnsOrderTemplateTableOnTheDetailPage.contains("Количество"));
+        Assert.assertTrue(allNamesOfColumnsOrderTemplateTableOnTheDetailPage.contains("Стоимость"));
+    }
+
+    public void findingNumberOFColumnWithNeededName(String neededName) {
+        int numberOfHeaders = driver.findElements(By.xpath("//*[@id='ORDER_TEMPLATE_DETAIL_table'] //th[contains(@class, 'main-grid-cell-head')]")).size();
+        for (int i = 1; i <= numberOfHeaders; i++) {
+            if (driver.findElement(By.xpath("(//*[@id='ORDER_TEMPLATE_DETAIL_table'] //th[contains(@class, 'main-grid-cell-head')])[" + i + "]"))
+                    .getText().contains(neededName)) {
+                count = i;
+                break;
+            }
+        }
+    }
+
+    public void checkingNumberOfItemsOnTheOrderTemplateDetailPage(String numberOfItem, String expectedQuantity) {
+        String quantityOfThisItem = driver.findElement(By.xpath("((//tbody //*[@class= 'main-grid-row main-grid-row-body'])[" + numberOfItem + "] //*[@class='main-grid-cell-content'])[" + count + "]"))
+                .getText();
+        Assert.assertEquals(quantityOfThisItem, expectedQuantity);
+    }
+
+    public void checkingPriceOfItemOnTheOrderTemplateDetailPage(String numberOfItem, double expectedPrice) {
+        double priceOfThisItem = Double.valueOf(replacingSomeSymbols(driver.findElement(
+                        By.xpath("((//tbody //*[@class= 'main-grid-row main-grid-row-body'])[" + numberOfItem + "] //*[@class='main-grid-cell-content'])[" + count + "]"))
+                .getText()));
+        Assert.assertEquals(priceOfThisItem, expectedPrice);
+    }
+    public void checkingNameOfItemOnTheOrderTemplateDetailPage(String numberOfItem, String expectedName) {
+        String nameOfThisItem = driver.findElement(
+                        By.xpath("((//tbody //*[@class= 'main-grid-row main-grid-row-body'])[" + numberOfItem + "] //*[@class='main-grid-cell-content'])[" + count + "]"))
+                .getText();
+        Assert.assertEquals(nameOfThisItem, expectedName);
+    }
+    public void checkingThatOrderTemplateIsDownloaded(){
+            String downloadPath = System.getProperty("user.home") + "/Downloads/";
+            if (isFileDownloaded_Ext(downloadPath, randomNameTemplate + ".xlsx")){
+                Assert.assertTrue(isFileDownloaded_Ext(downloadPath, randomNameTemplate + ".xlsx"), "Failed to download document which has extension .xlsx");
+            }else {
+                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!УДАЛИТЬ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                implicitWaiting();implicitWaiting();implicitWaiting();implicitWaiting();implicitWaiting();
+                checkingThatCatalogIsDownloaded(randomNameTemplate + ".xlsx");
+            }
+
+
     }
 
 

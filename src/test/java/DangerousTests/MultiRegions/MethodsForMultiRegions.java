@@ -46,8 +46,14 @@ public class MethodsForMultiRegions extends MethodsForDangerousTests {
         }
     }
     public void clickOnTheMultiRegion(){
-        driver.findElement(By.xpath("//*[@data-entity='select-city']")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='modal-title'][text()='Выбор города']")));
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@data-entity='select-city']")));
+            driver.findElement(By.xpath("//*[@data-entity='select-city']")).click();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='modal-title'][text()='Выбор города']")));
+        }catch (Exception e){
+            driver.findElement(By.xpath("//*[@data-entity='select-city']")).click();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='modal-title'][text()='Выбор города']")));
+        }
     }
     public void choiceRandomCityFromSearchHint(String nameRandomCity){
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@placeholder='Введите ваш город']")));

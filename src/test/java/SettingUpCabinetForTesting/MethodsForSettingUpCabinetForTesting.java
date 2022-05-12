@@ -263,9 +263,6 @@ public class MethodsForSettingUpCabinetForTesting extends BaseActions {
         clearCache();
         navigationToMeanPageByUrl();
         resetCache();
-        navigationToCatalogTab();
-        navigationToTheRootPageOfTheCatalog();
-        resetCache();
         flagForCloseWarningWindowThisIsTheFirstVisit = true;
         flagForRegionThisIsTheFirstVisit = true;
     }

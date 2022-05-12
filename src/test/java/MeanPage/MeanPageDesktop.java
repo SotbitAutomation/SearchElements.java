@@ -309,7 +309,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         makeOrder.checkingThatThereAreTwoGefestGasStoveInTheCart();
         navigationToTheDesktop();
         downloadingCatalogToYourComputerFromMeanPage();
-        makeOrder.checkingThatCatalogIsDownloaded();
+        makeOrder.checkingThatCatalogIsDownloaded(".xlsx");
     }
     @Test (retryAnalyzer = Retry.class)//19. Проверка выводимых данных виджета Каталог у юзера
     public void checkingTheOutputDataOfTheCatalogWidgetFromTheUser() {
@@ -327,7 +327,7 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         makeOrder.checkingThatThereAreTwoGefestGasStoveInTheCart();
         navigationToTheDesktop();
         downloadingCatalogToYourComputerFromMeanPage();
-        makeOrder.checkingThatCatalogIsDownloaded();
+        makeOrder.checkingThatCatalogIsDownloaded(".xlsx");
     }
     @Test (retryAnalyzer = Retry.class)//20. Проверка выводимых данных виджета пробки
     public void checkingTheOutputDataOfTheTrafficJamsWidget() {
