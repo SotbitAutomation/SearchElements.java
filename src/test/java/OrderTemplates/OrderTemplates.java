@@ -17,7 +17,7 @@ public class OrderTemplates extends MethodsForOrderTemplates {
         setNameForOrderTemplate();
         createOrderTemplate();
         navigationToOrderTemplates();
-        checkingThatCreatedOrderTemplateDisplayed();
+        checkingThatCreatedOrderTemplateIsDisplayed();
     }
 
     @Test(retryAnalyzer = Retry.class) //2.  Оформление заказа из шаблона
@@ -63,6 +63,10 @@ public class OrderTemplates extends MethodsForOrderTemplates {
         logInToB2B();
         //act
         navigationToOrderTemplates();
+        uploadingExcelCatalogForOrderTemplates("blankForOrderTemplates.xlsx");
+        setNameForOrderTemplate();
+        createOrderTemplate();
+        navigationToOrderTemplates();
         addingItemsToTheCartFromOrderTemplate();
         memorizingTheTotalPriceInTheCart();
         clickingIconForChangingQuantityItemsInTheCart(1, "plus");
@@ -97,14 +101,14 @@ public class OrderTemplates extends MethodsForOrderTemplates {
             setOrganizationForOrderTemplate();
             createOrderTemplate();
             navigationToOrderTemplates();
-            checkingThatCreatedOrderTemplateDisplayed();
+            checkingThatCreatedOrderTemplateIsDisplayed();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeEmployee();
             logInToB2B();
             navigationToOrganizationTab();
             selectingOrganizationForWhichAnotherUserHasCreatedAnOrderTemplate();
             navigationToOrderTemplates();
-            checkingThatCreatedOrderTemplateDisplayed();
+            checkingThatCreatedOrderTemplateIsDisplayed();
         }
     }
 
@@ -120,13 +124,12 @@ public class OrderTemplates extends MethodsForOrderTemplates {
         setNameForOrderTemplate();
         createOrderTemplate();
         navigationToOrderTemplates();
-        checkingThatCreatedOrderTemplateDisplayed();
+        checkingThatCreatedOrderTemplateIsDisplayed();
         deletingFirstOrderTemplate();
         checkingThatCreatedOrderTemplateIsNotDisplayed();
     }
 
-    @Test(retryAnalyzer = Retry.class)
-//7. Удаление шаблона заказа добавленным в организацию сотрудником у которого роль руководителя
+    @Test(retryAnalyzer = Retry.class) //7. Удаление шаблона заказа добавленным в организацию сотрудником у которого роль руководителя
     public void deletingOrderTemplateByAnEmployeeAddedToTheOrganizationWhoHasTheBossRole() {
         determineWhetherVersionsOfWorkingWithOrganization();
         if (versionsOfWorkingWithOrganizationsExtended) {
@@ -148,7 +151,7 @@ public class OrderTemplates extends MethodsForOrderTemplates {
             fillingFieldsOnTheLogInTabLikeEmployee();
             logInToB2B();
             navigationToOrderTemplates();
-            checkingThatCreatedOrderTemplateDisplayed();
+            checkingThatCreatedOrderTemplateIsDisplayed();
             deletingFirstOrderTemplate();
             checkingThatCreatedOrderTemplateIsNotDisplayed();
         }
@@ -165,7 +168,8 @@ public class OrderTemplates extends MethodsForOrderTemplates {
         checkingColumnHeadersOrderTemplateTable();
     }
 
-    @Test(retryAnalyzer = Retry.class) //9.  На детальной странице шаблона отображается список товаров, количество и сумма
+    @Test(retryAnalyzer = Retry.class)
+    //9.  На детальной странице шаблона отображается список товаров, количество и сумма
     public void detailedPageOfTheTemplateDisplaysListOfProductsQuantityAndAmount() {
         //arrange
         navigationToAuthorizationTab();
@@ -180,12 +184,21 @@ public class OrderTemplates extends MethodsForOrderTemplates {
         checkingNumberOfItemsOnTheOrderTemplateDetailPage("1", "1");
         checkingNumberOfItemsOnTheOrderTemplateDetailPage("2", "2");
         findingNumberOFColumnWithNeededName("Стоимость");
-        checkingPriceOfItemOnTheOrderTemplateDetailPage("1", 345000);
-        checkingPriceOfItemOnTheOrderTemplateDetailPage("2", 125600);
+        checkingPriceOfItemOnTheOrderTemplateDetailPage("1", "345000");
+        checkingPriceOfItemOnTheOrderTemplateDetailPage("2", "125600");
         findingNumberOFColumnWithNeededName("Наименование");
         checkingNameOfItemOnTheOrderTemplateDetailPage("1", "Видеокамера Canon EOS C300");
         checkingNameOfItemOnTheOrderTemplateDetailPage("2", "Видеокамера Canon XA11");
+        checkingTheTotalQuantityAndPrice();
+        clickingActionsInOpenedOrderTemplate();
+        clickingButtonForCreatingOrderInTheActions();
+        confirmTheConfidenceThatTheBasketWillBeReplacedWithProductsFromTheOrderTemplate();
+        checkingThatTotalPriceInTheCartIsEqualsOrderTemplate();
+        makeOrder.navigationToMakingOrderFromCart();
+        makeOrder.trySelectCompany();
+        makeOrder.makingOrder();
     }
+
     @Test(retryAnalyzer = Retry.class)//10.  Выгрузка шаблона заказа в Excel файл
     public void uploadingAnOrderTemplateToAnExcelFile() {
         //arrange
@@ -203,5 +216,122 @@ public class OrderTemplates extends MethodsForOrderTemplates {
         clickingUploadExcel();
         checkingThatOrderTemplateIsDownloaded();
     }
+
+    @Test(retryAnalyzer = Retry.class) //11.  Загрузить шаблона в систему. Шаблону присваивается название в соответствии с файлом
+    public void uploadTheOrderTemplateToTheSystemItHasANameAccordingToTheFile() {
+        //arrange
+        deletingExcelAndJpgFilesFromDownloads();
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToOrderTemplates();
+        uploadingExcelCatalogForOrderTemplates("blankForOrderTemplates.xlsx");
+        setNameForOrderTemplate();
+        createOrderTemplate();
+        navigationToOrderTemplates();
+        expendHamburgerMenuInFirstOrderTemplate();
+        clickingUploadExcel();
+        checkingThatOrderTemplateIsDownloaded();
+        navigationToOrderTemplates();
+        //act
+        createOrderTemplateWithJustUnloadedFile();
+        checkingThatNameByDefaultIsEqualsNameDownloadedFile();
+        checkingColumnHeadersOnTheDetailPageOfOrderTemplate();
+        findingNumberOFColumnWithNeededName("Количество");
+        checkingNumberOfItemsOnTheOrderTemplateDetailPage("1", "1");
+        checkingNumberOfItemsOnTheOrderTemplateDetailPage("2", "2");
+        findingNumberOFColumnWithNeededName("Стоимость");
+        checkingPriceOfItemOnTheOrderTemplateDetailPage("1", "345000");
+        checkingPriceOfItemOnTheOrderTemplateDetailPage("2", "125600");
+        findingNumberOFColumnWithNeededName("Наименование");
+        checkingNameOfItemOnTheOrderTemplateDetailPage("1", "Видеокамера Canon EOS C300");
+        checkingNameOfItemOnTheOrderTemplateDetailPage("2", "Видеокамера Canon XA11");
+        checkingTheTotalQuantityAndPrice();
+        createOrderTemplate();
+    }
+
+    @Test(retryAnalyzer = Retry.class) //12.  Открытие детальной страницы товара из шаблона заказа
+    public void openingDetailedProductPageFromAnOrderTemplate() {
+        //arrange
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        navigationToOrderTemplates();
+        expendHamburgerMenuInFirstOrderTemplate();
+        //act
+        clickingLookOrderTemplate();
+        checkingDataOnTheDetailPage();
+        navigationToMeanPageByUrl();
+    }
+
+    @Test(retryAnalyzer = Retry.class)  //13.  Загрузка Excel каталога с невалидными товарами (нет в наличии, и больше чем есть в наличии)
+    public void loadingAnExcelCatalogWithInvalidProductsOutOfStockAndMoreThanAvailable() {
+        //arrange
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        //act
+        navigationToOrderTemplates();
+        uploadingExcelCatalogForOrderTemplates("invalidBlank.xlsx");
+        checkingThatOneOfItemIsUnavailable();
+        checkingThatAtOneOfItemThereIsNoSuchQuantityAvailable();
+        setNameForOrderTemplate();
+        createOrderTemplate();
+        navigationToOrderTemplates();
+        checkingThatCreatedOrderTemplateIsDisplayed();
+        addingItemsToTheCartFromOrderTemplate();
+        checkingThatWasAddedOnlyOneItemWithAvailableQuantity();
+    }
+
+    @Test(retryAnalyzer = Retry.class) //14.  Отмена создания шаблона
+    public void cancelTemplateCreation() {
+        //arrange
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        //act
+        navigationToOrderTemplates();
+        uploadingExcelCatalogForOrderTemplates("blankForOrderTemplates.xlsx");
+        cancelingTemplateCreation(); //сейчас ошибка, потом дописать, добавить проверок после отмены
+    }
+
+    @Test(retryAnalyzer = Retry.class) //15.  Отображение не сохраненного шаблона в списке шаблонов
+    public void displayingAnUnsavedTemplateInTheTemplateList() {
+        //arrange
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        //act
+        navigationToOrderTemplates();
+        uploadingExcelCatalogForOrderTemplates("blankForOrderTemplates.xlsx");
+        navigationToMeanPageByUrl();
+        navigationToOrderTemplates();
+        checkingMessageThatOrderTemplateIsNotSaved();
+        expendHamburgerMenuInFirstOrderTemplate();
+        clickingChange();
+        setNameForOrderTemplate();
+        createOrderTemplate();
+        navigationToOrderTemplates();
+        checkingThatCreatedOrderTemplateIsDisplayed();
+        checkingThatFirstOrderTemplateHasNotMarkThatItNotSaved();
+    }
+
+    @Test(retryAnalyzer = Retry.class) //16.  Удаление не сохраненного шаблона
+    public void deletingAnUnsavedTemplate() {
+        //arrange
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        //act
+        navigationToOrderTemplates();
+        uploadingExcelCatalogForOrderTemplates("blankForOrderTemplates.xlsx");
+        navigationToMeanPageByUrl();
+        navigationToOrderTemplates();
+        checkingMessageThatOrderTemplateIsNotSaved();
+        rememberingNameFirstTemplate();
+        deletingFirstOrderTemplate();
+        checkingThatCreatedOrderTemplateIsNotDisplayed();
+    }
+
 
 }

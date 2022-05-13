@@ -784,6 +784,8 @@ public class BaseActions extends CustomizingForYourself {
     }
 
     public void sortingOrganizationByDecrease() {
+        clickElement("//*[text()='Код'][@class='main-grid-head-title']");
+        implicitWaiting();//иногда отсортировано, но отображаются старые орг-ии
         int numberOfOrganizations = driver.findElements(By.xpath("//tbody //*[@class='main-grid-row main-grid-row-body']")).size();
         if (numberOfOrganizations>1){
             int comparedNumber;
@@ -793,10 +795,26 @@ public class BaseActions extends CustomizingForYourself {
             while (!flag) {
                 flag = true;
                 for (int i = 1; i < numberOfOrganizations; i++) {
-                    comparedNumber = Integer.parseInt(driver.findElement(By
-                            .xpath("((//tbody /*[@class='main-grid-row main-grid-row-body'])[" + i + "] //*[@class='main-grid-cell-content'])[2]")).getText());
-                    nextNumberAfterComparedNumber = Integer.parseInt(driver.findElement(By
-                            .xpath("((//tbody /*[@class='main-grid-row main-grid-row-body'])[" + (i + 1) + "] //*[@class='main-grid-cell-content'])[2]")).getText());
+                    wait.until(ExpectedConditions.visibilityOfElementLocated(By
+                            .xpath("((//tbody /*[@class='main-grid-row main-grid-row-body'])[" + i + "] //*[@class='main-grid-cell-content'])[2]")));
+                    try {
+                        comparedNumber = Integer.parseInt(driver.findElement(By
+                                .xpath("((//tbody /*[@class='main-grid-row main-grid-row-body'])[" + i + "] //*[@class='main-grid-cell-content'])[2]")).getText());
+                    }catch (Exception e){
+                        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! тупая ошибка при сортировке, на таком элементе -  " + i);
+                        waitingMilliSecond();
+                        comparedNumber = Integer.parseInt(driver.findElement(By
+                                .xpath("((//tbody /*[@class='main-grid-row main-grid-row-body'])[" + i + "] //*[@class='main-grid-cell-content'])[2]")).getText());
+                    }
+                    try {
+                        nextNumberAfterComparedNumber = Integer.parseInt(driver.findElement(By
+                                .xpath("((//tbody /*[@class='main-grid-row main-grid-row-body'])[" + (i+1) + "] //*[@class='main-grid-cell-content'])[2]")).getText());
+                    }catch (Exception e2){
+                        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! тупая ошибка 2 при сортировке, на таком элементе -  " + i);
+                        waitingMilliSecond();
+                        nextNumberAfterComparedNumber = Integer.parseInt(driver.findElement(By
+                                .xpath("((//tbody /*[@class='main-grid-row main-grid-row-body'])[" + (i+1) + "] //*[@class='main-grid-cell-content'])[2]")).getText());
+                    }
                     if (comparedNumber < nextNumberAfterComparedNumber) {
                         count++;
                         if (count > 100) {
@@ -804,6 +822,7 @@ public class BaseActions extends CustomizingForYourself {
                         }
                         flag = false;
                         clickElement("//*[text()='Код'][@class='main-grid-head-title']");
+                        implicitWaiting();
                     }
                 }
             }
@@ -1123,6 +1142,12 @@ public class BaseActions extends CustomizingForYourself {
 
     public void navigationToTheSiteSettings() {
         driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/", "") + "bitrix/admin/sotbit.auth_settings.php?lang=ru&site=s1");
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#bx-admin-prefix")));
+        }catch (Exception e){
+            driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/", "") + "bitrix/admin/sotbit.auth_settings.php?lang=ru&site=s1");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#bx-admin-prefix")));
+        }
     }
 
     public void clickStandardButtonForSaveSettings() {

@@ -989,6 +989,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         setPriceForSmallOptForGasStoveGefest();
         driver.quit();
         setUpSuite();
+        flagForRegionThisIsTheFirstVisit = true;
         navigationToMeanPageByUrl();
         closeTheWarningWindowThatYouNeedToLogIn();
         navigationToCatalogTab();

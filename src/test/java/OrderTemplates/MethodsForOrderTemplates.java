@@ -7,6 +7,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
+import java.util.ArrayList;
+
 public class MethodsForOrderTemplates extends MethodsForCatalog {
     MethodsForMakingOrders makeOrder = new MethodsForMakingOrders();
     MethodsForAddingOrganizationsWithExtendedVersion org = new MethodsForAddingOrganizationsWithExtendedVersion();
@@ -48,8 +50,18 @@ public class MethodsForOrderTemplates extends MethodsForCatalog {
     public void createOrderTemplate() {
         driver.findElement(By.cssSelector(".save-btn")).click();
     }
+    public void createOrderTemplateWithJustUnloadedFile(){
+        driver.findElement(actionsButtonLocator).click();
+        driver.findElement(By.cssSelector("#add-ordertemplate")).click();
+        By fileInput = By.xpath("//input[@class='file-fileUploader']");
+        String filePath = System.getProperty("user.home") + "\\Downloads\\" + randomNameTemplate + ".xlsx";
+        System.out.println(filePath);
+        driver.findElement(fileInput).sendKeys(filePath);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@class, 'file-extended')] //*[contains(@class, 'files-size')]")));
+        driver.findElement(By.xpath("//*[contains(@name,'send_file')]")).click();
+    }
 
-    public void checkingThatCreatedOrderTemplateDisplayed() {
+    public void checkingThatCreatedOrderTemplateIsDisplayed() {
         Assert.assertTrue(driver.findElement(By.xpath("//*[text()='" + randomNameTemplate + "']")).isDisplayed());
     }
 
@@ -69,7 +81,7 @@ public class MethodsForOrderTemplates extends MethodsForCatalog {
             setNameForOrderTemplate();
             createOrderTemplate();
             navigationToOrderTemplates();
-            checkingThatCreatedOrderTemplateDisplayed();
+            checkingThatCreatedOrderTemplateIsDisplayed();
         }
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".main-grid-row-action-button")));
         driver.findElement(By.cssSelector(".main-grid-row-action-button")).click();
@@ -79,6 +91,9 @@ public class MethodsForOrderTemplates extends MethodsForCatalog {
         expendHamburgerMenuInFirstOrderTemplate();
         driver.findElement(By.xpath("//*[@class='menu-popup-item-text'][text()='Создать заказ']")).click();
         confirmTheConfidenceThatTheBasketWillBeReplacedWithProductsFromTheOrderTemplate();
+    }
+    public void clickingChange(){
+        driver.findElement(By.xpath("//*[@class='menu-popup-item-text'][text()='Изменить']")).click();
     }
 
     public void confirmTheConfidenceThatTheBasketWillBeReplacedWithProductsFromTheOrderTemplate() {
@@ -247,10 +262,10 @@ public class MethodsForOrderTemplates extends MethodsForCatalog {
         Assert.assertEquals(quantityOfThisItem, expectedQuantity);
     }
 
-    public void checkingPriceOfItemOnTheOrderTemplateDetailPage(String numberOfItem, double expectedPrice) {
-        double priceOfThisItem = Double.valueOf(replacingSomeSymbols(driver.findElement(
+    public void checkingPriceOfItemOnTheOrderTemplateDetailPage(String numberOfItem, String expectedPrice) {
+        String priceOfThisItem = replacingSomeSymbols(driver.findElement(
                         By.xpath("((//tbody //*[@class= 'main-grid-row main-grid-row-body'])[" + numberOfItem + "] //*[@class='main-grid-cell-content'])[" + count + "]"))
-                .getText()));
+                .getText());
         Assert.assertEquals(priceOfThisItem, expectedPrice);
     }
     public void checkingNameOfItemOnTheOrderTemplateDetailPage(String numberOfItem, String expectedName) {
@@ -258,6 +273,13 @@ public class MethodsForOrderTemplates extends MethodsForCatalog {
                         By.xpath("((//tbody //*[@class= 'main-grid-row main-grid-row-body'])[" + numberOfItem + "] //*[@class='main-grid-cell-content'])[" + count + "]"))
                 .getText();
         Assert.assertEquals(nameOfThisItem, expectedName);
+    }
+    public void checkingTheTotalQuantityAndPrice(){
+        Assert.assertEquals(driver.findElement(By.xpath("//*[@class='orders-templates__summary-description']")).getText(), "3");
+        Assert.assertEquals(driver.findElement(By.xpath("(//*[@class='orders-templates__summary-description'])[2]")).getText(), "470 600 ₽");
+    }
+    public void checkingThatTotalPriceInTheCartIsEqualsOrderTemplate(){
+        Assert.assertTrue(driver.findElement(By.cssSelector("#page-basket-total-block")).getText().contains("470 600 ₽"));
     }
     public void checkingThatOrderTemplateIsDownloaded(){
             String downloadPath = System.getProperty("user.home") + "/Downloads/";
@@ -268,8 +290,46 @@ public class MethodsForOrderTemplates extends MethodsForCatalog {
                 implicitWaiting();implicitWaiting();implicitWaiting();implicitWaiting();implicitWaiting();
                 checkingThatCatalogIsDownloaded(randomNameTemplate + ".xlsx");
             }
-
-
+    }
+    public void checkingThatNameByDefaultIsEqualsNameDownloadedFile(){
+        String currentNameOrderTemplate = driver.findElement(By.xpath("//*[@name='TEMPLATE_NAME']")).getAttribute("value");
+        System.out.println(currentNameOrderTemplate);
+        Assert.assertTrue(currentNameOrderTemplate.contains(randomNameTemplate));
+    }
+    public void checkingDataOnTheDetailPage(){
+        driver.findElement(By.cssSelector(".orders-templates__product-link")).click();
+        ArrayList<String> tabs2 = new ArrayList<String> (driver.getWindowHandles());
+        driver.switchTo().window(tabs2.get(1));
+        checkThatDetailPageOfProductIsOpened();
+        driver.close();
+        driver.switchTo().window(tabs2.get(0));
+    }
+    public void checkingThatOneOfItemIsUnavailable (){
+        findingNumberOFColumnWithNeededName("Стоимость");
+        checkingPriceOfItemOnTheOrderTemplateDetailPage("2", "Товарнедоступен");
+    }
+    public void checkingThatAtOneOfItemThereIsNoSuchQuantityAvailable(){
+        Assert.assertTrue(driver.findElements(By.cssSelector(".unavailable-product")).size() == 3);
+        Assert.assertEquals(driver.findElement(By.cssSelector(".unavailable-product")).getText(), "(1000)");
+    }
+    public void checkingThatWasAddedOnlyOneItemWithAvailableQuantity(){
+        Assert.assertTrue(driver.findElements(By.cssSelector(".basket__product-discrioption")).size()==1);
+        Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@id, 'basket-item-quantity')]")).getAttribute("value").equals("10"));
+    }
+    public void cancelingTemplateCreation(){
+        String tempNamePageTitle = driver.findElement(By.cssSelector(".page-title")).getText();
+        driver.findElement(By.xpath("//*[@onclick='showFormRemoveSave()']")).click();
+        implicitWaiting();
+        Assert.assertNotEquals(driver.findElement(By.cssSelector(".page-title")).getText(), tempNamePageTitle);
+    }
+    public void checkingMessageThatOrderTemplateIsNotSaved(){
+        Assert.assertTrue(driver.findElement(By.cssSelector(".template-not-save")).getText().contains("(шаблон не сохранен)"));
+    }
+    public void checkingThatFirstOrderTemplateHasNotMarkThatItNotSaved(){
+        Assert.assertTrue(driver.findElements(By.xpath("//*[@class='main-grid-row main-grid-row-body'][1]//*[@class='template-not-save']")).size()==0);
+    }
+    public void rememberingNameFirstTemplate(){
+        randomNameTemplate = driver.findElement(By.xpath("(//*[@class='main-grid-row main-grid-row-body'] //*[@class='main-grid-cell-content'])[2]")).getText();
     }
 
 

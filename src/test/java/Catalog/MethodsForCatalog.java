@@ -1207,12 +1207,13 @@ public class MethodsForCatalog extends BaseActions {
 
     public void openDetailPageOfRandomProduct(int randomNumberOfProductsPerPage) {
         implicitWaiting();
-        driver.findElement(By.xpath("(//*[@class='product__link'])[" + randomNumberOfProductsPerPage + "]")).click();
+        clickElement("(//*[@class='product__link'])[" + randomNumberOfProductsPerPage + "]");
         By locIframe = By.cssSelector(".side-panel-iframe");
         driver.switchTo().frame(driver.findElement(locIframe));
     }
 
     public void addingProductFromPopUpDetailPage() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".quantity-selector__increment")));
         driver.findElement(By.cssSelector(".quantity-selector__increment")).click();
         tempString = driver.findElement(By.cssSelector(".blank-zakaza-detail__title")).getText();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".b2b-notification__content")));

@@ -427,7 +427,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
                     Assert.assertEquals(nameCompany, driver.findElement(By.cssSelector(".auth-company-change__current")).getText().replaceAll("[*]", ""));
                 }
             } catch (Exception e) {
-                Assert.assertEquals(nameCompany, driver.findElement(By.cssSelector(".auth-company-change__current")).getText().replaceAll("[*]", ""));
+                Assert.assertEquals(driver.findElement(By.cssSelector(".auth-company-change__current")).getText().replaceAll("[*]", ""), nameCompany);
             }
         }
 
@@ -457,6 +457,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         driver.findElement(buttonAddNewEmployee).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".register-referral-link")));
         driver.findElement(By.cssSelector(".register-referral-link")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@placeholder='Введите e-mail']")));
         driver.findElement(By.xpath("//*[@placeholder='Введите e-mail']")).sendKeys(emailEmployee);
 
         tempIntValue = driver.findElements(By.xpath("//*[@style='display: block;']//input[contains(@class,'select')]")).size();

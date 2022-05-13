@@ -141,6 +141,7 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         driver.findElement(By.xpath("//*[@title='Управление товаром на складах']")).click();
         driver.findElement(By.xpath("(//input[contains(@id, 'AMOUNT')])[1]")).clear();
         driver.findElement(By.xpath("(//input[contains(@id, 'AMOUNT')])[2]")).clear();
+        waitingMilliSecond();
         driver.findElement(By.cssSelector(".adm-btn-save")).click();
     }
 
@@ -152,6 +153,7 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
     }
 
     public void returningTheKaiserGasStoveSettingByDefault() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Плита Kaiser')]")));
         driver.findElement(By.xpath("//a[contains(text(), 'Плита Kaiser')]")).click();
         driver.findElement(By.xpath("//*[contains(text(), 'Торговый каталог')][contains(@class, 'adm-detail-tab')]")).click();
         driver.findElement(By.xpath("//*[@title='Дополнительные параметры']")).click();
