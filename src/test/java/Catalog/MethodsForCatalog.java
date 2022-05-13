@@ -619,6 +619,8 @@ public class MethodsForCatalog extends BaseActions {
         String filePath = System.getProperty("user.dir") + "\\resources\\" + nameCatalog;
         driver.findElement(fileInput).sendKeys(filePath);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@class, 'file-extended')] //*[contains(@class, 'files-size')]")));
+    }
+    public void clickAcceptTheUploadedFile (){
         driver.findElement(By.xpath("//*[contains(@name,'send_file')]")).click();
     }
 
@@ -2819,8 +2821,10 @@ public class MethodsForCatalog extends BaseActions {
     }
 
     public void showProductsInTheCartOnTheMakingOrderPage() {
-        driver.findElement(By.xpath("//*[@data-action='collapse'][contains(@class, 'rotate')]")).click(); //ошибка в b2b
-        waitingMilliSecond();
+        if (driver.findElements(By.cssSelector(".list-icons-item.rotate-180")).size()>0){
+            driver.findElement(By.xpath("//*[@data-action='collapse'][contains(@class, 'rotate')]")).click();
+            waitingMilliSecond();
+        }
     }
 
     public void highlightsAllProductsInTheCart() {

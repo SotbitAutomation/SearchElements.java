@@ -13,7 +13,7 @@ public class OrderTemplates extends MethodsForOrderTemplates {
         logInToB2B();
         //act
         navigationToOrderTemplates();
-        uploadingExcelCatalogForOrderTemplates("blankForOrderTemplates.xlsx");
+        uploadingExcelCatalogForOrderTemplatesWithAcceptIt("blankForOrderTemplates.xlsx");
         setNameForOrderTemplate();
         createOrderTemplate();
         navigationToOrderTemplates();
@@ -63,7 +63,7 @@ public class OrderTemplates extends MethodsForOrderTemplates {
         logInToB2B();
         //act
         navigationToOrderTemplates();
-        uploadingExcelCatalogForOrderTemplates("blankForOrderTemplates.xlsx");
+        uploadingExcelCatalogForOrderTemplatesWithAcceptIt("blankForOrderTemplates.xlsx");
         setNameForOrderTemplate();
         createOrderTemplate();
         navigationToOrderTemplates();
@@ -96,7 +96,7 @@ public class OrderTemplates extends MethodsForOrderTemplates {
             determineThemeColor();
             determineCurrentOrganizationName();
             navigationToOrderTemplates();
-            uploadingExcelCatalogForOrderTemplates("blankForOrderTemplates.xlsx");
+            uploadingExcelCatalogForOrderTemplatesWithAcceptIt("blankForOrderTemplates.xlsx");
             setNameForOrderTemplate();
             setOrganizationForOrderTemplate();
             createOrderTemplate();
@@ -120,7 +120,7 @@ public class OrderTemplates extends MethodsForOrderTemplates {
         logInToB2B();
         //act
         navigationToOrderTemplates();
-        uploadingExcelCatalogForOrderTemplates("blankForOrderTemplates.xlsx");
+        uploadingExcelCatalogForOrderTemplatesWithAcceptIt("blankForOrderTemplates.xlsx");
         setNameForOrderTemplate();
         createOrderTemplate();
         navigationToOrderTemplates();
@@ -141,7 +141,7 @@ public class OrderTemplates extends MethodsForOrderTemplates {
             determineThemeColor();
             determineCurrentOrganizationName();
             navigationToOrderTemplates();
-            uploadingExcelCatalogForOrderTemplates("blankForOrderTemplates.xlsx");
+            uploadingExcelCatalogForOrderTemplatesWithAcceptIt("blankForOrderTemplates.xlsx");
             setNameForOrderTemplate();
             setOrganizationForOrderTemplate();
             createOrderTemplate();
@@ -207,7 +207,7 @@ public class OrderTemplates extends MethodsForOrderTemplates {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToOrderTemplates();
-        uploadingExcelCatalogForOrderTemplates("blankForOrderTemplates.xlsx");
+        uploadingExcelCatalogForOrderTemplatesWithAcceptIt("blankForOrderTemplates.xlsx");
         setNameForOrderTemplate();
         createOrderTemplate();
         navigationToOrderTemplates();
@@ -225,7 +225,7 @@ public class OrderTemplates extends MethodsForOrderTemplates {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToOrderTemplates();
-        uploadingExcelCatalogForOrderTemplates("blankForOrderTemplates.xlsx");
+        uploadingExcelCatalogForOrderTemplatesWithAcceptIt("blankForOrderTemplates.xlsx");
         setNameForOrderTemplate();
         createOrderTemplate();
         navigationToOrderTemplates();
@@ -272,7 +272,7 @@ public class OrderTemplates extends MethodsForOrderTemplates {
         logInToB2B();
         //act
         navigationToOrderTemplates();
-        uploadingExcelCatalogForOrderTemplates("invalidBlank.xlsx");
+        uploadingExcelCatalogForOrderTemplatesWithAcceptIt("invalidBlank.xlsx");
         checkingThatOneOfItemIsUnavailable();
         checkingThatAtOneOfItemThereIsNoSuchQuantityAvailable();
         setNameForOrderTemplate();
@@ -291,7 +291,7 @@ public class OrderTemplates extends MethodsForOrderTemplates {
         logInToB2B();
         //act
         navigationToOrderTemplates();
-        uploadingExcelCatalogForOrderTemplates("blankForOrderTemplates.xlsx");
+        uploadingExcelCatalogForOrderTemplatesWithAcceptIt("blankForOrderTemplates.xlsx");
         cancelingTemplateCreation(); //сейчас ошибка, потом дописать, добавить проверок после отмены
     }
 
@@ -303,7 +303,7 @@ public class OrderTemplates extends MethodsForOrderTemplates {
         logInToB2B();
         //act
         navigationToOrderTemplates();
-        uploadingExcelCatalogForOrderTemplates("blankForOrderTemplates.xlsx");
+        uploadingExcelCatalogForOrderTemplatesWithAcceptIt("blankForOrderTemplates.xlsx");
         navigationToMeanPageByUrl();
         navigationToOrderTemplates();
         checkingMessageThatOrderTemplateIsNotSaved();
@@ -324,13 +324,24 @@ public class OrderTemplates extends MethodsForOrderTemplates {
         logInToB2B();
         //act
         navigationToOrderTemplates();
-        uploadingExcelCatalogForOrderTemplates("blankForOrderTemplates.xlsx");
+        uploadingExcelCatalogForOrderTemplatesWithAcceptIt("blankForOrderTemplates.xlsx");
         navigationToMeanPageByUrl();
         navigationToOrderTemplates();
         checkingMessageThatOrderTemplateIsNotSaved();
         rememberingNameFirstTemplate();
         deletingFirstOrderTemplate();
         checkingThatCreatedOrderTemplateIsNotDisplayed();
+    }
+    @Test(retryAnalyzer = Retry.class) //17.  Отмена создания шаблона сразу после его загрузки
+    public void cancelTemplateCreationImmediatelyAfterUploadingIt() {
+        //arrange
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        //act
+        navigationToOrderTemplates();
+        uploadingExcelCatalogForOrderTemplates("blankForOrderTemplates.xlsx");
+        closingCatalogDownloadWindowPupOpWindow();
     }
 
 

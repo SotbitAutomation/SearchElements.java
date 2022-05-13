@@ -26,6 +26,10 @@ public class MethodsForOrderTemplates extends MethodsForCatalog {
         checkingPageTitle("Шаблоны заказов");
     }
 
+    public void uploadingExcelCatalogForOrderTemplatesWithAcceptIt(String nameCatalog) {
+        uploadingExcelCatalogForOrderTemplates(nameCatalog);
+        clickAcceptTheUploadedFile();
+    }
     public void uploadingExcelCatalogForOrderTemplates(String nameCatalog) {
         driver.findElement(actionsButtonLocator).click();
         driver.findElement(By.cssSelector("#add-ordertemplate")).click();
@@ -77,7 +81,7 @@ public class MethodsForOrderTemplates extends MethodsForCatalog {
 
     public void expendHamburgerMenuInFirstOrderTemplate() {
         if (driver.findElements(By.cssSelector(".main-grid-row-body")).size()<2){
-            uploadingExcelCatalogForOrderTemplates("blankForOrderTemplates.xlsx");
+            uploadingExcelCatalogForOrderTemplatesWithAcceptIt("blankForOrderTemplates.xlsx");
             setNameForOrderTemplate();
             createOrderTemplate();
             navigationToOrderTemplates();
@@ -330,6 +334,10 @@ public class MethodsForOrderTemplates extends MethodsForCatalog {
     }
     public void rememberingNameFirstTemplate(){
         randomNameTemplate = driver.findElement(By.xpath("(//*[@class='main-grid-row main-grid-row-body'] //*[@class='main-grid-cell-content'])[2]")).getText();
+    }
+    public void closingCatalogDownloadWindowPupOpWindow(){
+        driver.findElement(By.xpath("//*[@id='modal-add-ordertemplate']//*[@class='modal-footer'] /*[contains(text(), 'Отмена')]")).click();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#modal-add-ordertemplate")));
     }
 
 
