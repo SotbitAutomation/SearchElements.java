@@ -72,10 +72,6 @@ public class ListOfEmployees extends MethodsForAddingOrganizationsWithExtendedVe
             }else {
                 quantityOrganizationOfUser = driver.findElements(By.xpath("//*[@class='header-elements'] //*[@class='dropdown-item']")).size();
             }
-//            if (quantityOrganizationOfUser == 0) {
-//                System.out.println("что-то пошло не так, у юзера не было организаций");
-//                creatingOrganizationForUser();
-//            }
             if (themeColorBlack){
                 CompanyNameToJoinEmployees = driver.findElement(By.cssSelector(".auth-company-change__current")).getText();
             }else {

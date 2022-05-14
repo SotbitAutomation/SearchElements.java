@@ -1036,11 +1036,11 @@ public class BaseActions extends CustomizingForYourself {
         }
     }
 
-    public void enableEditMode() {
-        driver.findElement(By.cssSelector("#bx-panel-toggle-indicator")).click();
-        implicitWaiting();
-        expandTheControlPanel();
-    }
+//    public void enableEditMode() {
+//        driver.findElement(By.cssSelector("#bx-panel-toggle-indicator")).click();
+//        implicitWaiting();
+//        expandTheControlPanel();
+//    }
 
     public void ternOffEditMode() {
         try {

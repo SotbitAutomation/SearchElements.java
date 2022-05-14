@@ -464,8 +464,8 @@ public class Catalog extends MethodsForCatalog {
         choosingRandomCategory();
         goToTheLastPage();
         checkThatTheQuantityOfPagesIsChanged();
-        removeTheSelectionFromTheCatalogCategory();
-        checkingThatAllProductsAreDisplayedAgain();
+//        removeTheSelectionFromTheCatalogCategory();
+//        checkingThatAllProductsAreDisplayedAgain();
     }
 
     @Test(retryAnalyzer = Retry.class) //30. Фильтрация товаров по цене (максимальной)

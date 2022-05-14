@@ -434,7 +434,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         logInToB2B();
         returningSettingsBackIfCatalogBroken();
         deletingProductsFromTheCart();
-        enableEditMode();
+        ternOnEditMode();
         navigationToCatalogTab();
         choiceCatalogWithOnlyOffers();
         navigationToMeanPageByUrl();

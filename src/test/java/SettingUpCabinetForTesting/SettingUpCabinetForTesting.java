@@ -17,8 +17,8 @@ public class SettingUpCabinetForTesting extends MethodsForSettingUpCabinetForTes
         navigationToListOfProperties();
         creatingPropertiesForTheseBuyerTypes();
     }
-    @Test(retryAnalyzer = Retry.class) //2. Настроить в кабинете темную шапку и разделы каталога в фильтре
-    public void configureTheBlackHeaderInTheCabinetAndTheCatalogSectionsInTheFilter() {
+    @Test(retryAnalyzer = Retry.class) //2. Настроить в кабинете темную шапку
+    public void configureTheBlackHeaderInTheCabinet() {
         //arrange
         navigationToAuthorizationTab();
         //act
@@ -26,11 +26,11 @@ public class SettingUpCabinetForTesting extends MethodsForSettingUpCabinetForTes
         driver.findElement(logInButtonOnTheAuthorizationTabLocator).click();
         navigationToBasicB2BSettings();
         choiceBlackHat();
-        navigationToBasicB2BSettings();
-        makeMenuInTheFilter();
+//        navigationToBasicB2BSettings();
+//        makeMenuInTheFilter();
     }
-    @Test(retryAnalyzer = Retry.class) //3. Настроить в кабинете светлую шапку и разделы каталога в фильтре
-    public void configureTheWhiteHeaderInTheCabinetAndTheCatalogSectionsInTheFilter() {
+    @Test(retryAnalyzer = Retry.class) //3. Настроить в кабинете светлую шапку
+    public void configureTheWhiteHeaderInTheCabinet() {
         //arrange
         navigationToAuthorizationTab();
         //act
@@ -38,33 +38,31 @@ public class SettingUpCabinetForTesting extends MethodsForSettingUpCabinetForTes
         driver.findElement(logInButtonOnTheAuthorizationTabLocator).click();
         navigationToBasicB2BSettings();
         choiceWhiteHat();
-        navigationToBasicB2BSettings();
-        makeMenuInTheFilter();
+//        navigationToBasicB2BSettings();
+//        makeMenuInTheFilter();
     }
-    @Test(retryAnalyzer = Retry.class) //4. Настроить в кабинете темную шапку и разделы каталога в выпадающем меню
-    public void configureTheBlackHeaderInTheCabinetAndTheCatalogSectionsInTheDropDownList() {
-        //arrange
-        navigationToAuthorizationTab();
-        //act
-        fillingFieldsOnTheLogInTabLikeAdmin();
-        driver.findElement(logInButtonOnTheAuthorizationTabLocator).click();
-        navigationToBasicB2BSettings();
-        choiceBlackHat();
-        navigationToBasicB2BSettings();
-        makeMenuInTheDropDownList();
-    }
-    @Test(retryAnalyzer = Retry.class) //5. Настроить в кабинете светлую шапку и разделы каталога в выпадающем меню
-    public void configureTheWhiteHeaderInTheCabinetAndTheCatalogSectionsInTheDropDownList() {
-        //arrange
-        navigationToAuthorizationTab();
-        //act
-        fillingFieldsOnTheLogInTabLikeAdmin();
-        driver.findElement(logInButtonOnTheAuthorizationTabLocator).click();
-        navigationToBasicB2BSettings();
-        choiceWhiteHat();
-        navigationToBasicB2BSettings();
-        makeMenuInTheDropDownList();
-    }
+//    @Test(retryAnalyzer = Retry.class) //4. Настроить в кабинете темную шапку
+//    public void configureTheBlackHeaderInTheCabinet() {
+//        //arrange
+//        navigationToAuthorizationTab();
+//        //act
+//        fillingFieldsOnTheLogInTabLikeAdmin();
+//        navigationToBasicB2BSettings();
+//        choiceBlackHat();
+////        navigationToBasicB2BSettings();
+////        makeMenuInTheDropDownList();
+//    }
+//    @Test(retryAnalyzer = Retry.class) //5. Настроить в кабинете светлую шапку
+//    public void configureTheWhiteHeaderInTheCabinet() {
+//        //arrange
+//        navigationToAuthorizationTab();
+//        //act
+//        fillingFieldsOnTheLogInTabLikeAdmin();
+//        navigationToBasicB2BSettings();
+//        choiceWhiteHat();
+////        navigationToBasicB2BSettings();
+////        makeMenuInTheDropDownList();
+//    }
     @Test(retryAnalyzer = Retry.class) //5. Включить расширенный режим и подтверждения регистраций
     public void enableExtendedModeAndConfirmRegistrations() {
         //arrange

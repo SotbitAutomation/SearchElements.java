@@ -23,19 +23,12 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
     public void checkingThatURLContainsChosenCategory() {
         System.out.println(driver.getCurrentUrl());
         System.out.println(tempValue4);
-        if (driver.findElements(By.xpath("//*[contains(@class, 'categorie')]")).size() > 0) {
-            Assert.assertTrue(driver.getCurrentUrl().contains("SECTION_ID"));
-        } else {
             Assert.assertTrue(driver.getCurrentUrl().contains("SECTION_ID=" + tempValue4));
-        }
+
     }
 
     public void checkingThatBreadCrumbsContainTheNameOfTheSection() {
-        if (driver.findElements(By.xpath("//*[contains(@class, 'categorie')]")).size() > 0) {
-            System.out.println("Если меню в фильтре то крошки не предусмортрены");
-        } else {
             Assert.assertTrue(driver.findElement(By.cssSelector(".breadcrumb-item.active")).getText().equals(tempString));
-        }
     }
 
     public void checkingThatAllProductsHaveSimilarIdToTheSectionId() {

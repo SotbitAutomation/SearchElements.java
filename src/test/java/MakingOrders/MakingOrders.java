@@ -162,7 +162,7 @@ public class MakingOrders extends MethodsForMakingOrders {
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
         changingPageInCatalog();
         changeTheQuantityOfRandomProduct();
-        checkingThatThePriceOfTheAddedProductHasBeenCalculated(); //        checkingThatThePriceOfTheAddedProductHasBeenCalculated();
+        checkingThatThePriceOfTheAddedProductHasBeenCalculated();
         //act
         navigationToCart();
         navigationToMakingOrderFromCart();
@@ -260,25 +260,25 @@ public class MakingOrders extends MethodsForMakingOrders {
     }
 
     // ОШИБКА B2B !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//    @Test(retryAnalyzer = Retry.class) //12. Итог в блоке "Корзина" на странице оформления заказа равен цене отображаемой в коризне (футере каталога)
-//    public void theTotalAmountAtTheTopOfTheCheckoutPageIsEqualToThePriceIndicatedInTheShoppingCart() {
-//        //arrange
-//        navigationToAuthorizationTab();
-//        fillingFieldsOnTheLogInTabLikeUser();
-//        logInToB2B();
-//        deletingProductsFromTheCart();
-//        navigationToCatalogTab();
-//        changeTheQuantityOfRandomProduct();
-//        checkingThatThePriceOfTheAddedProductHasBeenCalculated();
-//        //act
-//        navigationToCart();
-//        navigationToMakingOrderFromCart();
-//        checkThePriceAtTheTopOfThePage();
-//        trySelectCompany();
-//        checkingPriceOfProductsOnTheMakingOrderPage();
-//        choiceRandomDeliveryWay();
-//        checkingPriceOfProductsOnTheMakingOrderPage();
-//    }
+    @Test(retryAnalyzer = Retry.class) //12. Итог в блоке "Корзина" на странице оформления заказа равен цене отображаемой в коризне (футере каталога)
+    public void theTotalAmountAtTheTopOfTheCheckoutPageIsEqualToThePriceIndicatedInTheShoppingCart() {
+        //arrange
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeUser();
+        logInToB2B();
+        deletingProductsFromTheCart();
+        navigationToCatalogTab();
+        changeTheQuantityOfRandomProduct();
+        checkingThatThePriceOfTheAddedProductHasBeenCalculated();
+        //act
+        navigationToCart();
+        navigationToMakingOrderFromCart();
+        checkThePriceAtTheTopOfThePage();
+        trySelectCompany();
+        checkingPriceOfProductsOnTheMakingOrderPage();
+        choiceRandomDeliveryWay();
+        checkingPriceOfProductsOnTheMakingOrderPage();
+    }
     @Test(retryAnalyzer = Retry.class) //13 Оформление заказа без выбора организации
     public void makingOrderWithoutChoosingOrganization() {
         //arrange

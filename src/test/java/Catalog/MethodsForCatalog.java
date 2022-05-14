@@ -239,7 +239,6 @@ public class MethodsForCatalog extends BaseActions {
         if (!areThereAnyOffers && unitOfMeasurementOfARandomProduct.equals("шт")){
             coefficientForQuantityOfProducts = 1;
         }else {
-
             clickElement("(//*[@class='quantity-selector__increment'])[" + randomProductNumberOnThePage + "]");
             try {
                 wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("catalog__basket-quantity-value"), String.valueOf(numberOfProductsInTheFooter + 1)));
@@ -608,6 +607,7 @@ public class MethodsForCatalog extends BaseActions {
     public void uploadingExcelCatalog(String nameCatalog) {
         driver.findElement(By.xpath("//*[contains(@class, 'icon-download')]")).click();
         choiceExcelFromResources(nameCatalog);
+        clickAcceptTheUploadedFile();
         try {
             driver.findElement(By.xpath("//button[contains(text(), 'Закрыть')][contains(@class, 'btn')]")).click();
         } catch (Exception e) {
@@ -944,14 +944,6 @@ public class MethodsForCatalog extends BaseActions {
     public void choiceTheSecondLevelCategoryInABlackHatOrTheFirstLevelInAWhiteHat() {
         determineThemeColor();
         if (themeColorBlack) {
-            if (driver.findElements(By.xpath("//*[contains(@class, 'categorie')]")).size() > 0) {
-                driver.findElement(By.xpath("(//*[contains(@class, 'catalog_section')])[3]")).click();
-                driver.findElement(By.xpath("(//*[contains(@class, 'catalog_section')])[3] //*[@class='form-check-label']")).click();
-                tempString = driver.findElement(By.xpath("(//*[contains(@class, 'catalog_section')])[3] //*[@class='form-check-label']")).getText(); //Название категории
-                tempValue4 = null; // Если меню в фильтре то ID раздела не достать
-                goToTheLastPage();
-                checkThatTheQuantityOfPagesIsChanged();
-            } else {
                 choiceRandomCategoryInMenuCatalog(false);
                 //checkingThatAllProductsHaveASimilarIdToTheSectionId();
                 expandCatalogCategories(false);
@@ -959,19 +951,9 @@ public class MethodsForCatalog extends BaseActions {
                 tempString = tempValue3; //Название категории
                 checkingThatBreadCrumbHaveSelectedCategories();
                 //checkingThatAllProductsHaveASimilarIdToTheSectionId();
-            }
         } else {
-            if (driver.findElements(By.xpath("//*[contains(@class, 'categorie')]")).size() > 0) {
-                driver.findElement(By.xpath("(//*[contains(@class, 'catalog_section')])[3]")).click();
-                driver.findElement(By.xpath("(//*[contains(@class, 'catalog_section')])[3] //*[@class='form-check-label']")).click();
-                tempString = driver.findElement(By.xpath("(//*[contains(@class, 'catalog_section')])[3] //*[@class='form-check-label']")).getText(); //Название категории
-                tempValue4 = null;  // Если меню в фильтре то ID раздела не достать
-                goToTheLastPage();
-                checkThatTheQuantityOfPagesIsChanged();
-            } else {
                 choiceRandomCategoryInMenuCatalog(false);
                 tempString = tempValue2;
-            }
         }
     }
 
@@ -1101,7 +1083,10 @@ public class MethodsForCatalog extends BaseActions {
     }
 
     public void checkThatTheQuantityOfPagesIsChanged() {
-        Assert.assertNotEquals(tempValueForNumbers, tempValue2);
+        String breadCrumbs = driver.findElement(By.cssSelector(".breadcrumb-item.active")).getText();
+        if (!breadCrumbs.contains("Компьютеры")){
+            Assert.assertNotEquals(tempValueForNumbers, tempValue2);
+        }
     }
 
     public void enteringTheMaxPriceIntoTheFilter() {
@@ -1413,15 +1398,7 @@ public class MethodsForCatalog extends BaseActions {
 
     public void choosingRandomCategory() {
         tempInt = driver.findElements(By.cssSelector(".item_name")).size();
-        if (driver.findElements(By.xpath("//*[contains(@class, 'categorie')]")).size() > 0) {
-            tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(By.xpath("//*[contains(@class, 'catalog_section')]")).size()));
-            if (tempRandomNumber == 3 || tempRandomNumber == 5 || tempRandomNumber == 6 || tempRandomNumber == 7) {
-                tempRandomNumber = 2;
-            } // незначительный баг b2b
-            driver.findElement(By.xpath("(//*[contains(@class, 'catalog_section')])[" + tempRandomNumber + "]//*[@class='form-check']")).click();
-        } else {
-            choiceRandomCategoryInMenuCatalog(false);
-        }
+        choiceRandomCategoryInMenuCatalog(false);
     }
 
     public void checkingThatQuantityOfPropertiesIsHadDecreased() {
@@ -1522,13 +1499,6 @@ public class MethodsForCatalog extends BaseActions {
     public void selectTheSectionWithGasStoves() {
         determineThemeColor();
         if (themeColorBlack) {
-            if (driver.findElements(By.xpath("//*[contains(@class, 'categorie')]")).size() > 0) {
-                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='nav-item nav-item-submenu catalog_section '])[1]")));
-                driver.findElement(By.xpath("(//*[@class='nav-item nav-item-submenu catalog_section '])[1]")).click();
-                implicitWaiting();
-                driver.findElement(By.xpath("(//*[@class='nav-item nav-item-submenu'])[1]")).click();
-                implicitWaiting();
-            } else {
                 try {
                     driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][@title='Каталог']")).click();
                     implicitWaiting();
@@ -1544,50 +1514,27 @@ public class MethodsForCatalog extends BaseActions {
                     implicitWaiting();
                     driver.findElement(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()] //span)[2]")).click();
                 }
-            }
         } else {
-            if (driver.findElements(By.xpath("//*[contains(@class, 'categorie')]")).size() > 0) {
-                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='nav-item nav-item-submenu catalog_section '])[1]")));
-                driver.findElement(By.xpath("(//*[@class='nav-item nav-item-submenu catalog_section '])[1]")).click();
-                implicitWaiting();
-                driver.findElement(By.xpath("(//*[@class='nav-item nav-item-submenu'])[1]")).click();
-                implicitWaiting();
-            } else {
                 expandTheNeededNavigationMenu("аталог");
                 disclosureOfASubcategories("//*[@class='nav-item dropdown nav-item-dropdown-xl show'] //*[contains(text(), 'Бытовая техника')]");
                 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='nav-item dropdown nav-item-dropdown-xl show'] //*[contains(text(), 'плиты')]")));
                 driver.findElement(By.xpath("//*[@class='nav-item dropdown nav-item-dropdown-xl show'] //*[contains(text(), 'плиты')]")).click();
-            }
         }
     }
 
     public void selectSectionWithChainsaws() {
         if (themeColorBlack) {
-            if (driver.findElements(By.xpath("//*[contains(@class, 'categorie')]")).size() > 0) {
-                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='nav-item nav-item-submenu catalog_section '])[2]")));
-                driver.findElement(By.xpath("(//*[@class='nav-item nav-item-submenu catalog_section '])[2]")).click();
-                implicitWaiting();
-                driver.findElement(By.xpath("(//*[contains(@class, 'card-body border')]//*[@type='checkbox'])[6]")).click();
-            } else {
                 driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][@title='Каталог']")).click();
                 implicitWaiting();
                 disclosureOfASubcategories("(//*[contains(@class, 'nav-item-open')]/*[contains(@class, 'nav-group-sub')] /li /a /span)[2]");
                 //driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')]/*[contains(@class, 'nav-group-sub')] /li /a /span)[2]")).click();
                 implicitWaiting();
                 driver.findElement(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()] //span)[2]")).click();
-            }
         } else {
-            if (driver.findElements(By.xpath("//*[contains(@class, 'categorie')]")).size() > 0) {
-                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='nav-item nav-item-submenu catalog_section '])[2]")));
-                driver.findElement(By.xpath("(//*[@class='nav-item nav-item-submenu catalog_section '])[2]")).click();
-                implicitWaiting();
-                driver.findElement(By.xpath("(//*[contains(@class, 'card-body border')]//*[@type='checkbox'])[6]")).click();
-            } else {
                 expandTheNeededNavigationMenu("аталог");
                 disclosureOfASubcategories("//*[@class='nav-item dropdown nav-item-dropdown-xl show'] //*[contains(text(), 'Дом, дача, ремонт')]");
                 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='nav-item dropdown nav-item-dropdown-xl show'] //*[contains(text(), 'ензопилы')]")));
                 driver.findElement(By.xpath("//*[@class='nav-item dropdown nav-item-dropdown-xl show'] //*[contains(text(), 'ензопилы')]")).click();
-            }
         }
     }
 
@@ -1885,12 +1832,7 @@ public class MethodsForCatalog extends BaseActions {
     }
 
     public void removeTheSelectionFromTheCatalogCategory() {
-        if (driver.findElements(By.xpath("//*[contains(@class, 'categorie')]")).size() > 0) {
-            System.out.println(tempRandomNumber);
-            driver.findElement(By.xpath("(//*[contains(@class, 'catalog_section')])[" + tempRandomNumber + "] //*[@class='form-check']")).click();
-        } else {
             navigationToCatalogTab();
-        }
     }
 
     public void checkingThatAllProductsAreDisplayedAgain() {
@@ -1899,15 +1841,7 @@ public class MethodsForCatalog extends BaseActions {
     }
 
     public void removeOutputOfAllSubcategories() {
-        if (driver.findElements(By.xpath("//*[contains(@class, 'categorie')]")).size() > 0) {
-            tempInt2 = driver.findElements(By.xpath("//*[@class='nav nav-group-sub'][@style='display:block'] /*[@class='nav-item nav-item-submenu'] //*[@class='checked']")).size();
-            for (int i = 1; i <= tempInt2; i++) {
-                driver.findElement(By.xpath("//*[@class='nav nav-group-sub'][@style='display:block'] /*[@class='nav-item nav-item-submenu'] //*[@class='checked']")).click();
-                implicitWaiting();
-            }
-        } else {
             navigationToCatalogTab();
-        }
     }
 
     public void checkingThatThereIsSomeProductsInTheBasket() {
@@ -2101,9 +2035,6 @@ public class MethodsForCatalog extends BaseActions {
             changePageOnTheSecond();
             tempInt = tempInt + driver.findElements(By.cssSelector(".product__link")).size();
         }
-        if (driver.findElements(By.xpath("//*[contains(@class, 'categorie')]")).size() > 0) {
-            Assert.assertTrue(tempInt == 12, "Количество товаров в двух подкатегриях (Кух. плиты и Бензопилы) не равно 12 ");
-        }
     }
 
 
@@ -2296,7 +2227,7 @@ public class MethodsForCatalog extends BaseActions {
                 driver.findElement(By.xpath("(//*[contains(text(), 'GEFEST')] /following::* //*[@class ='basket__column-price-wrap']/span) [1]")).getText())))
                 + (numberOfAvailableKaiserGasStove * Double.valueOf(replacingSomeSymbols(
                         driver.findElement(By.xpath("(//*[contains(text(), 'Kaiser')] /following::* //*[@class ='basket__column-price-wrap']/span) [1]")).getText())) * 10)));
-        double scale = Math.pow(10, 3);
+        double scale = Math.pow(10, 2);
         calculatedSum = Math.ceil(calculatedSum * scale) / scale;
         System.out.println(calculatedSum);
         Assert.assertTrue(Double.valueOf(replacingSomeSymbols(driver.findElement(By.cssSelector(".basket-page__total-price-value")).getText()))
