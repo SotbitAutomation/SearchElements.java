@@ -45,7 +45,7 @@ public class MethodsForAccessToB2BWithoutAuthorization extends BaseActions {
         Assert.assertTrue(driver.findElement(By.cssSelector(".breadcrumb")).getText().contains(lastNavigationHyperlink));
     }
     public void tryToAddProductToTheCartWithoutAuthorization(){
-        driver.findElement(By.xpath("(//*[@class='quantity-selector__increment'])[" + catalog.randomProductNumberOnThePage + "]")).click();
+        clickElement("(//*[@class='quantity-selector__increment'])[" + catalog.randomProductNumberOnThePage + "]");
         implicitWaiting();
         Assert.assertEquals(driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + catalog.randomProductNumberOnThePage + "]")).getAttribute("value"), "0");
         Assert.assertEquals(driver.findElement(By.cssSelector("#catalog__basket-quantity-value")).getAttribute("value"), null);

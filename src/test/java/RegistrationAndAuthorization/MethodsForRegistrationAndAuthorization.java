@@ -169,12 +169,12 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
             driver.findElement(By.xpath("(//*[contains(@placeholder,'ail')][not(ancestor-or-self::*[@style = 'display: none;'])])[" + i + "]")).sendKeys(email);
         }
         // Если есть логин
-        try {
-            randomData = "Рамдомный логин" + randomString(10) + randomNumberUpToFife;
-            driver.findElement(By.xpath("//*[contains(text(), 'Login')][not(ancestor-or-self::*[@style = 'display: none;'])] /following::*[2]")).sendKeys(randomData);
-        }catch (Exception e){
-            System.out.println("Поля для логина нету");
-        }
+//        try {
+//            randomData = "Рамдомный логин" + randomString(10) + randomNumberUpToFife;
+//            driver.findElement(By.xpath("//*[contains(text(), 'Login')][not(ancestor-or-self::*[@style = 'display: none;'])] /following::*[2]")).sendKeys(randomData);
+//        }catch (Exception e){
+//            System.out.println("Поля для логина нету");
+//        }
 
         driver.findElement(By.xpath("//*[@placeholder='Введите имя'][not(ancestor-or-self::*[@style = 'display: none;'])]")).sendKeys(name);
         driver.findElement(By.xpath("//*[@placeholder='Введите фамилию'][not(ancestor-or-self::*[@style = 'display: none;'])]")).sendKeys(lastName);
@@ -188,12 +188,9 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
                 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@class,'combobox-variant-active')]")));
                 driver.findElement(By.xpath("//*[contains(@class,'combobox-variant-active')]")).click();
             } catch (Exception e) {
+                System.out.println("Свойства 'Местоположение небыло'");
             }
         }
-//        try {
-//            driver.findElement(By.xpath("//*[contains(@placeholder, 'естоположение ...')][not(ancestor-or-self::*[@style = 'display: none;'])]")).sendKeys("Россия");
-//            driver.findElement(By.xpath("//*[contains(@class,'combobox-variant-active')]")).click();
-//        }catch (Exception e){}
 
         Assert.assertEquals(email, driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='Введите e-mail']")).getAttribute("value")
                 , "Емаил не отображается");
@@ -225,10 +222,11 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
 
     public void choiceINNFromTheListOnTheRegistrationTab() {
         driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='ИНН']")).clear();
-        driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='ИНН']")).sendKeys(randomNumber(3));
+        enterNumberByDigits(randomNumber(3), By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='ИНН']"));
+        //driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='ИНН']")).sendKeys(randomNumber(3));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='checkcompany-list']")));
         Assert.assertTrue(driver.findElement(By.xpath("//*[@id='checkcompany-list']")).isDisplayed());
-        driver.findElement(By.xpath("(//*[@id='checkcompany-list'] /*)[2]")).click();
+        driver.findElement(By.xpath("(//*[@id='checkcompany-list'] /*)[" + randomNumberUpToFife +"]")).click();
         implicitWaiting();
 
         if (driver.findElements(By.xpath("//*[@placeholder='Название компании'][not(ancestor-or-self::*[@style = 'display: none;'])]")).size() > 0) {
@@ -353,13 +351,16 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
     }
 
     public void enterNumberByDigit(String stringNumber, By locator) {
+        enterNumberByDigits(stringNumber, locator);
+        driver.findElement(locator).sendKeys("a");
+        implicitWaiting();
+        driver.findElement(locator).sendKeys("\u0008");
+    }
+    public void enterNumberByDigits(String stringNumber, By locator) {
         for (int i = 0; i < stringNumber.length(); i++) {
             driver.findElement(locator).sendKeys(String.valueOf(stringNumber.charAt(i)));
             waitingMilliSecond();
         }
-        driver.findElement(locator).sendKeys("a");
-        implicitWaiting();
-        driver.findElement(locator).sendKeys("\u0008");
     }
 
     public void changeEmailOnTheSame() {

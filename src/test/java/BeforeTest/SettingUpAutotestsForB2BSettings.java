@@ -112,6 +112,8 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         driver.findElement(logInButtonOnTheAuthorizationTabLocator).click();
+        flagForRegionThisIsTheFirstVisit = true;
+        choiceStandardCityInMultiRegionsWindow();
         navigationToTheSiteSettings();
         //act
         set.checkingWhetherTheUserRegistrationNeedsToBeConfirmed();

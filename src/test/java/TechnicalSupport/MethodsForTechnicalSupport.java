@@ -41,11 +41,11 @@ public class MethodsForTechnicalSupport extends BaseActions {
             System.out.println("Категория вопроса уже выбрана");
         }
         driver.findElement(By.cssSelector("#MESSAGE")).sendKeys(randomMessage);
-        driver.findElement(By.xpath("//*[contains(@id, 'CRITICALITY')][contains(@id, 'select')]")).click();
+        clickElement("//*[contains(@id, 'CRITICALITY')][contains(@id, 'select')]");
         randomNumberOfCriticalityOfTreatment = 1 + (int) (Math.random()
                 * driver.findElements(By.xpath("//*[contains(@id, 'CRITICALITY_ID-results')] /*")).size());
         driver.findElement(By.xpath("(//*[contains(@id, 'CRITICALITY_ID-results')] /*)[" + randomNumberOfCriticalityOfTreatment + "]")).click();
-        driver.findElement(By.xpath("//*[contains(text(), 'Оценка ответов')] /following::*[1] ")).click();
+        clickElement("//*[contains(text(), 'Оценка ответов')] /following::*[1]");
         randomNumberOfEvaluationOfResponse = 1 + (int) (Math.random()
                 * driver.findElements(By.xpath("//*[contains(@class, 'results__option')][contains(@id,'results')] /*")).size());
         driver.findElement(By.xpath("(//*[contains(@class, 'results__option')][contains(@id,'results')] /*)[" + randomNumberOfEvaluationOfResponse + "]")).click();

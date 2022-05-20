@@ -117,7 +117,6 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         deletionRandomWidgetFromDesktop();
         storingTheLocationOfWidgetsOnTheDesktop();
         saveTheSettingForWidgetsOnTheDesktopLikeDefault();
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
@@ -279,14 +278,12 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingTheDataForTheNotesWidget();
         checkingThatEnteredDataIsDisplayedInTheNotesWidget();
         saveTheSettingForWidgetsOnTheDesktopLikeDefault();
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         navigationToTheDesktop();
         resettingTheCurrentWidgetSettings();
         checkingThatEnteredDataIsDisplayedInTheNotesWidget();
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
@@ -341,7 +338,6 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         resettingTheCurrentWidgetSettings();
         addingTheWidgetToDesktop(trafficJamsWidgetLocator);
         checkingThatTheWidgetOfTrafficJamsHaveContent();
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
@@ -443,7 +439,6 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         addingTheWidgetToDesktop(personalAccountWidgetLocator);
         requestReplenishmentOfYourPersonalAccount();
         checkingThatThePersonalAccountReplenishmentRequestHasBeenCreated();
-        exitFromB2B();
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
@@ -451,7 +446,6 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         makeOrder.checkingThatTheRequestForReplenishmentOfThePersonalAccountIsDisplayedByTheAdmin(tempValue);
         navigationToPageForAddingPersonalAccountInAdminPart();
         makeOrder.addMoneyToTheUserSPersonalAccount(registr.theSameEmail);
-        exitFromB2B();
         navigationToAuthorizationTab();
         registr.fillingFieldsOnTheLogInTab();
         logInToB2B();

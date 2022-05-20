@@ -3,7 +3,6 @@ package Catalog;
 import BaseActions.Retry;
 import MakingOrders.MakingOrders;
 import SettingUpCabinetForTesting.SettingUpCabinetForTesting;
-import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
 
@@ -483,12 +482,7 @@ public class Catalog extends MethodsForCatalog {
         changePageOnTheSecond();
         checkThatMaxPriceHasBeenApplied();
         checkThatProductsAreSortedByDecreasePrice();
-        try {
-            changingPageInCatalog();
-        }
-        catch (Exception e){
-            System.out.println("Всего одна страница");
-        }
+        changingPageInCatalog();
         checkThatMaxPriceHasBeenApplied();
         checkThatProductsAreSortedByDecreasePrice();
     }
@@ -508,11 +502,7 @@ public class Catalog extends MethodsForCatalog {
         changePageOnTheSecond();
         checkThatProductsAreSortedByIncreasePrice();
         checkThatMinPriceHasBeenApplied();
-        try {
-            changingPageInCatalog();
-        }catch (Exception e){
-            System.out.println("больше нет страниц");
-        }
+        changingPageInCatalog();
         checkThatProductsAreSortedByIncreasePrice();
         checkThatMinPriceHasBeenApplied();
     }
@@ -545,12 +535,13 @@ public class Catalog extends MethodsForCatalog {
         logInToB2B();
         resetCache();
         navigationToCatalogTab();
-        ternOnEditMode();
+        turnOnEditMode();
         navigationToComponentOfUnloadingTheCatalog();
         selectTheWorkModelAsUserConfigurable();
         selectRandomSectionToDownloadToTheCatalog();
         clickTheUploadButton();
         checkingThatCatalogIsDownloaded(".xlsx");
+        turnOffEditMode();
     }
     @Test(retryAnalyzer = Retry.class) //34.  Проверка корректности добавления в корзину после загрузки из EXCEL всего каталога
     public void addingAnItemToTheCartAfterDownloadingItFromExcel() {
@@ -877,8 +868,7 @@ public class Catalog extends MethodsForCatalog {
         choiceRandomProductInTheCart();
         checkingThatCheckboxThatAllProductsSelectedIsNotDisplayed();
         refreshingThisPage();
-
-        driver.findElement(By.xpath("//*[@data-entity='basket-gruope-item-checkbox']")).click();
+        selectAllItemsInTheCart();
         checkingThatSuchNumberOfSelectedProductsAppearedInTheBasket(quantityItemsInTheCart);
 
 
@@ -891,15 +881,15 @@ public class Catalog extends MethodsForCatalog {
 
 //    @Test
 //    public void circle() {
-//        for (int i = 0; i < 20; i++) {
+//        for (int i = 0; i < 5; i++) {
+//            CustomizingForYourself cust = new CustomizingForYourself();
 //
 //            //Сюда тест
-//            addingAnItemToTheShoppingCartFromASearchHint();
+//            decreaseProductFromTheCatalogFromTheDifferentPagesUsingIconMinus();
 //
 //            numberOfProductsInTheFooter = 0;
 //            pricesForAllProductsInTheFooter = 0;
 //            sumOfPricesOfTheAddedProducts = 0;
-//            exitFromB2B();
 //        }
 //    }
 }

@@ -154,10 +154,8 @@ public class MethodsForDocuments extends BaseActions {
         if (!themeColorBlack){
             expandTheNeededNavigationMenu("окументы");
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Акты')]")));
-            driver.findElement(By.xpath("//*[contains(text(), 'Акты')]")).click();
-        }else {
-            driver.findElement(By.xpath("//*[text()='Акты']")).click();
         }
+        clickElement("//*[contains(text(), 'Акты')]");
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@class,'page-header')] //*[text()='Акты']")).isDisplayed());
     }
     public void checkingThatDocumentIsDisplayed(){
@@ -176,7 +174,8 @@ public class MethodsForDocuments extends BaseActions {
         Assert.assertTrue(files[1].getName().contains("Акт по заказу №2.xlsx"), "Файл не скачался, или в папке 'Downloads' есть лишнии файлы ");
     }
     public void navigationToDetailInformationOfOrganizationFromDocument(){
-        driver.findElement(By.xpath("(//*[@class='main-grid-cell main-grid-cell-left'])[last()]")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='main-grid-cell main-grid-cell-left'])[last()] //a[@href]")));
+        clickElement("(//*[@class='main-grid-cell main-grid-cell-left'])[last()] //a[@href]");
         Assert.assertTrue(driver.findElement(By.cssSelector(".companies-wrapper")).isDisplayed());
 //        try {
 //            Assert.assertTrue(driver.findElement(By.cssSelector(".companies-wrapper")).isDisplayed());

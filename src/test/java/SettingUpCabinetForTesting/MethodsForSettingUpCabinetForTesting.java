@@ -1,6 +1,7 @@
 package SettingUpCabinetForTesting;
 
 import BaseActions.BaseActions;
+import Catalog.MethodsForCatalog;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -257,6 +258,8 @@ public class MethodsForSettingUpCabinetForTesting extends BaseActions {
         //act
         fillingFieldsOnTheLogInTabLikeAdmin();
         driver.findElement(logInButtonOnTheAuthorizationTabLocator).click();
+        MethodsForCatalog catalog = new MethodsForCatalog();
+        catalog.hideAdminPanel();
         choiceStandardCityInMultiRegionsWindow();
         resetCache();
         navigationToPageForClearCache();

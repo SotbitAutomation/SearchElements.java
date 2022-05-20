@@ -52,7 +52,7 @@ public class MethodsForOrderTemplates extends MethodsForCatalog {
     }
 
     public void createOrderTemplate() {
-        driver.findElement(By.cssSelector(".save-btn")).click();
+        clickElementByItsCssSelector(".save-btn");
     }
     public void createOrderTemplateWithJustUnloadedFile(){
         driver.findElement(actionsButtonLocator).click();

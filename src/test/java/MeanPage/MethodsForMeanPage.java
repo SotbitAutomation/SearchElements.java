@@ -121,7 +121,7 @@ public class MethodsForMeanPage extends BaseActions {
 
     public void addingRandomWidgetToTheDesktop() {
         showButtonForAddingWidgets();
-        driver.findElement(addWidgetButtonLocator).click();
+        clickElement(addWidgetButtonLocator);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".widgets_cabinet")));
         tempRandomNumber = 1 + (int) (Math.random() * driver.findElements(By.xpath("(//div[@class='widgets_cabinet_title'])")).size());
         tempValueOfTitle = driver.findElement(By.xpath("(//div[@class='widgets_cabinet_title'])" + "[" + tempRandomNumber + "]")).getText();
@@ -276,7 +276,7 @@ public class MethodsForMeanPage extends BaseActions {
 
     public void addingTheWidgetToDesktop(By xpathOfWidget) {
         showButtonForAddingWidgets();
-        driver.findElement(addWidgetButtonLocator).click();
+        clickElement(addWidgetButtonLocator);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".widgets_cabinet")));
         try {
             driver.findElement(xpathOfWidget).click();
@@ -423,7 +423,7 @@ public class MethodsForMeanPage extends BaseActions {
         driver.findElement(By.xpath("//*[@name='url']")).sendKeys("www.bbc.com");
         driver.findElement(By.xpath("//*[@name='name']")).sendKeys("Новости на - BBC" + randomData);
         System.out.println(randomData);
-        driver.findElement(By.xpath("//*[@type='submit']")).click();
+        clickElement("//*[@type='submit']");
         refreshingThisPage();
     }
 
@@ -454,7 +454,7 @@ public class MethodsForMeanPage extends BaseActions {
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@id, 'WEATHER')]")).getText().contains("Москва"));
     }
     public void checkingTheTransitionToTheWeatherPageUsingTheLearnMoreButton(){
-        driver.findElement(By.xpath("//*[contains(@id, 'WEATHER')] //*[text()='Подробнее']")).click();
+        clickElement("//*[contains(@id, 'WEATHER')] //*[text()='Подробнее']");
         Set<String> handles = driver.getWindowHandles();
         Iterator<String> itr = handles.iterator();
         String parentWindow = itr.next();
@@ -465,7 +465,7 @@ public class MethodsForMeanPage extends BaseActions {
         driver.switchTo().window(parentWindow); //вернуть фокус на старое окно
     }
     public void checkingThatTheSettingsAreBeingOpened(){
-        driver.findElement(By.xpath("//*[contains(@class, 'settings icon')]")).click();
+        clickElement("//*[contains(@class, 'settings icon')]");
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@id, 'WEATHER')]//*[contains(@class, 'TITLE')]")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(@id, 'WEATHER')]//*[contains(@class, 'CITY')]")).isDisplayed());
     }
@@ -507,7 +507,7 @@ public class MethodsForMeanPage extends BaseActions {
         }catch (Exception e){
             System.out.println("Похоже включен режим правки, выключаю его");
             refreshingThisPage();
-            ternOffEditMode();
+            turnOffEditMode();
             driver.findElement(By.xpath("//*[contains(@class, 'icon-pencil')]")).click();
             driver.findElement(By.xpath("//*[contains(@id, 'RSS_URL')]")).sendKeys("https://news.mail.ru/rss/");
             clickElementByItsCssSelector(".button-ok");
@@ -545,7 +545,7 @@ public class MethodsForMeanPage extends BaseActions {
     }
 
     public void uncheckThePrivacyPolicyCheckbox() {
-        driver.findElement(By.xpath("(//*[@class='uniform-checker'])[1]")).click();
+        clickElement("(//*[@class='uniform-checker'])[1]");
     }
 
     public void goToTheDetailedOrganizationPageFromTheWidget() {

@@ -30,6 +30,8 @@ public class DangerousTests extends MethodsForDangerousTests {
         navigationToCatalogTab();
         turnOffShowTheQuantityOfProductsInStorageIfItIsShowed();
         choiceStandardCatalog();
+        navigationToMeanPageByUrl();
+        hideAdminPanel();
         SettingUpCabinetForTesting set = new SettingUpCabinetForTesting();
         set.flagForCloseWarningWindowThisIsTheFirstVisit = flagForCloseWarningWindowThisIsTheFirstVisit;
         set.clearAllCacheForTests();
@@ -70,7 +72,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         navigationToSystemSettings();
         disableOutputOfPropertiesInTheDirectory();
         navigationToMeanPageByUrl();
-        ternOnEditMode();
+        turnOnEditMode();
         navigationToCatalogTab();
         navigationToComponentOfCatalogSetting();
         removeAllColumnsWithPropertiesFromTheCatalog();
@@ -170,7 +172,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         navigationToGasStoveSetting();
         enableQuantitativeAccountingAtTheGefestGasStove();
         navigationToMeanPageByUrl();
-        ternOffEditMode();
+        turnOffEditMode();
         navigationToCatalogTab();
         selectTheSectionWithGasStoves();
         enterTheMaximumAvailableQuantityOfThisProduct();
@@ -334,7 +336,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         logInToB2B();
         returningSettingsBackIfCatalogBroken();
         deletingProductsFromTheCart();
-        ternOnEditMode();
+        turnOnEditMode();
         navigationToCatalogTab();
         choiceCatalogWithOnlyOffers();
         navigationToMeanPageByUrl();
@@ -343,7 +345,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
         navigationToCatalogTab();
         choiceStandardCatalog();
-        ternOffEditMode();
+        turnOffEditMode();
     }
 
     @Test(retryAnalyzer = Retry.class) //14. Проверить вывод информации о наличии на складах
@@ -356,7 +358,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         returningSettingsBackIfCatalogBroken();
         deletingProductsFromTheCart();
         navigationToCatalogTab();
-        ternOnEditMode();
+        turnOnEditMode();
         showTheQuantityOfProductsInStorageIfItIsNotShowed();
         navigationToAdminPartFromMeanPage();
         navigationToGasStoveSetting();
@@ -369,7 +371,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         navigationToComponentOfCatalogSetting();
         configureTheOutputOfAllStoragesToTheCatalog();
         navigationToMeanPageByUrl();
-        ternOffEditMode();
+        turnOffEditMode();
         navigationToCatalogTab();
         selectTheSectionWithGasStoves();
         enterTheMaximumAvailableQuantityOfThisProduct();
@@ -401,7 +403,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         addingGefestGasStoveToCartUsingPlusIcon();
         addingKaiserGasStoveToCartUsingPlusIcon();
         navigationToCart();
-        ternOffEditMode();
+        turnOffEditMode();
         //act
         addingMaxQuantityOfProductInTheCartUsingPlusIconOneMoreThanAvailable(quantityFieldOfGefestLocator, iconPlusOfGefestLocator, numberOfAvailableGefestGasStove);
         checkingThatQuantityOfGefestGasStoveIsOneMoreThanAvailable();
@@ -434,17 +436,17 @@ public class DangerousTests extends MethodsForDangerousTests {
         logInToB2B();
         returningSettingsBackIfCatalogBroken();
         deletingProductsFromTheCart();
-        ternOnEditMode();
+        turnOnEditMode();
         navigationToCatalogTab();
         choiceCatalogWithOnlyOffers();
         navigationToMeanPageByUrl();
-        ternOffEditMode();
+        turnOffEditMode();
         navigationToCatalogTab();
         changeTheQuantityOfRandomProduct();
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
         navigationToCart();
         //act
-        ternOffEditMode();
+        turnOffEditMode();
         addingMaxQuantityOfProductInTheCartUsingPlusIconOneMoreThanAvailable(quantityFieldOfRandomTPLocator, iconPlusOfRandomTPLocator, quantityOfProductsInStock);
         checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfRandomTPLocator, quantityOfProductsInStock);
         attemptToSelectNegativeQuantityOfProductsInTheCartUsingMinusIcon(quantityFieldOfRandomTPLocator, iconMinusOfRandomTPLocator);
@@ -466,7 +468,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         deletingProductsFromTheCart();
-        ternOnEditMode();
+        turnOnEditMode();
         navigationToCatalogTab();
         choiceCatalogWithOnlyOffers();
         navigationToMeanPageByUrl();
@@ -474,7 +476,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         configureTheFirstTwoTP("N");
         addingFirstTwoTPToTheCart();
         //act
-        ternOffEditMode();
+        turnOffEditMode();
         addingMaxQuantityOfProductInTheCartUsingPlusIconOneMoreThanAvailable(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, iconPlusOfTPWithQuantitativeAccountingDisabledLocator, quantityOfSecondProductsInStock);
         checkingThatQuantityOfThisProductIsOneMoreThanAvailable(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, quantityOfSecondProductsInStock);
         attemptToSelectNegativeQuantityOfProductsInTheCartUsingMinusIcon(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, iconMinusOfTPWithQuantitativeAccountingDisabledLocator);
@@ -492,12 +494,12 @@ public class DangerousTests extends MethodsForDangerousTests {
         addingMaxQuantityOfProductInTheCartUsingInputField(quantityFieldOfTPWithAFractionalCoefficientLocator, quantityOfProductsInStock);
         checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfTPWithAFractionalCoefficientLocator, quantityOfProductsInStock);
         checkingThatTotalPriceOfTheseProductsAreCalculatedRight(priceForFirstProductInCart, priceForSecondProductInCart);
-        ternOnEditMode();
+        turnOnEditMode();
         navigationToCatalogTab();
         configureTheFirstTwoTP("D");
         navigationToCatalogTab();
         choiceStandardCatalog();
-        ternOffEditMode();
+        turnOffEditMode();
     }
 
     @Test(retryAnalyzer = Retry.class)
@@ -556,7 +558,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         navigationToGasStoveSetting();
         setPriceForSmallOptForGasStoveGefest();
         navigationToMeanPageByUrl();
-        ternOffEditMode();
+        turnOffEditMode();
         navigationToCart();
         addingToSearchFieldWordForSearchAdditionalProductsGefestGasStove();
         checkingThatThePricesInTheCartForAdditionalProductsIsDisplayedAsForSmallOptGroup();
@@ -598,17 +600,17 @@ public class DangerousTests extends MethodsForDangerousTests {
         logInToB2B();
         returningSettingsBackIfCatalogBroken();
         deletingProductsFromTheCart();
-        ternOnEditMode();
+        turnOnEditMode();
         navigationToCatalogTab();
         choiceCatalogWithOnlyOffers();
         navigationToMeanPageByUrl();
-        ternOffEditMode();
+        turnOffEditMode();
         navigationToCatalogTab();
         changeTheQuantityOfRandomProduct();
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
         changeTheQuantityOfRandomProduct();
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
-        ternOffEditMode();
+        turnOffEditMode();
         navigationToCart();
         MethodsForMyOrders makeOrder = new MethodsForMyOrders();
         makeOrder.rememberingNamesAndQuantityAddedProducts();
@@ -621,7 +623,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         makeOrder.checkingThatAddedProductsAreDisplayed();
         navigationToCatalogTab();
         choiceStandardCatalog();
-        ternOffEditMode();
+        turnOffEditMode();
     }
 
     @Test(retryAnalyzer = Retry.class) //22. Настройока вывода полей в компоненте
@@ -632,7 +634,8 @@ public class DangerousTests extends MethodsForDangerousTests {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToTheSetting();
-        ternOnEditMode();
+        unHideAdminPanel();
+        turnOnEditMode();
         navigationToComponentOfUserParameters();
         addUserParameterInTheSettingsOnTheMainPage();
         checkingThatNewUserParameterInTheSettingsOnTheMainPageISDisplayed();
@@ -642,6 +645,8 @@ public class DangerousTests extends MethodsForDangerousTests {
         checkingThatEnteredDataIsDisplayed();
         navigationToComponentOfUserParameters();
         deletingAddedUserParameterInTheSettingsOnTheMainPage();
+        hideAdminPanel();
+        turnOffEditMode();
     }
 
     @Test(retryAnalyzer = Retry.class)
@@ -755,7 +760,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         returningSettingsBackIfCatalogBroken();
         enableTheIndexSectionsForTheSearchModuleSetting();
         navigationToMeanPageByUrl();
-        ternOffEditMode();
+        turnOffEditMode();
         navigationToCatalogTab();
         choiceTheSecondLevelCategoryInABlackHatOrTheFirstLevelInAWhiteHat();
         navigationToCatalogTab();
@@ -794,11 +799,11 @@ public class DangerousTests extends MethodsForDangerousTests {
         logInToB2B();
         returningSettingsBackIfCatalogBroken();
         deletingProductsFromTheCart();
-        ternOnEditMode();
+        turnOnEditMode();
         navigationToCatalogTab();
         choiceCatalogWithOnlyOffers();
         navigationToMeanPageByUrl();
-        ternOffEditMode();
+        turnOffEditMode();
         navigationToCatalogTab();
         enterNameInTheSearchFieldOnTheCatalogTab("любим");
         checkingThatThereAreNoCartIconInPupOpWindow();
@@ -868,7 +873,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         navigationToGasStoveSetting();
         setTheNumberOfGasStoveGefestEqualToZero();
         navigationToMeanPageByUrl();
-        ternOffEditMode();
+        turnOffEditMode();
         //act
         navigationToCart();
         addingToSearchFieldWordForSearchAdditionalProductsGefestGasStove();
@@ -886,7 +891,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         logInToB2B();
         returningSettingsBackIfCatalogBroken();
         navigationToTheRootPageOfTheCatalog();
-        ternOnEditMode();
+        turnOnEditMode();
         navigationToComponentOfCatalogSetting();
         setTheOutputOfTheNumberOfCategoriesInTheRootDirectory("1");
         checkingTheNumberOfOutputSections(10, 5);
@@ -896,7 +901,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         navigationToComponentOfCatalogSetting();
         setTheOutputOfTheNumberOfCategoriesInTheRootDirectory("2");
         checkingTheNumberOfOutputSections(30, 10);
-        ternOffEditMode();
+        turnOffEditMode();
     }
 
 
@@ -1028,6 +1033,27 @@ public class DangerousTests extends MethodsForDangerousTests {
             clickStandardButtonForSaveSettings();
         }
     }
+
+
+
+
+//    @Test(retryAnalyzer = Retry.class)
+//    //1. asd
+//    public void asd1() {
+//        for (int i = 0; i < 10; i++) {
+//        driver.navigate().to("http://sotbitru.sotbit.com/");
+//        driver.findElement(By.cssSelector("#new_gift")).click();
+//        String randomEmail = "test_EMail" + randomString(12) + "@qa.team";
+//        System.out.println(i + "  - " + randomEmail);
+//        driver.findElement(By.cssSelector("#subscribe-email")).sendKeys(randomEmail);
+//        driver.findElement(By.cssSelector(".subscribe-form__btn")).click();
+//        driver.quit();
+//        driver = new ChromeDriver();
+//        }
+//    }
+
+
+
 
 
 

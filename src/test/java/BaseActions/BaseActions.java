@@ -169,7 +169,7 @@ public class BaseActions extends CustomizingForYourself {
     }
 
     public void choiceStandardCityInMultiRegionsWindow() {
-        if (isThereMultiRegions) {
+        if (isThereModuleMultiRegions) {
             if (flagForRegionThisIsTheFirstVisit) {
                 flagForRegionThisIsTheFirstVisit = false;
                 try {
@@ -234,10 +234,12 @@ public class BaseActions extends CustomizingForYourself {
     public void navigationToTheDesktop() {
         determineThemeColor();
         if (themeColorBlack) {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(buttonOfHomeLocator));
             driver.findElement(buttonOfHomeLocator).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(desktopIconLocator));
             driver.findElement(desktopIconLocator).click();
         } else {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@class, 'icon-home')]")));
             driver.findElement(By.xpath("//*[contains(@class, 'icon-home')]")).click();
             driver.findElement(By.xpath("//*[@class='nav-item']/*[contains(@href, 'desktop')]")).click();
         }
@@ -366,6 +368,7 @@ public class BaseActions extends CustomizingForYourself {
     }
 
     public void expandMenuWithUnderMenuInWhiteHat(String nameMenu) {
+        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//*[contains(@class, 'navbar-nav-link dropdown-toggle')]"), 3));
         for (int i = 1; i <= driver.findElements(By.xpath("//*[contains(@class, 'navbar-nav-link dropdown-toggle')]")).size(); i++) {
             if (driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).getText().contains(nameMenu)) {
                 driver.findElement(By.xpath("(//*[contains(@class, 'navbar-nav-link dropdown-toggle')])[" + i + "]")).click();
@@ -438,14 +441,13 @@ public class BaseActions extends CustomizingForYourself {
     }
 
     public void resetCache() {
-        implicitWaiting();
         try {
-            driver.findElement(By.cssSelector(".bx-panel-clear-cache-icon")).click();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#bx-panel-clear-cache-icon")));
+            driver.findElement(By.cssSelector("#bx-panel-clear-cache-icon")).click();
         } catch (Exception e) {
-            driver.findElement(By.cssSelector("#bx-panel-expander-text")).click();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".bx-panel-clear-cache-icon")));
             driver.findElement(By.cssSelector(".bx-panel-clear-cache-icon")).click();
         }
-        flagForRegionThisIsTheFirstVisit = true;
         implicitWaiting();
         implicitWaiting();
         implicitWaiting();
@@ -678,7 +680,7 @@ public class BaseActions extends CustomizingForYourself {
 //        }
 //    }
 
-    public void scrollToTheElement(String xpath) {
+        public void scrollToTheElement(String xpath) {
         try {
             WebElement element = driver.findElement(By.xpath(xpath));
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
@@ -688,6 +690,7 @@ public class BaseActions extends CustomizingForYourself {
             implicitWaiting();
         }
     }
+
 
     public void scrollToTheElement(By locator) {
         WebElement element = driver.findElement(locator);
@@ -787,7 +790,7 @@ public class BaseActions extends CustomizingForYourself {
         clickElement("//*[text()='Код'][@class='main-grid-head-title']");
         implicitWaiting();//иногда отсортировано, но отображаются старые орг-ии
         int numberOfOrganizations = driver.findElements(By.xpath("//tbody //*[@class='main-grid-row main-grid-row-body']")).size();
-        if (numberOfOrganizations>1){
+        if (numberOfOrganizations > 1) {
             int comparedNumber;
             int nextNumberAfterComparedNumber;
             count = 0;
@@ -800,7 +803,7 @@ public class BaseActions extends CustomizingForYourself {
                     try {
                         comparedNumber = Integer.parseInt(driver.findElement(By
                                 .xpath("((//tbody /*[@class='main-grid-row main-grid-row-body'])[" + i + "] //*[@class='main-grid-cell-content'])[2]")).getText());
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! тупая ошибка при сортировке, на таком элементе -  " + i);
                         waitingMilliSecond();
                         comparedNumber = Integer.parseInt(driver.findElement(By
@@ -808,12 +811,12 @@ public class BaseActions extends CustomizingForYourself {
                     }
                     try {
                         nextNumberAfterComparedNumber = Integer.parseInt(driver.findElement(By
-                                .xpath("((//tbody /*[@class='main-grid-row main-grid-row-body'])[" + (i+1) + "] //*[@class='main-grid-cell-content'])[2]")).getText());
-                    }catch (Exception e2){
+                                .xpath("((//tbody /*[@class='main-grid-row main-grid-row-body'])[" + (i + 1) + "] //*[@class='main-grid-cell-content'])[2]")).getText());
+                    } catch (Exception e2) {
                         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! тупая ошибка 2 при сортировке, на таком элементе -  " + i);
                         waitingMilliSecond();
                         nextNumberAfterComparedNumber = Integer.parseInt(driver.findElement(By
-                                .xpath("((//tbody /*[@class='main-grid-row main-grid-row-body'])[" + (i+1) + "] //*[@class='main-grid-cell-content'])[2]")).getText());
+                                .xpath("((//tbody /*[@class='main-grid-row main-grid-row-body'])[" + (i + 1) + "] //*[@class='main-grid-cell-content'])[2]")).getText());
                     }
                     if (comparedNumber < nextNumberAfterComparedNumber) {
                         count++;
@@ -827,7 +830,6 @@ public class BaseActions extends CustomizingForYourself {
                 }
             }
         }
-
 
 
 //        driver.findElement(By.xpath("//*[text()='Код'][@class='main-grid-head-title']")).click();
@@ -1042,7 +1044,7 @@ public class BaseActions extends CustomizingForYourself {
 //        expandTheControlPanel();
 //    }
 
-    public void ternOffEditMode() {
+    public void turnOffEditMode() {
         try {
             driver.findElement(By.xpath("//*[contains(@href, 'bitrix_include_areas=N')][@id='bx-panel-toggle']")).click();
             implicitWaiting();
@@ -1051,7 +1053,7 @@ public class BaseActions extends CustomizingForYourself {
         }
     }
 
-    public void ternOnEditMode() {
+    public void turnOnEditMode() {
         try {
             driver.findElement(By.xpath("//*[contains(@href, 'bitrix_include_areas=Y')][@id='bx-panel-toggle']")).click();
             implicitWaiting();
@@ -1101,7 +1103,14 @@ public class BaseActions extends CustomizingForYourself {
 
     public void disclosureOfASubcategories(String xpathThisCategory) {
         Actions action = new Actions(driver);
-        action.moveToElement(driver.findElement(By.xpath(xpathThisCategory)), 5, 15).click().build().perform();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpathThisCategory)));
+        try {
+            action.moveToElement(driver.findElement(By.xpath(xpathThisCategory)), 5, 15).click().build().perform();
+        } catch (Exception e) {
+            System.out.println(xpathThisCategory);
+            scrollToTheElement(xpathThisCategory);
+            action.moveToElement(driver.findElement(By.xpath(xpathThisCategory)), 5, 15).click().build().perform();
+        }
     }
 
     public void expandTheNeededNavigationMenu(String nameOfTheMenuForOpen) {
@@ -1144,7 +1153,7 @@ public class BaseActions extends CustomizingForYourself {
         driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/", "") + "bitrix/admin/sotbit.auth_settings.php?lang=ru&site=s1");
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#bx-admin-prefix")));
-        }catch (Exception e){
+        } catch (Exception e) {
             driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/", "") + "bitrix/admin/sotbit.auth_settings.php?lang=ru&site=s1");
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#bx-admin-prefix")));
         }

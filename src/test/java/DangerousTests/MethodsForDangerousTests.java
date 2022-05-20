@@ -15,9 +15,9 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
     }
 
     public void choiceCategoryFromPopApWindow() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class= 'media-body'] /* [@href] /*[contains(@class, 'media-title')])[last()]")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".media-title")));
         waitingMilliSecond();
-        clickElement("(//*[@class= 'media-body'] /* [@href] /*[contains(@class, 'media-title')])[last()]");
+        clickElementByItsCssSelector(".media-title");
     }
 
     public void checkingThatURLContainsChosenCategory() {
@@ -67,13 +67,13 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         choiceStandardCityInMultiRegionsWindow();
         if (driver.findElements(By.xpath("//*[@title='Ремни']")).size() > 0) {
             returningSettingsBack();
-            ternOffEditMode();
+            turnOffEditMode();
         } else {
             clickElement("//*[@title='Компьютеры']");
             determineQuantityItemsEqualsZero();
             if (quantityItemsWithQuantityEqualsZero > 3) {
                 returningSettingsBack();
-                ternOffEditMode();
+                turnOffEditMode();
             }
         }
 
@@ -104,7 +104,7 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         driver.findElement(By.xpath("//a[contains(text(), 'Плита GEFEST')]")).click();
         driver.findElement(By.xpath("//*[contains(text(), 'Торговый каталог')][contains(@class, 'adm-detail-tab')]")).click();
         clearAllOptPrices();
-        driver.findElement(By.xpath("//*[@title='Дополнительные параметры']")).click();
+        clickElement("//*[@title='Дополнительные параметры']");
         driver.findElement(By.xpath("//*[contains(@id, 'MEASURE_RATIO')]")).clear();
         driver.findElement(By.xpath("//*[contains(@id, 'MEASURE_RATIO')]")).sendKeys("1");
         try {
@@ -112,13 +112,6 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         } catch (Exception e) {
             navigationToSystemSettings();
             navigationToSettingOfQuantitativeAccountingForTheProduct();
-//            scrollToTheElement("//*[@for='use_store_control_y'][@class]");
-//            try {
-//                driver.findElement(By.xpath("//*[@for='use_store_control_y'][@class]")).click();
-//            }catch (Exception e2){
-//                scrollUp();
-//                driver.findElement(By.xpath("//*[@for='use_store_control_y'][@class]")).click();
-//            }
             clickElement("//*[@for='use_store_control_y'][@class]");
             driver.findElement(By.xpath("//*[@value='Сохранить']")).click();
             navigationToGasStoveSetting();
@@ -129,9 +122,9 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         }
         driver.findElement(By.xpath("//*[@id='CAT_BASE_QUANTITY']")).clear();
         driver.findElement(By.xpath("//*[@id='CAT_BASE_QUANTITY']")).sendKeys("5");
-        driver.findElement(By.xpath("//*[contains(@id, 'BASE_QUANTITY_TRACE')]")).click();
+        clickElement("//*[contains(@id, 'BASE_QUANTITY_TRACE')]");
         driver.findElement(By.xpath("//*[@id='CAT_BASE_QUANTITY_TRACE'] /option[@value='D']")).click();
-        driver.findElement(By.xpath("//*[@title='Управление товаром на складах']")).click();
+        clickElement("//*[@title='Управление товаром на складах']");
         driver.findElement(By.xpath("(//input[contains(@id, 'AMOUNT')])[1]")).clear();
         driver.findElement(By.xpath("(//input[contains(@id, 'AMOUNT')])[2]")).clear();
         waitingMilliSecond();
@@ -159,7 +152,7 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         driver.findElement(By.xpath("//a[contains(text(), 'Плита GEFEST')]")).click();
         driver.findElement(By.xpath("//*[contains(text(), 'Торговый каталог')][contains(@class, 'adm-detail-tab')]")).click();
         driver.findElement(By.xpath("//*[@title='Дополнительные параметры']")).click();
-        driver.findElement(By.xpath("//*[contains(@id, 'BASE_QUANTITY_TRACE')]")).click();
+        clickElement("//*[contains(@id, 'BASE_QUANTITY_TRACE')]");
         driver.findElement(By.xpath("//*[@id='CAT_BASE_QUANTITY_TRACE'] /option[@value='N']")).click();
         driver.findElement(By.cssSelector(".adm-btn-save")).click();
     }
@@ -219,7 +212,7 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
     }
 
     public void determineQuantityItemsEqualsZero() {
-        ternOffEditMode();
+        turnOffEditMode();
         quantityItemsWithQuantityEqualsZero = 0;
         numberOfProductsPerPage = driver.findElements(By.cssSelector(".item-quantity__general")).size();
         for (int i = 1; i <= numberOfProductsPerPage; i++) {
@@ -232,7 +225,7 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
     public void turnOffShowTheQuantityOfProductsInStorageIfItIsShowed() {
         determineQuantityItemsEqualsZero();
         if (quantityItemsWithQuantityEqualsZero > 3) {
-            ternOnEditMode();
+            turnOnEditMode();
             navigationToComponentOfCatalogSetting();
             showingTheQuantityOfProductsInStorage();
         }
@@ -451,4 +444,5 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         choiceTypeOfPriceForUnauthorizedUser(priceType);
         driver.findElement(buttonSaveLocator).click();
     }
+
 }

@@ -56,7 +56,7 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
     public void trySelectCompany() {
         determineWhetherVersionsOfWorkingWithOrganization();
         if (!versionsOfWorkingWithOrganizationsExtended) {
-            driver.findElement(By.xpath("(//input[@name='PROFILE_ID'])[1]")).click();
+            clickElement("(//input[@name='PROFILE_ID'])[1]");
         }
     }
 
@@ -155,12 +155,7 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
 
     public void choicePickupAsADeliveryWay() {
         //scrollDownToTheElement("//*[contains(text(), 'Самовывоз')]");
-        try {
-            driver.findElement(By.xpath("//*[contains(text(), 'Самовывоз')]")).click();
-        }catch (Exception e){
-            scrollUp();
-            driver.findElement(By.xpath("//*[contains(text(), 'Самовывоз')]")).click();
-        }
+        clickElement("//*[contains(text(), 'Самовывоз')]");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(text(), 'Сохранить')]")));
     }
 
@@ -194,16 +189,10 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
 
     public void choiceRandomPaymentMethod() {
         randomNumberUpToDeliveryWays = 1 + (int) (Math.random() * driver.findElements(By.xpath("(//*[@class='index_checkout-payment_system'] /*)")).size());
-        try {
-            driver.findElement(By.xpath("(//*[@class='index_checkout-payment_system'] //*[@class='form-input-styled'])[" + randomNumberUpToDeliveryWays + "]")).click();
-        }catch (Exception e){
-            scrollUp();
-            driver.findElement(By.xpath("(//*[@class='index_checkout-payment_system'] //*[@class='form-input-styled'])[" + randomNumberUpToDeliveryWays + "]")).click();
-        }
+        clickElement("(//*[@class='index_checkout-payment_system'] //*[@class='form-input-styled'])[" + randomNumberUpToDeliveryWays + "]");
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("((//*[@class='index_checkout-payment_system'] //*[@class='form-input-styled'])["
                 + randomNumberUpToDeliveryWays + "])[@checked='checked']")));
         implicitWaiting();
-
         paymentWay = driver.findElement(By.xpath("(//*[@class='index_checkout-payment_system'] //*[@class='index_checkout-radios_title'])["
                 + randomNumberUpToDeliveryWays + "]")).getText();
     }

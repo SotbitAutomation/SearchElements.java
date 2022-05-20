@@ -189,7 +189,6 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToMyOrdersPage();
-        ternOnEditMode();
         navigationToComponentOfUserOrders();
         selectTheNumberOfDisplayedOrdersOnThePage();
         navigationToAuthorizationTab();
@@ -205,6 +204,8 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         navigationToMyOrdersPage();
         navigationToComponentOfUserOrders();
         selectTheNumberOfDisplayedOrdersOnThePageIsEquallyThirty();
+        turnOffEditMode();
+        hideAdminPanel();
     }
 
     @Test (retryAnalyzer = Retry.class)//8 Проверка корректности состава товаров на детальной странице оформленного заказа
@@ -259,7 +260,6 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         logInToB2B();
         navigationToCatalogTab();
         changeTheQuantityOfRandomProduct();
-        implicitWaiting();
         navigationToCart();
         navigationToMakingOrderFromCart();
         trySelectCompany();
