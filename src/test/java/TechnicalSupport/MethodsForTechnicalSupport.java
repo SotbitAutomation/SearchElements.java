@@ -45,10 +45,11 @@ public class MethodsForTechnicalSupport extends BaseActions {
         randomNumberOfCriticalityOfTreatment = 1 + (int) (Math.random()
                 * driver.findElements(By.xpath("//*[contains(@id, 'CRITICALITY_ID-results')] /*")).size());
         driver.findElement(By.xpath("(//*[contains(@id, 'CRITICALITY_ID-results')] /*)[" + randomNumberOfCriticalityOfTreatment + "]")).click();
+        scrollToTheElement("//*[contains(text(), 'Оценка ответов')] /following::*[1]");
         clickElement("//*[contains(text(), 'Оценка ответов')] /following::*[1]");
         randomNumberOfEvaluationOfResponse = 1 + (int) (Math.random()
                 * driver.findElements(By.xpath("//*[contains(@class, 'results__option')][contains(@id,'results')] /*")).size());
-        driver.findElement(By.xpath("(//*[contains(@class, 'results__option')][contains(@id,'results')] /*)[" + randomNumberOfEvaluationOfResponse + "]")).click();
+        clickElement("(//*[contains(@class, 'results__option')][contains(@id,'results')] /*)[" + randomNumberOfEvaluationOfResponse + "]");
     }
     public void sendingRequest(){
         clickElement("//*[@name='save']");
@@ -102,7 +103,7 @@ public class MethodsForTechnicalSupport extends BaseActions {
     }
     public void downloadFile(){
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@title='Скачать файл \"palms.jpg\"']")));
-        driver.findElement(By.xpath("//*[@title='Скачать файл \"palms.jpg\"']")).click();
+        clickElement("//*[@title='Скачать файл \"palms.jpg\"']");
     }
     public void checkingThatFileIsDownload(){
         implicitWaiting();

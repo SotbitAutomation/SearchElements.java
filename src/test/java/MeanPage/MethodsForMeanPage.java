@@ -139,7 +139,7 @@ public class MethodsForMeanPage extends BaseActions {
 
     public void deletionJustAddedWidget() {
         tempValueOfId = driver.findElement(By.xpath("(//*[contains(@class, 'data-table-gadget')])[1]")).getAttribute("id");
-        driver.findElement(By.xpath("(//*[@data-action='remove'])[1]")).click();
+        clickElement("(//*[@data-action='remove'])[1]");
         implicitWaiting();
         Assert.assertNotEquals(driver.findElement(By.xpath("(//*[contains(@class, 'data-table-gadget')])[1]")).getAttribute("id"), tempValueOfId);
         waitingMilliSecond();

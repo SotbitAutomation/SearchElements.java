@@ -1121,20 +1121,19 @@ public class MethodsForCatalog extends BaseActions {
 //            tempValue4 = driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')])[last()] /*[@href]")).getAttribute("href");
 //            tempValue4 = tempValue4.substring(tempValue4.indexOf('=') + 1); ЧПУ
 
-            try {
-                waitingElementWithText(".nav-item-open > .nav-group-sub > .nav-item-open > .nav-group-sub > .nav-item > .nav-link");
-            }catch (Exception e){
-                System.out.println("Похоже не раскрыл раздел");
-                disclosureOfASubcategories("(//*[contains(@class, 'nav-sidebar')]/*[contains(@class, 'nav-item')]/ul[contains(@class, 'nav-group-sub')] /li)[" + tempRandomNumber + "]");
-                waitingElementWithText(".nav-item-open > .nav-group-sub > .nav-item-open > .nav-group-sub > .nav-item > .nav-link");
-            }
+            waitingElementWithText(".nav-item-open > .nav-group-sub > .nav-item-open > .nav-group-sub > .nav-item > .nav-link");
             tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)")).size()));
             tempValue3 = driver.findElement(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]")).getText();
-            if (tempValue3.trim().isEmpty()){
-                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!! УДАЛИТЬ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                scrollDown();
-                tempValue3 = driver.findElement(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]")).getText();
-            }
+//            if (tempValue3.trim().isEmpty()){
+//                System.out.println("Похоже не раскрыл раздел, повторяю заново");
+//                refreshingThisPage();
+//                expandCatalogCategories(false);
+//                disclosureOfASubcategories("(//*[contains(@class, 'nav-sidebar')]/*[contains(@class, 'nav-item')]/ul[contains(@class, 'nav-group-sub')] /li)[" + tempRandomNumber + "]");
+//                waitingElementWithText(".nav-item-open > .nav-group-sub > .nav-item-open > .nav-group-sub > .nav-item > .nav-link");
+//                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!! УДАЛИТЬ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//                scrollDown();
+//                tempValue3 = driver.findElement(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]")).getText();
+//            }
             System.out.println("Рандомный подраздел рандомного раздела - " + tempValue3);
             try {
                 clickElement("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]");

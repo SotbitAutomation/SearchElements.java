@@ -443,10 +443,10 @@ public class BaseActions extends CustomizingForYourself {
     public void resetCache() {
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#bx-panel-clear-cache-icon")));
-            driver.findElement(By.cssSelector("#bx-panel-clear-cache-icon")).click();
+            clickElementByItsCssSelector("#bx-panel-clear-cache-icon");
         } catch (Exception e) {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".bx-panel-clear-cache-icon")));
-            driver.findElement(By.cssSelector(".bx-panel-clear-cache-icon")).click();
+            clickElementByItsCssSelector(".bx-panel-clear-cache-icon");
         }
         implicitWaiting();
         implicitWaiting();
