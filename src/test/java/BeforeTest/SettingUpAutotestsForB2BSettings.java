@@ -147,7 +147,6 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
             e.printStackTrace();
         }
         System.out.println("Нужно подтверждать регистрацию компании - " + doNeedToConfirmRegistrationOrganization);
-
         navigationToGeneralB2BSettings();
         set.checkingWhetherAdvancedModeIsEnabled();
         versionsOfWorkingWithOrganizationsExtended = set.whetherExtendedModeIsEnabled;

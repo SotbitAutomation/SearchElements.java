@@ -508,15 +508,17 @@ public class DangerousTests extends MethodsForDangerousTests {
         determineWhetherVersionsOfWorkingWithOrganization();
         //!!!!!!!!!! Такая логика, клиенты не жалуются на это (админ не может запретить уже созданным типам организаций покупать товары), по этому не проверять на это у расширенной версии
         if (!versionsOfWorkingWithOrganizationsExtended) {
+            MethodsForAddingOrganizationsWithExtendedVersion org = new MethodsForAddingOrganizationsWithExtendedVersion();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeAdmin();
             logInToB2B();
+            org.navigationToProfilesOfBuyers();
+            org.addingBackIPToAvailablePayerTypes();
             returningSettingsBackIfCatalogBroken();
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeUser();
             logInToB2B();
             navigationToOrganizationTab();
-            MethodsForAddingOrganizationsWithExtendedVersion org = new MethodsForAddingOrganizationsWithExtendedVersion();
             org.creatingThreeOrganizations();
             exitFromB2B();
             navigationToAuthorizationTab();
@@ -533,7 +535,7 @@ public class DangerousTests extends MethodsForDangerousTests {
             changeTheQuantityOfRandomProduct();
             checkingThatThePriceOfTheAddedProductHasBeenCalculated();
             navigationToCart();
-            driver.findElement(buttonMakeOrderInTheCartLocator).click();
+            clickElement(buttonMakeOrderInTheCartLocator);
             org.checkingThatTheAddedLPOrganizationsAreAvailableForSelectionAndTheAddedIPOrganizationIsNotAvailable();
             exitFromB2B();
             navigationToAuthorizationTab();

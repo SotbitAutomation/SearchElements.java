@@ -23,7 +23,6 @@ public class Basket extends MethodsForCatalog {
         refreshingThisPage();
         checkingThatThereAreNoProdutsInTheBasket();
     }
-    //ОШИБКА B2B !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     @Test(retryAnalyzer = Retry.class) //2. Удаление и восстановление одного из товаров в корзине
     public void deletingAndRestoringOneOfTheProductsInTheShoppingCart() {
         //arrange

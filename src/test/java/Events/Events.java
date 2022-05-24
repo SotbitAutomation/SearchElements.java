@@ -74,7 +74,7 @@ public class Events extends MethodsForEvents{
             registr.choiceIP();
             registr.enterINNManually();
             registr.fillingFieldsOnTheRegistrationTab(registr.arrayWithExistingLocatorsForIP);
-            driver.findElement(registr.registerButtonOnRegistrationTabLocator).click();
+            clickElement(registr.registerButtonOnRegistrationTabLocator);
             //act
             confirmRegistrations();
             navigationToTablesFromAdmin();

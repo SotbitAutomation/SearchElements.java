@@ -477,7 +477,7 @@ public class BaseActions extends CustomizingForYourself {
         determineThemeColor();
         if (!themeColorBlack) {
             expandMenuWithUnderMenuInWhiteHat("Каталог");
-            driver.findElement(By.cssSelector(".show >* > .dropdown-item")).click();
+            driver.findElement(By.cssSelector(".show >* > .dropdown-item > span")).click();
             try {
                 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='breadcrumb-item'][contains(@href, 'blank_zakaza')]")));
             } catch (Exception e) {

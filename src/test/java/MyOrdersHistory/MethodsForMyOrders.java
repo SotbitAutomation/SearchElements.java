@@ -136,16 +136,15 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
         System.out.println(paymentWay);
         //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='" + paymentWay + "']")));
         try{
-            Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Оплата через '] /*")).getText().equals(paymentWay));
-        }catch (Exception e){
             Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'Платёжная система:')]/following::*[1]")).getText().equals(paymentWay));
-            System.out.println(driver.findElement(By.xpath("//*[contains(text(), 'Платёжная система:')]/following::*[1]")).getText());
+        }catch (Exception e){
+            Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Оплата через '] /*")).getText().equals(paymentWay));
         }
     }
     public void changingWayOfPaymentInOrder(){
         driver.findElement(By.xpath("//*[text()='Общее']")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".sale-order-detail-payment-options-methods-info-change-link")));
-        driver.findElement(By.cssSelector(".sale-order-detail-payment-options-methods-info-change-link")).click();
+        clickElementByItsCssSelector(".sale-order-detail-payment-options-methods-info-change-link");
         randomNumberOfPaymentWay = 1 + (int) (Math.random()
                 * driver.findElements(By.cssSelector(".sale-order-payment-change-pp-company")).size());
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@class='sale-order-payment-change-pp-company-smalltitle'])["
@@ -156,7 +155,7 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
                 + randomNumberOfPaymentWay + "]")).getText().equals("Счёт на оплату"))
                 || driver.findElement(By.xpath("(//*[@class='sale-order-payment-change-pp-company-smalltitle'])["
                 + randomNumberOfPaymentWay + "]")).getText().equals("Банковский перевод")){
-            driver.findElement(By.xpath("(//*[@class='sale-order-payment-change-pp-company'])[" + randomNumberOfPaymentWay + "]")).click();
+            clickElement("(//*[@class='sale-order-payment-change-pp-company'])[" + randomNumberOfPaymentWay + "]");
             implicitWaiting();
             ArrayList<String> tabs2 = new ArrayList<String> (driver.getWindowHandles());
             driver.switchTo().window(tabs2.get(1));
@@ -164,7 +163,7 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
             driver.close();
             driver.switchTo().window(tabs2.get(0));
         }else {
-            driver.findElement(By.xpath("(//*[@class='sale-order-payment-change-pp-company'])[" + randomNumberOfPaymentWay + "]")).click();
+            clickElement("(//*[@class='sale-order-payment-change-pp-company'])[" + randomNumberOfPaymentWay + "]");
         }
     }
     public void checkingThatPaymentMethodIsChangedInTabOfPayment(){

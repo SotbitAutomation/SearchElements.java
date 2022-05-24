@@ -1054,8 +1054,10 @@ public class MethodsForCatalog extends BaseActions {
 //            tempValue4 = driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')])[last()] /*[@href]")).getAttribute("href");
 //            tempValue4 = tempValue4.substring(tempValue4.indexOf('=') + 1); ЧПУ
         } else {
-            tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(
-                    By.xpath("//*[contains(@class ,'show')]/*[contains(@class ,'dropdown-menu')]/*[contains(@class ,'dropdown-submenu')]")).size()) - 1);
+            By menuCategoriseLocator = By.xpath("//*[contains(@class ,'show')]/*[contains(@class ,'dropdown-menu')]/*[contains(@class ,'dropdown-submenu')]");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(menuCategoriseLocator));
+            tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(menuCategoriseLocator).size()));
+            System.out.println("Рандомно выбранный номер каталога - " + tempRandomNumber);
             tempValue2 = driver.findElement(By.xpath("(//*[contains(@class ,'show')]/*[contains(@class ,'dropdown-menu')]/*[contains(@class ,'dropdown-submenu')] /*[1] /span)["
                     + tempRandomNumber + "]")).getText();
             System.out.println("Рандомный раздел - " + tempValue2);
@@ -2430,8 +2432,8 @@ public class MethodsForCatalog extends BaseActions {
         checkingThatCartIconHavePictureOfThePresenceOfOneProductInTheBasket(1);
     }
 
-    public void checkingThatInCartOnlyOneProduct() {
-        driver.findElement(buttonMakeOrderInTheCartLocator).click();
+    public void checkingThatInCartOnlyOneProduct(){
+        clickElement(buttonMakeOrderInTheCartLocator);
         showProductsInTheCartOnTheMakingOrderPage();
         Assert.assertTrue(driver.findElements(By.xpath("//*[contains(@id, 'DataTables')] /tbody /tr")).size() == 1);
     }
@@ -2533,13 +2535,15 @@ public class MethodsForCatalog extends BaseActions {
         hideAdminPanel();
         driver.findElement(By.xpath("//*[@placeholder='Название']")).sendKeys("Плита GEFEST");
         waitingMilliSecond();
-        driver.findElement(By.xpath("//*[contains(@class, 'filter')]/*[contains(@class, 'btn_b2b')]")).click();
+        clickElement("//*[contains(@class, 'filter')]/*[contains(@class, 'btn_b2b')]");
         wait.until(ExpectedConditions.numberOfElementsToBe(By.cssSelector(".catalog-list__name"), 1));
     }
 
     public void checkingThatAllAdditionalProductsContainsWordForSearch() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'бензин')]")));
         for (int i = 1; i <= driver.findElements(By.xpath("//*[@class='catalog-list__name']")).size(); i++) {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'бензин')]")));
+            clickElement("(//*[@class='form-control'][not(ancestor-or-self::*[@placeholder])])[" + i + "]");
+            scrollToTheElement("(//*[@class='catalog-list__name'])[" + i + "]");
             Assert.assertTrue(driver.findElement(By.xpath("(//*[@class='catalog-list__name'])[" + i + "]")).getText().contains("бензин"));
         }
     }
@@ -2829,12 +2833,13 @@ public class MethodsForCatalog extends BaseActions {
     }
 
     public void applyTheFirstProperty() {
+        expendFilterInCatalog();
         driver.findElement(By.xpath("//*[@type='checkbox']/following::*[1]")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#set_filter")));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#modef")));
         waitingMilliSecond();
         waitingMilliSecond();
-        driver.findElement(By.cssSelector("#set_filter")).click();
+        clickElementByItsCssSelector("#set_filter");
     }
 
     public void checkingThatQuantityProductsOnThisPageAreDecreased() {
