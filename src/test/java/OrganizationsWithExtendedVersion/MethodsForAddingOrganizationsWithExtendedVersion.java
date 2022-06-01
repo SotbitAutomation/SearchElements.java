@@ -454,7 +454,8 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
 
     public void fillingFieldForCreatingEmployeeUsingReferralLink() {
         navigationToPersonsTab();
-        driver.findElement(buttonAddNewEmployee).click();
+        clickOnTheRightSideOfTheElement(buttonAddNewEmployee);
+        //driver.findElement(buttonAddNewEmployee).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".register-referral-link")));
         driver.findElement(By.cssSelector(".register-referral-link")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@placeholder='Введите e-mail']")));
@@ -501,7 +502,8 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
 
     public void fillingFieldsOnTheRegisterNewEmployee() {
         navigationToPersonsTab();
-        driver.findElement(buttonAddNewEmployee).click();
+        clickOnTheRightSideOfTheElement(buttonAddNewEmployee);
+        //driver.findElement(buttonAddNewEmployee).click();
 
         for (int i = 2; i <= driver.findElements(By.xpath("//input[contains(@placeholder,'')][@class='form-control']")).size(); i++) {
             for (int j = 0; j < arrayWithAllPossibleLocatorsForOrganization.length; j = j + 2) {
@@ -746,12 +748,14 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
     }
 
     public void checkingThatPopUpWindowIsClosedAfterClickCancel() {
-        driver.findElement(buttonAddNewEmployee).click();
+        clickOnTheRightSideOfTheElement(buttonAddNewEmployee);
+        //driver.findElement(buttonAddNewEmployee).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@id, 'modal-staff-register')] //*[contains(@class, 'close')]")));
         driver.findElement(By.xpath("//*[contains(@id, 'modal-staff-register')] //*[contains(@class, 'close')]")).click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[@placeholder='Введите e-mail (логин)']")));
         Assert.assertFalse(driver.findElement(By.xpath("//*[@placeholder='Введите e-mail (логин)']")).isDisplayed());
-        driver.findElement(buttonAddNewEmployee).click();
+        //driver.findElement(buttonAddNewEmployee).click();
+        clickOnTheRightSideOfTheElement(buttonAddNewEmployee);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@id, 'modal-staff-register')] //*[contains(text(), 'Отмена')]")));
         driver.findElement(By.xpath("//*[contains(@id, 'modal-staff-register')] //*[contains(text(), 'Отмена')]")).click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[@placeholder='Введите e-mail (логин)']")));
@@ -759,7 +763,8 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
     }
 
     public void checkingThatEnteredDataIsDisplayedAfterReopeningPopUpWindow() {
-        driver.findElement(buttonAddNewEmployee).click();
+        clickOnTheRightSideOfTheElement(buttonAddNewEmployee);
+        //driver.findElement(buttonAddNewEmployee).click();
         driver.findElement(By.xpath("//*[@placeholder='Введите e-mail (логин)']")).sendKeys("TEST@qa.team");
         waitingMilliSecond();
         driver.findElement(By.xpath("//*[contains(@id, 'modal-staff-register')] //*[contains(@class, 'close')]")).click();
@@ -771,7 +776,8 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
             wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[@placeholder='Введите e-mail (логин)']")));
         }
         Assert.assertFalse(driver.findElement(By.xpath("//*[@placeholder='Введите e-mail (логин)']")).isDisplayed());
-        driver.findElement(buttonAddNewEmployee).click();
+        clickOnTheRightSideOfTheElement(buttonAddNewEmployee);
+        //driver.findElement(buttonAddNewEmployee).click();
         Assert.assertEquals(driver.findElement(By.xpath("//*[@placeholder='Введите e-mail (логин)']")).getAttribute("value"), "TEST@qa.team");
     }
 
@@ -873,8 +879,8 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
     }
 
     public void goToDetailPageAboutOrder() {
-        driver.findElement(firstHamburgerMenuOnTheOrganizationTabLocator).click();
-        driver.findElement(By.xpath("//*[text()='Подробнее о заказе']")).click();
+        clickElement(firstHamburgerMenuOnTheOrganizationTabLocator);
+        clickElement("//*[text()='Подробнее о заказе']");
         Assert.assertTrue(driver.findElement(By.cssSelector(".blank_detail-total")).isDisplayed());
     }
 

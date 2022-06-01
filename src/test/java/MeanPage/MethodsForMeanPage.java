@@ -7,7 +7,6 @@ import RegistrationAndAuthorization.RegistrationB2B;
 import org.openqa.selenium.By;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.util.Iterator;
@@ -176,7 +175,7 @@ public class MethodsForMeanPage extends BaseActions {
             driver.findElement(buttonForResetTheCurrentSettings).click();
 
         }
-        new WebDriverWait(driver, 10).until(ExpectedConditions.alertIsPresent());
+        wait.until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
         implicitWaiting();
         refreshingThisPage();
@@ -193,7 +192,7 @@ public class MethodsForMeanPage extends BaseActions {
         showButtonForAddingWidgets();
         clickElement(saveSettingLikeDefaultLocator);
         //driver.findElement(saveSettingLikeDefaultLocator).click();
-        new WebDriverWait(driver, 10).until(ExpectedConditions.alertIsPresent());  //сохраннеие настроек по умолчанию метод
+        wait.until(ExpectedConditions.alertIsPresent());  //сохраннеие настроек по умолчанию метод
         driver.switchTo().alert().accept();
     }
 

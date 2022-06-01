@@ -19,7 +19,6 @@ public class BaseActions extends CustomizingForYourself {
     public File dir = new File(System.getProperty("user.home") + "/Downloads/");
     static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_______________";
     static SecureRandom rnd = new SecureRandom();
-
     public String randomString(int len) {
         StringBuilder sb = new StringBuilder(len);
         for (int i = 0; i < len; i++)
@@ -52,7 +51,7 @@ public class BaseActions extends CustomizingForYourself {
 
 
     public void standardConfirmationOfTheActionOnThePage() {
-        new WebDriverWait(driver, 5).until(ExpectedConditions.alertIsPresent());
+        wait.until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
         implicitWaiting();
     }
@@ -124,7 +123,6 @@ public class BaseActions extends CustomizingForYourself {
     public By buttonToGoToAdminPartLocator = By.cssSelector("#bx-panel-admin-tab");
     public By checkboxShowEmployeesOfAllOrganizations = By.xpath("//*[@class='form-check'] //*[@type = 'checkbox']");
     public By buttonAddNewEmployee = By.cssSelector("#staff-list__add-staff");
-
     public By buttonMakeOrderInTheCartLocator = By.xpath("//button[contains(text(), 'Оформить заказ')]");
     public By buttonToSaveTheComponentSettingsForTheCatalog = By.cssSelector("#bx-comp-params-save-button");
     public By buttonSaveLocator = By.xpath("//*[@name='save']");
@@ -753,8 +751,6 @@ public class BaseActions extends CustomizingForYourself {
                 driver.findElement(By.xpath("//*[contains(text(),'Подтверждение организации')]")).click();
             }
         }
-
-
         int columnWithDataAboutOrganization = driver.findElements(By.xpath("//*[@class='adm-list-table-row'] /*[@class='adm-list-table-cell'][3]")).size();
         for (int i = 1; i <= columnWithDataAboutOrganization; i++) {
             if (driver.findElement(By.xpath("(//*[@class='adm-list-table-row'] /*[@class='adm-list-table-cell'][3])[" + i + "]")).getText().contains(nameCompany)) {
@@ -762,8 +758,6 @@ public class BaseActions extends CustomizingForYourself {
                 break;
             }
         }
-
-
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#digitalwand_admin_helper_sotbit_auth_company_confirm")));
         Assert.assertTrue(driver.findElement(By.xpath("(//*[@class='adm-list-table-row'] /*[@class='adm-list-table-cell'][3])[" + count + "]")).getText().contains(nameCompany));
         driver.findElement(By.xpath("(//*[@class='adm-designed-checkbox-label adm-checkbox'])[" + count + "]")).click();
@@ -1100,6 +1094,17 @@ public class BaseActions extends CustomizingForYourself {
             countForThemeColor++;
         }
     }
+    public void clickOnTheRightSideOfTheElement(By locator) {
+        Actions action = new Actions(driver);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        try {
+            action.moveToElement(driver.findElement(locator), 5, 15).click().build().perform();
+        } catch (Exception e) {
+            System.out.println(locator);
+            scrollToTheElement(locator);
+            action.moveToElement(driver.findElement(locator), 5, 15).click().build().perform();
+        }
+    }
 
     public void disclosureOfASubcategories(String xpathThisCategory) {
         Actions action = new Actions(driver);
@@ -1135,17 +1140,17 @@ public class BaseActions extends CustomizingForYourself {
     }
 
     public String waitElementVisible(String xpath) {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
         return xpath;
     }
 
     public String waitElementInVisible(String xpath) {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(xpath)));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(xpath)));
         return xpath;
     }
 
     public String waitClearingCash(String xpath) {
-        new WebDriverWait(driver, 100).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(xpath)));
+        new WebDriverWait(driver,100).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(xpath)));
         return xpath;
     }
 

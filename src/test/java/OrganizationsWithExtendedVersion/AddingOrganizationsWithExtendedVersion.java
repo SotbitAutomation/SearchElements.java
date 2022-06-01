@@ -398,7 +398,7 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
     }
 
     @Test(retryAnalyzer = Retry.class)//17 Проверка почтового события после добавления пользователя управляющим компании
-    public void checkingEvent() {
+    public void checkingTheEventAfterTheUserIsAddedByTheCompanyManager() {
         determineWhetherVersionsOfWorkingWithOrganization();
         if (versionsOfWorkingWithOrganizationsExtended) {
             //arrange

@@ -185,7 +185,7 @@ public class MethodsForMyOrders extends MethodsForMakingOrders {
     }
     public void checkingThatPagesAreSwitching(){
         tempValue = driver.findElement(By.xpath("//*[@class='main-grid-row main-grid-row-body'] /*[@class='main-grid-cell main-grid-cell-left']//*[@class='main-grid-cell-content']")).getText();
-        driver.findElement(By.xpath("//*[@class='main-ui-pagination-page']")).click();
+        clickElement("//*[@class='main-ui-pagination-page']");
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//*[@class='main-ui-pagination-page main-ui-pagination-active']"), "2"));
         implicitWaiting();
         tempValue2 = driver.findElement(By.xpath("//*[@class='main-grid-row main-grid-row-body'] /*[@class='main-grid-cell main-grid-cell-left']//*[@class='main-grid-cell-content']")).getText();

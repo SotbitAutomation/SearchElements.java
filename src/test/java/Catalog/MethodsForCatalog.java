@@ -75,7 +75,9 @@ public class MethodsForCatalog extends BaseActions {
     public By checkboxThatHighlightsAllProductsInTheCartLocator = By.xpath("//*[@data-entity='basket-gruope-item-checkbox']");
     public By buttonForDeletingProductsInCartLocator = By.xpath("//*[@data-entity='basket-groupe-item-delete']");
     public By iconCatalogLocator = By.xpath("//*[contains(@class, 'nav-item nav-item-submenu')] /*[contains(@href, 'blank_zakaza')]");
-    public int i = 0;
+
+
+
 
 
     public void changeTheQuantityOfRandomProduct() {
@@ -116,11 +118,21 @@ public class MethodsForCatalog extends BaseActions {
                         flag = true;
                     }
                     if (tempCountForBreak > 10) {
-                        driver.findElement(By.xpath("(//*[contains(@id, 'quantity-increment')])[" + randomProductNumberOnThePage + "]")).click();
-                        implicitWaiting();
-                        implicitWaiting();
-                        tempQuantityItems = Double.valueOf(driver.findElement(By.xpath("(//*[contains(@id, 'quantity-value')])[" + randomProductNumberOnThePage + "]")).getAttribute("value"));
-                        Assert.assertTrue(tempQuantityItems == expectedTempQuantityItems);
+                        try {
+                            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[contains(@id, 'quantity-increment')])[" + randomProductNumberOnThePage + "]")));
+                            clickElement("(//*[contains(@id, 'quantity-increment')])[" + randomProductNumberOnThePage + "]");
+                            implicitWaiting();
+                            implicitWaiting();
+                            tempQuantityItems = Double.valueOf(driver.findElement(By.xpath("(//*[contains(@id, 'quantity-value')])[" + randomProductNumberOnThePage + "]")).getAttribute("value"));
+                            Assert.assertTrue(tempQuantityItems == expectedTempQuantityItems);
+                        }catch (Exception e){
+                            System.out.println("!!!!!!!!!!!!!!!!!!!!! клик не защитался ");
+                            clickElement("(//*[contains(@id, 'quantity-increment')])[" + randomProductNumberOnThePage + "]");
+                            implicitWaiting();
+                            implicitWaiting();
+                            tempQuantityItems = Double.valueOf(driver.findElement(By.xpath("(//*[contains(@id, 'quantity-value')])[" + randomProductNumberOnThePage + "]")).getAttribute("value"));
+                            Assert.assertTrue(tempQuantityItems == expectedTempQuantityItems);
+                        } // иногда клик не защитывается
                     }
                 }
                 waitingMilliSecond();
@@ -603,9 +615,9 @@ public class MethodsForCatalog extends BaseActions {
 
     public void downloadingCatalogFromExcel(String nameCatalog) {
         try {
-            driver.findElement(actionsButtonLocator).click();
+            clickElementByItsCssSelector(".btn-actions");
         } catch (Exception e) {
-            driver.findElement(By.cssSelector(".btn-actions")).click();
+            clickElement(actionsButtonLocator);
         }
         uploadingExcelCatalog(nameCatalog);
     }
@@ -999,6 +1011,7 @@ public class MethodsForCatalog extends BaseActions {
     public void expandCatalogCategories(boolean expandFromPopUpWindow) {
         if (!expandFromPopUpWindow) {
             determineThemeColor();
+            implicitWaiting();
             if (themeColorBlack) {
                 tempValue1 = driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][@title='Каталог']")).getText();
                 driver.findElement(By.xpath("//*[contains(@href, '/orders/blank_zakaza/')][@title='Каталог']")).click();
@@ -1041,14 +1054,14 @@ public class MethodsForCatalog extends BaseActions {
         expandCatalogCategories(expandFromPopUpWindow);
         determineThemeColor();
         if (themeColorBlack) {
-            tempRandomNumber = (1 + (int) (Math.random() * (driver.findElements(By.xpath("//*[contains(@class, 'nav-sidebar')]/*[contains(@class, 'nav-item')]/ul[contains(@class, 'nav-group-sub')] /li")).size()) - 1));
+            tempRandomNumber = (1 + (int) (Math.random() * (driver.findElements(By.xpath("//*[contains(@class, 'nav-sidebar')]/*[contains(@class, 'nav-item')]/ul[contains(@class, 'nav-group-sub')] /li")).size()- 2)));
             System.out.print("Номер раздела - " + tempRandomNumber);
             tempValue2 = driver.findElement(By.xpath("(//*[contains(@class, 'nav-sidebar')]/*[contains(@class, 'nav-item')]/ul[contains(@class, 'nav-group-sub')] /li)[" + tempRandomNumber + "]")).getText();
             System.out.println("   Название рандомного раздела - " + tempValue2);
             String backgroundColor = driver.findElement(By.xpath("(//*[contains(@class, 'nav-sidebar')]/*[contains(@class, 'nav-item')]/ul[contains(@class, 'nav-group-sub')] /li)[" + tempRandomNumber + "]"))
                     .getCssValue("background-color");
             Assert.assertTrue(backgroundColor.contains("rgba(0, 0, 0, 0"), "Цвет фона для 'Каталог не соответсвует ожидаемому'");
-            driver.findElement(By.xpath("(//*[contains(@class, 'nav-sidebar')]/*[contains(@class, 'nav-item')]/ul[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]")).click();
+            clickElement("(//*[contains(@class, 'nav-sidebar')]/*[contains(@class, 'nav-item')]/ul[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]");
             wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector(".breadcrumb-item.active"), tempValue2));
             waitingMilliSecond();
 //            tempValue4 = driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')])[last()] /*[@href]")).getAttribute("href");
@@ -1122,8 +1135,9 @@ public class MethodsForCatalog extends BaseActions {
             disclosureOfASubcategories("(//*[contains(@class, 'nav-sidebar')]/*[contains(@class, 'nav-item')]/ul[contains(@class, 'nav-group-sub')] /li)[" + tempRandomNumber + "]");
 //            tempValue4 = driver.findElement(By.xpath("(//*[contains(@class, 'nav-item-open')])[last()] /*[@href]")).getAttribute("href");
 //            tempValue4 = tempValue4.substring(tempValue4.indexOf('=') + 1); ЧПУ
-
-            waitingElementWithText(".nav-item-open > .nav-group-sub > .nav-item-open > .nav-group-sub > .nav-item > .nav-link");
+            implicitWaiting();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".nav-item-open > .nav-group-sub > .nav-item")));
+            //waitingElementWithText(".nav-item-open > .nav-group-sub > .nav-item-open > .nav-group-sub > .nav-item > .nav-link");
             tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)")).size()));
             tempValue3 = driver.findElement(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]")).getText();
 //            if (tempValue3.trim().isEmpty()){
@@ -1137,13 +1151,8 @@ public class MethodsForCatalog extends BaseActions {
 //                tempValue3 = driver.findElement(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]")).getText();
 //            }
             System.out.println("Рандомный подраздел рандомного раздела - " + tempValue3);
-            try {
-                clickElement("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]");
-            } catch (Exception e) {
-                System.out.println("тупая ошибка скрывается каталог, раскрываю его заново");
-                expandCatalogCategories(false);
-                clickElement("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]");
-            }
+            clickElement("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)[" + tempRandomNumber + "]");
+
         } else {
             //expandCatalogCategories(false);
             disclosureOfASubcategories("//*[@class='nav-item dropdown nav-item-dropdown-xl show'] //*[contains(text(), '" + tempValue2 + "')]");
@@ -2581,7 +2590,7 @@ public class MethodsForCatalog extends BaseActions {
         System.out.println("Категория которую буду выбирать - " + wordsForSearch[tempRandomNumber]);
         driver.findElement(By.xpath("//*[@placeholder='Раздел']")).click();
         implicitWaiting();
-        driver.findElement(By.xpath("//*[@class='filter__SectionsSelect'] //*[contains(text(), '" + wordsForSearch[tempRandomNumber] + "')]")).click();
+        clickElement("//*[@class='filter__SectionsSelect'] //*[contains(text(), '" + wordsForSearch[tempRandomNumber] + "')]");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".filter__selected-item")));
         driver.findElement(By.xpath("//*[contains(@class, 'filter')]/*[contains(@class, 'btn_b2b')]")).click();
         implicitWaiting();
@@ -2609,16 +2618,17 @@ public class MethodsForCatalog extends BaseActions {
     public void selectingSectionByPartOfItsName() {
         driver.findElement(By.xpath("//*[@placeholder='Раздел']")).sendKeys("бенз");
         implicitWaiting();
-        //driver.findElement(By.xpath("//*[contains(text(), 'Бензопилы')]")).click();
-        driver.findElement(By.cssSelector(".filter__SectionsSelect")).click();
+        scrollToTheElementByCss(".filter__SectionsSelect");
+        clickElementByItsCssSelector(".filter__SectionsSelect");
     }
 
     public void checkingThatSectionFieldIsEmpty() {
+        scrollToTheElement("//*[@placeholder='Раздел']");
         Assert.assertTrue(driver.findElement(By.xpath("//*[@placeholder='Раздел']")).getAttribute("value").equals(""));
     }
 
     public void applyTheOutputOfThisSection() {
-        driver.findElement(By.xpath("//*[contains(@class, 'filter')]/*[contains(@class, 'btn_b2b')]")).click();
+        clickElement("//*[contains(@class, 'filter')]/*[contains(@class, 'btn_b2b')]");
     }
 
     public void checkingThatThePricesInTheCartForAdditionalProductsIsDisplayedAsForSmallOptGroup() {
@@ -3178,7 +3188,7 @@ public class MethodsForCatalog extends BaseActions {
 
 
     public void expendFilterInCatalog(){
-        if (browserWindowWidth <= 1024){
+        if (browserWindowWidth <= 1100){
             driver.findElement(By.cssSelector(".catalog__filter-toggler")).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".bx_filter")));
         }

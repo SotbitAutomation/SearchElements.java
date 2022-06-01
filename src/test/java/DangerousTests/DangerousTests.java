@@ -5,6 +5,7 @@ import BeforeTest.SettingUpAutotestsForB2BSettings;
 import MyOrdersHistory.MethodsForMyOrders;
 import OrganizationsWithExtendedVersion.MethodsForAddingOrganizationsWithExtendedVersion;
 import SettingUpCabinetForTesting.SettingUpCabinetForTesting;
+import org.testng.ITestResult;
 import org.testng.annotations.Test;
 
 public class DangerousTests extends MethodsForDangerousTests {
@@ -716,6 +717,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         navigationToRegistrationTab();
         checkingThatAllUserDataForIPSelectedInTheAdminPanelIsDisplayedWhenRegisteringTheOrganization();
     }
+
     @Test(retryAnalyzer = Retry.class) //26. Вывод обязательных полей в форме регистрации
     public void v_outputOfRequiredFieldsInTheRegistrationForm() {
         //arrange
@@ -1034,6 +1036,34 @@ public class DangerousTests extends MethodsForDangerousTests {
             unselectGroupsOfOrderPropertiesWhenChangingWhichTheOrganizationGetsToModeration("Контактная информация");
             clickStandardButtonForSaveSettings();
         }
+    }
+
+
+
+
+
+    @Test(retryAnalyzer = Retry.class) //26. Вывод обязательных полей в форме регистрации
+    public void v_outputOfRequiredFieldsInTheRegistrationForm() {
+        //arrange
+        navigationToAuthorizationTab();
+
+        ITestResult result = new ITestResult ();
+
+        Object testClass = result.getInstance();
+
+
+
+        //act
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToTheSiteSettings();
+        selectTapForIP();
+        deselectAllUserDataForRegisteringAnOrganization();
+        selectTheFirstTwoProperties();
+        selectARequiredProperty();
+        navigationToRegistrationTab();
+        checkingThatAllUserDataForIPSelectedInTheAdminPanelIsDisplayedWhenRegisteringTheOrganization();
+        checkingThatTheFieldSelectedInTheAdminPanelAsRequiredIsReallyRequired(); //баг 1.11.2, Алеся оофрмила уже
     }
 
 

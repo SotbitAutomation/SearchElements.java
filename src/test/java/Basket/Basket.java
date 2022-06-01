@@ -121,6 +121,9 @@ public class Basket extends MethodsForCatalog {
     }
     @Test(retryAnalyzer = Retry.class) //9.  Поиск дополнительного товара по названию
     public void searchForAnAdditionalProductByName() {
+        String s1 = "sasa";
+        String w2 = "sasa";
+        System.out.println(s1.equals(w2));
         //arrange
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();

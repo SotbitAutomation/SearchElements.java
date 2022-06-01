@@ -3,7 +3,6 @@ package RegistrationAndAuthorization;
 import BaseActions.BaseActions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.io.*;
@@ -548,7 +547,7 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
 
     public void logInFromAuthorizationTabUseTheSameInn() {
         driver.findElement(registerButtonOnRegistrationTabLocator).click();
-        new WebDriverWait(driver, 10).until(ExpectedConditions.alertIsPresent());
+        wait.until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
         driver.findElement(By.cssSelector(".btn.bg-success")).click();
     }
