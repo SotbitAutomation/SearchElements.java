@@ -12,8 +12,8 @@ import java.io.ObjectOutputStream;
 
 
 public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndAuthorization {
-    @Test //1. Определение типа шапки
-    public void a_determiningTheTypeOfHeader() {
+    @Test(priority=1) //1. Определение типа шапки
+    public void determiningTheTypeOfHeader() {
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeAdmin();
         driver.findElement(logInButtonOnTheAuthorizationTabLocator).click();
@@ -38,8 +38,8 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
         System.out.println("Темная ли версия шапки " + themeColorBlack);
     }
 
-    @Test //2. Создание локаторов для регистарции
-    public void b_creatingLocatorsForRegistration() {
+    @Test (priority=2) //2. Создание локаторов для регистарции
+    public void creatingLocatorsForRegistration() {
         //arrange
         navigationToRegistrationTab();
         //act
@@ -69,8 +69,8 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
         }
     }
 
-    @Test //3. Определяет есть ли поле "Местоположение" при регистарции (что бы быстрее тесты проходили)
-    public void c_determinesWhetherThereIsLocationField() {
+    @Test (priority=3) //3. Определяет есть ли поле "Местоположение" при регистарции (что бы быстрее тесты проходили)
+    public void determinesWhetherThereIsLocationField() {
         navigationToRegistrationTab();
         choiceIP();
         try {
@@ -105,8 +105,8 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
         System.out.println("Есть ли поле 'Местоположение' - " + flagForLocation);
     }
 
-    @Test //4. Определение нужно ли подтверждать регистрацию пользователя и оргнаизации, какая версия работы
-    public void d_determiningOfNeedToConfirmOfRegistrationsAndWorkVersion() {
+    @Test (priority=4) //4. Определение нужно ли подтверждать регистрацию пользователя и оргнаизации, какая версия работы
+    public void determiningOfNeedToConfirmOfRegistrationsAndWorkVersion() {
         //arrange
         MethodsForSettingUpCabinetForTesting set = new MethodsForSettingUpCabinetForTesting();
         navigationToAuthorizationTab();
@@ -169,8 +169,8 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
         System.out.println("Расширенная ли версия работы с компаниями - " + versionsOfWorkingWithOrganizationsExtended);
     }
 
-    @Test //5. Создание пользователей для автотестов
-    public void e_creatingUsersForAutomationTests() {
+    @Test (priority=5) //5. Создание пользователей для автотестов
+    public void creatingUsersForAutomationTests() {
         //arrange
         RegistrationB2B registr = new RegistrationB2B();
         registr.registrationIPWithManualEntryINN();

@@ -1023,7 +1023,7 @@ public class DangerousTests extends MethodsForDangerousTests {
     public void w_returningSettingsBack() {
         a_returningSettingsBack();
         SettingUpAutotestsForB2BSettings set = new SettingUpAutotestsForB2BSettings();
-        set.b_creatingLocatorsForRegistration();
+        set.creatingLocatorsForRegistration();
         determineWhetherVersionsOfWorkingWithOrganization();
         if (versionsOfWorkingWithOrganizationsExtended){
             navigationToAuthorizationTab();
@@ -1037,9 +1037,6 @@ public class DangerousTests extends MethodsForDangerousTests {
         }
     }
 
-    public void deletingByZero(){
-        System.out.println(5/0);
-    }
 
 
 

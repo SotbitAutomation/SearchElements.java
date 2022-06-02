@@ -14,3 +14,5 @@
 /Smoke.xml
 /Critical.xml
 /src/test/java/BaseActions/Retry.java
+/src/test/java/base_actions/CustomizingForYourself.java
+/src/test/java/base_actions/Retry.java
