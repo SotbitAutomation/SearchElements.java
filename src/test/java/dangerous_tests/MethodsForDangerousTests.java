@@ -272,7 +272,7 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).sendKeys("0");
         tempValue3 = driver.findElement(By.xpath("(//*[@class='item-quantity__general'])[" + count + "]")).getText();
         Assert.assertTrue((Integer.parseInt(tempValue) + Integer.parseInt(tempValue1)) == Integer.parseInt(tempValue3));
-        action.moveToElement(driver.findElement(By.xpath("(//*[@class='item-quantity__general'])[" + count + "]")));
+        action.moveToElement(driver.findElement(By.xpath("(//*[@class='item-quantity__general'])[" + count + "]/*")));
         action.perform();
         Assert.assertTrue(driver.findElements(By.xpath("//*[@class='item-quantity__store-name'][contains(text(), 'TEST')]")).size() > 0, "Не отображается склад с названием 'TEST'");
         System.out.println("Отображаемое кол-во товаров на складе №1   " + driver.findElement(By.xpath("(//*[@class='item-quantity__store-quantity'])[1]")).getText());
@@ -337,7 +337,7 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
 
     public void addingSecondStorageIfItNeed() {
         driver.findElement(By.cssSelector("#global_menu_store")).click();
-        driver.findElement(By.xpath("//*[@class = 'adm-submenu-item-name-link-text'][contains(text(), 'Складской учет')]")).click();
+        driver.findElement(By.xpath("//*[@class = 'adm-submenu-item-name-link-text'][contains(text(), 'Складской уч')]")).click();
         if (driver.findElements(By.xpath("//*[@class='main-grid-row main-grid-row-body']")).size() < 2) {
             driver.findElement(By.cssSelector(".ui-btn-primary")).click();
             driver.findElement(By.xpath("//*[@name='TITLE']")).sendKeys("TEST");
@@ -353,6 +353,8 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
             }
         }
         clickElement(buttonToSaveTheComponentSettingsForTheCatalog);
+        hideAdminPanel();
+        turnOffEditMode();
         //driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
     }
 
@@ -364,7 +366,7 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
     }
 
     public void checkingTheNumberOfOutputSections(int iExpectLessThan, int iExpectMoreThan) {
-        Assert.assertTrue(driver.findElements(By.cssSelector(".card")).size() < iExpectLessThan && driver.findElements(By.cssSelector(".card")).size() > iExpectMoreThan);
+        Assert.assertTrue(driver.findElements(By.cssSelector(".section-item")).size() < iExpectLessThan && driver.findElements(By.cssSelector(".section-item")).size() > iExpectMoreThan);
     }
 
     public void navigationToPageInAdminPartWithMeanCatalog() {
@@ -373,8 +375,11 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         driver.findElement(By.xpath("//*[@class='adm-submenu-item-name-link-text'][text()='Каталог товаров']")).click();
     }
 
-    public void openFirsSectionInMeanCatalog() {
-        driver.findElement(By.cssSelector(".main-grid-cell-content > .main-grid-row-action-button")).click();
+    public void openLastSectionInMeanCatalog() {
+        if (driver.findElements(By.cssSelector(".main-grid-control-sort.main-grid-control-sort-asc")).size() == 0){
+            driver.findElement(By.xpath("//*[@class='main-grid-head-title'][text()='ID']")).click();
+        }
+        driver.findElement(By.xpath("(//*[@class='main-grid-cell-content'] /*[@class='main-grid-row-action-button'])[last()]")).click();
         driver.findElement(By.cssSelector(".menu-popup-item-text")).click();
     }
 
@@ -408,7 +413,7 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
     }
 
     public void addingImageIfImageIsNotAdded() {
-        openFirsSectionInMeanCatalog();
+        openLastSectionInMeanCatalog();
         if (driver.findElements(By.cssSelector(".adm-btn-del")).size() == 0) {
             driver.findElement(By.xpath("(//input[@type='file'])[1]")).sendKeys(filePath);
             implicitWaiting();
@@ -442,6 +447,16 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
     public void setTypeOfPriceForUnauthorizedUsers(String priceType){
         navigationToBasicB2BSettings();
         choiceTypeOfPriceForUnauthorizedUser(priceType);
+        driver.findElement(buttonSaveLocator).click();
+    }
+    public void configureRegistrationFieldsForIP(){
+        navigationToAuthorizationTab();
+        fillingFieldsOnTheLogInTabLikeAdmin();
+        logInToB2B();
+        navigationToTheSiteSettings();
+        selectTapForIP();
+        deselectAllUserDataForRegisteringAnOrganization();
+        driver.findElement(By.xpath("//*[contains(text(), 'Индивидуальный предприниматель')][@class = 'adm-detail-title']/following::*[1] //*[contains(@id, 'GROUP_FIELDS')] /*[@value='EMAIL']")).click();
         driver.findElement(buttonSaveLocator).click();
     }
 

@@ -148,7 +148,7 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         checkingPriceOfLastedOrder();
     }
     @Test (retryAnalyzer = Retry.class)//6 Смена способа оплаты совершенного заказа
-    public void ChangingPaymentMethodForCompletedOrder() {
+    public void changingPaymentMethodForCompletedOrder() {
         //arrange
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();

@@ -1,4 +1,4 @@
-package dangerous_tests.MultiRegions;
+package dangerous_tests.multi_regions;
 
 import dangerous_tests.MethodsForDangerousTests;
 import making_orders.MethodsForMakingOrders;

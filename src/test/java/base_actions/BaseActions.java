@@ -194,9 +194,7 @@ public class BaseActions extends CustomizingForYourself {
             } catch (Exception e3) {
                 System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Доступ закрыт, или не вышел из кабинета потом оптимизирую для быстрой работы");
                 exitFromB2B();
-                if (driver.findElements(By.xpath("//*[@href='/auth/']")).size() > 0) {
-                    clickEnter();
-                }
+                clickEnter();
                 Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
             }
         }
@@ -204,7 +202,7 @@ public class BaseActions extends CustomizingForYourself {
     }
 
     public void clickEnter() {
-        driver.findElement(By.xpath("//*[@href='/auth/']")).click();
+        driver.findElement(By.xpath("//span[contains(text(),'Войти')]")).click();
     }
 
     public void navigationToTheSetting() {
@@ -464,10 +462,19 @@ public class BaseActions extends CustomizingForYourself {
         } else {
             clickElement("//*[@title='Тапочки']");
         }
-
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".catalog")));
         Assert.assertTrue(driver.findElement(By.cssSelector(".catalog")).isDisplayed());
         openingAllOffers();
+        // Удалить, из-за бага положил это сюда
+        hideTheMenuWhileTheBag();
+    }
+    public void hideTheMenuWhileTheBag(){
+        if (driver.findElements(By.xpath("//*[@class='nav-item nav-item-submenu nav-item-open']")).size()>0){
+            if (driver.findElement(By.xpath("//*[@class='nav-item nav-item-submenu nav-item-open']")).isDisplayed()){
+                clickOnTheRightSideOfTheElement(By.xpath("(//*[@class='nav-item nav-item-submenu nav-item-open'])[last()]/*"));
+                driver.findElement(By.xpath("//*[@class='nav-item nav-item-submenu nav-item-open']/*")).click();
+            }
+        }
     }
 
     public void navigationToTheRootPageOfTheCatalog() {
@@ -517,14 +524,19 @@ public class BaseActions extends CustomizingForYourself {
     }
 
     public void navigationToCart() {
-        int quantityPopApWindowsThatItemWasAddedToCart = driver.findElements(By.xpath("//i[@class='icon-cross']")).size();
-        for (int i = 1; i <= quantityPopApWindowsThatItemWasAddedToCart; i++) {
-            try {
-                driver.findElement(By.xpath("//i[@class='icon-cross']")).click();
-            } catch (Exception e) {
-                System.out.println("Всплывашка что товар добавлен в корзину пропала сама");
+        try {
+            driver.findElement(cartIconLocator).click();
+        }catch (Exception e){
+            int quantityPopApWindowsThatItemWasAddedToCart = driver.findElements(By.xpath("//i[@class='icon-cross']")).size();
+            for (int i = 1; i <= quantityPopApWindowsThatItemWasAddedToCart; i++) {
+                try {
+                    driver.findElement(By.xpath("//i[@class='icon-cross']")).click();
+                } catch (Exception e2) {
+                    System.out.println("Всплывашка что товар добавлен в корзину пропала сама");
+                }
             }
         }
+
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@class, 'icon-cart')]")));
         driver.findElement(By.xpath("//*[contains(@class, 'icon-cart')]")).click();
         Assert.assertTrue(driver.findElement(By.cssSelector(".basket-page")).isDisplayed());
@@ -1026,7 +1038,7 @@ public class BaseActions extends CustomizingForYourself {
         System.out.println("Есть ли выбор местоположения - " + flagForLocation);
     }
 
-    public void expandTheControlPanel() {
+    public void expandTheAdminPanel() {
         if (!driver.findElement(By.cssSelector("#bx-panel-hider-arrow")).isDisplayed()) {
             driver.findElement(By.cssSelector("#bx-panel-expander-arrow")).click();
         }

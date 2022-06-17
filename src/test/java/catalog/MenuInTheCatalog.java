@@ -23,7 +23,7 @@ public class MenuInTheCatalog extends MethodsForCatalog {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         choiceRandomCategoryInMenuCatalog(false);
-        expandCatalogCategories(false);
+        //expandCatalogCategories(false);
         choiceRandomUnderCategoryOfTheSelectedCategory();
         checkingThatBreadCrumbHaveSelectedCategories();
         checkingThatAllProductsHaveASimilarIdToTheSectionId();
@@ -41,9 +41,7 @@ public class MenuInTheCatalog extends MethodsForCatalog {
             hideTheMenu();
             driver.findElement(iconCatalogLocator).click();
             hoveringTheCursorOverTheElement(iconCatalogLocator);
-            //choiceRandomCategoryInPopUpMenuCatalog();
             choiceRandomCategoryInMenuCatalog(true);
-            //checkingThatAllProductsHaveASimilarIdToTheSectionId();
             hoveringTheCursorOverTheElement(iconCatalogLocator);
             choiceRandomUnderCategoryOfTheSelectedCategory();
             checkingThatBreadCrumbHaveSelectedCategories();
@@ -105,7 +103,7 @@ public class MenuInTheCatalog extends MethodsForCatalog {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         choiceRandomCategoryInMenuCatalog(false);
-        expandCatalogCategories(false);
+        //expandCatalogCategories(false);
         choiceRandomUnderCategoryOfTheSelectedCategory();
         determineMaxPriceForFilteringAThousandLessThanThePriceOfTheMostExpensiveProductInThisSection();
         enteringTheMaxPriceIntoTheFilter();
@@ -119,7 +117,7 @@ public class MenuInTheCatalog extends MethodsForCatalog {
         fillingFieldsOnTheLogInTabLikeUser();
         logInToB2B();
         choiceRandomCategoryInMenuCatalog(false);
-        expandCatalogCategories(false);
+        //expandCatalogCategories(false);
         choiceRandomUnderCategoryOfTheSelectedCategory();
         determineMinPriceForFilteringAThousandMoreThanThePriceOfTheMostCheapProductInThisSection(); //возможно падает из-за того что в выбранном разделе нет товаров в наличии
         enteringTheMinPriceIntoTheFilter();
@@ -134,7 +132,7 @@ public class MenuInTheCatalog extends MethodsForCatalog {
         logInToB2B();
         navigationToCatalogTab();
         choiceRandomCategoryInMenuCatalog(false);
-        expandCatalogCategories(false);
+        //expandCatalogCategories(false);
         choiceRandomUnderCategoryOfTheSelectedCategory();
         checkingThatQuantityOfPropertiesIsHadDecreased();
     }
@@ -160,7 +158,7 @@ public class MenuInTheCatalog extends MethodsForCatalog {
         logInToB2B();
         navigationToCatalogTab();
         choiceRandomCategoryInMenuCatalog(false);
-        expandCatalogCategories(false);
+        //expandCatalogCategories(false);
         choiceRandomUnderCategoryOfTheSelectedCategory();
         rememberQuantityProductsOnThisPage();
         applyTheFirstProperty();

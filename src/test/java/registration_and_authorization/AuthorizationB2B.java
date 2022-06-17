@@ -111,7 +111,6 @@ public class AuthorizationB2B extends MethodsForRegistrationAndAuthorization {
             fillingFieldsOnTheRegistrationTab(arrayWithExistingLocatorsForIP);
             tryConfirmRegistration();
             entranceToB2BFromRegistrationTab();
-            exitFromB2B();
             //act
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTab();

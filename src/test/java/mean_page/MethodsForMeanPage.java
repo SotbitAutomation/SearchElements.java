@@ -2,12 +2,13 @@ package mean_page;
 
 import base_actions.BaseActions;
 import making_orders.MethodsForMakingOrders;
-import organizations_with_extended_version.MethodsForAddingOrganizationsWithExtendedVersion;
-import registration_and_authorization.RegistrationB2B;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import organizations_with_extended_version.MethodsForAddingOrganizationsWithExtendedVersion;
+import registration_and_authorization.RegistrationB2B;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -522,11 +523,11 @@ public class MethodsForMeanPage extends BaseActions {
         driver.findElement(By.xpath("//*[@class='form-control sale-acountpay-input']")).sendKeys("1000");
         waitingMilliSecond();
         driver.findElement(By.cssSelector(".send_invoices")).click();
-        tempValue = driver.findElement(By.xpath("(//*[contains(@class, 'widget-private_invoices_content')]/p)[1] /b")).getText().replaceAll("[^\\d.]", "");
+        tempValue = driver.findElement(By.xpath("(//*[contains(@class, 'widget-private_invoices_content')]//p)[1] /b")).getText().replaceAll("[^\\d.]", "");
     }
 
     public void checkingThatThePersonalAccountReplenishmentRequestHasBeenCreated() {
-        Assert.assertTrue(driver.findElement(By.xpath("//*[@class='widget_content widget-private_invoices_content'] /p[contains(text(), 'Номер вашей оплаты')]")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@class='widget_content widget-private_invoices_content'] //p[contains(text(), 'Номер вашей оплаты')]")).isDisplayed());
     }
 
     public void checkingThatTheUserHasBeenAddedMoneyToHisPersonalAccountInWidget() {
@@ -556,8 +557,14 @@ public class MethodsForMeanPage extends BaseActions {
     public void deletingAllWidget (){
         tempRandomNumber = driver.findElements(By.xpath("//*[@data-action='remove']")).size();
         for (int i = 1; i <= tempRandomNumber; i++) {
-            driver.findElement(By.xpath("//*[@data-action='remove']")).click();
-            implicitWaiting();
+            try {
+                driver.findElement(By.xpath("//*[@data-action='remove']")).click();
+                implicitWaiting();
+            }catch (Exception e){
+                driver.manage().window().maximize();
+                driver.findElement(By.xpath("//*[@data-action='remove']")).click();
+                driver.manage().window().setSize(new Dimension(1057, 900)); //заколхозил из-за бага с виджетом "Организации"
+            }
         }
     }
     public void addingAllWidget(){

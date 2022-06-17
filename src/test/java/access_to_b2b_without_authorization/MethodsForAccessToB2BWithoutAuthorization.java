@@ -83,7 +83,7 @@ public class MethodsForAccessToB2BWithoutAuthorization extends BaseActions {
     }
     public void checkingThatThereIsAStub(){
         Assert.assertTrue(driver.findElement(By.xpath("//img[contains(@src, 'error')]")).isDisplayed());
-        Assert.assertTrue(driver.findElements(By.xpath("//*[contains(@href, 'auth')]")).size() ==2);
+        Assert.assertTrue(driver.findElements(By.xpath("//a[contains(@href, 'auth')]")).size() ==2);
         driver.findElement(By.cssSelector(".icon-enter")).click();
         Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
     }

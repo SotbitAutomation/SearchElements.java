@@ -1,4 +1,4 @@
-package dangerous_tests.MultiRegions;
+package dangerous_tests.multi_regions;
 
 import base_actions.Retry;
 import org.testng.annotations.Test;
@@ -118,10 +118,9 @@ public class MultiRegions extends MethodsForMultiRegions {
             choiceRandomCityFromSearchHint("Москва");
             navigationToRegionSetting();
             turnOffWorkingWithLocations();
-            returningSettingsBackIfCatalogBroken();
+            //returningSettingsBackIfCatalogBroken();
             deletingProductsFromTheCart();
             navigationToCatalogTab();
-            turnOnEditMode();
             navigationToComponentOfCatalogSetting();
             configureTheOutputOfAllStoragesToTheCatalog();
             showTheQuantityOfProductsInStorageIfItIsNotShowed();

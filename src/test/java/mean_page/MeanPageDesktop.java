@@ -26,7 +26,6 @@ public class MeanPageDesktop extends MethodsForMeanPage {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         navigationToTheDesktop();
-
     }
 
     @Test (retryAnalyzer = Retry.class)//2. Редактирование расположения виджетов у админа

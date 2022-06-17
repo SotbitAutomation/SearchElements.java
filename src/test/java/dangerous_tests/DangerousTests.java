@@ -336,7 +336,6 @@ public class DangerousTests extends MethodsForDangerousTests {
         logInToB2B();
         returningSettingsBackIfCatalogBroken();
         deletingProductsFromTheCart();
-        turnOnEditMode();
         navigationToCatalogTab();
         choiceCatalogWithOnlyOffers();
         navigationToMeanPageByUrl();
@@ -436,17 +435,13 @@ public class DangerousTests extends MethodsForDangerousTests {
         logInToB2B();
         returningSettingsBackIfCatalogBroken();
         deletingProductsFromTheCart();
-        turnOnEditMode();
         navigationToCatalogTab();
         choiceCatalogWithOnlyOffers();
-        navigationToMeanPageByUrl();
-        turnOffEditMode();
         navigationToCatalogTab();
         changeTheQuantityOfRandomProduct();
         checkingThatThePriceOfTheAddedProductHasBeenCalculated();
         navigationToCart();
         //act
-        turnOffEditMode();
         addingMaxQuantityOfProductInTheCartUsingPlusIconOneMoreThanAvailable(quantityFieldOfRandomTPLocator, iconPlusOfRandomTPLocator, quantityOfProductsInStock);
         checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfRandomTPLocator, quantityOfProductsInStock);
         attemptToSelectNegativeQuantityOfProductsInTheCartUsingMinusIcon(quantityFieldOfRandomTPLocator, iconMinusOfRandomTPLocator);
@@ -468,7 +463,6 @@ public class DangerousTests extends MethodsForDangerousTests {
         fillingFieldsOnTheLogInTabLikeAdmin();
         logInToB2B();
         deletingProductsFromTheCart();
-        turnOnEditMode();
         navigationToCatalogTab();
         choiceCatalogWithOnlyOffers();
         navigationToMeanPageByUrl();
@@ -476,7 +470,6 @@ public class DangerousTests extends MethodsForDangerousTests {
         configureTheFirstTwoTP("N");
         addingFirstTwoTPToTheCart();
         //act
-        turnOffEditMode();
         addingMaxQuantityOfProductInTheCartUsingPlusIconOneMoreThanAvailable(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, iconPlusOfTPWithQuantitativeAccountingDisabledLocator, quantityOfSecondProductsInStock);
         checkingThatQuantityOfThisProductIsOneMoreThanAvailable(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, quantityOfSecondProductsInStock);
         attemptToSelectNegativeQuantityOfProductsInTheCartUsingMinusIcon(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, iconMinusOfTPWithQuantitativeAccountingDisabledLocator);
@@ -494,12 +487,10 @@ public class DangerousTests extends MethodsForDangerousTests {
         addingMaxQuantityOfProductInTheCartUsingInputField(quantityFieldOfTPWithAFractionalCoefficientLocator, quantityOfProductsInStock);
         checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfTPWithAFractionalCoefficientLocator, quantityOfProductsInStock);
         checkingThatTotalPriceOfTheseProductsAreCalculatedRight(priceForFirstProductInCart, priceForSecondProductInCart);
-        turnOnEditMode();
         navigationToCatalogTab();
         configureTheFirstTwoTP("D");
         navigationToCatalogTab();
         choiceStandardCatalog();
-        turnOffEditMode();
     }
 
     @Test(retryAnalyzer = Retry.class)
@@ -602,7 +593,6 @@ public class DangerousTests extends MethodsForDangerousTests {
         logInToB2B();
         returningSettingsBackIfCatalogBroken();
         deletingProductsFromTheCart();
-        turnOnEditMode();
         navigationToCatalogTab();
         choiceCatalogWithOnlyOffers();
         navigationToMeanPageByUrl();
@@ -753,6 +743,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         //checkingThatURLContainsChosenCategory(); уже ЧПУ
         checkingThatAllProductsHaveSimilarIdToTheSectionId();
     }
+
     @Test(retryAnalyzer = Retry.class) //28. Вывод разделов в поисковой подсказке по целому названию
     public void outputOfSectionsInTheSearchHintByWholeOfTheWord() {
         //arrange
@@ -770,9 +761,8 @@ public class DangerousTests extends MethodsForDangerousTests {
         enterNameInTheSearchFieldOnTheCatalogTab(tempString);
         choiceCategoryFromPopApWindow();
         checkingThatBreadCrumbsContainTheNameOfTheSection();
-        //checkingThatURLContainsChosenCategory(); ЧПУ добавили
-        //checkingThatAllProductsHaveSimilarIdToTheSectionId();
     }
+
     @Test(retryAnalyzer = Retry.class)
     //29. Вывод минимальной цены в поисковой подсказке
     public void outputOfTheMinimumPriceInTheSearchHint() {
@@ -802,7 +792,6 @@ public class DangerousTests extends MethodsForDangerousTests {
         logInToB2B();
         returningSettingsBackIfCatalogBroken();
         deletingProductsFromTheCart();
-        turnOnEditMode();
         navigationToCatalogTab();
         choiceCatalogWithOnlyOffers();
         navigationToMeanPageByUrl();
@@ -826,6 +815,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         navigationToSettingOfQuantitativeAccountingForTheProduct();
         turnOffStoreAccounting();
         turnOffQuantitativeAccountingForTheProductsInCatalog();
+        allowAddingProductsThatAreNotInStock();
         navigationToGasStoveSetting();
         setTheNumberOfGasStoveGefestEqualToZero();
         navigationToMeanPageByUrl();
@@ -860,7 +850,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         openDetailPageOfRandomProduct(count);
         checkingThatThereArePricesWithAndWithoutDiscount();
     }
-// была ошибка, ща норм
+
     @Test(retryAnalyzer = Retry.class)
     //33. Добавление доп. товара которого нет в наличии в корзину (кол-ый учет у каталога - выкл)
     public void addingAnAdditionalItemToTheCartWithAnAvailableQuantityOfZeroAndTheNumberOfCatalogAccountsIsOff() {
@@ -873,6 +863,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         navigationToSettingOfQuantitativeAccountingForTheProduct();
         turnOffStoreAccounting();
         turnOffQuantitativeAccountingForTheProductsInCatalog();
+        allowAddingProductsThatAreNotInStock();
         navigationToGasStoveSetting();
         setTheNumberOfGasStoveGefestEqualToZero();
         navigationToMeanPageByUrl();
@@ -959,7 +950,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         logInToB2B();
         navigationToAdminPartFromMeanPage();
         navigationToPageInAdminPartWithMeanCatalog();
-        openFirsSectionInMeanCatalog();
+        openLastSectionInMeanCatalog();
         rememberDefaultNameOfSection();
         deletingExistedItemImage();
         changeSectionName("testChangeNameSection");
@@ -971,7 +962,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         checkingThatThereAreNewNameOfSection();
         navigationToAdminPartFromMeanPage();
         navigationToPageInAdminPartWithMeanCatalog();
-        openFirsSectionInMeanCatalog();
+        openLastSectionInMeanCatalog();
         deletingExistedItemImage();
         changeSectionName(defaultNameSection);
         addingImageToItem("palms.jpg");
@@ -1022,6 +1013,7 @@ public class DangerousTests extends MethodsForDangerousTests {
     @Test(retryAnalyzer = Retry.class) // Тест №0  + создает заново локаторы для регистрации, + настраивает поля которые должны отправляться на модерацию после изменения
     public void w_returningSettingsBack() {
         a_returningSettingsBack();
+        configureRegistrationFieldsForIP();
         SettingUpAutotestsForB2BSettings set = new SettingUpAutotestsForB2BSettings();
         set.creatingLocatorsForRegistration();
         determineWhetherVersionsOfWorkingWithOrganization();
@@ -1048,20 +1040,6 @@ public class DangerousTests extends MethodsForDangerousTests {
 
 
 
-//    @Test(retryAnalyzer = Retry.class)
-//    //1. asd
-//    public void asd1() {
-//        for (int i = 0; i < 10; i++) {
-//        driver.navigate().to("http://sotbitru.sotbit.com/");
-//        driver.findElement(By.cssSelector("#new_gift")).click();
-//        String randomEmail = "test_EMail" + randomString(12) + "@qa.team";
-//        System.out.println(i + "  - " + randomEmail);
-//        driver.findElement(By.cssSelector("#subscribe-email")).sendKeys(randomEmail);
-//        driver.findElement(By.cssSelector(".subscribe-form__btn")).click();
-//        driver.quit();
-//        driver = new ChromeDriver();
-//        }
-//    }
 
 
 

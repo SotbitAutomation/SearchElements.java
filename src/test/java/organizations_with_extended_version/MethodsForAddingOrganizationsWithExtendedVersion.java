@@ -439,7 +439,8 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
             Assert.assertEquals(nameCompany, driver.findElement(By.cssSelector(".auth-company-change__current")).getText());
         }else{
             navigationToOrganizationTab();
-            Assert.assertEquals(nameCompany, driver.findElement(expandListOfOrganizationsInTheWhiteVersionLocator).getText());
+            By nameCompanyOnTheOrganizationTabLocator = By.cssSelector(".company-choose-dropdown");
+            Assert.assertEquals(nameCompany, driver.findElement(nameCompanyOnTheOrganizationTabLocator).getText());
         }
     }
 
@@ -678,7 +679,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
             driver.findElement(By.xpath("//*[@name='show-all-users']")).click();
             implicitWaiting();
         }
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".main-grid-panel-total")));
+        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".main-grid-panel-total")));
         Assert.assertTrue(driver.findElements(By.xpath("//*[@class='main-grid-row main-grid-row-body']")).size() == 0);
         driver.findElement(checkboxShowEmployeesOfAllOrganizations).click();
         Assert.assertTrue(driver.findElements(By.xpath("//*[@class='main-grid-row main-grid-row-body']")).size() > 4);
@@ -1033,20 +1034,30 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
     }
 
     public void rememberingActivePropertiesForLegalPerson() {
+        driver.findElement(By.xpath("//*[@name='filter_person_type_id']")).click();
+        driver.findElement(By.xpath("//*[@name='filter_person_type_id']//option[contains(text(), 'ридическое лицо')]")).click();
+        driver.findElement(By.xpath("//*[@title='Найти']")).click();
+        wait.until(ExpectedConditions.numberOfElementsToBeLessThan(By.cssSelector(".adm-list-table-row"), 20));
         count = 0;
         for (int i = 1; i <= driver.findElements(By.xpath("//td[contains(text(), 'ридическое лицо')]")).size(); i++) {
             if (driver.findElement(By.xpath("(//td[contains(text(), 'ридическое лицо')])[" + i + "] /following::*[3]")).getText().equals("Да")
-                    && driver.findElement(By.xpath("(//td[contains(text(), 'ридическое лицо')])[" + i + "] /following::*[9]")).getText().equals("Да")) {
+                    //&& driver.findElement(By.xpath("(//td[contains(text(), 'ридическое лицо')])[" + i + "] /following::*[9]")).getText().equals("Да")
+            ) {
                 count++;
             }
         }
     }
 
     public void rememberingActivePropertiesForIndividualBusinessman() {
+        driver.findElement(By.xpath("//*[@name='filter_person_type_id']")).click();
+        driver.findElement(By.xpath("//*[@name='filter_person_type_id']//option[contains(text(), 'ндивидуальный предприниматель')]")).click();
+        driver.findElement(By.xpath("//*[@title='Найти']")).click();
+        wait.until(ExpectedConditions.numberOfElementsToBeLessThan(By.cssSelector(".adm-list-table-row"), 20));
         countIP = 0;
         for (int i = 1; i <= driver.findElements(By.xpath("//td[contains(text(), 'ндивидуальный предприниматель')]")).size(); i++) {
             if (driver.findElement(By.xpath("(//td[contains(text(), 'ндивидуальный предприниматель')])[" + i + "] /following::*[3]")).getText().equals("Да")
-                    && driver.findElement(By.xpath("(//td[contains(text(), 'ндивидуальный предприниматель')])[" + i + "] /following::*[9]")).getText().equals("Да")) {
+                   // && driver.findElement(By.xpath("(//td[contains(text(), 'ндивидуальный предприниматель')])[" + i + "] /following::*[9]")).getText().equals("Да")
+            ) {
                 countIP++;
             }
         }
@@ -1055,12 +1066,18 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
     public void checkingThatAllFieldsForLegalPersonIsOutPut() {
         selectionFromDropDownListLegalPerson();
         implicitWaiting();
-        Assert.assertTrue(driver.findElements(By.xpath("//*[@class='form-control']")).size() == count);
+        int quantityFieldsForData = driver.findElements(By.xpath("//*[@class='form-control']")).size()
+                + driver.findElements(By.cssSelector(".dropdown-block.form-control")).size();
+        System.out.println(quantityFieldsForData);
+        System.out.println(count);
+        Assert.assertTrue( quantityFieldsForData == count);
     }
 
     public void checkingThatAllFieldsForIndividualBusinessman() {
         selectionFromDropDownListIndividualBusinessman();
-        Assert.assertTrue(driver.findElements(By.xpath("//*[@class='form-control']")).size() == countIP);
+        int quantityFieldsForData = driver.findElements(By.xpath("//*[@class='form-control']")).size()
+                + driver.findElements(By.cssSelector(".dropdown-block.form-control")).size();
+        Assert.assertTrue(quantityFieldsForData == countIP);
     }
 
     public void enteringINNUsingListOfCompanies() {

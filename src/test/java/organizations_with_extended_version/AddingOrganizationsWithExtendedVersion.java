@@ -383,14 +383,14 @@ public class AddingOrganizationsWithExtendedVersion extends MethodsForAddingOrga
             //arrange
             navigationToPersonsTab();
             try {   //Если у пользователя еще нет организации то создать ему организацию
-                driver.findElement(By.xpath("//*[contains(text(), 'Добавить нового сотрудника')]")).click();
+                clickOnTheRightSideOfTheElement(By.xpath("//*[contains(text(), 'Добавить нового сотрудника')]"));
             } catch (Exception e) {
                 addingAnEmployeeToAnOrganization();
                 navigationToAuthorizationTab();
                 fillingFieldsOnTheLogInTabLikeUser();
                 logInToB2B();
                 navigationToPersonsTab();
-                driver.findElement(By.xpath("//*[contains(text(), 'Добавить нового сотрудника')]")).click();
+                clickOnTheRightSideOfTheElement(By.xpath("//*[contains(text(), 'Добавить нового сотрудника')]"));
             }
             registrationNewUserUsingReferralLink();
             checkingSuccessfulRegistrationMessage();

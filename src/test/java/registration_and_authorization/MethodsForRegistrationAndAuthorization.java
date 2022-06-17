@@ -330,20 +330,6 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
         Assert.assertTrue(driver.findElement(windowOfRegisterLocator).isDisplayed(), "Окно авторизации не открылось");
     }
 
-//    public void changeINNonTheSame() {
-//        driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='ИНН']")).clear();
-//        driver.findElement(By.cssSelector(".js_person_type_block:not([style='display: none;']) [placeholder='ИНН']")).sendKeys(iNN);
-//    }
-
-//    public int getCountsOfDigits(long number) {
-//        int count = (number == 0) ? 1 : 0;
-//        while (number != 0) {
-//            count++;
-//            number /= 10;
-//        }
-//        return count;
-//    }
-
     public void enterTheSameINN() {
         driver.findElement(inputINNLocator).clear();
         enterNumberByDigit(theSameInnManual, inputINNLocator);
@@ -487,11 +473,6 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
         Assert.assertEquals( password, driver.findElement(passwordInputInAuthorizationTanLocator).getAttribute("value"), "Пароль не отображается");
     }
 
-//    public void logInFromAuthorizationTab() {
-//        driver.findElement(loginButtonLocator).click();
-//        Assert.assertTrue(driver.findElement(By.cssSelector(".navbar")).isDisplayed());
-//    }
-
     public void logInFromAuthorizationTabWithRejectedStatus() {
         driver.findElement(loginButtonLocator).click();
         Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
@@ -580,11 +561,6 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
         }
     }
 
-    public void changeToTheEmployeeSEmailOnAuthorizationTab() {
-        driver.findElement(By.name("USER_LOGIN")).clear();
-        driver.findElement(By.name("USER_LOGIN")).sendKeys("differentEmail" + email);
-    }
-
     public void chekThatTheOrganizationIsDisplayedByTheEmployee() {
         Assert.assertTrue(driver.findElement(By.cssSelector(".staff-list__companies-list")).isDisplayed());
         try {
@@ -599,7 +575,6 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
         arrayWithExistingLocatorsForIP = new String[driver.findElements(By.xpath("//*[@class='form-control'][not(ancestor-or-self::*[@style = 'display: none;'])]")).size() * 2];
         for (int i = 0; i < driver.findElements(By.xpath("//*[@class='form-control'][not(ancestor-or-self::*[@style = 'display: none;'])]")).size(); i++) {
             for (int j = 0; j < arrayWithAllPossibleLocators.length; j = j + 2) {
-
                 if (driver.findElement(By.xpath("(//*[@class='form-control'][not(ancestor-or-self::*[@style = 'display: none;'])])[" + (i + 1) + "]/preceding::label[1]"))
                         .getText().replaceAll("[*,:]", "").trim().equals(arrayWithAllPossibleLocators[j])) {
                     arrayWithExistingLocatorsForIP[counterOfExistingLocators] = arrayWithAllPossibleLocators[j];
@@ -611,7 +586,6 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
                     counterOfExistingLocators = counterOfExistingLocators + 2;
                     break;
                 }
-
             }
         }
         arrayWithExistingLocatorsForIP = Arrays.stream(arrayWithExistingLocatorsForIP)
@@ -831,7 +805,7 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(),'Ожидайте подтверждение модератором.')]")).isDisplayed());
         navigationToMeanPageByUrl();
         //Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
-        Assert.assertTrue(driver.findElement(By.xpath("//*[@href='/auth/']")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Войти']")).isDisplayed());
     }
 
 
