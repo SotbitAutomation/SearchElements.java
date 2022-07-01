@@ -47,11 +47,11 @@ public class MethodsForMultiRegions extends MethodsForDangerousTests {
     }
     public void clickOnTheMultiRegion(){
         try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@data-entity='select-city']")));
-            driver.findElement(By.xpath("//*[@data-entity='select-city']")).click();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@data-entity='select-city__block__text-city']")));
+            driver.findElement(By.xpath("//*[@data-entity='select-city__block__text-city']")).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='modal-title'][text()='Выбор города']")));
         }catch (Exception e){
-            driver.findElement(By.xpath("//*[@data-entity='select-city']")).click();
+            driver.findElement(By.xpath("//*[@data-entity='select-city__block__text-city']")).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='modal-title'][text()='Выбор города']")));
         }
     }

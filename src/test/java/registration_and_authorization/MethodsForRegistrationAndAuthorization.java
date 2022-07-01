@@ -702,7 +702,7 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
     public void writingArrayWithLocatorsForIPOnComputer() {
         //Запись в файл
         try {
-            outputStream = new ObjectOutputStream(new FileOutputStream(fileNameForIP));
+            outputStream = new ObjectOutputStream(new FileOutputStream("currentSettingsB2B\\" + fileNameForIP));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -715,7 +715,7 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
 
     public void readBackLocatorsForIP() {
         try {
-            inputStream = new ObjectInputStream(new FileInputStream(fileNameForIP));
+            inputStream = new ObjectInputStream(new FileInputStream("currentSettingsB2B\\" + fileNameForIP));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -731,7 +731,7 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
     public void writingArrayWithLocatorsForLegalPersonOnComputer() {
         //Запись в файл
         try {
-            outputStream = new ObjectOutputStream(new FileOutputStream(fileNameForLegalPerson));
+            outputStream = new ObjectOutputStream(new FileOutputStream("currentSettingsB2B\\" + fileNameForLegalPerson));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -745,7 +745,7 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
     public void writingArrayWithLocatorsForPersonOnComputer() {
         //Запись в файл
         try {
-            outputStream = new ObjectOutputStream(new FileOutputStream(fileNameForPerson));
+            outputStream = new ObjectOutputStream(new FileOutputStream("currentSettingsB2B\\" + fileNameForPerson));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -758,7 +758,7 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
 
     public void readBackLocatorsForLegalPerson() {
         try {
-            inputStream = new ObjectInputStream(new FileInputStream(fileNameForLegalPerson));
+            inputStream = new ObjectInputStream(new FileInputStream("currentSettingsB2B\\" + fileNameForLegalPerson));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -773,7 +773,7 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
 
     public void readBackLocatorsForPerson() {
         try {
-            inputStream = new ObjectInputStream(new FileInputStream(fileNameForPerson));
+            inputStream = new ObjectInputStream(new FileInputStream("currentSettingsB2B\\" + fileNameForPerson));
         } catch (IOException e) {
             e.printStackTrace();
         }

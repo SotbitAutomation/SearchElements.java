@@ -26,7 +26,7 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
 
         //Запись в файл
         try {
-            outputStream = new ObjectOutputStream(new FileOutputStream(fileNameForB2BThemeColor));
+            outputStream = new ObjectOutputStream(new FileOutputStream("currentSettingsB2B\\" + fileNameForB2BThemeColor));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -51,7 +51,7 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
             System.out.println("Поле для ИНН отсутсвует");
         }
         creatingArrayWithExistingLocatorsForIP();
-        writingArrayWithLocatorsForIPOnComputer();
+        writingArrayWithLocatorsForIPOnComputer();//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         choiceLegalPersonForCreatingLocators();
         try {
             enterINNManually();
@@ -93,7 +93,7 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
 
         //Запись в файл
         try {
-            outputStream = new ObjectOutputStream(new FileOutputStream("doNeedToSpecifyLocation"));
+            outputStream = new ObjectOutputStream(new FileOutputStream("currentSettingsB2B\\" + "doNeedToSpecifyLocation"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -124,7 +124,7 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
 
         //Запись в файл (нужно ли подтв пользвоателя)
         try {
-            outputStream = new ObjectOutputStream(new FileOutputStream(fileNameForConfirmRegistrationUser));
+            outputStream = new ObjectOutputStream(new FileOutputStream("currentSettingsB2B\\" + fileNameForConfirmRegistrationUser));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -137,7 +137,7 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
 
         //Запись в файл (нужно ли подтв пользвоателя компанию)
         try {
-            outputStream = new ObjectOutputStream(new FileOutputStream(fileNameForConfirmRegistrationOrganization));
+            outputStream = new ObjectOutputStream(new FileOutputStream("currentSettingsB2B\\" + fileNameForConfirmRegistrationOrganization));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -157,7 +157,7 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
 
         //Запись в файл (версия работы расширенная ли)
         try {
-            outputStream = new ObjectOutputStream(new FileOutputStream(fileNameForVersionOfWorkingWithOrganization));
+            outputStream = new ObjectOutputStream(new FileOutputStream("currentSettingsB2B\\" + fileNameForVersionOfWorkingWithOrganization));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -183,7 +183,7 @@ public class SettingUpAutotestsForB2BSettings extends MethodsForRegistrationAndA
 
         //Запись в файл
         try {
-            outputStream = new ObjectOutputStream(new FileOutputStream(fileNameForUsersEmailsAndPasswords));
+            outputStream = new ObjectOutputStream(new FileOutputStream("currentSettingsB2B\\" + fileNameForUsersEmailsAndPasswords));
         } catch (IOException e) {
             e.printStackTrace();
         }

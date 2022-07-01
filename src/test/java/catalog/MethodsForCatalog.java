@@ -615,9 +615,9 @@ public class MethodsForCatalog extends BaseActions {
 
     public void downloadingCatalogFromExcel(String nameCatalog) {
         try {
-            clickElementByItsCssSelector(".btn-actions");
-        } catch (Exception e) {
             clickElement(actionsButtonLocator);
+        } catch (Exception e) {
+            clickElementByItsCssSelector(".btn-actions");
         }
         uploadingExcelCatalog(nameCatalog);
     }
@@ -685,7 +685,7 @@ public class MethodsForCatalog extends BaseActions {
     public void checkThatProductAddedFromTabAddAnAdditional() {
         Assert.assertEquals(driver.findElement(By.xpath("(//*[contains(@class, 'catalog-list__font-white-space-nowrap')])[" + randomNumberUpToFife + "]")).getText()
                 , driver.findElement(By.xpath("//*[contains(@class, 'busket__column__font-bold')]")).getText());
-        Assert.assertEquals(driver.findElement(By.xpath("(//*[contains(@class, 'catalog-list__font-white-space-nowrap')])[" + randomNumberUpToFife + "]")).getText()
+        Assert.assertEquals(driver.findElement(By.xpath("(//*[contains(@class, 'catalog-list__font-white-space-nowrap')])[" + randomNumberUpToFife + "] /*")).getText()
                 , driver.findElement(By.xpath("//*[contains(@class, 'basket-page__total-price-value')]")).getText());
     }
 
@@ -723,32 +723,51 @@ public class MethodsForCatalog extends BaseActions {
     }
 
     public void sortsItemsIfNeededColumnIsNotDisplayed(boolean sortByIncreasing, String xpathForColumnWithPrice) {
-        int numberOfClicksOnColumnWithPrice;
+        String expectedXpathForColumnWithPrice;
         if (sortByIncreasing) {
-            numberOfClicksOnColumnWithPrice = 1;
+             expectedXpathForColumnWithPrice = xpathForColumnWithPrice + "[contains(@class, 'sort-ASC')]";
         } else {
-            numberOfClicksOnColumnWithPrice = 2;
+             expectedXpathForColumnWithPrice = xpathForColumnWithPrice + "[contains(@class, 'sort-DESC')]";
         }
-        Actions action = new Actions(driver);
         int countForBreak = 0;
-        for (int i = 1; i <= numberOfClicksOnColumnWithPrice; i++) {
-            flag = false;
-            while (!flag) {
-                countForBreak++;
-                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".ui-ear-right")));
-                action.moveToElement(driver.findElement(By.cssSelector(".ui-ear-right")));
-                action.perform();
-                try {
-                    driver.findElement(By.xpath(xpathForColumnWithPrice)).click();
-                    flag = true;
-                } catch (Exception e) {
-                    if (countForBreak > 5) {
-                        System.out.println("НЕ смог кликнуть по столбцу с ценой");
-                        System.out.println(5 / 0); //не смог отсортировать
-                    }
-                }
-            }
+        flag = false;
+        while (!flag && countForBreak < 3){
+            driver.findElement(By.xpath(xpathForColumnWithPrice)).click();
+            if (driver.findElements(By.xpath(expectedXpathForColumnWithPrice)).size()>0){
+                flag = true;
+            }else countForBreak++;
         }
+
+
+
+
+
+        //        int numberOfClicksOnColumnWithPrice;
+//        if (sortByIncreasing) {
+//            numberOfClicksOnColumnWithPrice = 1;
+//        } else {
+//            numberOfClicksOnColumnWithPrice = 2;
+//        }
+//        Actions action = new Actions(driver);
+//        int countForBreak = 0;
+//        for (int i = 1; i <= numberOfClicksOnColumnWithPrice; i++) {
+//            flag = false;
+//            while (!flag) {
+//                countForBreak++;
+//                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".ui-ear-right")));
+//                action.moveToElement(driver.findElement(By.cssSelector(".ui-ear-right")));
+//                action.perform();
+//                try {
+//                    driver.findElement(By.xpath(xpathForColumnWithPrice)).click();
+//                    flag = true;
+//                } catch (Exception e) {
+//                    if (countForBreak > 5) {
+//                        System.out.println("НЕ смог кликнуть по столбцу с ценой");
+//                        System.out.println(5 / 0); //не смог отсортировать
+//                    }
+//                }
+//            }
+//        }
     }
 
     public void sortsProductsByDecreasePrice() {
@@ -2417,8 +2436,8 @@ public class MethodsForCatalog extends BaseActions {
             action.perform();
         }
         implicitWaiting();
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//*[@class = 'bx-context-toolbar-button-text'][text()='Изменить товар'])[1]")));
-        driver.findElement(By.xpath("(//*[@class = 'bx-context-toolbar-button-text'][text()='Изменить товар'])[1]")).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//*[@class = 'bx-context-toolbar-button-text'][contains(text(), 'Изменить')])[1]")));
+        driver.findElement(By.xpath("(//*[@class = 'bx-context-toolbar-button-text'][contains(text(), 'Изменить')])[1]")).click();
         driver.findElement(By.xpath("//*[contains(@title, 'еречень торговых предложений')]")).click();
         driver.findElement(By.xpath("(//*[@class='adm-list-table-popup'])[1]")).click();
         driver.findElement(By.xpath("//*[contains(@class, 'menu-item-text')][text()='Изменить']")).click();
@@ -3254,7 +3273,7 @@ public class MethodsForCatalog extends BaseActions {
     }
 
     public void navigationToClothesSection() {
-        driver.navigate().to("http://b2b-gospod.devsotbit.ru/orders/blank_zakaza/odezhda/");
+        driver.navigate().to(b2bUrl + "orders/blank_zakaza/odezhda/");
     }
     public void selectAllItemsInTheCart(){
         driver.findElement(checkboxThatHighlightsAllProductsInTheCartLocator).click();

@@ -26,8 +26,6 @@ public class SettingUpCabinetForTesting extends MethodsForSettingUpCabinetForTes
         driver.findElement(logInButtonOnTheAuthorizationTabLocator).click();
         navigationToBasicB2BSettings();
         choiceBlackHat();
-//        navigationToBasicB2BSettings();
-//        makeMenuInTheFilter();
     }
     @Test(retryAnalyzer = Retry.class) //3. Настроить в кабинете светлую шапку
     public void configureTheWhiteHeaderInTheCabinet() {
@@ -38,31 +36,8 @@ public class SettingUpCabinetForTesting extends MethodsForSettingUpCabinetForTes
         driver.findElement(logInButtonOnTheAuthorizationTabLocator).click();
         navigationToBasicB2BSettings();
         choiceWhiteHat();
-//        navigationToBasicB2BSettings();
-//        makeMenuInTheFilter();
+
     }
-//    @Test(retryAnalyzer = Retry.class) //4. Настроить в кабинете темную шапку
-//    public void configureTheBlackHeaderInTheCabinet() {
-//        //arrange
-//        navigationToAuthorizationTab();
-//        //act
-//        fillingFieldsOnTheLogInTabLikeAdmin();
-//        navigationToBasicB2BSettings();
-//        choiceBlackHat();
-////        navigationToBasicB2BSettings();
-////        makeMenuInTheDropDownList();
-//    }
-//    @Test(retryAnalyzer = Retry.class) //5. Настроить в кабинете светлую шапку
-//    public void configureTheWhiteHeaderInTheCabinet() {
-//        //arrange
-//        navigationToAuthorizationTab();
-//        //act
-//        fillingFieldsOnTheLogInTabLikeAdmin();
-//        navigationToBasicB2BSettings();
-//        choiceWhiteHat();
-////        navigationToBasicB2BSettings();
-////        makeMenuInTheDropDownList();
-//    }
     @Test(retryAnalyzer = Retry.class) //5. Включить расширенный режим и подтверждения регистраций
     public void enableExtendedModeAndConfirmRegistrations() {
         //arrange

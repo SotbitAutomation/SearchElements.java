@@ -118,7 +118,7 @@ public class MultiRegions extends MethodsForMultiRegions {
             choiceRandomCityFromSearchHint("Москва");
             navigationToRegionSetting();
             turnOffWorkingWithLocations();
-            //returningSettingsBackIfCatalogBroken();
+            returningSettingsBackIfCatalogBroken();
             deletingProductsFromTheCart();
             navigationToCatalogTab();
             navigationToComponentOfCatalogSetting();

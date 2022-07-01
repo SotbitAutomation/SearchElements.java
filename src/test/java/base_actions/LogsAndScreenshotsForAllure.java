@@ -7,17 +7,20 @@ import org.openqa.selenium.WebDriver;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
-public class TestListener implements ITestListener {
-
+    /*
+       Пишет логи для аллюра, в случае падения прикрепляет аттчменты (скриншот и ошибку)
+     */
+public class LogsAndScreenshotsForAllure implements ITestListener {
     @Override
     public void onTestFailure(ITestResult result) {
 //        saveScreenshotOnFailure(CustomizingForYourself.getDriver());
 //        saveLogs(result.getMethod().getConstructorOrMethod().getName());
 
         Object testClass = result.getInstance();
-        WebDriver driver = ((CustomizingForYourself) testClass).getDriver();
-        if (driver instanceof  WebDriver){
-            saveScreenshotOnFailure(driver);
+        //WebDriver driver = ((Config) testClass).getDriver();
+        Config config = new Config();
+        if (config.driver instanceof  WebDriver){
+            saveScreenshotOnFailure(config.driver);
         }
         saveLogs(result.getTestName() + result.getEndMillis());
     }

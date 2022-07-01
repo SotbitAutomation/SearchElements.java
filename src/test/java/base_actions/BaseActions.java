@@ -14,7 +14,7 @@ import java.io.*;
 import java.security.SecureRandom;
 import java.util.Collection;
 
-public class BaseActions extends CustomizingForYourself {
+public class BaseActions extends Config {
 
     public File dir = new File(System.getProperty("user.home") + "/Downloads/");
     static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_______________";
@@ -538,7 +538,12 @@ public class BaseActions extends CustomizingForYourself {
         }
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@class, 'icon-cart')]")));
-        driver.findElement(By.xpath("//*[contains(@class, 'icon-cart')]")).click();
+
+        try {
+            driver.findElement(By.xpath("//*[contains(@class, 'icon-cart')]")).click();
+        }catch (Exception e){
+            driver.navigate().to(b2bUrl + "/orders/make");
+        }
         Assert.assertTrue(driver.findElement(By.cssSelector(".basket-page")).isDisplayed());
         checkingBreadcrumbs("Корзина");
 
@@ -912,7 +917,7 @@ public class BaseActions extends CustomizingForYourself {
 
     public void determineWhetherRegistrationUserNeedsToBeConfirmed() {
         try {
-            inputStream = new ObjectInputStream(new FileInputStream(fileNameForConfirmRegistrationUser)); //Имя файла с массивом
+            inputStream = new ObjectInputStream(new FileInputStream("currentSettingsB2B\\" + fileNameForConfirmRegistrationUser)); //Имя файла с массивом
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -928,7 +933,7 @@ public class BaseActions extends CustomizingForYourself {
 
     public void determineWhetherVersionsOfWorkingWithOrganization() {
         try {
-            inputStream = new ObjectInputStream(new FileInputStream(fileNameForVersionOfWorkingWithOrganization)); //Имя файла с массивом
+            inputStream = new ObjectInputStream(new FileInputStream("currentSettingsB2B\\" + fileNameForVersionOfWorkingWithOrganization)); //Имя файла с массивом
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -944,7 +949,7 @@ public class BaseActions extends CustomizingForYourself {
 
     public void determineWhetherRegistrationOrganizationNeedsToBeConfirmed() {
         try {
-            inputStream = new ObjectInputStream(new FileInputStream(fileNameForConfirmRegistrationOrganization)); //Имя файла с массивом
+            inputStream = new ObjectInputStream(new FileInputStream("currentSettingsB2B\\" + fileNameForConfirmRegistrationOrganization)); //Имя файла с массивом
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -960,7 +965,7 @@ public class BaseActions extends CustomizingForYourself {
 
     public void readingUserData() {
         try {
-            inputStream = new ObjectInputStream(new FileInputStream(fileNameForUsersEmailsAndPasswords)); //Имя файла с массивом
+            inputStream = new ObjectInputStream(new FileInputStream("currentSettingsB2B\\" + fileNameForUsersEmailsAndPasswords)); //Имя файла с массивом
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1024,7 +1029,7 @@ public class BaseActions extends CustomizingForYourself {
 
     public void determineWhetherLocationWhileRegistration() {
         try {
-            inputStream = new ObjectInputStream(new FileInputStream("doNeedToSpecifyLocation")); //Имя файла с массивом
+            inputStream = new ObjectInputStream(new FileInputStream("currentSettingsB2B\\" + "doNeedToSpecifyLocation")); //Имя файла с массивом
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1091,7 +1096,7 @@ public class BaseActions extends CustomizingForYourself {
     public void determineThemeColor() {
         if (countForThemeColor == 0) {
             try {
-                inputStream = new ObjectInputStream(new FileInputStream(fileNameForB2BThemeColor)); //Имя файла с массивом
+                inputStream = new ObjectInputStream(new FileInputStream("currentSettingsB2B\\" + fileNameForB2BThemeColor)); //Имя файла с массивом
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -1145,6 +1150,12 @@ public class BaseActions extends CustomizingForYourself {
     public void navigationToBasicB2BSettings() {
         implicitWaiting();
         driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/", "") + "/bitrix/admin/sotbit.b2bcabinet_settings.php?lang=ru&site=s1");
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#tabControl_layout")));
+        }catch (Exception e){
+            driver.navigate().to(b2bUrl.replaceAll("b2bcabinet/", "") + "/bitrix/admin/sotbit.b2bcabinet_settings.php?lang=ru&site=s1");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#tabControl_layout")));
+        }
     }
 
     public void navigationToGeneralB2BSettings() {

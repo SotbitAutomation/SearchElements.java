@@ -271,7 +271,7 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).clear();
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).sendKeys("0");
         tempValue3 = driver.findElement(By.xpath("(//*[@class='item-quantity__general'])[" + count + "]")).getText();
-        Assert.assertTrue((Integer.parseInt(tempValue) + Integer.parseInt(tempValue1)) == Integer.parseInt(tempValue3));
+        Assert.assertEquals((Integer.parseInt(tempValue) + Integer.parseInt(tempValue1)), Integer.parseInt(tempValue3));
         action.moveToElement(driver.findElement(By.xpath("(//*[@class='item-quantity__general'])[" + count + "]/*")));
         action.perform();
         Assert.assertTrue(driver.findElements(By.xpath("//*[@class='item-quantity__store-name'][contains(text(), 'TEST')]")).size() > 0, "Не отображается склад с названием 'TEST'");
@@ -280,19 +280,21 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         System.out.println("Кол-во товара на складе №1 которое я вводил   " + tempValue1);
         System.out.println("Кол-во товара на складе №2 которое я вводил   " + tempValue);
         flag = false;
-        for (int i = 1; i <= 2; i++) {
+        for (int i = 1; i <= 5; i++) {
             if (driver.findElement(By.xpath("(//*[@class='item-quantity__store-quantity'])[" + i + "]")).getText().trim().equals(tempValue1.trim())) {
                 flag = true;
+                break;
             }
         }
-        Assert.assertTrue(flag == true);
+        Assert.assertTrue(flag);
         flag = false;
-        for (int i = 1; i <= 2; i++) {
+        for (int i = 1; i <= 5; i++) {
             if (driver.findElement(By.xpath("(//*[@class='item-quantity__store-quantity'])[" + i + "]")).getText().trim().equals(tempValue.trim())) {
                 flag = true;
+                break;
             }
         }
-        Assert.assertTrue(flag == true);
+        Assert.assertTrue(flag);
         implicitWaiting();
         implicitWaiting();
     }
@@ -306,7 +308,7 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         tempValue3 = driver.findElement(By.xpath("(//*[@class='item-quantity__general'])[" + count + "]")).getText();
         Assert.assertTrue(quantityItemsInTheTESTStorage == Integer.parseInt(tempValue3));
         System.out.println(count);
-        action.moveToElement(driver.findElement(By.xpath("(//*[@class='item-quantity__general'])[" + count + "]")));
+        action.moveToElement(driver.findElement(By.xpath("(//*[@class='item-quantity__general'])[" + count + "]/*")));
         action.perform();
         Assert.assertTrue(driver.findElements(By.xpath("//*[@class='item-quantity__store-name'][contains(text(), 'TEST')]")).size() > 0, "Не отображается склад с названием 'TEST'");
         System.out.println("Отображаемое кол-во товаров на складе №1   " + driver.findElement(By.xpath("(//*[@class='item-quantity__store-quantity'])[1]")).getText());
