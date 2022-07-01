@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Smoke">
+    <test name="Smoke1 with black type of hat, catalog in filter and extended version">
+        <classes>
+            <class name="setting_up_cabinet_for_testing.SettingUpCabinetForTesting">
+                <methods>
+                    <include name="configureTheBlackHeaderInTheCabinet"/>
+                    <include name="enableExtendedModeAndConfirmRegistrations"/>
+                </methods>
+            </class>
+            <class name="before_test.SettingUpAutotestsForB2BSettings"></class>
+            <class name="registration_and_authorization.AuthorizationB2B">
+                <methods>
+                    <include name="authorizationUser"/>
+                    <include name="authorizationWithoutConfirmInAdminPart"/>
+                </methods>
+            </class>
+            <class name="registration_and_authorization.RegistrationB2B">
+                <methods>
+                    <include name="registrationIPWithManualEntryINN"/>
+                    <include name="registrationLegalPersonWithManualEntryINN"/>
+                    <include name="authorizationWithoutTheApprovalOfTheAdministratorOfTheRegisteredUser"/>
+                </methods>
+            </class>
+            <class name="organizations_with_extended_version.AddingOrganizationsWithExtendedVersion">
+                <methods>
+                    <include name="addOrganizationIPFromTheUser"/>
+                    <include name="addOrganizationLegalPersonFromTheUser"/>
+                    <include name="checkAvailableActionsWithOrganizationsFromTheUser"/>
+                    <include name="checkOfJoiningAnOrganizationIP"/>
+                    <include name="addingAnEmployeeToAnOrganization"/>
+                </methods>
+            </class>
+            <class name="organizations_with_extended_version.ListOfEmployees">
+                <methods>
+                    <include name="checkThatEmployeeIsDisplayedByCompanyManagerInApplicationsTab"/>
+                </methods>
+            </class>
+            <class name="catalog.Catalog">
+                <methods>
+                    <include name="addingProductToCart"/>
+                    <include name="addingProductToCartUsingIconPlus"/>
+                    <include name="downloadCatalogToExcel"/>
+                    <include name="uploadCatalogInExcel"/>
+                    <include name="searchingByWord"/>
+                    <include name="filteringProductsByMinPrice"/>
+                    <include name="checkingCorrectnessOfPagination"/>
+                    <include name="addingProductToTheCartFromTheDetailedPopUpProductPage"/>
+                </methods>
+            </class>
+            <class name="making_orders.MakingOrders">
+                <methods>
+                    <include name="madeOrder"/>
+                </methods>
+            </class>
+            <class name="my_orders_history.MyOrdersHistory">
+                <methods>
+                    <include name="doneOrderIsDisplayedInMyOrdersPage"/>
+                    <include name="CancelMadeOrder"/>
+                </methods>
+            </class>
+            <class name="documents.Documents">
+                <methods>
+                    <include name="addExistingDocumentToUser"/>
+                </methods>
+            </class>
+            <class name="mean_page.MeanPageCalendar">
+                <methods>
+                    <include name="checkThatTheOrdersAreDisplayInTheCalendarForAdmin"/>
+                    <include name="checkThatTheOrdersAreDisplayInTheCalendarForUser"/>
+                </methods>
+            </class>
+            <class name="mean_page.MeanPageDesktop">
+                <methods>
+                    <include name="addingAndRemovingWidgetsFromTheUser"/>
+                </methods>
+            </class>
+            <class name="mean_page.MeanPageSettingPage">
+                <methods>
+                    <include name="changeTheBasicDataForUser"/>
+                    <include name="changeThePasswordAndLogInWithNewOneForUser"/>
+                    <include name="changeThePersonalDataForUser"/>
+                </methods>
+            </class>
+            <class name="technical_support.TechnicalSupport">
+                <methods>
+                    <include name="contactingTheSupportService"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+
+    <test name="Smoke2 with black type of hat, dropDown catalog  and Standard version with confirm user">
+        <classes>
+            <class name="setting_up_cabinet_for_testing.SettingUpCabinetForTesting">
+                <methods>
+                    <include name="configureTheBlackHeaderInTheCabinet"/>
+                    <include name="enableStandardModeAndConfirmRegistrationUser"/>
+                </methods>
+            </class>
+
+            <class name="before_test.SettingUpAutotestsForB2BSettings"></class>
+
+            <class name="registration_and_authorization.AuthorizationB2B">
+                <methods>
+                    <include name="authorizationUser"/>
+                    <include name="authorizationWithoutConfirmInAdminPart"/>
+                </methods>
+            </class>
+            <class name="registration_and_authorization.RegistrationB2B">
+                <methods>
+                    <include name="registrationIPWithManualEntryINN"/>
+                    <include name="registrationLegalPersonWithManualEntryINN"/>
+                    <include name="authorizationWithoutTheApprovalOfTheAdministratorOfTheRegisteredUser"/>
+                </methods>
+            </class>
+            <class name="organizations_with_standard_version.AddingOrganizationsWithStandardVersion">
+                <methods>
+                    <include name="addOrganizationIPFromTheUser"/>
+                    <include name="addOrganizationLegalPersonFromTheUser"/>
+                    <include name="checkAvailableActionsWithOrganizationsFromTheUser"/>
+                </methods>
+            </class>
+            <class name="catalog.Catalog">
+                <methods>
+                    <include name="addingProductToCart"/>
+                    <include name="addingProductToCartUsingIconPlus"/>
+
+                    <include name="downloadCatalogToExcel"/>
+                    <include name="uploadCatalogInExcel"/>
+                    <include name="searchingByWord"/>
+                    <include name="filteringProductsByMinPrice"/>
+                    <include name="checkingCorrectnessOfPagination"/>
+                    <include name="addingProductToTheCartFromTheDetailedPopUpProductPage"/>
+                </methods>
+            </class>
+            <class name="making_orders.MakingOrders">
+                <methods>
+                    <include name="madeOrder"/>
+                </methods>
+            </class>
+            <class name="my_orders_history.MyOrdersHistory">
+                <methods>
+                    <include name="doneOrderIsDisplayedInMyOrdersPage"/>
+                    <include name="CancelMadeOrder"/>
+                </methods>
+            </class>
+            <class name="documents.Documents">
+                <methods>
+                    <include name="addExistingDocumentToUser"/>
+                </methods>
+            </class>
+            <class name="mean_page.MeanPageCalendar">
+                <methods>
+                    <include name="checkThatTheOrdersAreDisplayInTheCalendarForAdmin"/>
+                    <include name="checkThatTheOrdersAreDisplayInTheCalendarForUser"/>
+                </methods>
+            </class>
+            <class name="mean_page.MeanPageDesktop">
+                <methods>
+                    <include name="addingAndRemovingWidgetsFromTheUser"/>
+                </methods>
+            </class>
+            <class name="mean_page.MeanPageSettingPage">
+                <methods>
+                    <include name="changeTheBasicDataForUser"/>
+                    <include name="changeThePasswordAndLogInWithNewOneForUser"/>
+                    <include name="changeThePersonalDataForUser"/>
+                </methods>
+            </class>
+            <class name="technical_support.TechnicalSupport">
+                <methods>
+                    <include name="contactingTheSupportService"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+
+    <test name="Smoke3 with white type of hat, dropDown catalog  and Standard version without confirms">
+        <classes>
+
+            <class name="setting_up_cabinet_for_testing.SettingUpCabinetForTesting">
+                <methods>
+                    <include name="configureTheWhiteHeaderInTheCabinetAndTheCatalogSectionsInTheDropDownList"/>
+                    <include name="enableStandardModeAndWithoutConfirmRegistrations"/>
+                </methods>
+            </class>
+
+            <class name="before_test.SettingUpAutotestsForB2BSettings"></class>
+
+            <class name="registration_and_authorization.AuthorizationB2B">
+                <methods>
+                    <include name="authorizationUser"/>
+                    <include name="authorizationWithoutConfirmInAdminPart"/>
+                </methods>
+            </class>
+            <class name="registration_and_authorization.RegistrationB2B">
+                <methods>
+                    <include name="registrationIPWithManualEntryINN"/>
+                    <include name="registrationLegalPersonWithManualEntryINN"/>
+                    <include name="authorizationWithoutTheApprovalOfTheAdministratorOfTheRegisteredUser"/>
+                </methods>
+            </class>
+            <class name="organizations_with_standard_version.AddingOrganizationsWithStandardVersion">
+                <methods>
+                    <include name="addOrganizationIPFromTheUser"/>
+                    <include name="addOrganizationLegalPersonFromTheUser"/>
+                    <include name="checkAvailableActionsWithOrganizationsFromTheUser"/>
+                </methods>
+            </class>
+            <class name="catalog.Catalog">
+                <methods>
+                    <include name="addingProductToCart"/>
+                    <include name="addingProductToCartUsingIconPlus"/>
+
+                    <include name="downloadCatalogToExcel"/>
+                    <include name="uploadCatalogInExcel"/>
+                    <include name="searchingByWord"/>
+                    <include name="filteringProductsByMinPrice"/>
+                    <include name="checkingCorrectnessOfPagination"/>
+                    <include name="addingProductToTheCartFromTheDetailedPopUpProductPage"/>
+                </methods>
+            </class>
+            <class name="making_orders.MakingOrders">
+                <methods>
+                    <include name="madeOrder"/>
+                </methods>
+            </class>
+            <class name="my_orders_history.MyOrdersHistory">
+                <methods>
+                    <include name="doneOrderIsDisplayedInMyOrdersPage"/>
+                    <include name="CancelMadeOrder"/>
+                </methods>
+            </class>
+            <class name="documents.Documents">
+                <methods>
+                    <include name="addExistingDocumentToUser"/>
+                </methods>
+            </class>
+            <class name="mean_page.MeanPageCalendar">
+                <methods>
+                    <include name="checkThatTheOrdersAreDisplayInTheCalendarForAdmin"/>
+                    <include name="checkThatTheOrdersAreDisplayInTheCalendarForUser"/>
+                </methods>
+            </class>
+            <class name="mean_page.MeanPageDesktop">
+                <methods>
+                    <include name="addingAndRemovingWidgetsFromTheUser"/>
+                </methods>
+            </class>
+            <class name="mean_page.MeanPageSettingPage">
+                <methods>
+                    <include name="changeTheBasicDataForUser"/>
+                    <include name="changeThePasswordAndLogInWithNewOneForUser"/>
+                    <include name="changeThePersonalDataForUser"/>
+                </methods>
+            </class>
+            <class name="technical_support.TechnicalSupport">
+                <methods>
+                    <include name="contactingTheSupportService"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+
+    <test name="Smoke4 with white type of hat, catalog in filter and extended version">
+        <classes>
+
+            <class name="setting_up_cabinet_for_testing.SettingUpCabinetForTesting">
+                <methods>
+                    <include name="configureTheWhiteHeaderInTheCabinetAndTheCatalogSectionsInTheDropDownList"/>
+                    <include name="enableStandardModeAndWithoutConfirmRegistrations"/>
+                </methods>
+            </class>
+
+            <class name="before_test.SettingUpAutotestsForB2BSettings"></class>
+
+            <class name="registration_and_authorization.AuthorizationB2B">
+                <methods>
+                    <include name="authorizationUser"/>
+                    <include name="authorizationWithoutConfirmInAdminPart"/>
+                </methods>
+            </class>
+            <class name="registration_and_authorization.RegistrationB2B">
+                <methods>
+                    <include name="registrationIPWithManualEntryINN"/>
+                    <include name="registrationLegalPersonWithManualEntryINN"/>
+                    <include name="authorizationWithoutTheApprovalOfTheAdministratorOfTheRegisteredUser"/>
+                </methods>
+            </class>
+            <class name="organizations_with_extended_version.AddingOrganizationsWithExtendedVersion">
+                <methods>
+                    <include name="addOrganizationIPFromTheUser"/>
+                    <include name="addOrganizationLegalPersonFromTheUser"/>
+                    <include name="checkAvailableActionsWithOrganizationsFromTheUser"/>
+                    <include name="checkOfJoiningAnOrganizationIP"/>
+                    <include name="addingAnEmployeeToAnOrganization"/>
+                </methods>
+            </class>
+            <class name="organizations_with_extended_version.ListOfEmployees">
+                <methods>
+                    <include name="checkThatEmployeeIsDisplayedByCompanyManagerInApplicationsTab"/>
+                </methods>
+            </class>
+            <class name="catalog.Catalog">
+                <methods>
+                    <include name="addingProductToCart"/>
+                    <include name="addingProductToCartUsingIconPlus"/>
+
+                    <include name="downloadCatalogToExcel"/>
+                    <include name="uploadCatalogInExcel"/>
+                    <include name="searchingByWord"/>
+                    <include name="filteringProductsByMinPrice"/>
+                    <include name="checkingCorrectnessOfPagination"/>
+                    <include name="addingProductToTheCartFromTheDetailedPopUpProductPage"/>
+                </methods>
+            </class>
+            <class name="making_orders.MakingOrders">
+                <methods>
+                    <include name="madeOrder"/>
+                </methods>
+            </class>
+            <class name="my_orders_history.MyOrdersHistory">
+                <methods>
+                    <include name="doneOrderIsDisplayedInMyOrdersPage"/>
+                    <include name="CancelMadeOrder"/>
+                </methods>
+            </class>
+            <class name="documents.Documents">
+                <methods>
+                    <include name="addExistingDocumentToUser"/>
+                </methods>
+            </class>
+            <class name="mean_page.MeanPageCalendar">
+                <methods>
+                    <include name="checkThatTheOrdersAreDisplayInTheCalendarForAdmin"/>
+                    <include name="checkThatTheOrdersAreDisplayInTheCalendarForUser"/>
+                </methods>
+            </class>
+            <class name="mean_page.MeanPageDesktop">
+                <methods>
+                    <include name="addingAndRemovingWidgetsFromTheUser"/>
+                </methods>
+            </class>
+            <class name="mean_page.MeanPageSettingPage">
+                <methods>
+                    <include name="changeTheBasicDataForUser"/>
+                    <include name="changeThePasswordAndLogInWithNewOneForUser"/>
+                    <include name="changeThePersonalDataForUser"/>
+                </methods>
+            </class>
+            <class name="technical_support.TechnicalSupport">
+                <methods>
+                    <include name="contactingTheSupportService"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
