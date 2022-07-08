@@ -1,0 +1,7 @@
+allure serve C:\Users\SotBit\Desktop\work\AutomationTests\b2b\b2bProject\allure-results
+
+allure serve C:\Users\SotBit\Desktop\work\AutomationTests\b2b\b2bProject\allure-results\1
+
+
+Указать путь то своих логов, можно раскидать логи по папкам, иначе в отчете будут отображаться логи только позднего прогона 
+(за один прогон один и тот же тест запускается 4 раза, но в отчете будет отображаться только последний) 
