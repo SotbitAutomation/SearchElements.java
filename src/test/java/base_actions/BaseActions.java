@@ -538,12 +538,7 @@ public class BaseActions extends Config {
         }
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@class, 'icon-cart')]")));
-
-        try {
-            driver.findElement(By.xpath("//*[contains(@class, 'icon-cart')]")).click();
-        }catch (Exception e){
-            driver.navigate().to(b2bUrl + "/orders/make");
-        }
+        driver.navigate().to(b2bUrl + "/orders/make");
         Assert.assertTrue(driver.findElement(By.cssSelector(".basket-page")).isDisplayed());
         checkingBreadcrumbs("Корзина");
 
@@ -1043,11 +1038,7 @@ public class BaseActions extends Config {
         System.out.println("Есть ли выбор местоположения - " + flagForLocation);
     }
 
-    public void expandTheAdminPanel() {
-        if (!driver.findElement(By.cssSelector("#bx-panel-hider-arrow")).isDisplayed()) {
-            driver.findElement(By.cssSelector("#bx-panel-expander-arrow")).click();
-        }
-    }
+
 
 //    public void enableEditMode() {
 //        driver.findElement(By.cssSelector("#bx-panel-toggle-indicator")).click();
@@ -1057,7 +1048,10 @@ public class BaseActions extends Config {
 
     public void turnOffEditMode() {
         try {
-            driver.findElement(By.xpath("//*[contains(@href, 'bitrix_include_areas=N')][@id='bx-panel-toggle']")).click();
+            waitElementVisible("//*[@id='bx-panel']");
+            waitElementVisible("//*[contains(@href, 'bitrix_include_areas=N')][@id='bx-panel-toggle'] //*[@id='bx-panel-toggle-icon']");
+            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[contains(@href, 'bitrix_include_areas=N')][@id='bx-panel-toggle'] //*[@id='bx-panel-toggle-icon']")));
+            driver.findElement(By.xpath("//*[contains(@href, 'bitrix_include_areas=N')][@id='bx-panel-toggle'] //*[@id='bx-panel-toggle-icon']")).click();
             implicitWaiting();
         } catch (Exception e) {
             System.out.println("Режим правки уже выключен");
@@ -1066,6 +1060,8 @@ public class BaseActions extends Config {
 
     public void turnOnEditMode() {
         try {
+            waitElementVisible("//*[@id='bx-panel']");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@href, 'bitrix_include_areas=Y')][@id='bx-panel-toggle']")));
             driver.findElement(By.xpath("//*[contains(@href, 'bitrix_include_areas=Y')][@id='bx-panel-toggle']")).click();
             implicitWaiting();
         } catch (Exception e) {

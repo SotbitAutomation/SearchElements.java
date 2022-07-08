@@ -260,7 +260,7 @@ public class OrderTemplates extends MethodsForOrderTemplates {
         expendHamburgerMenuInFirstOrderTemplate();
         //act
         clickingLookOrderTemplate();
-        checkingDataOnTheDetailPage();
+        checkingDataOnTheDetailPage(); //тут баг, открывает в новой вкладке, а должен как поп-ап окно
         navigationToMeanPageByUrl();
     }
 

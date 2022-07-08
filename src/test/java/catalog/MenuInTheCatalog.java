@@ -105,7 +105,7 @@ public class MenuInTheCatalog extends MethodsForCatalog {
         choiceRandomCategoryInMenuCatalog(false);
         //expandCatalogCategories(false);
         choiceRandomUnderCategoryOfTheSelectedCategory();
-        determineMaxPriceForFilteringAThousandLessThanThePriceOfTheMostExpensiveProductInThisSection();
+        determineMaxPriceForFilteringAThousandLessThanThePriceOfTheMostExpensiveProductInThisSection();  //может упасть (если в разделе нет цен)
         enteringTheMaxPriceIntoTheFilter();
         checkThatTheMaximumPriceIsAppliedOnAllPages();
     }

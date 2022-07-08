@@ -128,7 +128,7 @@ public class AddingOrganizationsWithStandardVersion extends MethodsForAddingOrga
             fillingFieldsOnTheLogInTabLikeAdmin();
             logInToB2B();
             //act
-            navigationToProfilesOfBuyers();
+            navigationToBasicB2BSettings();
             checkingThatNeededProfilesOfBuyersIsSelected();
         }
     }

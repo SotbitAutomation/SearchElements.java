@@ -368,7 +368,15 @@ public class MethodsForMakingOrders extends MethodsForCatalog {
     }
     public void checkingThatThereIsALinkToDetailPageOfOrganizationInTheFirstRow(){
         By linkToDetailPageOfOrganizationInTheFirstRowLocator = By.xpath("(//*[@class='main-grid-row main-grid-row-body'])[1] //*[contains(@href, 'personal')]");
-        Assert.assertTrue(driver.findElement(linkToDetailPageOfOrganizationInTheFirstRowLocator).isDisplayed());
+        try {
+            Assert.assertTrue(driver.findElement(linkToDetailPageOfOrganizationInTheFirstRowLocator).isDisplayed());
+        }catch (Exception e){
+            System.out.println("Колонка с организацией скрыта, добавлю ее");
+            driver.findElement(By.cssSelector(".main-grid-interface-settings-icon")).click();
+            driver.findElement(By.xpath("//*[@for='BUYER-checkbox']")).click();
+            driver.findElement(By.cssSelector("#ORDER_LIST-grid-settings-apply-button")).click();
+            Assert.assertTrue(driver.findElement(linkToDetailPageOfOrganizationInTheFirstRowLocator).isDisplayed());
+        }
         linkToDetailPageOfOrganizationInTheFirstRowLocator = By.xpath("(//*[@class='main-grid-row main-grid-row-body'])[1] //*[contains(@href, 'profile')]");
         Assert.assertTrue(driver.findElement(linkToDetailPageOfOrganizationInTheFirstRowLocator).isDisplayed());
     }

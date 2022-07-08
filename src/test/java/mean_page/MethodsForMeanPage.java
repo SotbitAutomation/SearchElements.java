@@ -420,8 +420,8 @@ public class MethodsForMeanPage extends BaseActions {
 
     public void fillingTheDataForTheFavoriteLinksWidget() {
         driver.findElement(By.xpath("(//*[contains(@id, 'favoriteslink')][not(ancestor-or-self::*[@style = 'display: none;'])] /*)[1]")).click();
-        driver.findElement(By.xpath("//*[@name='url']")).sendKeys("www.bbc.com");
-        driver.findElement(By.xpath("//*[@name='name']")).sendKeys("Новости на - BBC" + randomData);
+        driver.findElement(By.xpath("//*[@name='url']")).sendKeys("www.onliner.by/");
+        driver.findElement(By.xpath("//*[@name='name']")).sendKeys("Портал - Онлайнер (если признают экстримистским - поменять ссылку)  " + randomData);
         System.out.println(randomData);
         clickElement("//*[@type='submit']");
         refreshingThisPage();
@@ -439,7 +439,10 @@ public class MethodsForMeanPage extends BaseActions {
 
     public void checkingThatTheLinkInTheFavoriteLinksWidgetWorks() {
         driver.findElement(By.xpath("//*[contains(text(), '" + randomData + "')]")).click();
-        Assert.assertTrue(driver.getCurrentUrl().contains("www.bbc.com"));
+        Assert.assertTrue(driver.getCurrentUrl().contains("www.onliner.by/"));
+        implicitWaiting();implicitWaiting();
+        driver.navigate().to(b2bUrl);
+        driver.navigate().to(b2bUrl); //иногда не переходит с первого раза
     }
 
     public void checkingThatWeatherWidgetIsDisplayed() {

@@ -9,7 +9,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Listeners;
-import setting_up_cabinet_for_testing.SettingUpCabinetForTesting;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -21,8 +20,8 @@ public class Config {
     /*
        url тестируемого кабинета логин и пароль
      */
-    public static final String b2bUrl = "http://b2b-gospod.devsotbit.ru/";
-    //public static final = "http://b2b-11-3.devsotbit.ru/b2bcabinet/";
+    //public static final String b2bUrl = "http://b2b-gospod.devsotbit.ru/";
+    public static final String b2bUrl = "http://b2b-last-11-3.devsotbit.ru/b2bcabinet/";
     public static final String adminLogin = "admin";
     public static final String adminPassword = "sotbit123456";
 
@@ -32,7 +31,7 @@ public class Config {
        эти настройки для более быстрой работы, например если не указать есть ли офферы, то придется в методах реализовывать попытку раскрыть оффер
        который при каждом заходе в каталог (смене страницы) будет пытаться кликнуть "Подробнее" у оффера, не будет ее находить, выбрасывать ошибку...
      */
-    public boolean isThereModuleMultiRegions = true;
+    public boolean isThereModuleMultiRegions = false;
     public boolean isThereASmallOptPrice = true;
     public boolean isThereAOptPrice = true;
     public boolean isThereAnIndividualPrice = true;
@@ -47,29 +46,33 @@ public class Config {
     public By exitButtonInb2bCabinetLocator = By.xpath("(//*[contains(@href, 'logout')])[last()]");
 
     /*
-       для задания ширины и высоты браузера (раскоментить метод в @BeforeSuite, и установить нужное разрешение). Иначе раскрывает во весь экран
+       для задания ширины и высоты браузера
      */
     public static int browserWindowWidth = 1920;
     public static int browserWindowHeight = 1080; // съедает место предупреждение что это авто браузер, 900 = 768
     public static void setTheScreenWidth(int width, int height) {
         driver.manage().window().setSize(new Dimension(width, height));
-        driver.manage().window().setPosition(new Point(-1920, 0));
     }
-
+    /*
+       действия выполняемые перед всеми запущенными тестами
+    */
     @BeforeSuite
     public static void setUpSuite() {
-        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\resources\\webdriver\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\resources\\webdriver\\chromedriver.exe"); //путь до драйвера открывающего браузер
         driver = new ChromeDriver();
-        driver.manage().window().setPosition(new Point(-1000, 0));
-        setTheScreenWidth(browserWindowWidth, browserWindowHeight);
-        wait = new WebDriverWait(driver, 7);
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.manage().window().setPosition(new Point(-1920, 0)); //смещает окно браузера на левый физический экран
+        setTheScreenWidth(browserWindowWidth, browserWindowHeight); // разворачивает окно в нужном разрешении (как задано выше)
+        wait = new WebDriverWait(driver, 7); // ожидание элемента после загрузки дом дерева (дом дерево перестало изменяться), нужно явно указывать "wait.until(...)"
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS); // стандартное ожидание элемента после загрузки дом дерева (дом дерево перестало изменяться)
     }
 
+    /*
+       действия выполняемые после каждого класса (очищаю кеш сайта, перезапускаю браузер)
+    */
     @AfterClass
     public static void clearAllCacheForSuite() throws IOException {
-        SettingUpCabinetForTesting set = new SettingUpCabinetForTesting();
-        set.clearAllCacheForTests();
+//        SettingUpCabinetForTesting set = new SettingUpCabinetForTesting();
+//        set.clearAllCacheForTests();
     }
 
 

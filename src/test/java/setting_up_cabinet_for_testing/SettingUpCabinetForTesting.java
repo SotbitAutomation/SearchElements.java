@@ -36,7 +36,6 @@ public class SettingUpCabinetForTesting extends MethodsForSettingUpCabinetForTes
         driver.findElement(logInButtonOnTheAuthorizationTabLocator).click();
         navigationToBasicB2BSettings();
         choiceWhiteHat();
-
     }
     @Test(retryAnalyzer = Retry.class) //5. Включить расширенный режим и подтверждения регистраций
     public void enableExtendedModeAndConfirmRegistrations() {

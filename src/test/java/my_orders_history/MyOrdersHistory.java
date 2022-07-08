@@ -90,7 +90,7 @@ public class MyOrdersHistory extends MethodsForMyOrders {
         navigationToSupportServiceTabInOrderPage();
     }
     @Test (retryAnalyzer = Retry.class)//4 Отмена заказа
-    public void CancelMadeOrder() {
+    public void cancelMadeOrder() {
         //arrange
         navigationToAuthorizationTab();
         fillingFieldsOnTheLogInTabLikeUser();

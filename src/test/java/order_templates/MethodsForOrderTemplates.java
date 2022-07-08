@@ -80,7 +80,7 @@ public class MethodsForOrderTemplates extends MethodsForCatalog {
     }
 
     public void expendHamburgerMenuInFirstOrderTemplate() {
-        if (driver.findElements(By.cssSelector(".main-grid-row-body")).size()<2){
+        if (driver.findElements(By.cssSelector(".main-grid-cell.main-grid-cell-action")).size()<2){
             uploadingExcelCatalogForOrderTemplatesWithAcceptIt("blankForOrderTemplates.xlsx");
             setNameForOrderTemplate();
             createOrderTemplate();
@@ -283,7 +283,9 @@ public class MethodsForOrderTemplates extends MethodsForCatalog {
         Assert.assertEquals(driver.findElement(By.xpath("(//*[@class='orders-templates__summary-description'])[2]")).getText(), "470 600 ₽");
     }
     public void checkingThatTotalPriceInTheCartIsEqualsOrderTemplate(){
-        Assert.assertTrue(driver.findElement(By.cssSelector("#page-basket-total-block")).getText().contains("470 600 ₽"));
+        String expectedSum = "470 600 ₽";
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector("#page-basket-total-block"), expectedSum));
+        Assert.assertTrue(driver.findElement(By.cssSelector("#page-basket-total-block")).getText().contains(expectedSum));
     }
     public void checkingThatOrderTemplateIsDownloaded(){
             String downloadPath = System.getProperty("user.home") + "/Downloads/";

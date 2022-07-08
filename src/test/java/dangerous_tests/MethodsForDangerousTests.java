@@ -67,13 +67,13 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         choiceStandardCityInMultiRegionsWindow();
         if (driver.findElements(By.xpath("//*[@title='Ремни']")).size() > 0) {
             returningSettingsBack();
-            turnOffEditMode();
+            //turnOffEditMode();
         } else {
             clickElement("//*[@title='Компьютеры']");
             determineQuantityItemsEqualsZero();
             if (quantityItemsWithQuantityEqualsZero > 3) {
                 returningSettingsBack();
-                turnOffEditMode();
+                //turnOffEditMode();
             }
         }
 
@@ -126,9 +126,15 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         driver.findElement(By.xpath("//*[@id='CAT_BASE_QUANTITY_TRACE'] /option[@value='D']")).click();
         clickElement("//*[@title='Управление товаром на складах']");
         driver.findElement(By.xpath("(//input[contains(@id, 'AMOUNT')])[1]")).clear();
-        driver.findElement(By.xpath("(//input[contains(@id, 'AMOUNT')])[2]")).clear();
-        waitingMilliSecond();
-        driver.findElement(By.cssSelector(".adm-btn-save")).click();
+        try {
+            driver.findElement(By.xpath("(//input[contains(@id, 'AMOUNT')])[2]")).clear();
+            waitingMilliSecond();
+            driver.findElement(By.cssSelector(".adm-btn-save")).click();
+        }catch (Exception e){
+            driver.findElement(By.cssSelector(".adm-btn-save")).click();
+            addingSecondStorageIfItNeed();
+            navigationToGasStoveSetting();
+        }//если не смог очистить товары на втором складе, то добавлю его
     }
 
     public void clearAllOptPrices() {
@@ -208,11 +214,13 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
         if (quantityItemsWithQuantityEqualsZero < 2) {
             navigationToComponentOfCatalogSetting();
             showingTheQuantityOfProductsInStorage();
+            turnOffEditMode();
+            hideAdminPanel();
         }
     }
 
     public void determineQuantityItemsEqualsZero() {
-        turnOffEditMode();
+        //turnOffEditMode();
         quantityItemsWithQuantityEqualsZero = 0;
         numberOfProductsPerPage = driver.findElements(By.cssSelector(".item-quantity__general")).size();
         for (int i = 1; i <= numberOfProductsPerPage; i++) {
@@ -225,9 +233,9 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
     public void turnOffShowTheQuantityOfProductsInStorageIfItIsShowed() {
         determineQuantityItemsEqualsZero();
         if (quantityItemsWithQuantityEqualsZero > 3) {
-            turnOnEditMode();
             navigationToComponentOfCatalogSetting();
             showingTheQuantityOfProductsInStorage();
+            turnOffEditMode();
         }
     }
 
@@ -295,8 +303,8 @@ public class MethodsForDangerousTests extends MethodsForCatalog {
             }
         }
         Assert.assertTrue(flag);
-        implicitWaiting();
-        implicitWaiting();
+        deletingProductsFromTheCart(); // из-за всплывашек что товары добавлены-удалены, не могу работать с админ панелью, по этому удаляю их
+        navigationToCatalogTab();
     }
 
     public void checkingThatTheTotalNumberOfOutputProductsIsEqualToThePreviouslyEnteredDataInTestStorage() {

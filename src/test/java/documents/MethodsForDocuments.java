@@ -95,6 +95,9 @@ public class MethodsForDocuments extends BaseActions {
         openDocumentsTabInAdminPanel();
         driver.findElement(By.xpath("//*[@id='menucontainer']//*[text()='Акты']")).click();
         driver.findElement(By.xpath("//*[text()='Акт по заказу №2']")).click();
+        if (driver.findElement(By.cssSelector("#CODE")).getAttribute("value").isEmpty()){
+            driver.findElement(By.cssSelector("#CODE")).sendKeys("actForOrder2");
+        }
         implicitWaiting();
     }
     public void fillingOrganizationField(String INNOrganization){

@@ -10,12 +10,12 @@
                     </methods>
                 </class>
                 <class name="before_test.SettingUpAutotestsForB2BSettings"></class>
-<!--                <class name="access_to_b2b_without_authorization.AccessToB2BWithoutAuthorization"></class>-->
-<!--                <class name="registration_and_authorization.AuthorizationB2B"></class>-->
-<!--                <class name="registration_and_authorization.RegistrationB2B"></class>-->
-<!--                <class name="organizations_with_extended_version.AddingOrganizationsWithExtendedVersion"></class>-->
-<!--                <class name="organizations_with_extended_version.ListOfEmployees"></class>-->
-<!--                <class name="catalog.MenuInTheCatalog"></class>-->
+                <class name="access_to_b2b_without_authorization.AccessToB2BWithoutAuthorization"></class>
+                <class name="registration_and_authorization.AuthorizationB2B"></class>
+                <class name="registration_and_authorization.RegistrationB2B"></class>
+                <class name="organizations_with_extended_version.AddingOrganizationsWithExtendedVersion"></class>
+                <class name="organizations_with_extended_version.ListOfEmployees"></class>
+                <class name="catalog.MenuInTheCatalog"></class>
                 <class name="catalog.Catalog"></class>
                 <class name="basket.Basket"></class>
                 <class name="making_orders.MakingOrders"></class>
@@ -33,108 +33,96 @@
         </test>
 
 
-<!--    <test name="Regression2 with black type of hat and Standard version with confirm user">-->
-<!--        <classes>-->
-<!--            <class name="setting_up_cabinet_for_testing.SettingUpCabinetForTesting">-->
-<!--                <methods>-->
-<!--                    <include name="configureTheBlackHeaderInTheCabinet"/>-->
-<!--                    <include name="enableStandardModeAndConfirmRegistrationUser"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="before_test.SettingUpAutotestsForB2BSettings"></class>-->
-<!--            <class name="access_to_b2b_without_authorization.AccessToB2BWithoutAuthorization"></class>-->
-<!--            <class name="registration_and_authorization.AuthorizationB2B"></class>-->
-<!--            <class name="registration_and_authorization.RegistrationB2B"></class>-->
-<!--            <class name="organizations_with_standard_version.AddingOrganizationsWithStandardVersion"></class>-->
-<!--            <class name="catalog.Catalog"></class>-->
-<!--            <class name="basket.Basket"></class>-->
-<!--            <class name="making_orders.MakingOrders"></class>-->
-<!--            <class name="my_orders_history.MyOrdersHistory"></class>-->
-<!--            <class name="catalog.MenuInTheCatalog"></class>-->
-<!--            <class name="documents.Documents"></class>-->
-<!--            <class name="events.Events"></class>-->
-<!--            <class name="mean_page.MeanPageCalendar"></class>-->
-<!--            <class name="mean_page.MeanPageDesktop"></class>-->
-<!--            <class name="mean_page.MeanPageSettingPage"></class>-->
-<!--            <class name="technical_support.TechnicalSupport"></class>-->
-<!--            <class name="order_templates.OrderTemplates"></class>-->
-<!--            <class name="dangerous_tests.multi_regions.MultiRegions"></class>-->
-<!--            <class name="dangerous_tests.DangerousTests"></class>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="Regression2 with black type of hat and Standard version with confirm user">
+        <classes>
+            <class name="setting_up_cabinet_for_testing.SettingUpCabinetForTesting">
+                <methods>
+                    <include name="configureTheBlackHeaderInTheCabinet"/>
+                    <include name="enableStandardModeAndConfirmRegistrationUser"/>
+                </methods>
+            </class>
+            <class name="before_test.SettingUpAutotestsForB2BSettings"></class>
+            <class name="access_to_b2b_without_authorization.AccessToB2BWithoutAuthorization"></class>
+            <class name="registration_and_authorization.AuthorizationB2B"></class>
+            <class name="registration_and_authorization.RegistrationB2B"></class>
+            <class name="organizations_with_standard_version.AddingOrganizationsWithStandardVersion"></class>
+            <class name="catalog.Catalog"></class>
+            <class name="basket.Basket"></class>
+            <class name="making_orders.MakingOrders"></class>
+            <class name="my_orders_history.MyOrdersHistory"></class>
+            <class name="catalog.MenuInTheCatalog"></class>
+            <class name="documents.Documents"></class>
+            <class name="events.Events"></class>
+            <class name="mean_page.MeanPageCalendar"></class>
+            <class name="mean_page.MeanPageDesktop"></class>
+            <class name="mean_page.MeanPageSettingPage"></class>
+            <class name="technical_support.TechnicalSupport"></class>
+            <class name="order_templates.OrderTemplates"></class>
+            <class name="dangerous_tests.multi_regions.MultiRegions"></class>
+            <class name="dangerous_tests.DangerousTests"></class>
+        </classes>
+    </test>
 
 
-<!--    <test name="Regression3 with white type of hat and Standard version without confirms">-->
-<!--        <classes>-->
-<!--            <class name="setting_up_cabinet_for_testing.SettingUpCabinetForTesting">-->
-<!--                <methods>-->
-<!--                    <include name="configureTheWhiteHeaderInTheCabinet"/>-->
-<!--                    <include name="enableStandardModeAndWithoutConfirmRegistrations"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="before_test.SettingUpAutotestsForB2BSettings"></class>-->
-<!--            <class name="access_to_b2b_without_authorization.AccessToB2BWithoutAuthorization"></class>-->
-<!--            <class name="registration_and_authorization.AuthorizationB2B"></class>-->
-<!--            <class name="registration_and_authorization.RegistrationB2B"></class>-->
-<!--            <class name="organizations_with_standard_version.AddingOrganizationsWithStandardVersion"></class>-->
-<!--            <class name="catalog.Catalog"></class>-->
-<!--            <class name="basket.Basket"></class>-->
-<!--            <class name="making_orders.MakingOrders"></class>-->
-<!--            <class name="my_orders_history.MyOrdersHistory"></class>-->
-<!--            <class name="catalog.MenuInTheCatalog"></class>-->
-<!--            <class name="documents.Documents"></class>-->
-<!--            <class name="events.Events"></class>-->
-<!--            <class name="mean_page.MeanPageCalendar"></class>-->
-<!--            <class name="mean_page.MeanPageDesktop"></class>-->
-<!--            <class name="mean_page.MeanPageSettingPage"></class>-->
-<!--            <class name="technical_support.TechnicalSupport"></class>-->
-<!--            <class name="order_templates.OrderTemplates"></class>-->
-<!--            <class name="dangerous_tests.multi_regions.MultiRegions"></class>-->
-<!--            <class name="dangerous_tests.DangerousTests"></class>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="Regression3 with white type of hat and Standard version without confirms">
+        <classes>
+            <class name="setting_up_cabinet_for_testing.SettingUpCabinetForTesting">
+                <methods>
+                    <include name="configureTheWhiteHeaderInTheCabinet"/>
+                    <include name="enableStandardModeAndWithoutConfirmRegistrations"/>
+                </methods>
+            </class>
+            <class name="before_test.SettingUpAutotestsForB2BSettings"></class>
+            <class name="access_to_b2b_without_authorization.AccessToB2BWithoutAuthorization"></class>
+            <class name="registration_and_authorization.AuthorizationB2B"></class>
+            <class name="registration_and_authorization.RegistrationB2B"></class>
+            <class name="organizations_with_standard_version.AddingOrganizationsWithStandardVersion"></class>
+            <class name="catalog.Catalog"></class>
+            <class name="basket.Basket"></class>
+            <class name="making_orders.MakingOrders"></class>
+            <class name="my_orders_history.MyOrdersHistory"></class>
+            <class name="catalog.MenuInTheCatalog"></class>
+            <class name="documents.Documents"></class>
+            <class name="events.Events"></class>
+            <class name="mean_page.MeanPageCalendar"></class>
+            <class name="mean_page.MeanPageDesktop"></class>
+            <class name="mean_page.MeanPageSettingPage"></class>
+            <class name="technical_support.TechnicalSupport"></class>
+            <class name="order_templates.OrderTemplates"></class>
+            <class name="dangerous_tests.multi_regions.MultiRegions"></class>
+            <class name="dangerous_tests.DangerousTests"></class>
+        </classes>
+    </test>
 
 
-<!--    <test name="Regression4 with white type of hat and extended version">-->
-<!--        <classes>-->
-<!--            <class name="setting_up_cabinet_for_testing.SettingUpCabinetForTesting">-->
-<!--                <methods>-->
-<!--                    <include name="configureTheWhiteHeaderInTheCabinet"/>-->
-<!--                    <include name="enableExtendedModeAndConfirmRegistrations"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="before_test.SettingUpAutotestsForB2BSettings"></class>-->
-<!--            <class name="access_to_b2b_without_authorization.AccessToB2BWithoutAuthorization"></class>-->
-<!--            <class name="registration_and_authorization.AuthorizationB2B"></class>-->
-<!--            <class name="registration_and_authorization.RegistrationB2B"></class>-->
-<!--            <class name="organizations_with_extended_version.AddingOrganizationsWithExtendedVersion"></class>-->
-<!--            <class name="organizations_with_extended_version.ListOfEmployees"></class>-->
-<!--            <class name="catalog.MenuInTheCatalog"></class>-->
-<!--            <class name="catalog.Catalog"></class>-->
-<!--            <class name="basket.Basket"></class>-->
-<!--            <class name="making_orders.MakingOrders"></class>-->
-<!--            <class name="my_orders_history.MyOrdersHistory"></class>-->
-<!--            <class name="documents.Documents"></class>-->
-<!--            <class name="events.Events"></class>-->
-<!--            <class name="mean_page.MeanPageCalendar"></class>-->
-<!--            <class name="mean_page.MeanPageDesktop"></class>-->
-<!--            <class name="mean_page.MeanPageSettingPage"></class>-->
-<!--            <class name="technical_support.TechnicalSupport"></class>-->
-<!--            <class name="order_templates.OrderTemplates"></class>-->
-<!--            <class name="dangerous_tests.multi_regions.MultiRegions"></class>-->
-<!--            <class name="dangerous_tests.DangerousTests"></class>-->
-<!--        </classes>-->
-<!--    </test>-->
-
-    <!--            <class name="setting_up_cabinet_for_testing.setting_up_cabinet_for_testing">-->
-    <!--                <methods>-->
-    <!--                    <include name="configureTheBlackHeaderInTheCabinetAndTheCatalogSectionsInTheFilter"/>-->
-    <!--                    <include name="configureTheWhiteHeaderInTheCabinetAndTheCatalogSectionsInTheFilter"/>-->
-    <!--                    <include name="configureTheBlackHeaderInTheCabinetAndTheCatalogSectionsInTheDropDownList"/>-->
-    <!--                    <include name="configureTheWhiteHeaderInTheCabinetAndTheCatalogSectionsInTheDropDownList"/>-->
-    <!--                    <include name="enableStandardModeAndConfirmRegistrations"/>-->
-    <!--                    <include name="enableStandardModeAndConfirmRegistrationUser"/>-->
-    <!--                    <include name="enableStandardModeAndWithoutConfirmRegistrations"/>-->
-    <!--                </methods>-->
-    <!--            </class>-->
+    <test name="Regression4 with white type of hat and extended version">
+        <classes>
+            <class name="setting_up_cabinet_for_testing.SettingUpCabinetForTesting">
+                <methods>
+                    <include name="configureTheWhiteHeaderInTheCabinet"/>
+                    <include name="enableExtendedModeAndConfirmRegistrations"/>
+                </methods>
+            </class>
+            <class name="before_test.SettingUpAutotestsForB2BSettings"></class>
+            <class name="access_to_b2b_without_authorization.AccessToB2BWithoutAuthorization"></class>
+            <class name="registration_and_authorization.AuthorizationB2B"></class>
+            <class name="registration_and_authorization.RegistrationB2B"></class>
+            <class name="organizations_with_extended_version.AddingOrganizationsWithExtendedVersion"></class>
+            <class name="organizations_with_extended_version.ListOfEmployees"></class>
+            <class name="catalog.MenuInTheCatalog"></class>
+            <class name="catalog.Catalog"></class>
+            <class name="basket.Basket"></class>
+            <class name="making_orders.MakingOrders"></class>
+            <class name="my_orders_history.MyOrdersHistory"></class>
+            <class name="documents.Documents"></class>
+            <class name="events.Events"></class>
+            <class name="mean_page.MeanPageCalendar"></class>
+            <class name="mean_page.MeanPageDesktop"></class>
+            <class name="mean_page.MeanPageSettingPage"></class>
+            <class name="technical_support.TechnicalSupport"></class>
+            <class name="order_templates.OrderTemplates"></class>
+            <class name="dangerous_tests.multi_regions.MultiRegions"></class>
+            <class name="dangerous_tests.DangerousTests"></class>
+        </classes>
+    </test>
 </suite>

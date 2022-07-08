@@ -1,268 +1,268 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Critical">
-<!--    <test name="Critical1 with black type of hat, catalog in filter and extended version">-->
-<!--        <classes>-->
-<!--            <class name="setting_up_cabinet_for_testing.SettingUpCabinetForTesting">-->
-<!--                <methods>-->
-<!--                    <include name="configureTheBlackHeaderInTheCabinet"/>-->
-<!--                    <include name="enableExtendedModeAndConfirmRegistrations"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="before_test.SettingUpAutotestsForB2BSettings"></class>-->
+    <test name="Critical1 with black type of hat, catalog in filter and extended version">
+        <classes>
+            <class name="setting_up_cabinet_for_testing.SettingUpCabinetForTesting">
+                <methods>
+                    <include name="configureTheBlackHeaderInTheCabinet"/>
+                    <include name="enableExtendedModeAndConfirmRegistrations"/>
+                </methods>
+            </class>
+            <class name="before_test.SettingUpAutotestsForB2BSettings"></class>
 
-<!--            <class name="registration_and_authorization.AuthorizationB2B">-->
-<!--                <methods>-->
-<!--                    <include name="authorizationUser"/>-->
-<!--                    <include name="authorizationUserWithWrongPassword"/>-->
-<!--                    <include name="requestingNewPassword"/>-->
-<!--                    <include name="goBackToAuthorizationAfterSendingData"/>-->
-<!--                    <include name="authorizationWithoutConfirmInAdminPart"/>-->
-<!--                    <include name="authorizationUserWithoutConfirmCompany"/>-->
-<!--                    <include name="registrationUserWithTheSameINN"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="registration_and_authorization.RegistrationB2B">-->
-<!--                <methods>-->
-<!--                    <include name="registrationIPWithManualEntryINN"/>-->
-<!--                    <include name="registrationIPWithSelectINNFromList"/>-->
-<!--                    <include name="registrationLegalPersonWithManualEntryINN"/>-->
-<!--                    <include name="registrationLegalPersonWithSelectINNFromList"/>-->
-<!--                    <include name="registrationUserWithoutRequiredFields"/>-->
-<!--                    <include name="registrationUserWithWrongConfirmPassword"/>-->
-<!--                    <include name="registrationUserWithTheSameEmail"/>-->
-<!--                    <include name="registrationUserWithTheSameINN"/>-->
-<!--                    <include name="chekOfButtonAuthorization"/>-->
-<!--                    <include name="authorizationWithoutTheApprovalOfTheAdministratorOfTheRegisteredUser"/>-->
-<!--                    <include name="registrationPersonWithManualEntryINN"/>-->
-<!--                    <include name="checkMessageAboutTheConfirmRegistrationForIP"/>-->
-<!--                    <include name="checkMessageAboutTheConfirmRegistrationForLegalPerson"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="organizations_with_extended_version.AddingOrganizationsWithExtendedVersion">-->
-<!--                <methods>-->
-<!--                    <include name="addOrganizationIPFromTheUser"/>-->
-<!--                    <include name="addOrganizationLegalPersonFromTheUser"/>-->
-<!--                    <include name="checkFieldsRequiredOrOptionalFromTheUser"/>-->
-<!--                    <include name="checkAvailableActionsWithOrganizationsFromTheUser"/>-->
-<!--                    <include name="checkOfJoiningAnOrganizationIP"/>-->
-<!--                    <include name="checkOfJoiningAnOrganizationLP"/>-->
-<!--                    <include name="addingAnEmployeeToAnOrganization"/>-->
-<!--                    <include name="addingReExistingEmployeeToAnOrganization"/>-->
-<!--                    <include name="registrationOfEmployeeFromTheEmployeesSection"/>-->
-<!--                    <include name="registrationOfBossFromTheEmployeesSection"/>-->
-<!--                    <include name="registrationEmployeeFromTheEmployeesSectionWithExistingEmail"/>-->
-<!--                    <include name="addingAnBossToAnOrganizationUsingReferralLink"/>-->
-<!--                    <include name="registeringUserUsingReferralLink"/>-->
-<!--                    <include name="registrationTheSameOrganization"/>-->
-<!--                    <include name="checkThatListOfOrdersIsDisplayedInTheOrdersTab"/>-->
-<!--                    <include name="goToTheCompletedOrderFromTheOrdersTabOfTheOrganizationSDetailedPage"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="organizations_with_extended_version.ListOfEmployees">-->
-<!--                <methods>-->
-<!--                    <include name="a_creatingBossesWithOrganizationsAndEmployees"/>-->
-<!--                    <include name="viewingListOfEmployees"/>-->
-<!--                    <include name="viewingListOfOrganizationOfEmployee"/>-->
-<!--                    <include-->
-<!--                            name="whenShowEmployeesOfAllOrganizationsCheckboxIsSelectedAllEmployeesOfAllOrganizationsAreDisplayed"/>-->
-<!--                    <include-->
-<!--                            name="whenShowAllEmployeesCheckboxIsDisabledOnlyEmployeesOfTheSelectedCompanyAreDisplayed"/>-->
-<!--                    <include name="checkThatEmployeeCannotAddANewEmployee"/>-->
-<!--                    <include-->
-<!--                            name="checkThatListOfEmployeesOfTheOrganizationInWhichEmployeeAreUndergoingModerationIsNotDisplayed"/>-->
-<!--                    <include-->
-<!--                            name="checkThatAfterPassingModerationEmployeesOfOrganizationsInWhichUserHasPassedModerationAreDisplayedInTheListOfEmployees"/>-->
-<!--                    <include name="checkThatEmployeeIsDisplayedByCompanyManagerInApplicationsTab"/>-->
-<!--                    <include name="checkThatPopUpWindowRegistrationOfNewEmployeeIsClosedAfterClickingCancel"/>-->
-<!--                    <include name="selectingOrganizationFromTheHeader"/>-->
-<!--                    <include name="checkingThatUserSeeOnlyThoseOrganizationsInWhichHeHasPassedModeration"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="catalog.Catalog">-->
-<!--                <methods>-->
-<!--                    <include name="addingProductToCart"/>-->
-<!--                    <include name="addingProductToCartUsingIconPlus"/>-->
-<!--                    <include name="addingProductsToCart"/>-->
-<!--                    <include name="addingProductsToCartUsingIconPlus"/>-->
-<!--                    <include name="addingTheMaxNumberOfProductsToCart"/>-->
-<!--                    <include name="addingTheMaxNumberOfProductsToCartUsingIconPlus"/>-->
-<!--                    <include name="addingTheMaxNumberPlusOneOfProductsToCart"/>-->
-<!--                    <include name="addingTheMaxNumberPlusOneOfProductsToCartUsingIconPlus"/>-->
-<!--                    <include name="addingProductsToCartFromDifferentPages"/>-->
-<!--                    <include name="addingProductsToCartUsingIconPlusFromDifferentPages"/>-->
-<!--                    <include name="deletingProductFromTheCatalog"/>-->
-<!--                    <include name="deletingProductFromTheCatalogUsingIconMinus"/>-->
-<!--                    <include name="deletingProductFromTheCatalogFromTheDifferentPages"/>-->
-<!--                    <include name="deletingProductFromTheCatalogFromTheDifferentPagesUsingIconMinus"/>-->
-<!--                    <include name="decreaseProductFromTheCatalogFromTheDifferentPages"/>-->
-<!--                    <include name="decreaseProductFromTheCatalogFromTheDifferentPagesUsingIconMinus"/>-->
-<!--                    <include name="addingProductsWithoutAvailability"/>-->
-<!--                    <include name="addingProductsWithoutAvailabilityUsingIconPlus"/>-->
-<!--                    <include name="downloadCatalogToExcel"/>-->
-<!--                    <include name="uploadCatalogInExcel"/>-->
-<!--                    <include name="uploadCatalogInExcelWithoutSelectingProducts"/>-->
-<!--                    <include name="addingProductToCartFromTabAddAnAdditionalProductUsingIconPlus"/>-->
-<!--                    <include name="sortingProductsByIncreaseAvailability"/>-->
-<!--                    <include name="sortingProductsByDecreaseAvailability"/>-->
-<!--                    <include name="sortingProductsByIncreasePrice"/>-->
-<!--                    <include name="sortingProductsByDecreasePrice"/>-->
-<!--                    <include name="searchingByWord"/>-->
-<!--                    <include name="searchingByPartOfWord"/>-->
-<!--                    <include name="outputOfProductsWhenSelectingACategory"/>-->
-<!--                    <include name="filteringProductsByMaxPrice"/>-->
-<!--                    <include name="filteringProductsByMinPrice"/>-->
-<!--                    <include name="openingDetailedProductInformation"/>-->
-<!--                    <include name="checkExcelUploadSettings"/>-->
-<!--                    <include name="addingAnItemToTheCartAfterDownloadingItFromExcel"/>-->
-<!--                    <include name="sortingOfProductsAlphabeticallyIncrease"/>-->
-<!--                    <include name="sortingOfProductsAlphabeticallyDescending"/>-->
-<!--                    <include name="checkingCorrectnessOfPagination"/>-->
-<!--                    <include name="checkingCorrectnessOfTheOutputOfSecondLevelDirectorySections"/>-->
-<!--                    <include name="checkingCorrectnessOfOutputOfRelevantFilterProperties"/>-->
-<!--                    <include name="outputOfCatalogCategorySubsections"/>-->
-<!--                    <include name="addingProductFromTheProductCard"/>-->
-<!--                    <include name="checkingCorrectnessOfTheOutputDirectorySectionsUsingTheNamesAndNumberOfProducts"/>-->
-<!--                    <include name="addingProductToTheCartFromTheDetailedPopUpProductPage"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="basket.Basket">-->
-<!--                <methods>-->
-<!--                    <include name="deletingAndRestoringOneOfTheProductsInTheShoppingCart"/>-->
-<!--                    <include name="highlightingAllProductsUsingTheHighlightAllCheckbox"/>-->
-<!--                    <include name="uploadCatalogInExcelInTheCart"/>-->
-<!--                    <include name="addingTenRandomAdditionalProducts"/>-->
-<!--                    <include name="goToCatalogFromAnEmptyShoppingCartUsingTheHyperlinkClickHere"/>-->
-<!--                    <include name="selectSectionByPartOfItsName"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="making_orders.MakingOrders">-->
-<!--                <methods>-->
-<!--                    <include name="madeOrder"/>-->
-<!--                    <include name="madeOrderWithRandomDeliveryWay"/>-->
-<!--                    <include name="madeOrderWithRandomDeliveryWayAndPaymentMethod"/>-->
-<!--                    <include-->
-<!--                            name="madeOrderWithRandomDeliveryWayAndPaymentMethodAfterAddingProductsToCartFromDifferentPagesCatalog"/>-->
-<!--                    <include-->
-<!--                            name="madeOrderWithRandomDeliveryWayAndPaymentMethodAfterAddingProductsToCartFromExcelCatalog"/>-->
-<!--                    <include-->
-<!--                            name="madeOrderWithRandomDeliveryWayAndPaymentMethodAfterAddingProductToCartAndChoiceOrganization"/>-->
-<!--                    <include-->
-<!--                            name="madeOrderWithRandomDeliveryWayAndPaymentMethodAfterAddingProductsToCartAndChoiceOrganization"/>-->
-<!--                    <include name="checkingTheCorrectnessOfChangingOrderDetailsWhenChangingOrganizations"/>-->
-<!--                    <include name="checkingTheValidityOfTheOrderFormRequiredOptionalFields"/>-->
-<!--                    <include name="checkThatTheNumberOfDeliveryMethodsIsEqualToTheNumberOfActiveInTheAdminPart"/>-->
-<!--                    <include name="cancelOfThePickupDeliveryMethodInThePopUpWindowForSelectingAnAddressForPickup"/>-->
-<!--                    <include name="theTotalAmountAtTheTopOfTheCheckoutPageIsEqualToThePriceIndicatedInTheShoppingCart"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="my_orders_history.MyOrdersHistory">-->
-<!--                <methods>-->
-<!--                    <include name="doneOrderIsDisplayedInMyOrdersPage"/>-->
-<!--                    <include name="informationOrderEqualsTheOneSpecifiedWhenMadeOrder"/>-->
-<!--                    <include name="checkDetailInformationOnOrderPage"/>-->
-<!--                    <include name="CancelMadeOrder"/>-->
-<!--                    <include name="reOrderingRandomOrder"/>-->
-<!--                    <include name="ChangingPaymentMethodForCompletedOrder"/>-->
-<!--                    <include name="settingUpTheNumberOfOrdersOnThePageThenCheckingPagination"/>-->
-<!--                    <include name="checkingTheCorrectnessOfTheProductsOfTheGoodsOnTheDetailedPageOfTheCompletedOrder"/>-->
-<!--                    <include name="searchForTheAddedProductOnTheDetailedPageOfTheCompletedOrder"/>-->
-<!--                    <include name="addingSecondPaymentForAnOrderCheckingItsDisplayOnTheDetailPage"/>-->
-<!--                    <include name="addingSecondShipmentOfTheOrderCheckingItsDisplayOnTheDetailedOrderPage"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="documents.Documents">-->
-<!--                <methods>-->
-<!--                    <include name="addExistingDocumentToUser"/>-->
-<!--                    <include name="addExistingDocumentWithOrganizationToUser"/>-->
-<!--                    <include name="addDocumentToUser"/>-->
-<!--                    <include name="addDocumentWithOrganizationToUser"/>-->
-<!--                    <include name="displayingTheDocumentLinkedToTheOrder"/>-->
-<!--                    <include name="goToTheDetailedOrderPageFromTheDocumentsSectionUsingTheDocumentLinkedToTheOrder"/>-->
-<!--                    <include name="changingTheOrderOutputOfInformationBlocksInTheDocumentsSection"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="events.Events">-->
-<!--                <methods>-->
-<!--                    <include name="checkingMailEventsAndTheirStatusesAfterUserRegistration"/>-->
-<!--                    <include name="checkingTheTableInTheAdminPartWithAListOfCompanies"/>-->
-<!--                    <include name="displayingConfirmationThatTheUserIsAnAdministratorInTheTable"/>-->
-<!--                    <include name="notificationToAnEmployeeAboutRefusalToJoinTheCompany"/>-->
-<!--                    <include name="creatingAMailEventAfterAddingAnEmployeeToTheCompanySManagement"/>-->
-<!--                    <include name="creatingAMailEventAfterDeletingAnEmployeeFromTheCurrentCompany"/>-->
-<!--                    <include name="notificationOfTheUserSModerationFromTheAdministrator"/>-->
-<!--                    <include name="eventAboutCompanyRegistrationConfirmationFromTheAdmin"/>-->
-<!--                    <include name="eventAboutUserRegistrationRejection"/>-->
-<!--                    <include name="eventAboutRejectionOfCompanyRegistration"/>-->
-<!--                    <include name="eventAboutRequestToJoinTheCompanyFromAnEmployee"/>-->
-<!--                    <include name="eventThatTheEmployeeHasBeenConfirmedToJoinTheCompany"/>-->
-<!--                    <include name="eventAboutRefusalToJoinTheCompanyToAnEmployee"/>-->
-<!--                    <include name="checkAvailableActionsWithOrganizationsFromTheUser"/>-->
-<!--                    <include name="eventThatTheAdministratorHasNotConfirmedTheChangeOfTheOrganizationSData"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="mean_page.MeanPageCalendar">-->
-<!--                <methods>-->
-<!--                    <include name="checkThatTheOrdersAreDisplayInTheCalendarForAdmin"/>-->
-<!--                    <include name="checkThatTheOrdersAreDisplayInTheCalendarForUser"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="mean_page.MeanPageDesktop">-->
-<!--                <methods>-->
-<!--                    <include name="a_deletingAllAndAddingAllWidgets"/>-->
-<!--                    <include name="checkThatTheBannerIsVisible"/>-->
-<!--                    <include name="movingWidgetsWithTheAdmin"/>-->
-<!--                    <include name="movingWidgetsWithTheUser"/>-->
-<!--                    <include name="addingAndRemovingWidgetsFromTheAdmin"/>-->
-<!--                    <include name="addingAndRemovingWidgetsFromTheUser"/>-->
-<!--                    <include name="settingTheDefaultWidgetSetForAdmin"/>-->
-<!--                    <include name="settingTheDefaultWidgetSetForUser"/>-->
-<!--                    <include name="checkingTheDataInWidgetOfMyOrdersForAdmin"/>-->
-<!--                    <include name="checkingTheDataInWidgetOfMyOrdersForUser"/>-->
-<!--                    <include name="checkingTheDataInWidgetOfPersonalDataForAdmin"/>-->
-<!--                    <include name="checkingTheDataInWidgetOfPersonalDataForUser"/>-->
-<!--                    <include name="checkingTheDataInWidgetOfMyCartForAdmin"/>-->
-<!--                    <include name="checkingTheDataInWidgetOfMyCartForUser"/>-->
-<!--                    <include name="checkingTheDataInWidgetOfOrganizationsForAdmin"/>-->
-<!--                    <include name="checkingTheDataInWidgetOfOrganizationsForUser"/>-->
-<!--                    <include name="userDoesNotHaveSaveDefaultSettingsButton"/>-->
-<!--                    <include name="checkingTheOutputDataOfTheNotesWidgetFromTheAdminAndTheUser"/>-->
-<!--                    <include name="checkingTheOutputDataOfTheCatalogWidgetFromTheAdmin"/>-->
-<!--                    <include name="checkingTheOutputDataOfTheCatalogWidgetFromTheUser"/>-->
-<!--                    <include name="checkingTheOutputDataOfTheTrafficJamsWidget"/>-->
-<!--                    <include name="addingFavoriteLinkFromTheAdminDisplayingThisLinkForUsers"/>-->
-<!--                    <include name="checkingAddingWidgetOfWeatherForAdmin"/>-->
-<!--                    <include name="checkingAddingWidgetOfWeatherForUser"/>-->
-<!--                    <include name="checkingAddingWidgetOfRssLentForAdmin"/>-->
-<!--                    <include name="checkingAddingWidgetOfRssLentForUser"/>-->
-<!--                    <include name="orderReplenishmentOfThePersonalAccountUsingThePersonalAccountWidget"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="mean_page.MeanPageSettingPage">-->
-<!--                <methods>-->
-<!--                    <include name="changeTheBasicDataForUser"/>-->
-<!--                    <include name="changeThePasswordAndLogInWithNewOneForUser"/>-->
-<!--                    <include name="checkTheDisplayOfThePrivacyPolicy"/>-->
-<!--                    <include name="changeThePersonalDataForUser"/>-->
-<!--                    <include name="changeTheBasicDataForUserWithoutAgreement"/>-->
-<!--                    <include name="changeThePersonalDataWithPhotoForUser"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="technical_support.TechnicalSupport">-->
-<!--                <methods>-->
-<!--                    <include name="contactingTheSupportService"/>-->
-<!--                    <include name="contactingTheSupportServiceWithAddedFile"/>-->
-<!--                    <include name="checkingRequestAtAdmin"/>-->
-<!--                    <include name="checkingRequestWithFileAtAdmin"/>-->
-<!--                    <include name="answerToRequestFromAdmin"/>-->
-<!--                    <include name="sendingMessageToTheSupportServiceFromTheDetailedPageOfTheCompletedOrder"/>-->
-<!--                    <include name="theUserSRequestsToTheTPAreDisplayedOnlyFromTheUserWhoSentTheseRequests"/>-->
-<!--                    <include name="goToTheDetailedPageOfTheRequest"/>-->
-<!--                    <include name="displayingErrorMessagesWhenSendingARequestWithoutFillingTheRequiredFields"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--        </classes>-->
-<!--    </test>-->
+            <class name="registration_and_authorization.AuthorizationB2B">
+                <methods>
+                    <include name="authorizationUser"/>
+                    <include name="authorizationUserWithWrongPassword"/>
+                    <include name="requestingNewPassword"/>
+                    <include name="goBackToAuthorizationAfterSendingData"/>
+                    <include name="authorizationWithoutConfirmInAdminPart"/>
+                    <include name="authorizationUserWithoutConfirmCompany"/>
+                    <include name="registrationUserWithTheSameINN"/>
+                </methods>
+            </class>
+            <class name="registration_and_authorization.RegistrationB2B">
+                <methods>
+                    <include name="registrationIPWithManualEntryINN"/>
+                    <include name="registrationIPWithSelectINNFromList"/>
+                    <include name="registrationLegalPersonWithManualEntryINN"/>
+                    <include name="registrationLegalPersonWithSelectINNFromList"/>
+                    <include name="registrationUserWithoutRequiredFields"/>
+                    <include name="registrationUserWithWrongConfirmPassword"/>
+                    <include name="registrationUserWithTheSameEmail"/>
+                    <include name="registrationUserWithTheSameINN"/>
+                    <include name="chekOfButtonAuthorization"/>
+                    <include name="authorizationWithoutTheApprovalOfTheAdministratorOfTheRegisteredUser"/>
+                    <include name="registrationPersonWithManualEntryINN"/>
+                    <include name="checkMessageAboutTheConfirmRegistrationForIP"/>
+                    <include name="checkMessageAboutTheConfirmRegistrationForLegalPerson"/>
+                </methods>
+            </class>
+            <class name="organizations_with_extended_version.AddingOrganizationsWithExtendedVersion">
+                <methods>
+                    <include name="addOrganizationIPFromTheUser"/>
+                    <include name="addOrganizationLegalPersonFromTheUser"/>
+                    <include name="checkFieldsRequiredOrOptionalFromTheUser"/>
+                    <include name="checkAvailableActionsWithOrganizationsFromTheUser"/>
+                    <include name="checkOfJoiningAnOrganizationIP"/>
+                    <include name="checkOfJoiningAnOrganizationLP"/>
+                    <include name="addingAnEmployeeToAnOrganization"/>
+                    <include name="addingReExistingEmployeeToAnOrganization"/>
+                    <include name="registrationOfEmployeeFromTheEmployeesSection"/>
+                    <include name="registrationOfBossFromTheEmployeesSection"/>
+                    <include name="registrationEmployeeFromTheEmployeesSectionWithExistingEmail"/>
+                    <include name="addingAnBossToAnOrganizationUsingReferralLink"/>
+                    <include name="registeringUserUsingReferralLink"/>
+                    <include name="registrationTheSameOrganization"/>
+                    <include name="checkThatListOfOrdersIsDisplayedInTheOrdersTab"/>
+                    <include name="goToTheCompletedOrderFromTheOrdersTabOfTheOrganizationSDetailedPage"/>
+                </methods>
+            </class>
+            <class name="organizations_with_extended_version.ListOfEmployees">
+                <methods>
+                    <include name="a_creatingBossesWithOrganizationsAndEmployees"/>
+                    <include name="viewingListOfEmployees"/>
+                    <include name="viewingListOfOrganizationOfEmployee"/>
+                    <include
+                            name="whenShowEmployeesOfAllOrganizationsCheckboxIsSelectedAllEmployeesOfAllOrganizationsAreDisplayed"/>
+                    <include
+                            name="whenShowAllEmployeesCheckboxIsDisabledOnlyEmployeesOfTheSelectedCompanyAreDisplayed"/>
+                    <include name="checkThatEmployeeCannotAddANewEmployee"/>
+                    <include
+                            name="checkThatListOfEmployeesOfTheOrganizationInWhichEmployeeAreUndergoingModerationIsNotDisplayed"/>
+                    <include
+                            name="checkThatAfterPassingModerationEmployeesOfOrganizationsInWhichUserHasPassedModerationAreDisplayedInTheListOfEmployees"/>
+                    <include name="checkThatEmployeeIsDisplayedByCompanyManagerInApplicationsTab"/>
+                    <include name="checkThatPopUpWindowRegistrationOfNewEmployeeIsClosedAfterClickingCancel"/>
+                    <include name="selectingOrganizationFromTheHeader"/>
+                    <include name="checkingThatUserSeeOnlyThoseOrganizationsInWhichHeHasPassedModeration"/>
+                </methods>
+            </class>
+            <class name="catalog.Catalog">
+                <methods>
+                    <include name="addingProductToCart"/>
+                    <include name="addingProductToCartUsingIconPlus"/>
+                    <include name="addingProductsToCart"/>
+                    <include name="addingProductsToCartUsingIconPlus"/>
+                    <include name="addingTheMaxNumberOfProductsToCart"/>
+                    <include name="addingTheMaxNumberOfProductsToCartUsingIconPlus"/>
+                    <include name="addingTheMaxNumberPlusOneOfProductsToCart"/>
+                    <include name="addingTheMaxNumberPlusOneOfProductsToCartUsingIconPlus"/>
+                    <include name="addingProductsToCartFromDifferentPages"/>
+                    <include name="addingProductsToCartUsingIconPlusFromDifferentPages"/>
+                    <include name="deletingProductFromTheCatalog"/>
+                    <include name="deletingProductFromTheCatalogUsingIconMinus"/>
+                    <include name="deletingProductFromTheCatalogFromTheDifferentPages"/>
+                    <include name="deletingProductFromTheCatalogFromTheDifferentPagesUsingIconMinus"/>
+                    <include name="decreaseProductFromTheCatalogFromTheDifferentPages"/>
+                    <include name="decreaseProductFromTheCatalogFromTheDifferentPagesUsingIconMinus"/>
+                    <include name="addingProductsWithoutAvailability"/>
+                    <include name="addingProductsWithoutAvailabilityUsingIconPlus"/>
+                    <include name="downloadCatalogToExcel"/>
+                    <include name="uploadCatalogInExcel"/>
+                    <include name="uploadCatalogInExcelWithoutSelectingProducts"/>
+                    <include name="addingProductToCartFromTabAddAnAdditionalProductUsingIconPlus"/>
+                    <include name="sortingProductsByIncreaseAvailability"/>
+                    <include name="sortingProductsByDecreaseAvailability"/>
+                    <include name="sortingProductsByIncreasePrice"/>
+                    <include name="sortingProductsByDecreasePrice"/>
+                    <include name="searchingByWord"/>
+                    <include name="searchingByPartOfWord"/>
+                    <include name="outputOfProductsWhenSelectingACategory"/>
+                    <include name="filteringProductsByMaxPrice"/>
+                    <include name="filteringProductsByMinPrice"/>
+                    <include name="openingDetailedProductInformation"/>
+                    <include name="checkExcelUploadSettings"/>
+                    <include name="addingAnItemToTheCartAfterDownloadingItFromExcel"/>
+                    <include name="sortingOfProductsAlphabeticallyIncrease"/>
+                    <include name="sortingOfProductsAlphabeticallyDescending"/>
+                    <include name="checkingCorrectnessOfPagination"/>
+                    <include name="checkingCorrectnessOfTheOutputOfSecondLevelDirectorySections"/>
+                    <include name="checkingCorrectnessOfOutputOfRelevantFilterProperties"/>
+                    <include name="outputOfCatalogCategorySubsections"/>
+                    <include name="addingProductFromTheProductCard"/>
+                    <include name="checkingCorrectnessOfTheOutputDirectorySectionsUsingTheNamesAndNumberOfProducts"/>
+                    <include name="addingProductToTheCartFromTheDetailedPopUpProductPage"/>
+                </methods>
+            </class>
+            <class name="basket.Basket">
+                <methods>
+                    <include name="deletingAndRestoringOneOfTheProductsInTheShoppingCart"/>
+                    <include name="highlightingAllProductsUsingTheHighlightAllCheckbox"/>
+                    <include name="uploadCatalogInExcelInTheCart"/>
+                    <include name="addingTenRandomAdditionalProducts"/>
+                    <include name="goToCatalogFromAnEmptyShoppingCartUsingTheHyperlinkClickHere"/>
+                    <include name="selectSectionByPartOfItsName"/>
+                </methods>
+            </class>
+            <class name="making_orders.MakingOrders">
+                <methods>
+                    <include name="madeOrder"/>
+                    <include name="madeOrderWithRandomDeliveryWay"/>
+                    <include name="madeOrderWithRandomDeliveryWayAndPaymentMethod"/>
+                    <include
+                            name="madeOrderWithRandomDeliveryWayAndPaymentMethodAfterAddingProductsToCartFromDifferentPagesCatalog"/>
+                    <include
+                            name="madeOrderWithRandomDeliveryWayAndPaymentMethodAfterAddingProductsToCartFromExcelCatalog"/>
+                    <include
+                            name="madeOrderWithRandomDeliveryWayAndPaymentMethodAfterAddingProductToCartAndChoiceOrganization"/>
+                    <include
+                            name="madeOrderWithRandomDeliveryWayAndPaymentMethodAfterAddingProductsToCartAndChoiceOrganization"/>
+                    <include name="checkingTheCorrectnessOfChangingOrderDetailsWhenChangingOrganizations"/>
+                    <include name="checkingTheValidityOfTheOrderFormRequiredOptionalFields"/>
+                    <include name="checkThatTheNumberOfDeliveryMethodsIsEqualToTheNumberOfActiveInTheAdminPart"/>
+                    <include name="cancelOfThePickupDeliveryMethodInThePopUpWindowForSelectingAnAddressForPickup"/>
+                    <include name="theTotalAmountAtTheTopOfTheCheckoutPageIsEqualToThePriceIndicatedInTheShoppingCart"/>
+                </methods>
+            </class>
+            <class name="my_orders_history.MyOrdersHistory">
+                <methods>
+                    <include name="doneOrderIsDisplayedInMyOrdersPage"/>
+                    <include name="informationOrderEqualsTheOneSpecifiedWhenMadeOrder"/>
+                    <include name="checkDetailInformationOnOrderPage"/>
+                    <include name="CancelMadeOrder"/>
+                    <include name="reOrderingRandomOrder"/>
+                    <include name="ChangingPaymentMethodForCompletedOrder"/>
+                    <include name="settingUpTheNumberOfOrdersOnThePageThenCheckingPagination"/>
+                    <include name="checkingTheCorrectnessOfTheProductsOfTheGoodsOnTheDetailedPageOfTheCompletedOrder"/>
+                    <include name="searchForTheAddedProductOnTheDetailedPageOfTheCompletedOrder"/>
+                    <include name="addingSecondPaymentForAnOrderCheckingItsDisplayOnTheDetailPage"/>
+                    <include name="addingSecondShipmentOfTheOrderCheckingItsDisplayOnTheDetailedOrderPage"/>
+                </methods>
+            </class>
+            <class name="documents.Documents">
+                <methods>
+                    <include name="addExistingDocumentToUser"/>
+                    <include name="addExistingDocumentWithOrganizationToUser"/>
+                    <include name="addDocumentToUser"/>
+                    <include name="addDocumentWithOrganizationToUser"/>
+                    <include name="displayingTheDocumentLinkedToTheOrder"/>
+                    <include name="goToTheDetailedOrderPageFromTheDocumentsSectionUsingTheDocumentLinkedToTheOrder"/>
+                    <include name="changingTheOrderOutputOfInformationBlocksInTheDocumentsSection"/>
+                </methods>
+            </class>
+            <class name="events.Events">
+                <methods>
+                    <include name="checkingMailEventsAndTheirStatusesAfterUserRegistration"/>
+                    <include name="checkingTheTableInTheAdminPartWithAListOfCompanies"/>
+                    <include name="displayingConfirmationThatTheUserIsAnAdministratorInTheTable"/>
+                    <include name="notificationToAnEmployeeAboutRefusalToJoinTheCompany"/>
+                    <include name="creatingAMailEventAfterAddingAnEmployeeToTheCompanySManagement"/>
+                    <include name="creatingAMailEventAfterDeletingAnEmployeeFromTheCurrentCompany"/>
+                    <include name="notificationOfTheUserSModerationFromTheAdministrator"/>
+                    <include name="eventAboutCompanyRegistrationConfirmationFromTheAdmin"/>
+                    <include name="eventAboutUserRegistrationRejection"/>
+                    <include name="eventAboutRejectionOfCompanyRegistration"/>
+                    <include name="eventAboutRequestToJoinTheCompanyFromAnEmployee"/>
+                    <include name="eventThatTheEmployeeHasBeenConfirmedToJoinTheCompany"/>
+                    <include name="eventAboutRefusalToJoinTheCompanyToAnEmployee"/>
+                    <include name="checkAvailableActionsWithOrganizationsFromTheUser"/>
+                    <include name="eventThatTheAdministratorHasNotConfirmedTheChangeOfTheOrganizationSData"/>
+                </methods>
+            </class>
+            <class name="mean_page.MeanPageCalendar">
+                <methods>
+                    <include name="checkThatTheOrdersAreDisplayInTheCalendarForAdmin"/>
+                    <include name="checkThatTheOrdersAreDisplayInTheCalendarForUser"/>
+                </methods>
+            </class>
+            <class name="mean_page.MeanPageDesktop">
+                <methods>
+                    <include name="a_deletingAllAndAddingAllWidgets"/>
+                    <include name="checkThatTheBannerIsVisible"/>
+                    <include name="movingWidgetsWithTheAdmin"/>
+                    <include name="movingWidgetsWithTheUser"/>
+                    <include name="addingAndRemovingWidgetsFromTheAdmin"/>
+                    <include name="addingAndRemovingWidgetsFromTheUser"/>
+                    <include name="settingTheDefaultWidgetSetForAdmin"/>
+                    <include name="settingTheDefaultWidgetSetForUser"/>
+                    <include name="checkingTheDataInWidgetOfMyOrdersForAdmin"/>
+                    <include name="checkingTheDataInWidgetOfMyOrdersForUser"/>
+                    <include name="checkingTheDataInWidgetOfPersonalDataForAdmin"/>
+                    <include name="checkingTheDataInWidgetOfPersonalDataForUser"/>
+                    <include name="checkingTheDataInWidgetOfMyCartForAdmin"/>
+                    <include name="checkingTheDataInWidgetOfMyCartForUser"/>
+                    <include name="checkingTheDataInWidgetOfOrganizationsForAdmin"/>
+                    <include name="checkingTheDataInWidgetOfOrganizationsForUser"/>
+                    <include name="userDoesNotHaveSaveDefaultSettingsButton"/>
+                    <include name="checkingTheOutputDataOfTheNotesWidgetFromTheAdminAndTheUser"/>
+                    <include name="checkingTheOutputDataOfTheCatalogWidgetFromTheAdmin"/>
+                    <include name="checkingTheOutputDataOfTheCatalogWidgetFromTheUser"/>
+                    <include name="checkingTheOutputDataOfTheTrafficJamsWidget"/>
+                    <include name="addingFavoriteLinkFromTheAdminDisplayingThisLinkForUsers"/>
+                    <include name="checkingAddingWidgetOfWeatherForAdmin"/>
+                    <include name="checkingAddingWidgetOfWeatherForUser"/>
+                    <include name="checkingAddingWidgetOfRssLentForAdmin"/>
+                    <include name="checkingAddingWidgetOfRssLentForUser"/>
+                    <include name="orderReplenishmentOfThePersonalAccountUsingThePersonalAccountWidget"/>
+                </methods>
+            </class>
+            <class name="mean_page.MeanPageSettingPage">
+                <methods>
+                    <include name="changeTheBasicDataForUser"/>
+                    <include name="changeThePasswordAndLogInWithNewOneForUser"/>
+                    <include name="checkTheDisplayOfThePrivacyPolicy"/>
+                    <include name="changeThePersonalDataForUser"/>
+                    <include name="changeTheBasicDataForUserWithoutAgreement"/>
+                    <include name="changeThePersonalDataWithPhotoForUser"/>
+                </methods>
+            </class>
+            <class name="technical_support.TechnicalSupport">
+                <methods>
+                    <include name="contactingTheSupportService"/>
+                    <include name="contactingTheSupportServiceWithAddedFile"/>
+                    <include name="checkingRequestAtAdmin"/>
+                    <include name="checkingRequestWithFileAtAdmin"/>
+                    <include name="answerToRequestFromAdmin"/>
+                    <include name="sendingMessageToTheSupportServiceFromTheDetailedPageOfTheCompletedOrder"/>
+                    <include name="theUserSRequestsToTheTPAreDisplayedOnlyFromTheUserWhoSentTheseRequests"/>
+                    <include name="goToTheDetailedPageOfTheRequest"/>
+                    <include name="displayingErrorMessagesWhenSendingARequestWithoutFillingTheRequiredFields"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 
 
     <test name="Critical2 with black type of hat, dropDown catalog  and Standard version with confirm user">

@@ -954,16 +954,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
         }
     }
 
-    public void navigationToProfilesOfBuyers() {
-        driver.findElement(buttonToGoToAdminPartLocator).click();
-        driver.findElement(sotbitTabLocator).click();
-        try {
-            driver.findElement(By.xpath("//*[@class = 'adm-sub-submenu-block adm-sub-submenu-open']//*[@class='adm-submenu-item-name-link-text'][contains(text(),'[s1] Сотбит: B2B кабинет')]")).click();
-        } catch (Exception e) {
-            driver.findElement(By.xpath("(//*[contains(@class,'adm-submenu-item-name-link-text')][contains(text(), 'Личный кабинет B2B')])[1]")).click();
-            driver.findElement(By.xpath("//*[@class = 'adm-sub-submenu-block adm-sub-submenu-open']//*[@class='adm-submenu-item-name-link-text'][contains(text(),'s1')]")).click();
-        }
-    }
+
 
     public void checkingThatNeededProfilesOfBuyersIsSelected() {
         tempIntValue = driver.findElements(By.xpath("//*[contains(@id, 'BUYER_PERSONAL_TYPE')] /option")).size();
@@ -985,7 +976,7 @@ public class MethodsForAddingOrganizationsWithExtendedVersion extends BaseAction
                 navigationToAuthorizationTab();
                 fillingFieldsOnTheLogInTabLikeAdmin();
                 logInToB2B();
-                navigationToProfilesOfBuyers();
+                navigationToBasicB2BSettings();
             }
         }
     }

@@ -805,7 +805,7 @@ public class MethodsForRegistrationAndAuthorization extends BaseActions {
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(),'Ожидайте подтверждение модератором.')]")).isDisplayed());
         navigationToMeanPageByUrl();
         //Assert.assertTrue(driver.findElement(By.cssSelector(".login-form")).isDisplayed());
-        Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Войти']")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("//span[contains(text(), 'Войти')]")).isDisplayed());
     }
 
 

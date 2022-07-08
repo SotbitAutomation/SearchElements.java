@@ -19,5 +19,13 @@ http://joxi.ru/LmGWYeKSBdR83m  - аллюр и мавен.
 
 5. Для запуска наборов тестов из xml файла http://joxi.ru/p27Yl9jHLp0M1r
 
+Доступы:
 
+https://github.com/
+a.gospod@sotbit.ru
+sotbit123456
+
+mail
+a.gospod@sotbit.ru
+sotbit123456qwerQA
 

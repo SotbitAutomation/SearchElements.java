@@ -868,9 +868,6 @@ public class Catalog extends MethodsForCatalog {
         refreshingThisPage();
         selectAllItemsInTheCart();
         checkingThatSuchNumberOfSelectedProductsAppearedInTheBasket(quantityItemsInTheCart);
-
-
-
     }
 
 

@@ -148,7 +148,7 @@ public class MethodsForSettingUpCabinetForTesting extends BaseActions {
         driver.findElement(buttonSaveLocator).click();
         themeColorBlack = false;
         try {
-            outputStream = new ObjectOutputStream(new FileOutputStream(fileNameForB2BThemeColor));
+            outputStream = new ObjectOutputStream(new FileOutputStream("currentSettingsB2B\\" + fileNameForB2BThemeColor));
         } catch (IOException e) {
             e.printStackTrace();
         }

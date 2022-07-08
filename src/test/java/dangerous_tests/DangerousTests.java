@@ -72,7 +72,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         navigationToSystemSettings();
         disableOutputOfPropertiesInTheDirectory();
         navigationToMeanPageByUrl();
-        turnOnEditMode();
+        //turnOnEditMode();
         navigationToCatalogTab();
         navigationToComponentOfCatalogSetting();
         removeAllColumnsWithPropertiesFromTheCatalog();
@@ -357,12 +357,10 @@ public class DangerousTests extends MethodsForDangerousTests {
         returningSettingsBackIfCatalogBroken();
         deletingProductsFromTheCart();
         navigationToCatalogTab();
-        turnOnEditMode();
         showTheQuantityOfProductsInStorageIfItIsNotShowed();
         navigationToAdminPartFromMeanPage();
         navigationToGasStoveSetting();
         returningQuantitativeAccountingAtTheGefestGasStoveByDefault();
-        addingSecondStorageIfItNeed();
         navigationToGasStoveSetting();
         addingProductsToTheStorages();
         navigationToMeanPageByUrl();
@@ -370,7 +368,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         navigationToComponentOfCatalogSetting();
         configureTheOutputOfAllStoragesToTheCatalog();
         navigationToMeanPageByUrl();
-        turnOffEditMode();
+        //turnOffEditMode();
         navigationToCatalogTab();
         selectTheSectionWithGasStoves();
         enterTheMaximumAvailableQuantityOfThisProduct();
@@ -426,72 +424,72 @@ public class DangerousTests extends MethodsForDangerousTests {
         returningQuantitativeAccountingAtTheGefestGasStoveByDefault();
     }
 
-    @Test(retryAnalyzer = Retry.class) //16. Изменение кол-ва ТП в корзине
-    public void changingNumberOfTPInTheCart() {
-        //arrange
-        areThereAnyOffers = true;
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeAdmin();
-        logInToB2B();
-        returningSettingsBackIfCatalogBroken();
-        deletingProductsFromTheCart();
-        navigationToCatalogTab();
-        choiceCatalogWithOnlyOffers();
-        navigationToCatalogTab();
-        changeTheQuantityOfRandomProduct();
-        checkingThatThePriceOfTheAddedProductHasBeenCalculated();
-        navigationToCart();
-        //act
-        addingMaxQuantityOfProductInTheCartUsingPlusIconOneMoreThanAvailable(quantityFieldOfRandomTPLocator, iconPlusOfRandomTPLocator, quantityOfProductsInStock);
-        checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfRandomTPLocator, quantityOfProductsInStock);
-        attemptToSelectNegativeQuantityOfProductsInTheCartUsingMinusIcon(quantityFieldOfRandomTPLocator, iconMinusOfRandomTPLocator);
-        checkingThatQuantityThisProductIsEqualsOne(quantityFieldOfRandomTPLocator);
-        attemptToEnterNegativeQuantityOfProductsInTheCart(quantityFieldOfRandomTPLocator);
-        checkingThatQuantityThisProductIsNotNegative(quantityFieldOfRandomTPLocator);
-        addingMaxQuantityOfProductInTheCartUsingInputField(quantityFieldOfRandomTPLocator, quantityOfProductsInStock);
-        checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfRandomTPLocator, quantityOfProductsInStock);
-        navigationToCatalogTab();
-        choiceStandardCatalog();
-    }
+//    @Test(retryAnalyzer = Retry.class) //16. Изменение кол-ва ТП в корзине
+//    public void changingNumberOfTPInTheCart() {
+//        //arrange
+//        areThereAnyOffers = true;
+//        navigationToAuthorizationTab();
+//        fillingFieldsOnTheLogInTabLikeAdmin();
+//        logInToB2B();
+//        returningSettingsBackIfCatalogBroken();
+//        deletingProductsFromTheCart();
+//        navigationToCatalogTab();
+//        choiceCatalogWithOnlyOffers();
+//        navigationToCatalogTab();
+//        changeTheQuantityOfRandomProduct();
+//        checkingThatThePriceOfTheAddedProductHasBeenCalculated();
+//        navigationToCart();
+//        //act
+//        addingMaxQuantityOfProductInTheCartUsingPlusIconOneMoreThanAvailable(quantityFieldOfRandomTPLocator, iconPlusOfRandomTPLocator, quantityOfProductsInStock);
+//        checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfRandomTPLocator, quantityOfProductsInStock);
+//        attemptToSelectNegativeQuantityOfProductsInTheCartUsingMinusIcon(quantityFieldOfRandomTPLocator, iconMinusOfRandomTPLocator);
+//        checkingThatQuantityThisProductIsEqualsOne(quantityFieldOfRandomTPLocator);
+//        attemptToEnterNegativeQuantityOfProductsInTheCart(quantityFieldOfRandomTPLocator);
+//        checkingThatQuantityThisProductIsNotNegative(quantityFieldOfRandomTPLocator);
+//        addingMaxQuantityOfProductInTheCartUsingInputField(quantityFieldOfRandomTPLocator, quantityOfProductsInStock);
+//        checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfRandomTPLocator, quantityOfProductsInStock);
+//        navigationToCatalogTab();
+//        choiceStandardCatalog();
+//    } //ПЕРЕКЛЧЕНИЕ КАТАЛОГОВ через настройки не рабоатет, а у меня реализация выбора каталога с ТП через настройки в админке, как заработакет раскоментить
 
-    @Test(retryAnalyzer = Retry.class)
-    //17. Изменение кол-ва ТП c дробным коэффициентом, и ТП с отключенным кол-ым учетом в корзине
-    public void changingNumberOfTPInTheCartWithAFractionalCoefficientAndWithQuantitativeAccountingDisabled() {
-        //arrange
-        areThereAnyOffers = true;
-        navigationToAuthorizationTab();
-        fillingFieldsOnTheLogInTabLikeAdmin();
-        logInToB2B();
-        deletingProductsFromTheCart();
-        navigationToCatalogTab();
-        choiceCatalogWithOnlyOffers();
-        navigationToMeanPageByUrl();
-        navigationToCatalogTab();
-        configureTheFirstTwoTP("N");
-        addingFirstTwoTPToTheCart();
-        //act
-        addingMaxQuantityOfProductInTheCartUsingPlusIconOneMoreThanAvailable(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, iconPlusOfTPWithQuantitativeAccountingDisabledLocator, quantityOfSecondProductsInStock);
-        checkingThatQuantityOfThisProductIsOneMoreThanAvailable(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, quantityOfSecondProductsInStock);
-        attemptToSelectNegativeQuantityOfProductsInTheCartUsingMinusIcon(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, iconMinusOfTPWithQuantitativeAccountingDisabledLocator);
-        checkingThatQuantityThisProductIsEqualsOne(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator);
-        attemptToEnterNegativeQuantityOfProductsInTheCart(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator);
-        checkingThatQuantityThisProductIsNotNegative(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator);
-        addingMaxQuantityOfProductInTheCartUsingInputField(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, quantityOfSecondProductsInStock);
-        checkingThatQuantityOfThisProductIsOneMoreThanAvailable(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, quantityOfSecondProductsInStock);
-        addingMaxQuantityOfProductInTheCartUsingPlusIconOneMoreThanAvailable(quantityFieldOfTPWithAFractionalCoefficientLocator, iconPlusOfTPWithAFractionalCoefficientLocator, quantityOfProductsInStock);
-        checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfTPWithAFractionalCoefficientLocator, quantityOfProductsInStock);
-        attemptToSelectNegativeQuantityOfProductsInTheCartUsingMinusIcon(quantityFieldOfTPWithAFractionalCoefficientLocator, iconMinusOfTPWithWithAFractionalCoefficientLocator);
-        checkingThatQuantityThisProductIsNotNegative(quantityFieldOfTPWithAFractionalCoefficientLocator);
-        attemptToEnterNegativeQuantityOfProductsInTheCart(quantityFieldOfTPWithAFractionalCoefficientLocator);
-        checkingThatQuantityThisProductIsNotNegative(quantityFieldOfTPWithAFractionalCoefficientLocator);
-        addingMaxQuantityOfProductInTheCartUsingInputField(quantityFieldOfTPWithAFractionalCoefficientLocator, quantityOfProductsInStock);
-        checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfTPWithAFractionalCoefficientLocator, quantityOfProductsInStock);
-        checkingThatTotalPriceOfTheseProductsAreCalculatedRight(priceForFirstProductInCart, priceForSecondProductInCart);
-        navigationToCatalogTab();
-        configureTheFirstTwoTP("D");
-        navigationToCatalogTab();
-        choiceStandardCatalog();
-    }
+//    @Test(retryAnalyzer = Retry.class)
+//    //17. Изменение кол-ва ТП c дробным коэффициентом, и ТП с отключенным кол-ым учетом в корзине
+//    public void changingNumberOfTPInTheCartWithAFractionalCoefficientAndWithQuantitativeAccountingDisabled() {
+//        //arrange
+//        areThereAnyOffers = true;
+//        navigationToAuthorizationTab();
+//        fillingFieldsOnTheLogInTabLikeAdmin();
+//        logInToB2B();
+//        deletingProductsFromTheCart();
+//        navigationToCatalogTab();
+//        choiceCatalogWithOnlyOffers();
+//        navigationToMeanPageByUrl();
+//        navigationToCatalogTab();
+//        configureTheFirstTwoTP("N");
+//        addingFirstTwoTPToTheCart();
+//        //act
+//        addingMaxQuantityOfProductInTheCartUsingPlusIconOneMoreThanAvailable(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, iconPlusOfTPWithQuantitativeAccountingDisabledLocator, quantityOfSecondProductsInStock);
+//        checkingThatQuantityOfThisProductIsOneMoreThanAvailable(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, quantityOfSecondProductsInStock);
+//        attemptToSelectNegativeQuantityOfProductsInTheCartUsingMinusIcon(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, iconMinusOfTPWithQuantitativeAccountingDisabledLocator);
+//        checkingThatQuantityThisProductIsEqualsOne(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator);
+//        attemptToEnterNegativeQuantityOfProductsInTheCart(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator);
+//        checkingThatQuantityThisProductIsNotNegative(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator);
+//        addingMaxQuantityOfProductInTheCartUsingInputField(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, quantityOfSecondProductsInStock);
+//        checkingThatQuantityOfThisProductIsOneMoreThanAvailable(quantityFieldOfTPWithQuantitativeAccountingDisabledLocator, quantityOfSecondProductsInStock);
+//        addingMaxQuantityOfProductInTheCartUsingPlusIconOneMoreThanAvailable(quantityFieldOfTPWithAFractionalCoefficientLocator, iconPlusOfTPWithAFractionalCoefficientLocator, quantityOfProductsInStock);
+//        checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfTPWithAFractionalCoefficientLocator, quantityOfProductsInStock);
+//        attemptToSelectNegativeQuantityOfProductsInTheCartUsingMinusIcon(quantityFieldOfTPWithAFractionalCoefficientLocator, iconMinusOfTPWithWithAFractionalCoefficientLocator);
+//        checkingThatQuantityThisProductIsNotNegative(quantityFieldOfTPWithAFractionalCoefficientLocator);
+//        attemptToEnterNegativeQuantityOfProductsInTheCart(quantityFieldOfTPWithAFractionalCoefficientLocator);
+//        checkingThatQuantityThisProductIsNotNegative(quantityFieldOfTPWithAFractionalCoefficientLocator);
+//        addingMaxQuantityOfProductInTheCartUsingInputField(quantityFieldOfTPWithAFractionalCoefficientLocator, quantityOfProductsInStock);
+//        checkingThatQuantityThisProductIsEqualsAvailable(quantityFieldOfTPWithAFractionalCoefficientLocator, quantityOfProductsInStock);
+//        checkingThatTotalPriceOfTheseProductsAreCalculatedRight(priceForFirstProductInCart, priceForSecondProductInCart);
+//        navigationToCatalogTab();
+//        configureTheFirstTwoTP("D");
+//        navigationToCatalogTab();
+//        choiceStandardCatalog();
+//    } //ПЕРЕКЛЧЕНИЕ КАТАЛОГОВ через настройки не рабоатет, а у меня реализация выбора каталога с ТП через настройки в админке, как заработакет раскоментить
 
     @Test(retryAnalyzer = Retry.class)
     //18. Организации  ИП не отображаются у пользователя после снятия ИП в доступных типах плательщика
@@ -503,7 +501,7 @@ public class DangerousTests extends MethodsForDangerousTests {
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeAdmin();
             logInToB2B();
-            org.navigationToProfilesOfBuyers();
+            navigationToBasicB2BSettings();
             org.addingBackIPToAvailablePayerTypes();
             returningSettingsBackIfCatalogBroken();
             navigationToAuthorizationTab();
@@ -515,7 +513,7 @@ public class DangerousTests extends MethodsForDangerousTests {
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeAdmin();
             logInToB2B();
-            org.navigationToProfilesOfBuyers();
+            navigationToBasicB2BSettings();
             org.removingIPFromAvailablePayerTypes();
             exitFromB2B();
             navigationToAuthorizationTab();
@@ -532,7 +530,7 @@ public class DangerousTests extends MethodsForDangerousTests {
             navigationToAuthorizationTab();
             fillingFieldsOnTheLogInTabLikeAdmin();
             logInToB2B();
-            org.navigationToProfilesOfBuyers();
+            navigationToBasicB2BSettings();
             org.addingBackIPToAvailablePayerTypes();
         }
     }
@@ -740,7 +738,6 @@ public class DangerousTests extends MethodsForDangerousTests {
         enterPartOfNameRandomCategoryInTheSearchFieldOnTheCatalogTabAndDeleteOne(fieldForSearchInCatalogLocator, tempString);
         choiceCategoryFromPopApWindow();
         checkingThatBreadCrumbsContainTheNameOfTheSection();
-        //checkingThatURLContainsChosenCategory(); уже ЧПУ
         checkingThatAllProductsHaveSimilarIdToTheSectionId();
     }
 
@@ -782,26 +779,26 @@ public class DangerousTests extends MethodsForDangerousTests {
         checkingTheSmallOptPriceInPopUpSearchWindow();
     }
 
-    @Test(retryAnalyzer = Retry.class) //30. Вывод цен в поисковой подсказке для ТП
-    public void outputOfPricesInTheSearchHintForTheTP() {
-        //arrange
-        areThereAnyOffers = true;
-        navigationToAuthorizationTab();
-        //act
-        fillingFieldsOnTheLogInTabLikeAdmin();
-        logInToB2B();
-        returningSettingsBackIfCatalogBroken();
-        deletingProductsFromTheCart();
-        navigationToCatalogTab();
-        choiceCatalogWithOnlyOffers();
-        navigationToMeanPageByUrl();
-        turnOffEditMode();
-        navigationToCatalogTab();
-        enterNameInTheSearchFieldOnTheCatalogTab("любим");
-        checkingThatThereAreNoCartIconInPupOpWindow();
-        checkingThatThereIsAWordFrom();
-        returningSettingsBack();
-    }
+//    @Test(retryAnalyzer = Retry.class) //30. Вывод цен в поисковой подсказке для ТП
+//    public void outputOfPricesInTheSearchHintForTheTP() {
+//        //arrange
+//        areThereAnyOffers = true;
+//        navigationToAuthorizationTab();
+//        //act
+//        fillingFieldsOnTheLogInTabLikeAdmin();
+//        logInToB2B();
+//        returningSettingsBackIfCatalogBroken();
+//        deletingProductsFromTheCart();
+//        navigationToCatalogTab();
+//        choiceCatalogWithOnlyOffers();
+//        navigationToMeanPageByUrl();
+//        turnOffEditMode();
+//        navigationToCatalogTab();
+//        enterNameInTheSearchFieldOnTheCatalogTab("любим");
+//        checkingThatThereAreNoCartIconInPupOpWindow();
+//        checkingThatThereIsAWordFrom();
+//        returningSettingsBack();
+//    } //ПЕРЕКЛЧЕНИЕ КАТАЛОГОВ через настройки не рабоатет, а у меня реализация выбора каталога с ТП через настройки в админке, как заработакет раскоментить
 
     @Test(retryAnalyzer = Retry.class)
     //31. Добавление товара в корзину из поисковой подсказки с доступным количеством 0 (кол-ый учет у каталога - выкл)
@@ -896,6 +893,7 @@ public class DangerousTests extends MethodsForDangerousTests {
         setTheOutputOfTheNumberOfCategoriesInTheRootDirectory("2");
         checkingTheNumberOfOutputSections(30, 10);
         turnOffEditMode();
+        hideAdminPanel();
     }
 
 

@@ -400,6 +400,7 @@ public class MethodsForCatalog extends BaseActions {
             driver.findElement(checkboxThatHighlightsAllProductsInTheCartLocator).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".basket__checkbox_content.state-checked")));
             wait.until(ExpectedConditions.visibilityOfElementLocated(buttonForDeletingProductsInCartLocator));
+            wait.until(ExpectedConditions.elementToBeClickable(buttonForDeletingProductsInCartLocator));
             driver.findElement(buttonForDeletingProductsInCartLocator).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@data-entity='basket-item-restore-button']")));
             driver.navigate().refresh();
@@ -995,7 +996,6 @@ public class MethodsForCatalog extends BaseActions {
     public void goToTheLastPage() {
         try {
             driver.findElement(By.xpath("//*[@class='page-item last']")).click();
-            //Удалить
             hideTheMenuWhileTheBag();
             tempValue2 = driver.findElement(By.xpath("//*[@class='page-item active']")).getText();
         } catch (Exception e) {
@@ -1071,7 +1071,11 @@ public class MethodsForCatalog extends BaseActions {
 
     public void hideAdminPanel() {
         try {
-            driver.findElement(By.cssSelector("#bx-panel-hider")).click();
+            implicitWaiting();
+            waitElementVisible("//*[@id='bx-panel']");
+            waitElementVisible("//*[@id='bx-panel-hider']");
+            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='bx-panel-hider']")));
+            driver.findElement(By.xpath("//*[@id='bx-panel-hider']")).click();
         } catch (Exception e) {
             System.out.println("Админ панель уже свернута");
         }
@@ -1159,7 +1163,7 @@ public class MethodsForCatalog extends BaseActions {
             String backgroundColor = driver.findElement(By.xpath("(//*[contains(@class, 'nav-sidebar')]/*[contains(@class, 'nav-item')]/ul[contains(@class, 'nav-group-sub')] /li)[" + tempRandomNumber + "]"))
                     .getCssValue("background-color");
             Assert.assertTrue(backgroundColor.contains("rgba(0, 0, 0, 0"), "Цвет фона для 'Каталог не соответсвует ожидаемому'");
-            disclosureOfASubcategories("(//*[contains(@class, 'nav-sidebar')]/*[contains(@class, 'nav-item')]/ul[contains(@class, 'nav-group-sub')] /li)[" + tempRandomNumber + "]");
+            //disclosureOfASubcategories("(//*[contains(@class, 'nav-sidebar')]/*[contains(@class, 'nav-item')]/ul[contains(@class, 'nav-group-sub')] /li)[" + tempRandomNumber + "]");
             implicitWaiting();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".nav-item-open > .nav-group-sub > .nav-item")));
             //tempRandomNumber = (1 + (int) (Math.random() * driver.findElements(By.xpath("((//*[contains(@class, 'nav-item-open')])[last()]/*[contains(@class, 'nav-group-sub')] /li /a /span)")).size()));
@@ -1349,10 +1353,17 @@ public class MethodsForCatalog extends BaseActions {
 
     public void unHideAdminPanel() {
         try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#bx-panel-expander-arrow")));
+            waitElementVisible("//*[@id='bx-panel']");
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//span[contains(text(), 'Компоненты')]")));
             driver.findElement(By.cssSelector("#bx-panel-expander-arrow")).click();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'Компоненты')]")));
         } catch (Exception e) {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@id, 'components')] //*[@class='bx-panel-small-single-button-arrow']")));
+            try {
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@id, 'components')] //*[@class='bx-panel-small-single-button-arrow']")));
+            }catch (Exception e2){
+                driver.findElement(By.cssSelector("#bx-panel-expander-arrow")).click();
+                // тупая ошибка, обрабатываю трай кэтчем ее
+            }
         }
     }
 
@@ -1690,7 +1701,6 @@ public class MethodsForCatalog extends BaseActions {
             }
         }
         clickElement(buttonToSaveTheComponentSettingsForTheCatalog);
-        //driver.findElement(buttonToSaveTheComponentSettingsForTheCatalog).click();
     }
 
     public void checkingThatSelectedPropertiesAreDisplayedInTheCatalog() {
@@ -1895,8 +1905,8 @@ public class MethodsForCatalog extends BaseActions {
         tempValue2 = replacingSomeSymbols(tempValue2);
         tempValue2 = tempValue2.replaceAll("[^0-9.]", "");
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).clear();
-        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).sendKeys("0");
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector("#catalog__basket-quantity-value"), "0"));
+//        driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).sendKeys("0");
+//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector("#catalog__basket-quantity-value"), "0"));
         driver.findElement(By.xpath("(//*[@class='quantity-selector__value'])[" + count + "]")).sendKeys(tempValue2);
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector("#catalog__basket-quantity-value"), "1"));
         waitingMilliSecond();
@@ -2076,7 +2086,7 @@ public class MethodsForCatalog extends BaseActions {
     public void choiceCatalogWithOnlyOffers() {
 //        // выбор каталога из публички, из настроек компонента (старый способ)
 //        turnOnEditMode();
-//        expandTheAdminPanel();
+//        unHideAdminPanel();
 //        driver.findElement(By.cssSelector("#bx_topmenu_btn_components")).click();
 //        driver.findElement(By.xpath("//*[@class='bx-core-popup-menu-item-text'][text()='Каталог']")).click();
 //        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".bx-core-adm-icon-expand")));
@@ -2114,28 +2124,30 @@ public class MethodsForCatalog extends BaseActions {
 
     public void choiceStandardCatalog() {
         // выбор каталога из публички, из настроек компонента (старый способ)
-        turnOnEditMode();
-        expandTheAdminPanel();
-        driver.findElement(By.cssSelector("#bx_topmenu_btn_components")).click();
-        driver.findElement(By.xpath("//*[@class='bx-core-popup-menu-item-text'][text()='Каталог']")).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".bx-core-adm-icon-expand")));
-        driver.findElement(By.cssSelector(".bx-core-adm-icon-expand")).click();
-        driver.findElement(By.xpath("//*[@name='IBLOCK_TYPE']")).click();
-        driver.findElement(By.xpath("//*[@value='sotbit_b2bcabinet_type_catalog']")).click();
-        driver.findElement(By.xpath("//select[@data-bx-property-id = 'IBLOCK_ID']")).click();
-        driver.findElement(By.xpath("//select[@data-bx-property-id = 'IBLOCK_ID'] //*[contains(text(), 'Каталог товаров')]")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(buttonToSaveTheComponentSettingsForTheCatalog));
-        implicitWaiting();
-        clickElement(buttonToSaveTheComponentSettingsForTheCatalog);
-        implicitWaiting();
-        navigationToBasicB2BSettings();
-        driver.findElement(By.xpath("//*[contains(@title, 'Каталог ')]")).click();
-        driver.findElement(By.cssSelector("#CATALOG_IBLOCK_ID")).click();
-        driver.findElement(By.xpath("//*[@id='CATALOG_IBLOCK_ID']/*[contains(text(), 'Каталог товаров')]")).click();
-        clickElement(buttonSaveLocator);
-        navigationToMeanPageByUrl();
-        turnOffEditMode();
-        hideAdminPanel();
+
+//        turnOnEditMode();
+//        unHideAdminPanel();
+//        driver.findElement(By.cssSelector("#bx_topmenu_btn_components")).click();
+//        driver.findElement(By.xpath("//*[@class='bx-core-popup-menu-item-text'][text()='Каталог']")).click();
+//        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".bx-core-adm-icon-expand")));
+//        driver.findElement(By.cssSelector(".bx-core-adm-icon-expand")).click();
+//        driver.findElement(By.xpath("//*[@name='IBLOCK_TYPE']")).click();
+//        driver.findElement(By.xpath("//*[@value='sotbit_b2bcabinet_type_catalog']")).click();
+//        driver.findElement(By.xpath("//select[@data-bx-property-id = 'IBLOCK_ID']")).click();
+//        driver.findElement(By.xpath("//select[@data-bx-property-id = 'IBLOCK_ID'] //*[contains(text(), 'Каталог товаров')]")).click();
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(buttonToSaveTheComponentSettingsForTheCatalog));
+//        implicitWaiting();
+//        clickElement(buttonToSaveTheComponentSettingsForTheCatalog);
+//        implicitWaiting();
+//        navigationToBasicB2BSettings();
+//        driver.findElement(By.xpath("//*[contains(@title, 'Каталог ')]")).click();
+//        driver.findElement(By.cssSelector("#CATALOG_IBLOCK_ID")).click();
+//        driver.findElement(By.xpath("//*[@id='CATALOG_IBLOCK_ID']/*[contains(text(), 'Каталог товаров')]")).click();
+//        clickElement(buttonSaveLocator);
+//        navigationToMeanPageByUrl();
+//        turnOffEditMode();
+//        hideAdminPanel();
+
 
 //        driver.navigate().to("http://b2b-gospod.devsotbit.ru/bitrix/admin/fileman_file_edit.php?path=%2Forders%2Fblank_zakaza%2Findex.php&full_src=Y&site=s1&lang=ru&&filter=Y&set_filter=Y");
 //        By iBlockType = By.xpath("//*[@class='bxce-string']");
